@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
   Basic-Auth: usuario senha
   Status: 401
@@ -22,4 +23,30 @@
 
 ---
 
+=======
+/*
+  Basic-Auth: usuario senha
+  Status: 401
+```
+
+- Substitua `usuario` e `senha` pelo que desejar (exemplo: `vendedor 1234`).
+- Você pode adicionar mais pares de usuário/senha separados por espaço.
+
+3. **Faça deploy normalmente no Netlify.**
+
+---
+
+### O que acontece?
+- Ao acessar o site, o navegador pedirá usuário e senha.
+- Só quem souber as credenciais conseguirá acessar qualquer página do site.
+
+---
+
+### Observações
+- É uma proteção simples, mas **muito melhor que só esconder via JavaScript**.
+- Não é login personalizado, mas impede o acesso público.
+
+---
+
+>>>>>>> b0ff2f289a9f7af5c8fa14765f445d7b5e325c90
 **Exemplo de arquivo `_headers`:**
