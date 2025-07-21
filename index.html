@@ -19,112 +19,34 @@
       --radius: 12px;
     }
     * { box-sizing: border-box; }
-    body {
-      margin: 0; padding: 0;
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-    }
-    .container {
-      width: 100%;
-      max-width: 480px;
-      margin: 2.5rem auto;
-      background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
-      overflow: hidden;
-    }
-    .header {
-      background: linear-gradient(90deg, var(--primary) 70%, var(--accent) 100%);
-      padding: 1.5rem 1rem;
-      color: #fff;
-      text-align: center;
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      border-bottom: 1px solid var(--border);
-    }
-    .card {
-      padding: 2rem 1.5rem 1.5rem;
-    }
-    .grid-5 {
-      display: grid;
-      grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
-    .grid-5 div       { color: var(--primary); font-weight:700; text-align:center; }
-    .grid-5 input, #fz { color: var(--text); font-weight:600; }
-    .grid-5 input {
-      width: 100%; padding: .5rem .4rem; border-radius:6px;
-      border:1px solid var(--border); background:#f9fafb;
-      text-align:center; transition:border .2s;
-    }
-    .grid-5 input:focus, #fz:focus {
-      border:1.5px solid var(--primary); outline:none; background:#fff;
-    }
-    #fzError {
-      color: var(--error); font-size:.85rem; margin-top:.15rem; min-height:1em;
-    }
+    body { margin:0; padding:0; font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; display:flex; justify-content:center; align-items:flex-start; }
+    .container { width:100%; max-width:480px; margin:2.5rem auto; background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); border:1px solid var(--border); overflow:hidden; }
+    .header { background:linear-gradient(90deg,var(--primary)70%,var(--accent)100%); padding:1.5rem 1rem; color:#fff; text-align:center; font-size:2rem; font-weight:700; letter-spacing:1px; border-bottom:1px solid var(--border); }
+    .card { padding:2rem 1.5rem 1.5rem; }
+    .grid-5 { display:grid; grid-template-columns:1fr 1fr 2fr 1fr 1fr; gap:0.5rem; margin-bottom:1.5rem; }
+    .grid-5 div { color:var(--primary); font-weight:700; text-align:center; }
+    .grid-5 input, #fz { color:var(--text); font-weight:600; }
+    .grid-5 input { width:100%; padding:.5rem .4rem; border-radius:6px; border:1px solid var(--border); background:#f9fafb; text-align:center; transition:border .2s; }
+    .grid-5 input:focus, #fz:focus { border:1.5px solid var(--primary); outline:none; background:#fff; }
+    #fzError { color:var(--error); font-size:.85rem; margin-top:.15rem; min-height:1em; }
     .form-group { margin-bottom:1.2rem; }
     .form-group label { display:block; margin-bottom:.3rem; font-weight:600; color:var(--primary); }
-    .form-group input {
-      width:100%; padding:.55rem .5rem; text-align:right; border:1px solid var(--border);
-      border-radius:6px; background:#f9fafb; transition:border .2s; color:var(--text);
-    }
-    .form-group input:focus {
-      border:1.5px solid var(--primary); outline:none; background:#fff;
-    }
-    .results {
-      background:#f5f7fa; border-radius:10px; padding:1.2rem 1rem 1rem;
-      margin-top:1.2rem; border:1px solid var(--border);
-    }
-    .results .row {
-      display:flex; justify-content:space-between; align-items:center;
-      margin-bottom:.7rem; font-size:1.08rem;
-    }
-    .results .row:last-child {
-      font-weight:700; font-size:1.18rem; color:var(--primary);
-    }
+    .form-group input { width:100%; padding:.55rem .5rem; text-align:right; border:1px solid var(--border); border-radius:6px; background:#f9fafb; transition:border .2s; color:var(--text); }
+    .form-group input:focus { border:1.5px solid var(--primary); outline:none; background:#fff; }
+    .results { background:#f5f7fa; border-radius:10px; padding:1.2rem 1rem 1rem; margin-top:1.2rem; border:1px solid var(--border); }
+    .results .row { display:flex; justify-content:space-between; align-items:center; margin-bottom:.7rem; font-size:1.08rem; }
+    .results .row:last-child { font-weight:700; font-size:1.18rem; color:var(--primary); }
     .results .label { color:var(--muted); font-weight:700; }
     .hidden { display:none!important; }
-
-    /* Botão e campo de senha */
-    #btnMostrarProtegido {
-      width:100%; padding:.75rem; background:var(--accent); color:var(--text);
-      border:none; border-radius:6px; font-weight:600; cursor:pointer;
-      margin-top:1rem;
-    }
-    #passwordGroup {
-      display:none; margin-top:1rem; gap:.5rem;
-    }
-    #passwordGroup input {
-      flex:1; padding:.5rem; border:1px solid var(--border); border-radius:6px;
-    }
-    #passwordGroup button {
-      padding:.5rem 1rem; background:var(--primary); color:#fff;
-      border:none; border-radius:6px; font-weight:600; cursor:pointer;
-    }
-    #senhaError {
-      color:var(--error); font-size:.85rem; margin-top:.25rem; min-height:1em;
-    }
-
-    .actions {
-      display:flex; justify-content:center; gap:1rem; margin-top:1.2rem;
-    }
-    .btn-reset {
-      background:none; border:none; padding:0; font:inherit; color:var(--primary);
-      text-decoration:underline; cursor:pointer;
-    }
+    #btnMostrarProtegido { width:100%; padding:.75rem; background:var(--accent); color:var(--text); border:none; border-radius:6px; font-weight:600; cursor:pointer; margin-top:1rem; }
+    #passwordGroup { display:none; margin-top:1rem; gap:.5rem; }
+    #passwordGroup input { flex:1; padding:.5rem; border:1px solid var(--border); border-radius:6px; }
+    #passwordGroup button { padding:.5rem 1rem; background:var(--primary); color:#fff; border:none; border-radius:6px; font-weight:600; cursor:pointer; }
+    #senhaError { color:var(--error); font-size:.85rem; margin-top:.25rem; min-height:1em; }
   </style>
 </head>
 <body>
-  <!-- LOGIN -->
+
   <div id="loginBox" style="max-width:320px;margin:4rem auto;padding:2rem;background:#fff;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.1);text-align:center;">
     <h2 style="color:var(--primary);margin-bottom:1rem;">Login</h2>
     <input type="text" id="user" placeholder="Usuário" style="width:90%;padding:.6rem;margin-bottom:.75rem;border:1px solid #ccc;border-radius:5px;"><br>
@@ -133,12 +55,12 @@
     <div id="loginError" style="color:var(--error);margin-top:.75rem;min-height:1em;"></div>
   </div>
 
-  <!-- CONTEÚDO PRINCIPAL -->
-  <div id="mainContent" style="display:none; width:100%;">
+  <div id="mainContent" style="display:none;width:100%;">
+
     <div class="container">
       <div class="header">Calculadora De Nigris</div>
       <div class="card">
-        <!-- Campos principais -->
+
         <div class="grid-5">
           <div>Modelo<br><strong id="modelo">–</strong></div>
           <div>UP<br><strong id="up">–</strong></div>
@@ -151,113 +73,89 @@
           <div>Valor Tabela<br><strong id="valorTabela">R$ 0,00</strong></div>
         </div>
 
-        <!-- Desconto -->
         <div class="form-group">
           <label for="desconto">Desconto (%)</label>
           <input type="number" id="desconto" value="0" min="0" max="3" step="0.1"/>
         </div>
 
-        <!-- Resultados -->
         <div class="results">
-          <div class="row">
-            <span class="label">Desconto (R$)</span><span id="descontoReais">R$ 0,00</span>
-          </div>
-          <div class="row">
-            <span class="label">Valor de Venda</span><span id="valorVenda">R$ 0,00</span>
-          </div>
-
-          <!-- Comissão/DSR/Total ocultos até senha -->
-          <div class="row hidden" id="comRow">
-            <span class="label">Comissão (9%)</span><span id="comissao">R$ 0,00</span>
-          </div>
-          <div class="row hidden" id="dsrRow">
-            <span class="label">DSR (15%)</span><span id="dsr">R$ 0,00</span>
-          </div>
-          <div class="row hidden" id="totalRow">
-            <span>Total</span><span id="total">R$ 0,00</span>
-          </div>
-
-          <!-- Botão para exibir campo de senha -->
+          <div class="row"><span class="label">Desconto (R$)</span><span id="descontoReais">R$ 0,00</span></div>
+          <div class="row"><span class="label">Valor de Venda</span><span id="valorVenda">R$ 0,00</span></div>
+          <div class="row hidden" id="comRow"><span class="label">Comissão (9%)</span><span id="comissao">R$ 0,00</span></div>
+          <div class="row hidden" id="dsrRow"><span class="label">DSR (15%)</span><span id="dsr">R$ 0,00</span></div>
+          <div class="row hidden" id="totalRow"><span>Total</span><span id="total">R$ 0,00</span></div>
           <button id="btnMostrarProtegido">Mostrar Comissão e DSR</button>
-
-          <!-- Campo de senha -->
-          <div id="passwordGroup" style="display:flex;">
+          <div id="passwordGroup">
             <input type="password" id="senhaInput" placeholder="Digite a senha"/>
             <button id="btnVerificarSenha">Confirmar</button>
           </div>
           <div id="senhaError"></div>
         </div>
+
       </div>
     </div>
+
   </div>
 
-  <!-- SCRIPTS -->
   <script>
-    // LOGIN
     function login() {
-      const u = document.getElementById('user').value;
-      const p = document.getElementById('pass').value;
+      const u = user.value.trim(), p = pass.value.trim();
       if (u === "Luciano" && p === "Dn@1234") {
-        document.getElementById('loginBox').style.display = "none";
-        document.getElementById('mainContent').style.display = "block";
+        loginBox.style.display = "none";
+        mainContent.style.display = "block";
       } else {
-        document.getElementById('loginError').innerText = "Usuário ou senha inválidos";
+        loginError.innerText = "Usuário ou senha inválidos";
       }
     }
 
-    // ELEMENTOS E ESTADO
-    const fzEl     = document.getElementById("fz"),
-          fzError  = document.getElementById("fzError"),
-          modeloEl = document.getElementById("modelo"),
-          upEl     = document.getElementById("up"),
-          anoModEl = document.getElementById("anoMod"),
-          valTabEl = document.getElementById("valorTabela"),
-          descEl   = document.getElementById("desconto"),
-          descReaisEl = document.getElementById("descontoReais"),
-          valVendaEl  = document.getElementById("valorVenda"),
-          comRow   = document.getElementById("comRow"),
-          dsrRow   = document.getElementById("dsrRow"),
-          totRow   = document.getElementById("totalRow"),
-          comEl    = document.getElementById("comissao"),
-          dsrEl    = document.getElementById("dsr"),
-          totEl    = document.getElementById("total"),
-          btnMostrar = document.getElementById("btnMostrarProtegido"),
-          pwdGroup   = document.getElementById("passwordGroup"),
-          pwdInput   = document.getElementById("senhaInput"),
-          btnConfirm = document.getElementById("btnVerificarSenha"),
-          pwdError   = document.getElementById("senhaError");
+    const fzEl      = document.getElementById("fz"),
+          fzError   = document.getElementById("fzError"),
+          modeloEl  = document.getElementById("modelo"),
+          upEl      = document.getElementById("up"),
+          anoModEl  = document.getElementById("anoMod"),
+          valTabEl  = document.getElementById("valorTabela"),
+          descEl    = document.getElementById("desconto"),
+          descReais = document.getElementById("descontoReais"),
+          valVenda  = document.getElementById("valorVenda"),
+          comRow    = document.getElementById("comRow"),
+          dsrRow    = document.getElementById("dsrRow"),
+          totRow    = document.getElementById("totalRow"),
+          comEl     = document.getElementById("comissao"),
+          dsrEl     = document.getElementById("dsr"),
+          totEl     = document.getElementById("total"),
+          btnShow   = document.getElementById("btnMostrarProtegido"),
+          pwdGroup  = document.getElementById("passwordGroup"),
+          pwdInput  = document.getElementById("senhaInput"),
+          btnConf   = document.getElementById("btnVerificarSenha"),
+          pwdError  = document.getElementById("senhaError");
 
-    let valorTabela = 0, valorCompra = 0, vendedores = {};
+    let valorTabela=0, valorCompra=0, vendedores={};
 
-    // Formatar moeda
     function formatar(v) {
       return v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
     }
 
-    // Recalcular todos valores
     function atualizarValores() {
-      let d = parseFloat(descEl.value) || 0;
-      if (d < 0) d = 0;
-      if (d > 3) { alert("Desconto máximo de 3%"); d = 3; descEl.value = 3; }
-      const valorDesc = valorTabela * (d / 100);
-      const vend = valorTabela - valorDesc;
-      const icmsV = vend * 0.12;
-      const icmsC = valorCompra * 0.12;
-      const receita = vend - icmsV;
-      const custo   = valorCompra - icmsC;
-      const bruto   = receita - custo;
-      const com     = bruto * 0.09;
-      const dsr     = com * 0.15;
-      const tot     = com + dsr;
-
-      descReaisEl.innerText = formatar(valorDesc);
-      valVendaEl.innerText  = formatar(vend);
-      comEl.innerText       = formatar(com);
-      dsrEl.innerText       = formatar(dsr);
-      totEl.innerText       = formatar(tot);
+      let d = parseFloat(descEl.value)||0;
+      d = Math.min(Math.max(d,0),3);
+      descEl.value = d;
+      const valorDesc = valorTabela*(d/100);
+      const vend = valorTabela-valorDesc;
+      const icmsV = vend*0.12;
+      const icmsC = valorCompra*0.12;
+      const receita = vend-icmsV;
+      const custo = valorCompra-icmsC;
+      const bruto = receita-custo;
+      const com = bruto*0.09;
+      const dsr = com*0.15;
+      const tot = com+dsr;
+      descReais.innerText = formatar(valorDesc);
+      valVenda.innerText = formatar(vend);
+      comEl.innerText = formatar(com);
+      dsrEl.innerText = formatar(dsr);
+      totEl.innerText = formatar(tot);
     }
 
-    // Carrega dados do Google Sheets CSV
     const sheetCsvUrl =
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=2122951741&single=true&output=csv";
 
@@ -265,8 +163,7 @@
       const res = await fetch(sheetCsvUrl);
       const txt = await res.text();
       txt.trim().split("\n").slice(1).forEach(line => {
-        const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
-                         .map(c => c.replace(/^"|"$/g, "").trim());
+        const cols = line.split(/,(?=(?:(?:[^\"]*\\\"){2})*[^\\\"]*$)/).map(c=>c.replace(/^\"|\"$/g,"").trim());
         const key = cols[0].padStart(6,"0");
         vendedores[key] = {
           modelo: cols[1],
@@ -279,20 +176,19 @@
       console.log("Vendedores carregados:", vendedores);
     }
 
-    // Eventos de input
-    fzEl.addEventListener("input", () => {
+    fzEl.addEventListener("input",()=> {
       const raw = fzEl.value.replace(/\D/g,"").slice(0,6);
       fzEl.value = raw;
       const key = raw.padStart(6,"0");
-      if (vendedores[key]) {
+      if(vendedores[key]) {
         const v = vendedores[key];
         modeloEl.innerText = v.modelo;
-        upEl.innerText     = v.up;
+        upEl.innerText = v.up;
         anoModEl.innerText = v.anoMod;
-        valorTabela        = v.valorTabela;
-        valorCompra        = v.valorCompra;
+        valorTabela = v.valorTabela;
+        valorCompra = v.valorCompra;
         valTabEl.innerText = formatar(valorTabela);
-        fzError.innerText  = "";
+        fzError.innerText = "";
       } else {
         modeloEl.innerText = upEl.innerText = anoModEl.innerText = "–";
         valorTabela = valorCompra = 0;
@@ -305,33 +201,31 @@
       totRow.classList.add("hidden");
     });
 
-    descEl.addEventListener("input", () => {
+    descEl.addEventListener("input", ()=> {
       atualizarValores();
       comRow.classList.add("hidden");
-      dsrRow.classList.add("hidden");
-      totRow.classList.add("hidden");
+      dsrRow.classList.add("hidden"); totRow.classList.add("hidden");
     });
 
-    // Mostrar o campo de senha
-    btnMostrar.addEventListener("click", () => {
+    btnShow.addEventListener("click",()=> {
       pwdGroup.style.display = "flex";
-      btnMostrar.disabled    = true;
+      btnShow.disabled = true;
     });
 
-    // Verificar senha
-    btnConfirm.addEventListener("click", () => {
-      if (pwdInput.value === "Dn@1234") {
+    btnConf.addEventListener("click",()=> {
+      const pwd = pwdInput.value.trim();
+      console.log("Senha digitada:", pwd);
+      if(pwd === "Dn@1234") {
         comRow.classList.remove("hidden");
         dsrRow.classList.remove("hidden");
         totRow.classList.remove("hidden");
         pwdGroup.style.display = "none";
-        pwdError.innerText     = "";
+        pwdError.innerText = "";
       } else {
         pwdError.innerText = "Senha incorreta";
       }
     });
 
-    // Inicializa
     carregarDados().then(atualizarValores);
   </script>
 </body>
