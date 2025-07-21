@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculadora De Nigris</title>
+
+  <!-- Fonte -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --primary: #2b5c84;
+      --accent: #ecc525;
+      --error: #c0392b;
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --text: #333;
+      --muted: #777;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 2rem;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+    .container {
+      width: 100%;
+      max-width: 500px;    /* antes era 400px: agora 600px */
+      margin: auto;
+    }
+    .header {
+      background: var(--primary);
+      padding: 1rem;
+      border-radius: 8px 8px 0 0;
+      color: #fff;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .card {
+      background: var(--card);
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      width: 100%;
+    }
+      .grid-5 {
+        display: grid;
+        /* modelo | up |     fz     | ano/mod | tabela */
+        grid-template-columns: 1fr 1fr 3fr 1fr 1fr;
+        gap: 0.5rem;
+      }
+    .grid-5 div,
+    .grid-5 label {
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .grid-5 input {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+    #fzError {
+      color: var(--error);
+      font-size: 0.8rem;
+      margin-top: 0.25rem;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      text-align: right;
+    }
+    .results {
+      background: var(--card);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .results .row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    .results .row:last-child {
+      font-weight: 600;
+    }
+    .results .label {
+      color: var(--muted);
+    }
+    #fz {
+      width: 100%;          /* preenche toda a coluna */
+      min-width: 6ch;       /* garante espaço para 6 caracteres */
+      padding: 0.6rem;      
+      font-size: 1rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    /* opcional: mais espaçamento interno pra ficar bonito */
+    #fz {
+    padding: 0.6rem;
+    font-size: 0.95rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">Calculadora De Nigris</div>
+    <div class="card">
+      <div class="grid-5">
+        <div>Modelo<br><strong id="modelo">–</strong></div>
+        <div>UP<br><strong id="up">–</strong></div>
+        <div>
+          <label for="fz">FZ</label>
+          <input type="text" id="fz" maxlength="6" placeholder="123456"/>
+          <div id="fzError"></div>
+        </div>
+        <div>Ano/Mod<br><strong id="anoMod">–</strong></div>
+        <div>Valor Tabela<br><strong id="valorTabela">R$ 0,00</strong></div>
+      </div>
+
+      <div class="form-group">
+        <label for="desconto">Desconto (%)</label>
+        <input type="number" id="desconto" value="0" min="0" max="3" step="0.5"/>
+      </div>
+
+      <div class="results">
+        <div class="row">
+          <span class="label">Desconto (R$)</span>
+          <span id="descontoReais">R$ 0,00</span>
+        </div>
+        <div class="row">
+          <span class="label">Valor de Venda</span>
+          <span id="valorVenda">R$ 0,00</span>
+        </div>
+        <div class="row">
+          <span class="label">Comissão (9%)</span>
+          <span id="comissao">R$ 0,00</span>
+        </div>
+        <div class="row">
+          <span class="label">DSR (15%)</span>
+          <span id="dsr">R$ 0,00</span>
+        </div>
+        <div class="row">
+          <span>Total</span>
+          <span id="total">R$ 0,00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Elementos
+    const fzEl        = document.getElementById("fz");
+    const fzErrorEl   = document.getElementById("fzError");
+    const modeloEl    = document.getElementById("modelo");
+    const upEl        = document.getElementById("up");
+    const anoModEl    = document.getElementById("anoMod");
+    const valorTabelaEl = document.getElementById("valorTabela");
+    const descontoEl  = document.getElementById("desconto");
+    const descontoReaisEl = document.getElementById("descontoReais");
+    const valorVendaEl   = document.getElementById("valorVenda");
+    const comissaoEl  = document.getElementById("comissao");
+    const dsrEl       = document.getElementById("dsr");
+    const totalEl     = document.getElementById("total");
+
+    let valorTabela = 0;
+    const vendedores = {};
+
+    // Formata moeda
+    function formatar(v) {
+      return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    }
+
+    // Recalcula valores
+    function atualizarValores() {
+      let d = parseFloat(descontoEl.value) || 0;
+      if (d > 3) { alert("Desconto máximo de 3%"); d = 3; descontoEl.value = 3; }
+      const valorDesc = valorTabela * (d / 100);
+      const valorVenda = valorTabela - valorDesc;
+      const comissao = valorVenda * 0.09;
+      const dsr = comissao * 0.15;
+      const total = comissao + dsr;
+
+      descontoReaisEl.innerText = formatar(valorDesc);
+      valorVendaEl.innerText    = formatar(valorVenda);
+      comissaoEl.innerText      = formatar(comissao);
+      dsrEl.innerText           = formatar(dsr);
+      totalEl.innerText         = formatar(total);
+    }
+
+    // URL do CSV publicado
+    const sheetCsvUrl =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw"
+      + "/pub?gid=2122951741&single=true&output=csv";
+
+    // Carrega dados do CSV
+    async function carregarDados() {
+      try {
+        const res = await fetch(sheetCsvUrl);
+        const txt = await res.text();
+        txt.trim().split("\n").slice(1).forEach(line => {
+          const cols = line
+            .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+            .map(c => c.replace(/^"|"$/g, "").trim());
+          const fzKey = cols[0].padStart(6, "0");
+          vendedores[fzKey] = {
+            modelo: cols[1],
+            up:     cols[2],
+            anoMod: cols[3],
+            valorTabela: parseFloat(cols[4].replace(/\./g, "").replace(/,/g, ".")),
+          };
+        });
+      } catch (err) {
+        console.error("Erro ao carregar CSV:", err);
+      }
+    }
+
+    // Ao digitar FZ
+    fzEl.addEventListener("input", () => {
+      const raw = fzEl.value.replace(/\D/g, "").slice(0, 6);
+      fzEl.value = raw;
+      const key = raw.padStart(6, "0");
+
+      if (vendedores[key]) {
+        const d = vendedores[key];
+        modeloEl.innerText      = d.modelo;
+        upEl.innerText          = d.up;
+        anoModEl.innerText      = d.anoMod;
+        valorTabela             = d.valorTabela;
+        valorTabelaEl.innerText = formatar(valorTabela);
+        fzErrorEl.innerText     = "";
+      } else {
+        modeloEl.innerText      = "–";
+        upEl.innerText          = "–";
+        anoModEl.innerText      = "–";
+        valorTabela             = 0;
+        valorTabelaEl.innerText = "R$ 0,00";
+        if (raw.length === 6) fzErrorEl.innerText = "FZ não encontrado";
+        else fzErrorEl.innerText = "";
+      }
+      atualizarValores();
+    });
+
+    descontoEl.addEventListener("input", atualizarValores);
+
+    // Inicialização
+    carregarDados().then(atualizarValores);
+  </script>
+</body>
+</html>
