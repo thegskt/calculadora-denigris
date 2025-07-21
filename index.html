@@ -233,6 +233,21 @@
         total = comissao + dsr;
       }
 
+      // ...dentro da função atualizarValores, após calcular lucroBruto...
+      console.log({
+        valorVenda,
+        receitaEfetiva,
+        valorCompra: vendedorAtual.valorCompra,
+        custoEfetivo,
+        fundoEstrela: vendedorAtual.fundoEstrela,
+        retirada: vendedorAtual.retirada,
+        programacao: vendedorAtual.programacao,
+        frete: vendedorAtual.frete,
+        revisao: vendedorAtual.revisao,
+        custosAdd: vendedorAtual.custosAdd,
+        lucroBruto
+      });
+
       descontoReaisEl.innerText = formatar(valorDesc);
       valorVendaEl.innerText    = formatar(valorVenda);
       lucroBrutoEl.innerText    = formatar(lucroBruto);
