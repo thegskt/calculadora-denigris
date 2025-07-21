@@ -216,8 +216,8 @@
       let total = 0;
 
       if (vendedorAtual) {
-        const receitaEfetiva = valorVenda * 0.12;
-        const custoEfetivo = (vendedorAtual.valorCompra || 0) * 0.12;
+        const receitaEfetiva = valorVenda-(valorVenda * 0.12); // 12% de ICMS
+        const custoEfetivo = (vendedorAtual.valorCompra || 0)-((vendedorAtual.valorCompra || 0) * 0.12); // 12% de ICMS
         lucroBruto =
           (receitaEfetiva - custoEfetivo)
           + (vendedorAtual.fundoEstrela || 0)
