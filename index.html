@@ -362,7 +362,7 @@
 
       // Verifica senha e revela linhas ocultas
       btnVerSenha.addEventListener("click", () => {
-        if (senhaInput.value === "SUA_SENHA_AQUI") {
+        if (senhaInput.value === "Dn#1234") {
           rowComEl.classList.remove("hidden");
           rowDsrEl.classList.remove("hidden");
           passwordGrp.style.display = "none";
@@ -490,7 +490,7 @@
     function login() {
       const u = document.getElementById('user').value;
       const p = document.getElementById('pass').value;
-      if(pwd === "Dn@1234") {
+      if(u === "Luciano" && p === "Dn@1234") {
         document.getElementById('loginBox').style.display = "none";
         document.getElementById('mainContent').style.display = "block";
       } else {
