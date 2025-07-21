@@ -118,6 +118,25 @@
       transition: border 0.2s;
       color: var(--text);
     }
+        .hidden { display: none !important; }
+
+    /* botão para revelar campos */
+    #btnMostrarProtegido {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.75rem;
+      background-color: var(--accent);
+      color: var(--text);
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    #passwordGroup {
+      margin-top: 1rem;
+      display: none;
+      gap: 0.5rem;
+    }
     .form-group input:focus {
       border: 1.5px solid var(--primary);
       outline: none;
@@ -302,6 +321,21 @@
             <span>Total</span>
             <span id="total">R$ 0,00</span>
           </div>
+          <div class="row hidden" id="rowComissao">
+          <span class="label">Comissão</span>
+          <span id="comissao">R$ 0,00</span>
+        </div>
+        <div class="row hidden" id="rowDsr">
+          <span class="label">DSR</span>
+          <span id="dsr">R$ 0,00</span>
+        </div>
+        <button id="btnMostrarProtegido">Mostrar Comissão e DSR</button>
+
+        <div id="passwordGroup">
+          <input type="password" id="senhaInput" placeholder="Digite a senha"/>
+          <button id="btnVerificarSenha">Confirmar</button>
+          <div id="senhaError" style="color: var(--error); font-size: 0.8rem; min-height:1rem;"></div>
+        </div>
         </div>
         <div class="actions">
           <a href="https://gd.cimbb.com.br/p/crm/atividades/agenda/" target="_blank" class="btn-primary">Emitir Pedido</a>
@@ -320,10 +354,33 @@
       const descontoEl  = document.getElementById("desconto");
       const descontoReaisEl = document.getElementById("descontoReais");
       const valorVendaEl   = document.getElementById("valorVenda");
-      const lucroBrutoEl   = document.getElementById("lucroBruto");
       const comissaoEl  = document.getElementById("comissao");
       const dsrEl       = document.getElementById("dsr");
       const totalEl     = document.getElementById("total");
+      const btnMostrar  = document.getElementById("btnMostrarProtegido");
+      const passwordGrp = document.getElementById("passwordGroup");
+      const senhaInput  = document.getElementById("senhaInput");
+      const btnVerSenha = document.getElementById("btnVerificarSenha");
+      const senhaErr    = document.getElementById("senhaError");
+      const rowComEl    = document.getElementById("rowComissao");
+      const rowDsrEl    = document.getElementById("rowDsr");
+
+      // Ao clicar no botão, exibe o campo de senha
+      btnMostrar.addEventListener("click", () => {
+        passwordGrp.style.display = "flex";
+        btnMostrar.disabled = true;
+      });
+
+      // Verifica senha e revela linhas ocultas
+      btnVerSenha.addEventListener("click", () => {
+        if (senhaInput.value === "SUA_SENHA_AQUI") {
+          rowComEl.classList.remove("hidden");
+          rowDsrEl.classList.remove("hidden");
+          passwordGrp.style.display = "none";
+        } else {
+          senhaErr.innerText = "Senha incorreta";
+        }
+      });
 
       let valorTabela = 0;
       let vendedorAtual = null;
