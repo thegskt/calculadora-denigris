@@ -4,130 +4,170 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Calculadora De Nigris</title>
-
-  <!-- Fonte -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
-    rel="stylesheet"
-  />
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --primary: #24386ee0;
-      --accent: #ecc525;
+      --primary: #23408e;
+      --accent: #ffd600;
       --error: #c0392b;
-      --bg: #f4f6f8;
-      --card: #ffffff;
-      --text: #333;
-      --muted: #777;
+      --bg: #f7f9fb;
+      --card: #fff;
+      --text: #222;
+      --muted: #7a7a7a;
+      --border: #e0e4ea;
+      --shadow: 0 4px 24px 0 rgba(35,64,142,0.07);
+      --radius: 12px;
     }
     * { box-sizing: border-box; }
     body {
-      margin: 0; padding: 2rem;
+      margin: 0; padding: 0;
       font-family: 'Inter', sans-serif;
       background: var(--bg);
       color: var(--text);
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      min-height: 100vh;
     }
     .container {
       width: 100%;
-      max-width: 500px;
-      margin: auto;
+      max-width: 480px;
+      margin: 2.5rem auto;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      border: 1px solid var(--border);
     }
     .header {
-      background: var(--primary);
-      padding: 1rem;
-      border-radius: 8px 8px 0 0;
+      background: linear-gradient(90deg, var(--primary) 70%, var(--accent) 100%);
+      padding: 1.5rem 1rem;
       color: #fff;
       text-align: center;
-      font-size: 1.5rem;
-      font-weight: 600;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 12px rgba(35,64,142,0.08);
     }
     .card {
-      background: var(--card);
-      border-radius: 0 0 8px 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      padding: 1.5rem;
-      width: 100%;
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
     }
     .grid-5 {
       display: grid;
-      grid-template-columns: 1fr 1fr 3fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
       gap: 0.5rem;
+      margin-bottom: 1.5rem;
     }
     .grid-5 div,
     .grid-5 label {
       text-align: center;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 1rem;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
     }
     .grid-5 input {
       width: 100%;
-      padding: 0.5rem;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      font-size: 0.9rem;
+      padding: 0.5rem 0.4rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 1rem;
       text-align: center;
+      background: #f9fafb;
+      transition: border 0.2s;
+    }
+    .grid-5 input:focus {
+      border: 1.5px solid var(--primary);
+      outline: none;
+      background: #fff;
     }
     #fzError {
       color: var(--error);
-      font-size: 0.8rem;
-      margin-top: 0.25rem;
+      font-size: 0.85rem;
+      margin-top: 0.15rem;
+      min-height: 1.1em;
     }
     .form-group {
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
     }
     .form-group label {
       display: block;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.3rem;
       font-weight: 600;
+      color: var(--primary);
+      font-size: 1.05rem;
     }
     .form-group input {
       width: 100%;
-      padding: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+      padding: 0.55rem 0.5rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
       text-align: right;
+      font-size: 1.1rem;
+      background: #f9fafb;
+      transition: border 0.2s;
+    }
+    .form-group input:focus {
+      border: 1.5px solid var(--primary);
+      outline: none;
+      background: #fff;
     }
     .results {
-      background: var(--card);
-      border-radius: 8px;
-      padding: 1rem;
-      margin-top: 1rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      background: #f5f7fa;
+      border-radius: 10px;
+      padding: 1.2rem 1rem 1rem 1rem;
+      margin-top: 1.2rem;
+      box-shadow: 0 2px 8px rgba(35,64,142,0.04);
+      border: 1px solid var(--border);
     }
     .results .row {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 0.5rem;
+      align-items: center;
+      margin-bottom: 0.7rem;
+      font-size: 1.08rem;
     }
     .results .row:last-child {
-      font-weight: 600;
+      font-weight: 700;
+      font-size: 1.18rem;
+      color: var(--primary);
+      margin-top: 0.8rem;
+      margin-bottom: 0;
     }
     .results .label {
       color: var(--muted);
+      font-weight: 500;
+    }
+    .results span[id] {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.5px;
     }
     #fz {
       width: 100%;
       min-width: 6ch;
       padding: 0.6rem;
-      font-size: 1rem;
-      border-radius: 4px;
-      border: 1px solid #ccc;
+      font-size: 1.08rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
       text-align: center;
-      box-sizing: border-box;
+      background: #f9fafb;
+      transition: border 0.2s;
     }
-    #fz {
-      padding: 0.6rem;
-      font-size: 0.95rem;
+    #fz:focus {
+      border: 1.5px solid var(--primary);
+      outline: none;
+      background: #fff;
+    }
+    @media (max-width: 600px) {
+      .container { max-width: 98vw; }
+      .card { padding: 1.2rem 0.5rem 1rem 0.5rem; }
+      .header { font-size: 1.3rem; padding: 1rem 0.5rem; }
+      .results { padding: 0.8rem 0.3rem 0.7rem 0.3rem; }
+      .grid-5 { font-size: 0.95rem; }
     }
   </style>
 </head>
-
 <body>
   <div class="container">
     <div class="header">Calculadora De Nigris</div>
@@ -143,12 +183,10 @@
         <div>Ano/Mod<br><strong id="anoMod">–</strong></div>
         <div>Valor Tabela<br><strong id="valorTabela">R$ 0,00</strong></div>
       </div>
-
       <div class="form-group">
         <label for="desconto">Desconto (%)</label>
         <input type="number" id="desconto" value="0" min="0" max="3" step="0.5"/>
       </div>
-
       <div class="results">
         <div class="row">
           <span class="label">Desconto (R$)</span>
@@ -177,7 +215,6 @@
       </div>
     </div>
   </div>
-
   <script>
     // Elementos
     const fzEl        = document.getElementById("fz");
@@ -230,21 +267,6 @@
         comissao = lucroBruto * 0.09;
         dsr = comissao * 0.15;
         total = comissao + dsr;
-
-        // Log para depuração
-        console.log({
-          valorVenda,
-          receitaEfetiva,
-          valorCompra: vendedorAtual.valorCompra,
-          custoEfetivo,
-          fundoEstrela: vendedorAtual.fundoEstrela,
-          retirada: vendedorAtual.retirada,
-          programacao: vendedorAtual.programacao,
-          frete: vendedorAtual.frete,
-          revisao: vendedorAtual.revisao,
-          custosAdd: vendedorAtual.custosAdd,
-          lucroBruto
-        });
       }
 
       descontoReaisEl.innerText = formatar(valorDesc);
