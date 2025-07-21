@@ -13,7 +13,7 @@
 
   <style>
     :root {
-      --primary: #294592e5;
+      --primary: #24386ee0;
       --accent: #ecc525;
       --error: #c0392b;
       --bg: #f4f6f8;
@@ -34,7 +34,7 @@
     }
     .container {
       width: 100%;
-      max-width: 500px;    /* antes era 400px: agora 600px */
+      max-width: 500px;
       margin: auto;
     }
     .header {
@@ -54,12 +54,11 @@
       padding: 1.5rem;
       width: 100%;
     }
-      .grid-5 {
-        display: grid;
-        /* modelo | up |     fz     | ano/mod | tabela */
-        grid-template-columns: 1fr 1fr 3fr 1fr 1fr;
-        gap: 0.5rem;
-      }
+    .grid-5 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 3fr 1fr 1fr;
+      gap: 0.5rem;
+    }
     .grid-5 div,
     .grid-5 label {
       text-align: center;
@@ -113,20 +112,18 @@
       color: var(--muted);
     }
     #fz {
-      width: 100%;          /* preenche toda a coluna */
-      min-width: 6ch;       /* garante espaço para 6 caracteres */
-      padding: 0.6rem;      
+      width: 100%;
+      min-width: 6ch;
+      padding: 0.6rem;
       font-size: 1rem;
       border-radius: 4px;
       border: 1px solid #ccc;
       text-align: center;
       box-sizing: border-box;
     }
-
-    /* opcional: mais espaçamento interno pra ficar bonito */
     #fz {
-    padding: 0.6rem;
-    font-size: 0.95rem;
+      padding: 0.6rem;
+      font-size: 0.95rem;
     }
   </style>
 </head>
@@ -162,6 +159,10 @@
           <span id="valorVenda">R$ 0,00</span>
         </div>
         <div class="row">
+          <span class="label">Lucro Bruto</span>
+          <span id="lucroBruto">R$ 0,00</span>
+        </div>
+        <div class="row">
           <span class="label">Comissão (9%)</span>
           <span id="comissao">R$ 0,00</span>
         </div>
@@ -188,11 +189,13 @@
     const descontoEl  = document.getElementById("desconto");
     const descontoReaisEl = document.getElementById("descontoReais");
     const valorVendaEl   = document.getElementById("valorVenda");
+    const lucroBrutoEl   = document.getElementById("lucroBruto");
     const comissaoEl  = document.getElementById("comissao");
     const dsrEl       = document.getElementById("dsr");
     const totalEl     = document.getElementById("total");
 
     let valorTabela = 0;
+    let vendedorAtual = null;
     const vendedores = {};
 
     // Formata moeda
@@ -206,12 +209,33 @@
       if (d > 3) { alert("Desconto máximo de 3%"); d = 3; descontoEl.value = 3; }
       const valorDesc = valorTabela * (d / 100);
       const valorVenda = valorTabela - valorDesc;
-      const comissao = valorVenda * 0.09;
-      const dsr = comissao * 0.15;
-      const total = comissao + dsr;
+
+      // Cálculo do lucro bruto e comissão
+      let lucroBruto = 0;
+      let comissao = 0;
+      let dsr = 0;
+      let total = 0;
+
+      if (vendedorAtual) {
+        const receitaEfetiva = valorVenda * 0.12;
+        const custoEfetivo = (vendedorAtual.valorCompra || 0) * 0.12;
+        lucroBruto =
+          (receitaEfetiva - custoEfetivo)
+          + (vendedorAtual.fundoEstrela || 0)
+          + (vendedorAtual.retirada || 0)
+          + (vendedorAtual.programacao || 0)
+          - (vendedorAtual.frete || 0)
+          - (vendedorAtual.revisao || 0)
+          - (vendedorAtual.custosAdd || 0);
+
+        comissao = lucroBruto * 0.09;
+        dsr = comissao * 0.15;
+        total = comissao + dsr;
+      }
 
       descontoReaisEl.innerText = formatar(valorDesc);
       valorVendaEl.innerText    = formatar(valorVenda);
+      lucroBrutoEl.innerText    = formatar(lucroBruto);
       comissaoEl.innerText      = formatar(comissao);
       dsrEl.innerText           = formatar(dsr);
       totalEl.innerText         = formatar(total);
@@ -237,6 +261,13 @@
             up:     cols[2],
             anoMod: cols[3],
             valorTabela: parseFloat(cols[4].replace(/\./g, "").replace(/,/g, ".")),
+            valorCompra: parseFloat(cols[5].replace(/\./g, "").replace(/,/g, ".")),
+            fundoEstrela: parseFloat(cols[6].replace(/\./g, "").replace(/,/g, ".")),
+            retirada: parseFloat(cols[7].replace(/\./g, "").replace(/,/g, ".")),
+            programacao: parseFloat(cols[8].replace(/\./g, "").replace(/,/g, ".")),
+            frete: parseFloat(cols[9].replace(/\./g, "").replace(/,/g, ".")),
+            revisao: parseFloat(cols[10].replace(/\./g, "").replace(/,/g, ".")),
+            custosAdd: parseFloat(cols[11].replace(/\./g, "").replace(/,/g, "."))
           };
         });
       } catch (err) {
@@ -252,6 +283,7 @@
 
       if (vendedores[key]) {
         const d = vendedores[key];
+        vendedorAtual = d;
         modeloEl.innerText      = d.modelo;
         upEl.innerText          = d.up;
         anoModEl.innerText      = d.anoMod;
@@ -259,6 +291,7 @@
         valorTabelaEl.innerText = formatar(valorTabela);
         fzErrorEl.innerText     = "";
       } else {
+        vendedorAtual = null;
         modeloEl.innerText      = "–";
         upEl.innerText          = "–";
         anoModEl.innerText      = "–";
