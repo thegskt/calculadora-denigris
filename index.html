@@ -204,56 +204,56 @@
     }
 
     // Recalcula valores
-  function atualizarValores() {
-    let d = parseFloat(descontoEl.value) || 0;
-    if (d > 3) { alert("Desconto máximo de 3%"); d = 3; descontoEl.value = 3; }
-    const valorDesc = valorTabela * (d / 100);
-    const valorVenda = valorTabela - valorDesc;
+    function atualizarValores() {
+      let d = parseFloat(descontoEl.value) || 0;
+      if (d > 3) { alert("Desconto máximo de 3%"); d = 3; descontoEl.value = 3; }
+      const valorDesc = valorTabela * (d / 100);
+      const valorVenda = valorTabela - valorDesc;
 
-    let lucroBruto = 0;
-    let comissao = 0;
-    let dsr = 0;
-    let total = 0;
+      let lucroBruto = 0;
+      let comissao = 0;
+      let dsr = 0;
+      let total = 0;
 
-    if (vendedorAtual) {
-      const receitaEfetiva = valorVenda * 0.12;
-      const custoEfetivo = (vendedorAtual.valorCompra || 0) * 0.12;
-      lucroBruto =
-        (receitaEfetiva - custoEfetivo)
-        + (vendedorAtual.fundoEstrela || 0)
-        + (vendedorAtual.retirada || 0)
-        + (vendedorAtual.programacao || 0)
-        - (vendedorAtual.frete || 0)
-        - (vendedorAtual.revisao || 0)
-        - (vendedorAtual.custosAdd || 0);
+      if (vendedorAtual) {
+        const receitaEfetiva = valorVenda * 0.12;
+        const custoEfetivo = (vendedorAtual.valorCompra || 0) * 0.12;
+        lucroBruto =
+          (receitaEfetiva - custoEfetivo)
+          + (vendedorAtual.fundoEstrela || 0)
+          + (vendedorAtual.retirada || 0)
+          + (vendedorAtual.programacao || 0)
+          - (vendedorAtual.frete || 0)
+          - (vendedorAtual.revisao || 0)
+          - (vendedorAtual.custosAdd || 0);
 
-      comissao = lucroBruto * 0.09;
-      dsr = comissao * 0.15;
-      total = comissao + dsr;
+        comissao = lucroBruto * 0.09;
+        dsr = comissao * 0.15;
+        total = comissao + dsr;
 
-      // O log deve ficar aqui dentro!
-      console.log({
-        valorVenda,
-        receitaEfetiva,
-        valorCompra: vendedorAtual.valorCompra,
-        custoEfetivo,
-        fundoEstrela: vendedorAtual.fundoEstrela,
-        retirada: vendedorAtual.retirada,
-        programacao: vendedorAtual.programacao,
-        frete: vendedorAtual.frete,
-        revisao: vendedorAtual.revisao,
-        custosAdd: vendedorAtual.custosAdd,
-        lucroBruto
-      });
+        // Log para depuração
+        console.log({
+          valorVenda,
+          receitaEfetiva,
+          valorCompra: vendedorAtual.valorCompra,
+          custoEfetivo,
+          fundoEstrela: vendedorAtual.fundoEstrela,
+          retirada: vendedorAtual.retirada,
+          programacao: vendedorAtual.programacao,
+          frete: vendedorAtual.frete,
+          revisao: vendedorAtual.revisao,
+          custosAdd: vendedorAtual.custosAdd,
+          lucroBruto
+        });
+      }
+
+      descontoReaisEl.innerText = formatar(valorDesc);
+      valorVendaEl.innerText    = formatar(valorVenda);
+      lucroBrutoEl.innerText    = formatar(lucroBruto);
+      comissaoEl.innerText      = formatar(comissao);
+      dsrEl.innerText           = formatar(dsr);
+      totalEl.innerText         = formatar(total);
     }
-
-    descontoReaisEl.innerText = formatar(valorDesc);
-    valorVendaEl.innerText    = formatar(valorVenda);
-    lucroBrutoEl.innerText    = formatar(lucroBruto);
-    comissaoEl.innerText      = formatar(comissao);
-    dsrEl.innerText           = formatar(dsr);
-    totalEl.innerText         = formatar(total);
-  }
 
     // URL do CSV publicado
     const sheetCsvUrl =
