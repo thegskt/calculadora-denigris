@@ -6,7 +6,7 @@
   <title>Calculadora De Nigris</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
   <style>
-          :root {
+    :root {
       --primary: #23408e;
       --accent: #2768c9e0;
       --error: #c0392b;
@@ -154,6 +154,41 @@
       letter-spacing: 0.5px;
       color: var(--text);
     }
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.2rem;
+    }
+    .btn-primary, .btn-secondary {
+      padding: 0.7rem 1.3rem;
+      border-radius: 6px;
+      border: none;
+      font-size: 1rem;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+      display: inline-block;
+      text-align: center;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: #16306b;
+    }
+    .btn-secondary {
+      background: #fff;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+    .btn-secondary:hover {
+      background: var(--primary);
+      color: #fff;
+    }
     @media (max-width: 600px) {
       .container {
         max-width: 98vw;
@@ -200,6 +235,15 @@
       .results .row:last-child {
         font-size: 1.05rem;
         margin-top: 0.3rem;
+      }
+      .actions {
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+      .btn-primary, .btn-secondary {
+        width: 100%;
+        font-size: 0.98rem;
+        padding: 0.6rem 0;
       }
     }
   </style>
@@ -248,6 +292,10 @@
           <span>Total</span>
           <span id="total">R$ 0,00</span>
         </div>
+      </div>
+      <div class="actions">
+        <a href="https://gd.cimbb.com.br/p/crm/atividades/agenda/" target="_blank" class="btn-primary">Emitir Pedido</a>
+        <a href="https://wa.me/5511950583053" target="_blank" class="btn-secondary">Solicitar Reserva</a>
       </div>
     </div>
   </div>
