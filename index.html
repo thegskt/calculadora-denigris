@@ -369,14 +369,15 @@
 
   // Referências aos elementos da calculadora
   const fzEl    = document.getElementById("fz");
-  const fzErr   = document.getElementById("fzError");
-  const modelo  = document.getElementById("modelo");
-  const up      = document.getElementById("up");
-  const anoMod  = document.getElementById("anoMod");
-  const valTab  = document.getElementById("valorTabela");
-  const descInp = document.getElementById("desconto");
-  const descRs  = document.getElementById("descontoReais");
-  const valV    = document.getElementById("valorVenda");
+  const fzErrorEl   = document.getElementById("fzError");
+  const modeloEl    = document.getElementById("modelo");
+  const upEl        = document.getElementById("up");
+  const anoModEl    = document.getElementById("anoMod");
+  const valorTabelaEl = document.getElementById("valorTabela");
+  const descontoEl  = document.getElementById("desconto");
+  const descontoReaisEl = document.getElementById("descontoReais");
+  const valorVendaEl   = document.getElementById("valorVenda");
+  const lucroBrutoEl   = document.getElementById("lucroBruto");
   const comPr   = document.getElementById("comissaoProtected");
   const dsrPr   = document.getElementById("dsrProtected");
   const tot     = document.getElementById("total");
@@ -402,91 +403,74 @@
   function atualizarValores() {
     let d = parseFloat(descInp.value) || 0;
     if (d > 3) { alert("Desconto máximo de 3%"); d = 3; descInp.value = 3; }
-    const valDesc = valorTabela * (d / 100);
-    const vVenda  = valorTabela - valDesc;
-    let com = 0, dsr = 0, total = 0;
+        const valorDesc = valorTabela * (d / 100);
+        const valorVenda = valorTabela - valorDesc;
 
-    if (vendedorAtual) {
-      com   = vVenda * 0.09;
-      dsr   = com * 0.15;
-      total = com + dsr;
-    }
+        let lucroBruto = 0;
+        let comissao = 0;
+        let dsr = 0;
+        let total = 0;
 
-    descRs.innerText = formatar(valDesc);
-    valV.innerText   = formatar(vVenda);
-    comPr.innerText  = formatar(com);
-    dsrPr.innerText  = formatar(dsr);
-    tot.innerText    = formatar(total);
-  }
+        if (vendedorAtual) {
+          const receitaEfetiva = valorVenda-(valorVenda * 0.12); // 12% de ICMS
+          const custoEfetivo = (vendedorAtual.valorCompra || 0)-((vendedorAtual.valorCompra || 0) * 0.12); // 12% de ICMS
+          lucroBruto =
+            (receitaEfetiva - custoEfetivo)
+            + (vendedorAtual.fundoEstrela || 0)
+            + (vendedorAtual.retirada || 0)
+            + (vendedorAtual.programacao || 0)
+            - (vendedorAtual.frete || 0)
+            - (vendedorAtual.revisao || 0)
+            - (vendedorAtual.custosAdd || 0);
 
-  // URL do CSV publicado no Google Sheets
-  const sheetCsvUrl =
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw"
-    + "/pub?gid=2122951741&single=true&output=csv";
+          comissao = lucroBruto * 0.09;
+          dsr = comissao * 0.15;
+          total = comissao + dsr;
+        }
 
-  async function carregarDados() {
-    console.log("Buscando CSV em:", sheetCsvUrl);
-    try {
-      const res = await fetch(sheetCsvUrl);
-      console.log("Status da resposta:", res.status);
-      if (!res.ok) throw new Error("Falha HTTP " + res.status);
-      
-      const txt = await res.text();
-      console.log("CSV cru:\n", txt);
-
-      // Quebra em linhas (mantendo apenas as não vazias)
-      const linhas = txt.split(/\r?\n/).filter(l => l.trim().length > 0);
-      console.log("Total de linhas:", linhas.length);
-      if (linhas.length < 2) {
-        console.warn("Parece que não há dados além do cabeçalho.");
-        return;
+        descontoReaisEl.innerText = formatar(valorDesc);
+        valorVendaEl.innerText    = formatar(valorVenda);
+        lucroBrutoEl.innerText    = formatar(lucroBruto);
+        comissaoEl.innerText      = formatar(comissao);
+        dsrEl.innerText           = formatar(dsr);
+        totalEl.innerText         = formatar(total);
       }
 
-      // Cabeçalho e primeira linha de dados
-      console.log("Cabeçalho:", linhas[0].split(","));
-      console.log("1ª linha de dados:", linhas[1].split(","));
+      // URL do CSV publicado
+      const sheetCsvUrl =
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw"
+        + "/pub?gid=2122951741&single=true&output=csv";
 
-      // Limpa o objeto anterior
-      Object.keys(vendedores).forEach(k => delete vendedores[k]);
 
-      // Função para converter string formatada em número
-      function toNumber(str) {
-        if (!str) return 0;
-        let s = str.replace(/[^0-9,.\-]/g, "");
-        if (s.includes(".") && s.includes(",")) s = s.replace(/\./g, "").replace(/,/g, ".");
-        else if (!s.includes(".") && s.includes(",")) s = s.replace(/,/g, ".");
-        const n = parseFloat(s);
-        return isNaN(n) ? 0 : n;
+// Carrega dados do CSV
+      async function carregarDados() {
+        try {
+          const res = await fetch(sheetCsvUrl);
+          const txt = await res.text();
+          txt.trim().split("\n").slice(1).forEach(line => {
+            const cols = line
+              .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+              .map(c => c.replace(/^"|"$/g, "").trim());
+            const fzKey = cols[0].padStart(6, "0");
+            vendedores[fzKey] = {
+              modelo: cols[1],
+              up:     cols[2],
+              anoMod: cols[3],
+              valorTabela: parseFloat(cols[4].replace(/\./g, "").replace(/,/g, ".")),
+              valorCompra: parseFloat(cols[5].replace(/\./g, "").replace(/,/g, ".")),
+              fundoEstrela: parseFloat(cols[6].replace(/\./g, "").replace(/,/g, ".")),
+              retirada: parseFloat(cols[7].replace(/\./g, "").replace(/,/g, ".")),
+              programacao: parseFloat(cols[8].replace(/\./g, "").replace(/,/g, ".")),
+              frete: parseFloat(cols[9].replace(/\./g, "").replace(/,/g, ".")),
+              revisao: parseFloat(cols[10].replace(/\./g, "").replace(/,/g, ".")),
+              custosAdd: parseFloat(cols[11].replace(/\./g, "").replace(/,/g, "."))
+            };
+          });
+        } catch (err) {
+          console.error("Erro ao carregar CSV:", err);
+        }
       }
 
-      // Itera nas linhas de dados
-      linhas.slice(1).forEach((linha, i) => {
-        const cols = linha.split(",").map(c => c.trim());
-        console.log(`cols da linha ${i+1}:`, cols, "total cols:", cols.length);
-
-        const fzKey = cols[0].padStart(6, "0");
-        vendedores[fzKey] = {
-          modelo:      cols[1] || "",
-          up:          cols[2] || "",
-          anoMod:      cols[3] || "",
-          valorTabela: toNumber(cols[4]),
-          // ajuste índices abaixo se tiver colunas a mais ou a menos
-          valorCompra: toNumber(cols[5]),
-          fundoEstrela: toNumber(cols[6]),
-          retirada:     toNumber(cols[7]),
-          programacao:  toNumber(cols[8]),
-          frete:        toNumber(cols[9]),
-          revisao:      toNumber(cols[10]),
-          custosAdd:    toNumber(cols[11])
-        };
-      });
-
-      console.log("Vendedores carregados:", vendedores);
-    }
-    catch (err) {
-      console.error("Erro ao carregar CSV:", err);
-    }
-  }
 
   // Listener para o campo FZ: busca e preenche dados
   fzEl.addEventListener("input", () => {
