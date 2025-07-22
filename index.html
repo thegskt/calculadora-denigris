@@ -315,6 +315,12 @@
           </div>
         </div>
 
+        <div class="row hidden" id="rowComissaoProtected"> … </div>
+          <div class="row hidden" id="rowDsrProtected"> … </div>
+          <button id="btnMostrarProtegido">Mostrar Comissão e DSR</button>
+          <div id="passwordGroup" class="hidden"> … 
+        </div>
+
         <button id="btnMostrarProtegido">Mostrar Comissão e DSR</button>
         <div id="passwordGroup" class="hidden">
           <input type="password" id="senhaInput" placeholder="Digite a senha"/>
@@ -365,6 +371,7 @@
     const pwdIn   = document.getElementById("senhaInput");
     const btnVer  = document.getElementById("btnVerificarSenha");
     const pwdErr  = document.getElementById("senhaError");
+
 
     let valorTabela = 0, vendedorAtual = null;
     const vendedores = {};
@@ -449,21 +456,31 @@
     });
     descInp.addEventListener("input", atualizarValores);
 
-    // Mostrar grupo de senha
+    // 1) clique no botão: mostra prompt de senha se as linhas estiverem ocultas,
+    //    ou oculta as linhas se já estiverem visíveis
     btnMost.addEventListener("click", () => {
-      pwdGrp.classList.remove("hidden");
-      btnMost.disabled = true;
+      if (rowCom.classList.contains("hidden")) {
+        pwdGrp.classList.remove("hidden");
+        btnMost.disabled = true;
+      } else {
+        rowCom.classList.add("hidden");
+        rowDsr.classList.add("hidden");
+        btnMost.innerText = "Mostrar Comissão e DSR";
+      }
     });
 
-    // Verificar senha e revelar comissão/DSR
+    // 2) valida a senha e exibe (ou não) as linhas protegidas
     btnVer.addEventListener("click", () => {
       if (pwdIn.value === "Dn@1234") {
         rowCom.classList.remove("hidden");
         rowDsr.classList.remove("hidden");
         pwdGrp.classList.add("hidden");
-        senhaErr.innerText = "";
+        btnMost.disabled = false;
+        btnMost.innerText = "Ocultar Comissão e DSR";
+        pwdErr.innerText = "";
+        pwdIn.value = "";
       } else {
-        senhaErr.innerText = "Senha incorreta";
+        pwdErr.innerText = "Senha incorreta";
       }
     });
 
