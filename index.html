@@ -355,65 +355,61 @@
   </body>
 
   <script>
-  // Função de login
-  function login() {
-    const u = document.getElementById("user").value;
-    const p = document.getElementById("pass").value;
-    if (u === "Luciano" && p === "Dn@1234") {
-      document.getElementById("loginBox").classList.add("hidden");
-      document.getElementById("mainContent").classList.remove("hidden");
-    } else {
-      document.getElementById("loginError").innerText = "Usuário ou senha inválidos";
-    }
-  }
+    window.addEventListener("DOMContentLoaded", () => {
+      // Função de login
+      function login() {
+        const u = document.getElementById("user").value;
+        const p = document.getElementById("pass").value;
+        if (u === "Luciano" && p === "Dn@1234") {
+          document.getElementById("loginBox").classList.add("hidden");
+          document.getElementById("mainContent").classList.remove("hidden");
+        } else {
+          document.getElementById("loginError").innerText = "Usuário ou senha inválidos";
+        }
+      }
 
-  // Referências aos elementos da calculadora
-  const fzEl    = document.getElementById("fz");
-  const fzErrorEl   = document.getElementById("fzError");
-  const modeloEl    = document.getElementById("modelo");
-  const upEl        = document.getElementById("up");
-  const anoModEl    = document.getElementById("anoMod");
-  const valorTabelaEl = document.getElementById("valorTabela");
-  const descontoEl  = document.getElementById("desconto");
-  const descontoReaisEl = document.getElementById("descontoReais");
-  const valorVendaEl   = document.getElementById("valorVenda");
-  const lucroBrutoEl   = document.getElementById("lucroBruto");
-  const comPr   = document.getElementById("comissaoProtected");
-  const dsrPr   = document.getElementById("dsrProtected");
-  const tot     = document.getElementById("total");
-  const rowCom  = document.getElementById("rowComissaoProtected");
-  const rowDsr  = document.getElementById("rowDsrProtected");
-  const btnMost = document.getElementById("btnMostrarProtegido");
-  const pwdGrp  = document.getElementById("passwordGroup");
-  const pwdIn   = document.getElementById("senhaInput");
-  const btnVer  = document.getElementById("btnVerificarSenha");
-  const pwdErr  = document.getElementById("senhaError");
+      // Referências aos elementos
+      const fzEl              = document.getElementById("fz");
+      const fzErrorEl         = document.getElementById("fzError");
+      const modeloEl          = document.getElementById("modelo");
+      const upEl              = document.getElementById("up");
+      const anoModEl          = document.getElementById("anoMod");
+      const valorTabelaEl     = document.getElementById("valorTabela");
+      const descontoEl        = document.getElementById("desconto");
+      const descontoReaisEl   = document.getElementById("descontoReais");
+      const valorVendaEl      = document.getElementById("valorVenda");
+      const lucroBrutoEl      = document.getElementById("lucroBruto");
+      const comissaoEl        = document.getElementById("comissaoProtected");
+      const dsrEl             = document.getElementById("dsrProtected");
+      const totalEl           = document.getElementById("total");
+      const rowCom            = document.getElementById("rowComissaoProtected");
+      const rowDsr            = document.getElementById("rowDsrProtected");
+      const btnMost           = document.getElementById("btnMostrarProtegido");
+      const pwdGrp            = document.getElementById("passwordGroup");
+      const pwdIn             = document.getElementById("senhaInput");
+      const btnVer            = document.getElementById("btnVerificarSenha");
+      const pwdErr            = document.getElementById("senhaError");
+      const btnLogin          = document.getElementById("btnLogin");
 
-  // Estado interno
-  let valorTabela = 0;
-  let vendedorAtual = null;
-  const vendedores = {};
+      let valorTabela = 0;
+      let vendedorAtual = null;
+      const vendedores = {};
 
-  // Formata número em moeda BRL
-  function formatar(v) {
-    return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-  }
+      function formatar(v) {
+        return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+      }
 
-  // Recalcula e atualiza todos os valores na interface
-  function atualizarValores() {
-    let d = parseFloat(descInp.value) || 0;
-    if (d > 3) { alert("Desconto máximo de 3%"); d = 3; descInp.value = 3; }
+      function atualizarValores() {
+        let d = parseFloat(descontoEl.value) || 0;
+        if (d > 3) { alert("Desconto máximo de 3%"); d = 3; descontoEl.value = 3; }
         const valorDesc = valorTabela * (d / 100);
         const valorVenda = valorTabela - valorDesc;
 
-        let lucroBruto = 0;
-        let comissao = 0;
-        let dsr = 0;
-        let total = 0;
+        let lucroBruto = 0, comissao = 0, dsr = 0, total = 0;
 
         if (vendedorAtual) {
-          const receitaEfetiva = valorVenda-(valorVenda * 0.12); // 12% de ICMS
-          const custoEfetivo = (vendedorAtual.valorCompra || 0)-((vendedorAtual.valorCompra || 0) * 0.12); // 12% de ICMS
+          const receitaEfetiva = valorVenda - (valorVenda * 0.12);
+          const custoEfetivo = (vendedorAtual.valorCompra || 0) - ((vendedorAtual.valorCompra || 0) * 0.12);
           lucroBruto =
             (receitaEfetiva - custoEfetivo)
             + (vendedorAtual.fundoEstrela || 0)
@@ -436,13 +432,10 @@
         totalEl.innerText         = formatar(total);
       }
 
-      // URL do CSV publicado
       const sheetCsvUrl =
         "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw"
         + "/pub?gid=2122951741&single=true&output=csv";
 
-
-// Carrega dados do CSV
       async function carregarDados() {
         try {
           const res = await fetch(sheetCsvUrl);
@@ -471,66 +464,51 @@
         }
       }
 
+      fzEl.addEventListener("input", () => {
+        const raw = fzEl.value.replace(/\D/g, "").slice(0, 6);
+        fzEl.value = raw;
+        const key = raw.padStart(6, "0");
 
-  // Listener para o campo FZ: busca e preenche dados
-  fzEl.addEventListener("input", () => {
-    const raw = fzEl.value.replace(/\D/g, "").slice(0, 6);
-    fzEl.value = raw;
-    const key = raw.padStart(6, "0");
+        if (vendedores[key]) {
+          vendedorAtual = vendedores[key];
+          modeloEl.innerText     = vendedorAtual.modelo;
+          upEl.innerText         = vendedorAtual.up;
+          anoModEl.innerText     = vendedorAtual.anoMod;
+          valorTabela            = vendedorAtual.valorTabela;
+          valorTabelaEl.innerText = formatar(valorTabela);
+          fzErrorEl.innerText    = "";
+          atualizarValores();
+        } else {
+          modeloEl.innerText     = "–";
+          upEl.innerText         = "–";
+          anoModEl.innerText     = "–";
+          valorTabelaEl.innerText = "R$ 0,00";
+          fzErrorEl.innerText    = "FZ não encontrado";
+          vendedorAtual          = null;
+          atualizarValores();
+        }
+      });
 
-    if (vendedores[key]) {
-      vendedorAtual   = vendedores[key];
-      modelo.innerText = vendedorAtual.modelo;
-      up.innerText     = vendedorAtual.up;
-      anoMod.innerText = vendedorAtual.anoMod;
-      valorTabela      = vendedorAtual.valorTabela;
-      valTab.innerText = formatar(valorTabela);
-      fzErr.innerText  = "";
-    } else {
-      vendedorAtual   = null;
-      modelo.innerText = "–";
-      up.innerText     = "–";
-      anoMod.innerText = "–";
-      valorTabela      = 0;
-      valTab.innerText = "R$ 0,00";
-      fzErr.innerText  = raw.length === 6 ? "FZ não encontrado" : "";
-    }
-    atualizarValores();
-  });
+      descontoEl.addEventListener("input", atualizarValores);
 
-  // Listener para desconto
-  descInp.addEventListener("input", atualizarValores);
+      btnMost.addEventListener("click", () => {
+        pwdGrp.classList.remove("hidden");
+      });
 
-  // 1) Toggle botão: se Comissão/DSR escondidos → abre senha; se visíveis → oculta
-  btnMost.addEventListener("click", () => {
-    const visivel = !rowCom.classList.contains("hidden");
-    if (visivel) {
-      rowCom.classList.add("hidden");
-      rowDsr.classList.add("hidden");
-      btnMost.innerText = "Mostrar Comissão e DSR";
-    } else {
-      pwdGrp.classList.remove("hidden");
-      btnMost.disabled = true;
-    }
-  });
+      btnVer.addEventListener("click", () => {
+        if (pwdIn.value === "Luciano@321") {
+          rowCom.classList.remove("hidden");
+          rowDsr.classList.remove("hidden");
+          pwdErr.innerText = "";
+        } else {
+          pwdErr.innerText = "Senha incorreta";
+        }
+      });
 
-  // 2) Verifica senha e exibe/oculta Comissão e DSR
-  btnVer.addEventListener("click", () => {
-    if (pwdIn.value === "Dn@1234") {
-      rowCom.classList.remove("hidden");
-      rowDsr.classList.remove("hidden");
-      btnMost.innerText = "Ocultar Comissão e DSR";
-      pwdGrp.classList.add("hidden");
-      pwdErr.innerText = "";
-      pwdIn.value = "";
-      btnMost.disabled = false;
-    } else {
-      pwdErr.innerText = "Senha incorreta";
-    }
-  });
+      btnLogin.addEventListener("click", login);
 
-  // Inicialização
-  carregarDados().then(atualizarValores);
-</script>
+      carregarDados();
+      });
+  </script>
 </body>
 </html>
