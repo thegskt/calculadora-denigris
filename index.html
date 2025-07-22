@@ -472,31 +472,33 @@
       }
 
 
-  // Listener para o campo FZ: busca e preenche dados
-  fzEl.addEventListener("input", () => {
-    const raw = fzEl.value.replace(/\D/g, "").slice(0, 6);
-    fzEl.value = raw;
-    const key = raw.padStart(6, "0");
+      // Ao digitar FZ
+      fzEl.addEventListener("input", () => {
+        const raw = fzEl.value.replace(/\D/g, "").slice(0, 6);
+        fzEl.value = raw;
+        const key = raw.padStart(6, "0");
 
-    if (vendedores[key]) {
-      vendedorAtual   = vendedores[key];
-      modelo.innerText = vendedorAtual.modelo;
-      up.innerText     = vendedorAtual.up;
-      anoMod.innerText = vendedorAtual.anoMod;
-      valorTabela      = vendedorAtual.valorTabela;
-      valTab.innerText = formatar(valorTabela);
-      fzErr.innerText  = "";
-    } else {
-      vendedorAtual   = null;
-      modelo.innerText = "–";
-      up.innerText     = "–";
-      anoMod.innerText = "–";
-      valorTabela      = 0;
-      valTab.innerText = "R$ 0,00";
-      fzErr.innerText  = raw.length === 6 ? "FZ não encontrado" : "";
-    }
-    atualizarValores();
-  });
+        if (vendedores[key]) {
+          const d = vendedores[key];
+          vendedorAtual = d;
+          modeloEl.innerText      = d.modelo;
+          upEl.innerText          = d.up;
+          anoModEl.innerText      = d.anoMod;
+          valorTabela             = d.valorTabela;
+          valorTabelaEl.innerText = formatar(valorTabela);
+          fzErrorEl.innerText     = "";
+        } else {
+          vendedorAtual = null;
+          modeloEl.innerText      = "–";
+          upEl.innerText          = "–";
+          anoModEl.innerText      = "–";
+          valorTabela             = 0;
+          valorTabelaEl.innerText = "R$ 0,00";
+          if (raw.length === 6) fzErrorEl.innerText = "FZ não encontrado";
+          else fzErrorEl.innerText = "";
+        }
+        atualizarValores();
+      });
 
   // Listener para desconto
   descInp.addEventListener("input", atualizarValores);
