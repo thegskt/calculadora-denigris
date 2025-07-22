@@ -424,59 +424,69 @@
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw"
     + "/pub?gid=2122951741&single=true&output=csv";
 
-  // Faz o download e parse do CSV, popula vendedores[]
-    async function carregarDados() {
-      try {
-        const res = await fetch(sheetCsvUrl);
-        const txt = await res.text();
-        const linhas = txt.trim().split("\n").slice(1);
+  async function carregarDados() {
+    console.log("Buscando CSV em:", sheetCsvUrl);
+    try {
+      const res = await fetch(sheetCsvUrl);
+      console.log("Status da resposta:", res.status);
+      if (!res.ok) throw new Error("Falha HTTP " + res.status);
+      
+      const txt = await res.text();
+      console.log("CSV cru:\n", txt);
 
-        // Função que limpa e converte string em número
-        function toNumber(str) {
-          if (!str) return 0;
-          // remove tudo que não seja dígito, vírgula, ponto ou sinal de menos
-          let s = str.replace(/[^0-9,.\-]/g, "");
-          // se vier "1.234,56" -> remove pontos (milhares) e troca vírgula por ponto
-          if (s.includes(".") && s.includes(",")) {
-            s = s.replace(/\./g, "").replace(/,/g, ".");
-          }
-          // se só tiver vírgula e não tiver ponto, troca vírgula por ponto
-          else if (!s.includes(".") && s.includes(",")) {
-            s = s.replace(/,/g, ".");
-          }
-          const n = parseFloat(s);
-          return isNaN(n) ? 0 : n;
-        }
-
-        linhas.forEach(linha => {
-          const cols = linha
-            .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)  // mantém campos com vírgula entre ""
-            .map(c => c.replace(/^"|"$/g, "").trim());
-
-          const fzKey = cols[0].padStart(6, "0");
-
-          vendedores[fzKey] = {
-            modelo:       cols[1]   || "",
-            up:           cols[2]   || "",
-            anoMod:       cols[3]   || "",
-            valorTabela:  toNumber(cols[4]),
-            valorCompra:  toNumber(cols[5]),
-            fundoEstrela: toNumber(cols[6]),
-            retirada:     toNumber(cols[7]),
-            programacao:  toNumber(cols[8]),
-            frete:        toNumber(cols[9]),
-            revisao:      toNumber(cols[10]),
-            custosAdd:    toNumber(cols[11])
-          };
-        });
-
-        // DEBUG: veja no console um exemplo de vendedor
-        console.log("Exemplo vendedor [000001]:", vendedores["000001"]);
+      // Quebra em linhas (mantendo apenas as não vazias)
+      const linhas = txt.split(/\r?\n/).filter(l => l.trim().length > 0);
+      console.log("Total de linhas:", linhas.length);
+      if (linhas.length < 2) {
+        console.warn("Parece que não há dados além do cabeçalho.");
+        return;
       }
-      catch (err) {
-        console.error("Erro ao carregar CSV:", err);
+
+      // Cabeçalho e primeira linha de dados
+      console.log("Cabeçalho:", linhas[0].split(","));
+      console.log("1ª linha de dados:", linhas[1].split(","));
+
+      // Limpa o objeto anterior
+      Object.keys(vendedores).forEach(k => delete vendedores[k]);
+
+      // Função para converter string formatada em número
+      function toNumber(str) {
+        if (!str) return 0;
+        let s = str.replace(/[^0-9,.\-]/g, "");
+        if (s.includes(".") && s.includes(",")) s = s.replace(/\./g, "").replace(/,/g, ".");
+        else if (!s.includes(".") && s.includes(",")) s = s.replace(/,/g, ".");
+        const n = parseFloat(s);
+        return isNaN(n) ? 0 : n;
       }
+
+      // Itera nas linhas de dados
+      linhas.slice(1).forEach((linha, i) => {
+        const cols = linha.split(",").map(c => c.trim());
+        console.log(`cols da linha ${i+1}:`, cols, "total cols:", cols.length);
+
+        const fzKey = cols[0].padStart(6, "0");
+        vendedores[fzKey] = {
+          modelo:      cols[1] || "",
+          up:          cols[2] || "",
+          anoMod:      cols[3] || "",
+          valorTabela: toNumber(cols[4]),
+          // ajuste índices abaixo se tiver colunas a mais ou a menos
+          valorCompra: toNumber(cols[5]),
+          fundoEstrela: toNumber(cols[6]),
+          retirada:     toNumber(cols[7]),
+          programacao:  toNumber(cols[8]),
+          frete:        toNumber(cols[9]),
+          revisao:      toNumber(cols[10]),
+          custosAdd:    toNumber(cols[11])
+        };
+      });
+
+      console.log("Vendedores carregados:", vendedores);
     }
+    catch (err) {
+      console.error("Erro ao carregar CSV:", err);
+    }
+  }
 
   // Listener para o campo FZ: busca e preenche dados
   fzEl.addEventListener("input", () => {
