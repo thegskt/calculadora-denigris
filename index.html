@@ -294,7 +294,7 @@
         </div>
 
         <!-- botão para liberar Comissão, DSR e Total -->
-        <button id="btnMostrarProtegido">Mostrar Comissão e DSR</button>
+        <button id="btnMostrarProtegido">Detalhamento</button>
 
         <!-- grupo de senha -->
         <div id="passwordGroup" class="hidden">
@@ -452,11 +452,22 @@
 
     descontoEl.addEventListener("input", atualizarValores);
 
+    let detalhesVisiveis = false;
+
     btnMost.addEventListener("click", () => {
-      pwdGrp.classList.remove("hidden");
-      pwdIn.value = "";
-      pwdErr.innerText = "";
-      pwdIn.focus();
+      if (!detalhesVisiveis) {
+        pwdGrp.classList.remove("hidden");
+        pwdIn.value = "";
+        pwdErr.innerText = "";
+        pwdIn.focus();
+      } else {
+        // Oculta os campos protegidos
+        rowCom.classList.add("hidden");
+        rowDsr.classList.add("hidden");
+        rowTotal.classList.add("hidden");
+        detalhesVisiveis = false;
+        btnMost.innerText = "Detalhamento";
+      }
     });
 
     btnVer.addEventListener("click", () => {
@@ -466,6 +477,8 @@
         rowTotal.classList.remove("hidden");
         pwdGrp.classList.add("hidden");
         pwdErr.innerText = "";
+        detalhesVisiveis = true;
+        btnMost.innerText = "Ocultar Detalhamento";
       } else {
         pwdErr.innerText = "Senha incorreta";
       }
