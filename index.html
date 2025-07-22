@@ -425,33 +425,58 @@
     + "/pub?gid=2122951741&single=true&output=csv";
 
   // Faz o download e parse do CSV, popula vendedores[]
-  async function carregarDados() {
-    try {
-      const res = await fetch(sheetCsvUrl);
-      const txt = await res.text();
-      txt.trim().split("\n").slice(1).forEach(linha => {
-        const cols = linha
-          .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
-          .map(c => c.replace(/^"|"$/g, "").trim());
-        const key = cols[0].padStart(6, "0");
-        vendedores[key] = {
-          modelo:       cols[1],
-          up:           cols[2],
-          anoMod:       cols[3],
-          valorTabela:  parseFloat(cols[4].replace(/\./g, "").replace(/,/g, ".")),
-          valorCompra:  parseFloat(cols[5].replace(/\./g, "").replace(/,/g, ".")),
-          fundoEstrela: parseFloat(cols[6].replace(/\./g, "").replace(/,/g, ".")),
-          retirada:     parseFloat(cols[7].replace(/\./g, "").replace(/,/g, ".")),
-          programacao:  parseFloat(cols[8].replace(/\./g, "").replace(/,/g, ".")),
-          frete:        parseFloat(cols[9].replace(/\./g, "").replace(/,/g, ".")),
-          revisao:      parseFloat(cols[10].replace(/\./g, "").replace(/,/g, ".")),
-          custosAdd:    parseFloat(cols[11].replace(/\./g, "").replace(/,/g, "."))
-        };
-      });
-    } catch (err) {
-      console.error("Erro ao carregar CSV:", err);
+    async function carregarDados() {
+      try {
+        const res = await fetch(sheetCsvUrl);
+        const txt = await res.text();
+        const linhas = txt.trim().split("\n").slice(1);
+
+        // Função que limpa e converte string em número
+        function toNumber(str) {
+          if (!str) return 0;
+          // remove tudo que não seja dígito, vírgula, ponto ou sinal de menos
+          let s = str.replace(/[^0-9,.\-]/g, "");
+          // se vier "1.234,56" -> remove pontos (milhares) e troca vírgula por ponto
+          if (s.includes(".") && s.includes(",")) {
+            s = s.replace(/\./g, "").replace(/,/g, ".");
+          }
+          // se só tiver vírgula e não tiver ponto, troca vírgula por ponto
+          else if (!s.includes(".") && s.includes(",")) {
+            s = s.replace(/,/g, ".");
+          }
+          const n = parseFloat(s);
+          return isNaN(n) ? 0 : n;
+        }
+
+        linhas.forEach(linha => {
+          const cols = linha
+            .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)  // mantém campos com vírgula entre ""
+            .map(c => c.replace(/^"|"$/g, "").trim());
+
+          const fzKey = cols[0].padStart(6, "0");
+
+          vendedores[fzKey] = {
+            modelo:       cols[1]   || "",
+            up:           cols[2]   || "",
+            anoMod:       cols[3]   || "",
+            valorTabela:  toNumber(cols[4]),
+            valorCompra:  toNumber(cols[5]),
+            fundoEstrela: toNumber(cols[6]),
+            retirada:     toNumber(cols[7]),
+            programacao:  toNumber(cols[8]),
+            frete:        toNumber(cols[9]),
+            revisao:      toNumber(cols[10]),
+            custosAdd:    toNumber(cols[11])
+          };
+        });
+
+        // DEBUG: veja no console um exemplo de vendedor
+        console.log("Exemplo vendedor [000001]:", vendedores["000001"]);
+      }
+      catch (err) {
+        console.error("Erro ao carregar CSV:", err);
+      }
     }
-  }
 
   // Listener para o campo FZ: busca e preenche dados
   fzEl.addEventListener("input", () => {
