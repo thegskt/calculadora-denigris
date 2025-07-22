@@ -248,244 +248,270 @@
     }
   </style>
 </head>
-<body>
-  <!-- Login -->
-  <div id="loginBox" style="max-width:320px;margin:60px auto;
-      padding:2rem 1.5rem;background:#fff;border-radius:10px;
-      box-shadow:0 2px 12px #0001;text-align:center;">
-    <h2 style="color:#23408e;margin-bottom:1rem;">Login</h2>
-    <input type="text" id="user" placeholder="Usuário"
-           style="width:90%;padding:8px;border-radius:5px;
-           border:1px solid #ccc;margin-bottom:0.75rem;"/><br>
-    <input type="password" id="pass" placeholder="Senha"
-           style="width:90%;padding:8px;border-radius:5px;
-           border:1px solid #ccc;margin-bottom:0.75rem;"/><br>
-    <button onclick="login()"
-      style="padding:8px 20px;border-radius:5px;
-             background:#23408e;color:#fff;border:none;
-             font-weight:600;">Entrar</button>
-    <div id="loginError" style="color:#c0392b;margin-top:0.75rem;"></div>
-  </div>
+  <body>
+    <!-- Login -->
+    <div id="loginBox" style="
+        max-width:320px;
+        margin:60px auto;
+        padding:2rem 1.5rem;
+        background:#fff;
+        border-radius:10px;
+        box-shadow:0 2px 12px #0001;
+        text-align:center;
+      ">
+      <h2 style="color:#23408e;margin-bottom:1rem;">Login</h2>
+      <input type="text" id="user" placeholder="Usuário"
+            style="width:90%;padding:8px;border-radius:5px;
+                    border:1px solid #ccc;margin-bottom:0.75rem;"/><br>
+      <input type="password" id="pass" placeholder="Senha"
+            style="width:90%;padding:8px;border-radius:5px;
+                    border:1px solid #ccc;margin-bottom:0.75rem;"/><br>
+      <button onclick="login()"
+              style="padding:8px 20px;border-radius:5px;
+                    background:#23408e;color:#fff;border:none;
+                    font-weight:600;">
+        Entrar
+      </button>
+      <div id="loginError" style="color:#c0392b;margin-top:0.75rem;"></div>
+    </div>
 
-  <!-- Conteúdo principal -->
-  <div id="mainContent" class="hidden">
-    <div class="container">
-      <div class="header">Calculadora De Nigris</div>
-      <div class="card">
-        <div class="grid-5">
-          <div>Modelo<br><strong id="modelo">–</strong></div>
-          <div>UP<br><strong id="up">–</strong></div>
-          <div>
-            <label for="fz">FZ</label>
-            <input type="text" id="fz" maxlength="6" placeholder="123456"/>
-            <div id="fzError"></div>
-          </div>
-          <div>Ano/Mod<br><strong id="anoMod">–</strong></div>
-          <div>Valor Tabela<br><strong id="valorTabela">R$ 0,00</strong></div>
-        </div>
+    <!-- Conteúdo principal -->
+    <div id="mainContent" class="hidden">
+      <div class="container">
+        <div class="header">Calculadora De Nigris</div>
+        <div class="card">
 
-        <div class="form-group">
-          <label for="desconto">Desconto (%)</label>
-          <input type="number" id="desconto" value="0" min="0" max="3" step="0.5"/>
-        </div>
-
-        <div class="results">
-          <div class="row">
-            <span class="label">Desconto (R$)</span>
-            <span id="descontoReais">R$ 0,00</span>
-          </div>
-          <div class="row">
-            <span class="label">Valor de Venda</span>
-            <span id="valorVenda">R$ 0,00</span>
+          <!-- campos iniciais -->
+          <div class="grid-5">
+            <div>Modelo<br><strong id="modelo">–</strong></div>
+            <div>UP<br><strong id="up">–</strong></div>
+            <div>
+              <label for="fz">FZ</label>
+              <input type="text" id="fz" maxlength="6" placeholder="123456"/>
+              <div id="fzError"></div>
+            </div>
+            <div>Ano/Mod<br><strong id="anoMod">–</strong></div>
+            <div>Valor Tabela<br><strong id="valorTabela">R$ 0,00</strong></div>
           </div>
 
-          <!-- Linhas protegidas -->
-          <div class="row hidden" id="rowComissaoProtected">
-            <span class="label">Comissão (9%)</span>
-            <span id="comissaoProtected">R$ 0,00</span>
-          </div>
-          <div class="row hidden" id="rowDsrProtected">
-            <span class="label">DSR (15%)</span>
-            <span id="dsrProtected">R$ 0,00</span>
+          <!-- desconto -->
+          <div class="form-group">
+            <label for="desconto">Desconto (%)</label>
+            <input type="number" id="desconto" value="0" min="0" max="3" step="0.5"/>
           </div>
 
-          <div class="row">
-            <span class="label">Total</span>
-            <span id="total">R$ 0,00</span>
-          </div>
-        </div>
+          <!-- resultados -->
+          <div class="results">
+            <div class="row">
+              <span class="label">Desconto (R$)</span>
+              <span id="descontoReais">R$ 0,00</span>
+            </div>
+            <div class="row">
+              <span class="label">Valor de Venda</span>
+              <span id="valorVenda">R$ 0,00</span>
+            </div>
 
-        <div class="row hidden" id="rowComissaoProtected"> … </div>
-          <div class="row hidden" id="rowDsrProtected"> … </div>
+            <!-- Linhas protegidas -->
+            <div class="row hidden" id="rowComissaoProtected">
+              <span class="label">Comissão </span>
+              <span id="comissaoProtected">R$ 0,00</span>
+            </div>
+            <div class="row hidden" id="rowDsrProtected">
+              <span class="label">DSR</span>
+              <span id="dsrProtected">R$ 0,00</span>
+            </div>
+
+            <div class="row">
+              <span class="label">Total</span>
+              <span id="total">R$ 0,00</span>
+            </div>
+          </div>
+
+          <!-- botão para liberar/ocultar Comissão e DSR -->
           <button id="btnMostrarProtegido">Mostrar Comissão e DSR</button>
-          <div id="passwordGroup" class="hidden"> … 
-        </div>
 
-        <button id="btnMostrarProtegido">Mostrar Comissão e DSR</button>
-        <div id="passwordGroup" class="hidden">
-          <input type="password" id="senhaInput" placeholder="Digite a senha"/>
-          <button id="btnVerificarSenha">Confirmar</button>
-          <div id="senhaError"></div>
-        </div>
+          <!-- grupo de senha -->
+          <div id="passwordGroup" class="hidden">
+            <input type="password" id="senhaInput" placeholder="Digite a senha"/>
+            <button id="btnVerificarSenha">Confirmar</button>
+            <div id="senhaError" style="color: var(--error);font-size:0.85rem;"></div>
+          </div>
 
-        <div class="actions">
-          <a href="https://gd.cimbb.com.br/p/crm/atividades/agenda/"
-             target="_blank" class="btn-primary">Emitir Pedido</a>
-          <a href="https://wa.me/5511950583053"
-             target="_blank" class="btn-secondary">Solicitar Reserva</a>
+          <!-- ações finais -->
+          <div class="actions">
+            <a href="https://gd.cimbb.com.br/p/crm/atividades/agenda/"
+              target="_blank" class="btn-primary">
+              Emitir Pedido
+            </a>
+            <a href="https://wa.me/5511950583053"
+              target="_blank" class="btn-secondary">
+              Solicitar Reserva
+            </a>
+          </div>
+
         </div>
       </div>
     </div>
-  </div>
+  </body>
 
   <script>
-    // Função de login
-    function login() {
-      const u = document.getElementById('user').value;
-      const p = document.getElementById('pass').value;
-      if (u === "Luciano" && p === "Dn@1234") {
-        document.getElementById('loginBox').classList.add('hidden');
-        document.getElementById('mainContent').classList.remove('hidden');
-      } else {
-        document.getElementById('loginError').innerText = "Usuário ou senha inválidos";
-      }
+  // Função de login
+  function login() {
+    const u = document.getElementById("user").value;
+    const p = document.getElementById("pass").value;
+    if (u === "Luciano" && p === "Dn@1234") {
+      document.getElementById("loginBox").classList.add("hidden");
+      document.getElementById("mainContent").classList.remove("hidden");
+    } else {
+      document.getElementById("loginError").innerText = "Usuário ou senha inválidos";
+    }
+  }
+
+  // Referências aos elementos da calculadora
+  const fzEl    = document.getElementById("fz");
+  const fzErr   = document.getElementById("fzError");
+  const modelo  = document.getElementById("modelo");
+  const up      = document.getElementById("up");
+  const anoMod  = document.getElementById("anoMod");
+  const valTab  = document.getElementById("valorTabela");
+  const descInp = document.getElementById("desconto");
+  const descRs  = document.getElementById("descontoReais");
+  const valV    = document.getElementById("valorVenda");
+  const comPr   = document.getElementById("comissaoProtected");
+  const dsrPr   = document.getElementById("dsrProtected");
+  const tot     = document.getElementById("total");
+  const rowCom  = document.getElementById("rowComissaoProtected");
+  const rowDsr  = document.getElementById("rowDsrProtected");
+  const btnMost = document.getElementById("btnMostrarProtegido");
+  const pwdGrp  = document.getElementById("passwordGroup");
+  const pwdIn   = document.getElementById("senhaInput");
+  const btnVer  = document.getElementById("btnVerificarSenha");
+  const pwdErr  = document.getElementById("senhaError");
+
+  // Estado interno
+  let valorTabela = 0;
+  let vendedorAtual = null;
+  const vendedores = {};
+
+  // Formata número em moeda BRL
+  function formatar(v) {
+    return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  }
+
+  // Recalcula e atualiza todos os valores na interface
+  function atualizarValores() {
+    let d = parseFloat(descInp.value) || 0;
+    if (d > 3) { alert("Desconto máximo de 3%"); d = 3; descInp.value = 3; }
+    const valDesc = valorTabela * (d / 100);
+    const vVenda  = valorTabela - valDesc;
+    let com = 0, dsr = 0, total = 0;
+
+    if (vendedorAtual) {
+      com   = vVenda * 0.09;
+      dsr   = com * 0.15;
+      total = com + dsr;
     }
 
-    // Elementos da calculadora
-    const fzEl    = document.getElementById("fz");
-    const fzErr   = document.getElementById("fzError");
-    const modelo  = document.getElementById("modelo");
-    const up      = document.getElementById("up");
-    const anoMod  = document.getElementById("anoMod");
-    const valTab  = document.getElementById("valorTabela");
-    const descInp = document.getElementById("desconto");
-    const descRs  = document.getElementById("descontoReais");
-    const valV    = document.getElementById("valorVenda");
-    const comPr   = document.getElementById("comissaoProtected");
-    const dsrPr   = document.getElementById("dsrProtected");
-    const tot     = document.getElementById("total");
-    const rowCom  = document.getElementById("rowComissaoProtected");
-    const rowDsr  = document.getElementById("rowDsrProtected");
-    const btnMost = document.getElementById("btnMostrarProtegido");
-    const pwdGrp  = document.getElementById("passwordGroup");
-    const pwdIn   = document.getElementById("senhaInput");
-    const btnVer  = document.getElementById("btnVerificarSenha");
-    const pwdErr  = document.getElementById("senhaError");
+    descRs.innerText = formatar(valDesc);
+    valV.innerText   = formatar(vVenda);
+    comPr.innerText  = formatar(com);
+    dsrPr.innerText  = formatar(dsr);
+    tot.innerText    = formatar(total);
+  }
 
+  // URL do CSV publicado no Google Sheets
+  const sheetCsvUrl =
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw"
+    + "/pub?gid=2122951741&single=true&output=csv";
 
-    let valorTabela = 0, vendedorAtual = null;
-    const vendedores = {};
-
-    function formatar(v) {
-      return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-    }
-
-    function atualizarValores() {
-      let d = parseFloat(descInp.value) || 0;
-      if (d > 3) { alert("Máx 3%"); d = 3; descInp.value = 3; }
-      const valDesc = valorTabela * (d / 100);
-      const vVenda  = valorTabela - valDesc;
-      let com = 0, dsr = 0, total = 0;
-
-      if (vendedorAtual) {
-        // comissão e dsr sempre calculados, mas só exibidos após senha
-        com = vVenda * 0.09;
-        dsr = com * 0.15;
-        total = com + dsr;
-      }
-
-      descRs.innerText = formatar(valDesc);
-      valV.innerText   = formatar(vVenda);
-      comPr .innerText = formatar(com);
-      dsrPr.innerText  = formatar(dsr);
-      tot.innerText    = formatar(total);
-    }
-
-    // Carrega dados do Google Sheets CSV
-    const sheetCsvUrl =
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw"
-      + "/pub?gid=2122951741&single=true&output=csv";
-
-    async function carregarDados() {
+  // Faz o download e parse do CSV, popula vendedores[]
+  async function carregarDados() {
+    try {
       const res = await fetch(sheetCsvUrl);
       const txt = await res.text();
       txt.trim().split("\n").slice(1).forEach(linha => {
         const cols = linha
           .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
           .map(c => c.replace(/^"|"$/g, "").trim());
-        const key = cols[0].padStart(6,"0");
+        const key = cols[0].padStart(6, "0");
         vendedores[key] = {
-          modelo: cols[1],
-          up:     cols[2],
-          anoMod: cols[3],
-          valorTabela: parseFloat(cols[4].replace(/\./g,"").replace(/,/g,".")),
-          valorCompra: parseFloat(cols[5].replace(/\./g,"").replace(/,/g,".")),
-          fundoEstrela: parseFloat(cols[6].replace(/\./g,"").replace(/,/g,".")),
-          retirada:     parseFloat(cols[7].replace(/\./g,"").replace(/,/g,".")),
-          programacao:  parseFloat(cols[8].replace(/\./g,"").replace(/,/g,".")),
-          frete:        parseFloat(cols[9].replace(/\./g,"").replace(/,/g,".")),
-          revisao:      parseFloat(cols[10].replace(/\./g,"").replace(/,/g,".")),
-          custosAdd:    parseFloat(cols[11].replace(/\./g,"").replace(/,/g,"."))
+          modelo:       cols[1],
+          up:           cols[2],
+          anoMod:       cols[3],
+          valorTabela:  parseFloat(cols[4].replace(/\./g, "").replace(/,/g, ".")),
+          valorCompra:  parseFloat(cols[5].replace(/\./g, "").replace(/,/g, ".")),
+          fundoEstrela: parseFloat(cols[6].replace(/\./g, "").replace(/,/g, ".")),
+          retirada:     parseFloat(cols[7].replace(/\./g, "").replace(/,/g, ".")),
+          programacao:  parseFloat(cols[8].replace(/\./g, "").replace(/,/g, ".")),
+          frete:        parseFloat(cols[9].replace(/\./g, "").replace(/,/g, ".")),
+          revisao:      parseFloat(cols[10].replace(/\./g, "").replace(/,/g, ".")),
+          custosAdd:    parseFloat(cols[11].replace(/\./g, "").replace(/,/g, "."))
         };
       });
+    } catch (err) {
+      console.error("Erro ao carregar CSV:", err);
     }
+  }
 
-    // Lookup FZ
-    fzEl.addEventListener("input", () => {
-      const raw = fzEl.value.replace(/\D/g,"").slice(0,6);
-      fzEl.value = raw;
-      const key = raw.padStart(6,"0");
-      if (vendedores[key]) {
-        vendedorAtual = vendedores[key];
-        modelo.innerText = vendedorAtual.modelo;
-        up.innerText     = vendedorAtual.up;
-        anoMod.innerText = vendedorAtual.anoMod;
-        valorTabela      = vendedorAtual.valorTabela;
-        valTab.innerText = formatar(valorTabela);
-        fzErr.innerText  = "";
-      } else {
-        vendedorAtual = null;
-        modelo.innerText = "–";
-        up.innerText     = "–";
-        anoMod.innerText = "–";
-        valorTabela = 0;
-        valTab.innerText = "R$ 0,00";
-        fzErr.innerText = raw.length === 6 ? "FZ não encontrado" : "";
-      }
-      atualizarValores();
-    });
-    descInp.addEventListener("input", atualizarValores);
+  // Listener para o campo FZ: busca e preenche dados
+  fzEl.addEventListener("input", () => {
+    const raw = fzEl.value.replace(/\D/g, "").slice(0, 6);
+    fzEl.value = raw;
+    const key = raw.padStart(6, "0");
 
-    // 1) clique no botão: mostra prompt de senha se as linhas estiverem ocultas,
-    //    ou oculta as linhas se já estiverem visíveis
-    btnMost.addEventListener("click", () => {
-      if (rowCom.classList.contains("hidden")) {
-        pwdGrp.classList.remove("hidden");
-        btnMost.disabled = true;
-      } else {
-        rowCom.classList.add("hidden");
-        rowDsr.classList.add("hidden");
-        btnMost.innerText = "Mostrar Comissão e DSR";
-      }
-    });
+    if (vendedores[key]) {
+      vendedorAtual   = vendedores[key];
+      modelo.innerText = vendedorAtual.modelo;
+      up.innerText     = vendedorAtual.up;
+      anoMod.innerText = vendedorAtual.anoMod;
+      valorTabela      = vendedorAtual.valorTabela;
+      valTab.innerText = formatar(valorTabela);
+      fzErr.innerText  = "";
+    } else {
+      vendedorAtual   = null;
+      modelo.innerText = "–";
+      up.innerText     = "–";
+      anoMod.innerText = "–";
+      valorTabela      = 0;
+      valTab.innerText = "R$ 0,00";
+      fzErr.innerText  = raw.length === 6 ? "FZ não encontrado" : "";
+    }
+    atualizarValores();
+  });
 
-    // 2) valida a senha e exibe (ou não) as linhas protegidas
-    btnVer.addEventListener("click", () => {
-      if (pwdIn.value === "Dn@1234") {
-        rowCom.classList.remove("hidden");
-        rowDsr.classList.remove("hidden");
-        pwdGrp.classList.add("hidden");
-        btnMost.disabled = false;
-        btnMost.innerText = "Ocultar Comissão e DSR";
-        pwdErr.innerText = "";
-        pwdIn.value = "";
-      } else {
-        pwdErr.innerText = "Senha incorreta";
-      }
-    });
+  // Listener para desconto
+  descInp.addEventListener("input", atualizarValores);
 
-    // Inicialização
-    carregarDados().then(atualizarValores);
-  </script>
+  // 1) Toggle botão: se Comissão/DSR escondidos → abre senha; se visíveis → oculta
+  btnMost.addEventListener("click", () => {
+    const visivel = !rowCom.classList.contains("hidden");
+    if (visivel) {
+      rowCom.classList.add("hidden");
+      rowDsr.classList.add("hidden");
+      btnMost.innerText = "Mostrar Comissão e DSR";
+    } else {
+      pwdGrp.classList.remove("hidden");
+      btnMost.disabled = true;
+    }
+  });
+
+  // 2) Verifica senha e exibe/oculta Comissão e DSR
+  btnVer.addEventListener("click", () => {
+    if (pwdIn.value === "Dn@1234") {
+      rowCom.classList.remove("hidden");
+      rowDsr.classList.remove("hidden");
+      btnMost.innerText = "Ocultar Comissão e DSR";
+      pwdGrp.classList.add("hidden");
+      pwdErr.innerText = "";
+      pwdIn.value = "";
+      btnMost.disabled = false;
+    } else {
+      pwdErr.innerText = "Senha incorreta";
+    }
+  });
+
+  // Inicialização
+  carregarDados().then(atualizarValores);
+</script>
 </body>
 </html>
