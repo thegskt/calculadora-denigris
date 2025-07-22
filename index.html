@@ -278,7 +278,7 @@
             <span class="label">Valor de Venda</span>
             <span id="valorVenda">R$ 0,00</span>
           </div>
-          <!-- Comissão e DSR protegidos -->
+          <!-- Comissão, DSR e Total protegidos -->
           <div class="row hidden" id="rowComissaoProtected">
             <span class="label">Comissão</span>
             <span id="comissaoProtected">R$ 0,00</span>
@@ -287,13 +287,13 @@
             <span class="label">DSR</span>
             <span id="dsrProtected">R$ 0,00</span>
           </div>
-          <div class="row">
+          <div class="row hidden" id="rowTotalProtected">
             <span class="label">Total</span>
             <span id="total">R$ 0,00</span>
           </div>
         </div>
 
-        <!-- botão para liberar Comissão e DSR -->
+        <!-- botão para liberar Comissão, DSR e Total -->
         <button id="btnMostrarProtegido">Mostrar Comissão e DSR</button>
 
         <!-- grupo de senha -->
@@ -346,6 +346,7 @@
     const totalEl           = document.getElementById("total");
     const rowCom            = document.getElementById("rowComissaoProtected");
     const rowDsr            = document.getElementById("rowDsrProtected");
+    const rowTotal          = document.getElementById("rowTotalProtected");
     const btnMost           = document.getElementById("btnMostrarProtegido");
     const pwdGrp            = document.getElementById("passwordGroup");
     const pwdIn             = document.getElementById("senhaInput");
@@ -462,6 +463,7 @@
       if (pwdIn.value === "Luciano@321") {
         rowCom.classList.remove("hidden");
         rowDsr.classList.remove("hidden");
+        rowTotal.classList.remove("hidden");
         pwdGrp.classList.add("hidden");
         pwdErr.innerText = "";
       } else {
