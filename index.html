@@ -4,7 +4,9 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Calculadora De Nigris</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+    rel="stylesheet"/>
   <style>
     :root {
       --primary: #23408e;
@@ -29,9 +31,11 @@
       justify-content: center;
       align-items: flex-start;
     }
+    .hidden { display: none !important; }
+
+    /* Container geral */
     .container {
-      width: 100%;
-      max-width: 480px;
+      width: 100%; max-width: 480px;
       margin: 2.5rem auto;
       background: var(--card);
       border-radius: var(--radius);
@@ -53,6 +57,8 @@
     .card {
       padding: 2rem 1.5rem 1.5rem 1.5rem;
     }
+
+    /* Grid de campos iniciais */
     .grid-5 {
       display: grid;
       grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
@@ -65,15 +71,9 @@
       font-weight: 700;
     }
     .grid-5 div {
-      color: var(--primary); /* Títulos em azul */
+      color: var(--primary);
       font-weight: 700;
-      text-align: center;    /* Centraliza os títulos */
-    }
-    .grid-5 div strong,
-    .grid-5 input,
-    #fz {
-      color: var(--text); /* Resultados em preto */
-      font-weight: 600;
+      text-align: center;
     }
     .grid-5 input {
       width: 100%;
@@ -84,11 +84,10 @@
       text-align: center;
       background: #f9fafb;
       transition: border 0.2s;
+      color: var(--text);
+      font-weight: 600;
     }
-    #fz {
-      font-size: 0.95rem;
-    }
-    .grid-5 input:focus, #fz:focus {
+    .grid-5 input:focus {
       border: 1.5px solid var(--primary);
       outline: none;
       background: #fff;
@@ -99,13 +98,10 @@
       margin-top: 0.15rem;
       min-height: 1.1em;
     }
+
+    /* Desconto */
     .form-group {
       margin-bottom: 1.2rem;
-    }
-    .form-group label {
-      display: block;
-      margin-bottom: 0.3rem;
-      font-size: 1.05rem;
     }
     .form-group input {
       width: 100%;
@@ -118,30 +114,13 @@
       transition: border 0.2s;
       color: var(--text);
     }
-        .hidden { display: none !important; }
-
-    /* botão para revelar campos */
-    #btnMostrarProtegido {
-      margin-top: 1rem;
-      width: 100%;
-      padding: 0.75rem;
-      background-color: var(--accent);
-      color: var(--text);
-      border: none;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    #passwordGroup {
-      margin-top: 1rem;
-      display: none;
-      gap: 0.5rem;
-    }
     .form-group input:focus {
       border: 1.5px solid var(--primary);
       outline: none;
       background: #fff;
     }
+
+    /* Resultados */
     .results {
       background: #f5f7fa;
       border-radius: 10px;
@@ -160,19 +139,65 @@
     .results .row:last-child {
       font-weight: 700;
       font-size: 1.18rem;
-      color: var(--primary);    /* Apenas o "Total" em azul */
+      color: var(--primary);
       margin-top: 0.8rem;
       margin-bottom: 0;
     }
     .results .label {
-      color: var(--muted);      /* Títulos dos resultados em cinza escuro */
+      color: var(--muted);
       font-weight: 700;
     }
-    .results span[id] {
+    .results span {
       font-variant-numeric: tabular-nums;
       letter-spacing: 0.5px;
       color: var(--text);
     }
+
+    /* Botão e grupo de senha */
+    #btnMostrarProtegido {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.75rem;
+      background-color: var(--accent);
+      color: var(--text);
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    #btnMostrarProtegido:hover {
+      background: #205ab0;
+    }
+    #passwordGroup {
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    #passwordGroup input {
+      flex: 1;
+      padding: 0.6rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    #passwordGroup button {
+      padding: 0.6rem 1rem;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    #senhaError {
+      color: var(--error);
+      font-size: 0.85rem;
+      min-height: 1em;
+    }
+
+    /* Ações finais */
     .actions {
       display: flex;
       justify-content: center;
@@ -188,9 +213,8 @@
       font-weight: 600;
       cursor: pointer;
       text-decoration: none;
-      transition: background 0.2s, color 0.2s;
-      display: inline-block;
       text-align: center;
+      transition: background 0.2s, color 0.2s;
     }
     .btn-primary {
       background: var(--primary);
@@ -208,76 +232,43 @@
       background: var(--primary);
       color: #fff;
     }
+
+    /* Responsivo */
     @media (max-width: 600px) {
-      .container {
-        max-width: 98vw;
-        margin: 0.5rem auto;
-        border-radius: 10px;
-      }
-      .header {
-        font-size: 1.2rem;
-        padding: 0.8rem 0.3rem;
-      }
-      .card {
-        padding: 0.8rem 0.3rem 0.8rem 0.3rem;
-      }
-      .grid-5 {
-        font-size: 0.9rem;
-        gap: 0.2rem;
-        margin-bottom: 1rem;
-      }
-      .grid-5 div,
-      .grid-5 label {
-        font-size: 0.9rem;
-        margin-bottom: 0.1rem;
-      }
-      .grid-5 input,
-      #fz {
-        font-size: 0.85rem;
-        padding: 0.22rem 0.1rem;
-      }
-      .form-group label {
-        font-size: 0.95rem;
-      }
-      .form-group input {
-        font-size: 0.95rem;
-        padding: 0.22rem 0.1rem;
-      }
-      .results {
-        padding: 0.5rem 0.1rem 0.4rem 0.1rem;
-        font-size: 0.95rem;
-      }
-      .results .row {
-        font-size: 0.95rem;
-        margin-bottom: 0.25rem;
-      }
-      .results .row:last-child {
-        font-size: 1.05rem;
-        margin-top: 0.3rem;
-      }
-      .actions {
-        flex-direction: column;
-        gap: 0.7rem;
-      }
-      .btn-primary, .btn-secondary {
-        width: 100%;
-        font-size: 0.98rem;
-        padding: 0.6rem 0;
-      }
+      .container { max-width: 98vw; margin: 0.5rem auto; }
+      .header { font-size: 1.2rem; padding: 0.8rem; }
+      .card { padding: 0.8rem; }
+      .grid-5 { font-size: 0.9rem; gap: 0.2rem; margin-bottom: 1rem; }
+      .grid-5 input { font-size: 0.85rem; padding: 0.22rem; }
+      .form-group label { font-size: 0.95rem; }
+      .form-group input { font-size: 0.95rem; padding: 0.22rem; }
+      .results { padding: 0.5rem; font-size: 0.95rem; }
+      .actions { flex-direction: column; }
+      .btn-primary, .btn-secondary { width: 100%; font-size: 0.98rem; padding: 0.6rem 0; }
     }
   </style>
 </head>
 <body>
-  <div id="loginBox" style="max-width:320px;margin:60px auto;padding:2rem 1.5rem;background:#fff;border-radius:10px;box-shadow:0 2px 12px #0001;text-align:center;">
-    <h2 style="color:#23408e;">Login</h2>
-    <input type="text" id="user" placeholder="Usuário" style="margin-bottom:10px;width:90%;padding:8px;border-radius:5px;border:1px solid #ccc;"><br>
-    <input type="password" id="pass" placeholder="Senha" style="margin-bottom:10px;width:90%;padding:8px;border-radius:5px;border:1px solid #ccc;"><br>
-    <button onclick="login()" style="padding:8px 20px;border-radius:5px;background:#23408e;color:#fff;border:none;font-weight:600;">Entrar</button>
-    <div id="loginError" style="color:#c0392b;margin-top:10px;"></div>
+  <!-- Login -->
+  <div id="loginBox" style="max-width:320px;margin:60px auto;
+      padding:2rem 1.5rem;background:#fff;border-radius:10px;
+      box-shadow:0 2px 12px #0001;text-align:center;">
+    <h2 style="color:#23408e;margin-bottom:1rem;">Login</h2>
+    <input type="text" id="user" placeholder="Usuário"
+           style="width:90%;padding:8px;border-radius:5px;
+           border:1px solid #ccc;margin-bottom:0.75rem;"/><br>
+    <input type="password" id="pass" placeholder="Senha"
+           style="width:90%;padding:8px;border-radius:5px;
+           border:1px solid #ccc;margin-bottom:0.75rem;"/><br>
+    <button onclick="login()"
+      style="padding:8px 20px;border-radius:5px;
+             background:#23408e;color:#fff;border:none;
+             font-weight:600;">Entrar</button>
+    <div id="loginError" style="color:#c0392b;margin-top:0.75rem;"></div>
   </div>
 
-  <div id="mainContent" style="display:none">
-    <!-- Cole aqui TODO o conteúdo da sua calculadora, ou seja, tudo que estava dentro do <body> -->
+  <!-- Conteúdo principal -->
+  <div id="mainContent" class="hidden">
     <div class="container">
       <div class="header">Calculadora De Nigris</div>
       <div class="card">
@@ -292,10 +283,12 @@
           <div>Ano/Mod<br><strong id="anoMod">–</strong></div>
           <div>Valor Tabela<br><strong id="valorTabela">R$ 0,00</strong></div>
         </div>
+
         <div class="form-group">
           <label for="desconto">Desconto (%)</label>
           <input type="number" id="desconto" value="0" min="0" max="3" step="0.5"/>
         </div>
+
         <div class="results">
           <div class="row">
             <span class="label">Desconto (R$)</span>
@@ -305,198 +298,177 @@
             <span class="label">Valor de Venda</span>
             <span id="valorVenda">R$ 0,00</span>
           </div>
-          <div class="row">
-            <span class="label">DSR</span>
-            <span id="dsr">R$ 0,00</span>
+
+          <!-- Linhas protegidas -->
+          <div class="row hidden" id="rowComissaoProtected">
+            <span class="label">Comissão (9%)</span>
+            <span id="comissaoProtected">R$ 0,00</span>
           </div>
+          <div class="row hidden" id="rowDsrProtected">
+            <span class="label">DSR (15%)</span>
+            <span id="dsrProtected">R$ 0,00</span>
+          </div>
+
           <div class="row">
-            <span>Total</span>
+            <span class="label">Total</span>
             <span id="total">R$ 0,00</span>
           </div>
-          <div class="row hidden" id="rowComissao">
-          <span class="label">Comissão</span>
-          <span id="comissao">R$ 0,00</span>
         </div>
-        <button id="btnMostrarProtegido">Exibir detalhes</button>
 
-        <div id="passwordGroup">
+        <button id="btnMostrarProtegido">Mostrar Comissão e DSR</button>
+        <div id="passwordGroup" class="hidden">
           <input type="password" id="senhaInput" placeholder="Digite a senha"/>
           <button id="btnVerificarSenha">Confirmar</button>
-          <div id="senhaError" style="color: var(--error); font-size: 0.8rem; min-height:1rem;"></div>
+          <div id="senhaError"></div>
         </div>
-        </div>
+
         <div class="actions">
-          <a href="https://gd.cimbb.com.br/p/crm/atividades/agenda/" target="_blank" class="btn-primary">Emitir Pedido</a>
-          <a href="https://wa.me/5511950583053" target="_blank" class="btn-secondary">Solicitar Reserva</a>
+          <a href="https://gd.cimbb.com.br/p/crm/atividades/agenda/"
+             target="_blank" class="btn-primary">Emitir Pedido</a>
+          <a href="https://wa.me/5511950583053"
+             target="_blank" class="btn-secondary">Solicitar Reserva</a>
         </div>
       </div>
     </div>
-    <script>
-      // Elementos
-      const fzEl        = document.getElementById("fz");
-      const fzErrorEl   = document.getElementById("fzError");
-      const modeloEl    = document.getElementById("modelo");
-      const upEl        = document.getElementById("up");
-      const anoModEl    = document.getElementById("anoMod");
-      const valorTabelaEl = document.getElementById("valorTabela");
-      const descontoEl  = document.getElementById("desconto");
-      const descontoReaisEl = document.getElementById("descontoReais");
-      const valorVendaEl   = document.getElementById("valorVenda");
-      const comissaoEl  = document.getElementById("comissao");
-      const dsrEl       = document.getElementById("dsr");
-      const lucroBrutoEl = document.getElementById("lucroBruto");
-      const totalEl     = document.getElementById("total");
-      const btnMostrar  = document.getElementById("btnMostrarProtegido");
-      const passwordGrp = document.getElementById("passwordGroup");
-      const senhaInput  = document.getElementById("senhaInput");
-      const btnVerSenha = document.getElementById("btnVerificarSenha");
-      const senhaErr    = document.getElementById("senhaError");
-      const rowComEl    = document.getElementById("rowComissao");
-      const rowDsrEl    = document.getElementById("rowDsr");
-
-      // Ao clicar no botão, exibe o campo de senha
-      btnMostrar.addEventListener("click", () => {
-        passwordGrp.style.display = "flex";
-        btnMostrar.disabled = true;
-      });
-
-      // Verifica senha e revela linhas ocultas
-      btnVerSenha.addEventListener("click", () => {
-        if (senhaInput.value === "Dn#1234") {
-          rowComEl.classList.remove("hidden");
-          rowDsrEl.classList.remove("hidden");
-          passwordGrp.style.display = "none";
-        } else {
-          senhaErr.innerText = "Senha incorreta";
-        }
-      });
-
-      let valorTabela = 0;
-      let vendedorAtual = null;
-      const vendedores = {};
-
-      // Formata moeda
-      function formatar(v) {
-        return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-      }
-
-      // Recalcula valores
-      function atualizarValores() {
-        let d = parseFloat(descontoEl.value) || 0;
-        if (d > 3) { alert("Desconto máximo de 3%"); d = 3; descontoEl.value = 3; }
-        const valorDesc = valorTabela * (d / 100);
-        const valorVenda = valorTabela - valorDesc;
-
-        let lucroBruto = 0;
-        let comissao = 0;
-        let dsr = 0;
-        let total = 0;
-
-        if (vendedorAtual) {
-          const receitaEfetiva = valorVenda-(valorVenda * 0.12); // 12% de ICMS
-          const custoEfetivo = (vendedorAtual.valorCompra || 0)-((vendedorAtual.valorCompra || 0) * 0.12); // 12% de ICMS
-          lucroBruto =
-            (receitaEfetiva - custoEfetivo)
-            + (vendedorAtual.fundoEstrela || 0)
-            + (vendedorAtual.retirada || 0)
-            + (vendedorAtual.programacao || 0)
-            - (vendedorAtual.frete || 0)
-            - (vendedorAtual.revisao || 0)
-            - (vendedorAtual.custosAdd || 0);
-
-          comissao = lucroBruto * 0.09;
-          dsr = comissao * 0.15;
-          total = comissao + dsr;
-        }
-
-        descontoReaisEl.innerText = formatar(valorDesc);
-        valorVendaEl.innerText    = formatar(valorVenda);
-        lucroBrutoEl.innerText    = formatar(lucroBruto);
-        comissaoEl.innerText      = formatar(comissao);
-        dsrEl.innerText           = formatar(dsr);
-        totalEl.innerText         = formatar(total);
-      }
-
-      // URL do CSV publicado
-      const sheetCsvUrl =
-        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw"
-        + "/pub?gid=2122951741&single=true&output=csv";
-
-      // Carrega dados do CSV
-      async function carregarDados() {
-        try {
-          const res = await fetch(sheetCsvUrl);
-          const txt = await res.text();
-          txt.trim().split("\n").slice(1).forEach(line => {
-            const cols = line
-              .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
-              .map(c => c.replace(/^"|"$/g, "").trim());
-            const fzKey = cols[0].padStart(6, "0");
-            vendedores[fzKey] = {
-              modelo: cols[1],
-              up:     cols[2],
-              anoMod: cols[3],
-              valorTabela: parseFloat(cols[4].replace(/\./g, "").replace(/,/g, ".")),
-              valorCompra: parseFloat(cols[5].replace(/\./g, "").replace(/,/g, ".")),
-              fundoEstrela: parseFloat(cols[6].replace(/\./g, "").replace(/,/g, ".")),
-              retirada: parseFloat(cols[7].replace(/\./g, "").replace(/,/g, ".")),
-              programacao: parseFloat(cols[8].replace(/\./g, "").replace(/,/g, ".")),
-              frete: parseFloat(cols[9].replace(/\./g, "").replace(/,/g, ".")),
-              revisao: parseFloat(cols[10].replace(/\./g, "").replace(/,/g, ".")),
-              custosAdd: parseFloat(cols[11].replace(/\./g, "").replace(/,/g, "."))
-            };
-          });
-        } catch (err) {
-          console.error("Erro ao carregar CSV:", err);
-        }
-      }
-
-      // Ao digitar FZ
-      fzEl.addEventListener("input", () => {
-        const raw = fzEl.value.replace(/\D/g, "").slice(0, 6);
-        fzEl.value = raw;
-        const key = raw.padStart(6, "0");
-
-        if (vendedores[key]) {
-          const d = vendedores[key];
-          vendedorAtual = d;
-          modeloEl.innerText      = d.modelo;
-          upEl.innerText          = d.up;
-          anoModEl.innerText      = d.anoMod;
-          valorTabela             = d.valorTabela;
-          valorTabelaEl.innerText = formatar(valorTabela);
-          fzErrorEl.innerText     = "";
-        } else {
-          vendedorAtual = null;
-          modeloEl.innerText      = "–";
-          upEl.innerText          = "–";
-          anoModEl.innerText      = "–";
-          valorTabela             = 0;
-          valorTabelaEl.innerText = "R$ 0,00";
-          if (raw.length === 6) fzErrorEl.innerText = "FZ não encontrado";
-          else fzErrorEl.innerText = "";
-        }
-        atualizarValores();
-      });
-
-      descontoEl.addEventListener("input", atualizarValores);
-
-      // Inicialização
-      carregarDados().then(atualizarValores);
-    </script>
   </div>
 
   <script>
+    // Função de login
     function login() {
       const u = document.getElementById('user').value;
       const p = document.getElementById('pass').value;
-      if(u === "Luciano" && p === "Dn@1234") {
-        document.getElementById('loginBox').style.display = "none";
-        document.getElementById('mainContent').style.display = "block";
+      if (u === "Luciano" && p === "Dn@1234") {
+        document.getElementById('loginBox').classList.add('hidden');
+        document.getElementById('mainContent').classList.remove('hidden');
       } else {
         document.getElementById('loginError').innerText = "Usuário ou senha inválidos";
       }
     }
+
+    // Elementos da calculadora
+    const fzEl    = document.getElementById("fz");
+    const fzErr   = document.getElementById("fzError");
+    const modelo  = document.getElementById("modelo");
+    const up      = document.getElementById("up");
+    const anoMod  = document.getElementById("anoMod");
+    const valTab  = document.getElementById("valorTabela");
+    const descInp = document.getElementById("desconto");
+    const descRs  = document.getElementById("descontoReais");
+    const valV    = document.getElementById("valorVenda");
+    const comPr   = document.getElementById("comissaoProtected");
+    const dsrPr   = document.getElementById("dsrProtected");
+    const tot     = document.getElementById("total");
+    const rowCom  = document.getElementById("rowComissaoProtected");
+    const rowDsr  = document.getElementById("rowDsrProtected");
+    const btnMost = document.getElementById("btnMostrarProtegido");
+    const pwdGrp  = document.getElementById("passwordGroup");
+    const pwdIn   = document.getElementById("senhaInput");
+    const btnVer  = document.getElementById("btnVerificarSenha");
+    const pwdErr  = document.getElementById("senhaError");
+
+    let valorTabela = 0, vendedorAtual = null;
+    const vendedores = {};
+
+    function formatar(v) {
+      return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    }
+
+    function atualizarValores() {
+      let d = parseFloat(descInp.value) || 0;
+      if (d > 3) { alert("Máx 3%"); d = 3; descInp.value = 3; }
+      const valDesc = valorTabela * (d / 100);
+      const vVenda  = valorTabela - valDesc;
+      let com = 0, dsr = 0, total = 0;
+
+      if (vendedorAtual) {
+        // comissão e dsr sempre calculados, mas só exibidos após senha
+        com = vVenda * 0.09;
+        dsr = com * 0.15;
+        total = com + dsr;
+      }
+
+      descRs.innerText = formatar(valDesc);
+      valV.innerText   = formatar(vVenda);
+      comPr .innerText = formatar(com);
+      dsrPr.innerText  = formatar(dsr);
+      tot.innerText    = formatar(total);
+    }
+
+    // Carrega dados do Google Sheets CSV
+    const sheetCsvUrl =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw"
+      + "/pub?gid=2122951741&single=true&output=csv";
+
+    async function carregarDados() {
+      const res = await fetch(sheetCsvUrl);
+      const txt = await res.text();
+      txt.trim().split("\n").slice(1).forEach(linha => {
+        const cols = linha
+          .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+          .map(c => c.replace(/^"|"$/g, "").trim());
+        const key = cols[0].padStart(6,"0");
+        vendedores[key] = {
+          modelo: cols[1],
+          up:     cols[2],
+          anoMod: cols[3],
+          valorTabela: parseFloat(cols[4].replace(/\./g,"").replace(/,/g,".")),
+          valorCompra: parseFloat(cols[5].replace(/\./g,"").replace(/,/g,".")),
+          fundoEstrela: parseFloat(cols[6].replace(/\./g,"").replace(/,/g,".")),
+          retirada:     parseFloat(cols[7].replace(/\./g,"").replace(/,/g,".")),
+          programacao:  parseFloat(cols[8].replace(/\./g,"").replace(/,/g,".")),
+          frete:        parseFloat(cols[9].replace(/\./g,"").replace(/,/g,".")),
+          revisao:      parseFloat(cols[10].replace(/\./g,"").replace(/,/g,".")),
+          custosAdd:    parseFloat(cols[11].replace(/\./g,"").replace(/,/g,"."))
+        };
+      });
+    }
+
+    // Lookup FZ
+    fzEl.addEventListener("input", () => {
+      const raw = fzEl.value.replace(/\D/g,"").slice(0,6);
+      fzEl.value = raw;
+      const key = raw.padStart(6,"0");
+      if (vendedores[key]) {
+        vendedorAtual = vendedores[key];
+        modelo.innerText = vendedorAtual.modelo;
+        up.innerText     = vendedorAtual.up;
+        anoMod.innerText = vendedorAtual.anoMod;
+        valorTabela      = vendedorAtual.valorTabela;
+        valTab.innerText = formatar(valorTabela);
+        fzErr.innerText  = "";
+      } else {
+        vendedorAtual = null;
+        modelo.innerText = "–";
+        up.innerText     = "–";
+        anoMod.innerText = "–";
+        valorTabela = 0;
+        valTab.innerText = "R$ 0,00";
+        fzErr.innerText = raw.length === 6 ? "FZ não encontrado" : "";
+      }
+      atualizarValores();
+    });
+    descInp.addEventListener("input", atualizarValores);
+
+    // Mostrar grupo de senha
+    btnMost.addEventListener("click", () => {
+      pwdGrp.classList.remove("hidden");
+      btnMost.disabled = true;
+    });
+
+    // Verificar senha e revelar comissão/DSR
+    btnVer.addEventListener("click", () => {
+      if (pwdIn.value === "Dn@1234") {
+        rowCom.classList.remove("hidden");
+        rowDsr.classList.remove("hidden");
+        pwdGrp.classList.add("hidden");
+        senhaErr.innerText = "";
+      } else {
+        senhaErr.innerText = "Senha incorreta";
+      }
+    });
+
+    // Inicialização
+    carregarDados().then(atualizarValores);
   </script>
 </body>
 </html>
