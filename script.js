@@ -1,14 +1,22 @@
-    // Login simples
-    function login() {
-      const u = document.getElementById("user").value;
-      const p = document.getElementById("pass").value;
-      if (u === "Luciano" && p === "Dn@1234") {
-        document.getElementById("loginBox").classList.add("hidden");
-        document.getElementById("mainContent").classList.remove("hidden");
-      } else {
-        document.getElementById("loginError").innerText = "Usuário ou senha inválidos";
-      }
-    }
+const usuarios = [
+  { usuario: "lpereira", senha: "Dn@1234" },
+  { usuario: "goliveira", senha: "162134" },
+  { usuario: "mferreira", senha: "Dn@1234" },
+  { usuario: "lrocha", senha: "Dn@1234" },
+  { usuario: "lgallo", senha: "Dn@1234" },
+];
+
+function login() {
+  const u = document.getElementById("user").value;
+  const p = document.getElementById("pass").value;
+  const autorizado = usuarios.some(user => user.usuario === u && user.senha === p);
+  if (autorizado) {
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("mainContent").classList.remove("hidden");
+  } else {
+    document.getElementById("loginError").innerText = "Usuário ou senha inválidos";
+  }
+}
 
     // Elementos principais
     const fzEl              = document.getElementById("fz");
