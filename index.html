@@ -71,14 +71,23 @@
       color: #fff;
       text-decoration: none;
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 0.95rem;
       letter-spacing: 0.5px;
-      padding: 4px 0;
+      padding: 3px 10px;
       border-bottom: 2px solid transparent;
-      transition: border 0.2s;
+      border-radius: 6px;
+      transition: 
+        border 0.2s,
+        background 0.18s,
+        color 0.18s;
     }
-    .main-header nav a:hover {
-      border-bottom: 2px solid #fff;
+    .main-header nav a:hover,
+    .main-header nav a:focus,
+    .main-header nav a:active {
+      background: #fff2;
+      color: #ffe066;
+      border-bottom: 2px solid #ffe066;
+      outline: none;
     }
 
     /* Espaço para header fixo */
@@ -346,8 +355,8 @@
         gap: 0.5rem;
       }
       .main-header nav a {
-        font-size: 0.92rem;
-        padding: 2px 0;
+        font-size: 0.85rem;
+        padding: 1px 0;
       }
       .header-space {
         height: 48px;
@@ -392,9 +401,8 @@
       <img src="Imagens/Logo_De Nigris Branco.png" alt="De Nigris Logo" class="logo-denigris">
     </div>
     <nav>
-      <a href="#">Início</a>
       <a href="#">Calculadora</a>
-      <a href="#">Contato</a>
+      <a href="#">Emplacamento</a>
     </nav>
   </header>
   <div class="header-space"></div>
