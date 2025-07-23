@@ -55,7 +55,7 @@ function login() {
     const valorDesc = +(valorTabela * (d / 100)).toFixed(2);
     // Arredonda valor de venda para 2 casas decimais
     const valorVenda = +(valorTabela - valorDesc).toFixed(2);
-
+    valorVenda = arredondaCentena(valorVenda);
     let lucroBruto = 0, comissao = 0, dsr = 0, total = 0;
 
     if (vendedorAtual) {
@@ -80,6 +80,10 @@ function login() {
     comissaoEl.innerText      = formatar(comissao);
     dsrEl.innerText           = formatar(dsr);
     totalEl.innerText         = formatar(total);
+    }
+
+    function arredondaCentena(valor) {
+      return Math.round(valor / 100) * 100;
     }
 
     const sheetCsvUrl =
