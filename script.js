@@ -48,36 +48,38 @@ function login() {
       return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
-    function atualizarValores() {
-      let d = parseFloat(descontoEl.value) || 0;
-      if (d > 3) { alert("Desconto máximo de 3%"); d = 3; descontoEl.value = 3; }
-      const valorDesc = valorTabela * (d / 100);
-        const valorVenda = +(valorTabela - valorDesc).toFixed(2);
+      function atualizarValores() {
+    let d = parseFloat(descontoEl.value) || 0;
+    if (d > 3) { alert("Desconto máximo de 3%"); d = 3; descontoEl.value = 3; }
+    // Arredonda desconto para 2 casas decimais
+    const valorDesc = +(valorTabela * (d / 100)).toFixed(2);
+    // Arredonda valor de venda para 2 casas decimais
+    const valorVenda = +(valorTabela - valorDesc).toFixed(2);
 
-      let lucroBruto = 0, comissao = 0, dsr = 0, total = 0;
+    let lucroBruto = 0, comissao = 0, dsr = 0, total = 0;
 
-      if (vendedorAtual) {
-        const receitaEfetiva = valorVenda - (valorVenda * 0.12);
-        const custoEfetivo = (vendedorAtual.valorCompra || 0) - ((vendedorAtual.valorCompra || 0) * 0.12);
-        lucroBruto =
-          (receitaEfetiva - custoEfetivo)
-          + (vendedorAtual.fundoEstrela || 0)
-          + (vendedorAtual.retirada || 0)
-          + (vendedorAtual.programacao || 0)
-          - (vendedorAtual.frete || 0)
-          - (vendedorAtual.revisao || 0)
-          - (vendedorAtual.custosAdd || 0);
+    if (vendedorAtual) {
+      const receitaEfetiva = +(valorVenda - (valorVenda * 0.12)).toFixed(2);
+      const custoEfetivo = +((vendedorAtual.valorCompra || 0) - ((vendedorAtual.valorCompra || 0) * 0.12)).toFixed(2);
+      lucroBruto =
+        (receitaEfetiva - custoEfetivo)
+        + (vendedorAtual.fundoEstrela || 0)
+        + (vendedorAtual.retirada || 0)
+        + (vendedorAtual.programacao || 0)
+        - (vendedorAtual.frete || 0)
+        - (vendedorAtual.revisao || 0)
+        - (vendedorAtual.custosAdd || 0);
 
-        comissao = lucroBruto * 0.09;
-        dsr = comissao * 0.15;
-        total = comissao + dsr;
-      }
+      comissao = +(lucroBruto * 0.09).toFixed(2);
+      dsr = +(comissao * 0.15).toFixed(2);
+      total = +(comissao + dsr).toFixed(2);
+    }
 
-      descontoReaisEl.innerText = formatar(valorDesc);
-      valorVendaEl.innerText    = formatar(valorVenda);
-      comissaoEl.innerText      = formatar(comissao);
-      dsrEl.innerText           = formatar(dsr);
-      totalEl.innerText         = formatar(total);
+    descontoReaisEl.innerText = formatar(valorDesc);
+    valorVendaEl.innerText    = formatar(valorVenda);
+    comissaoEl.innerText      = formatar(comissao);
+    dsrEl.innerText           = formatar(dsr);
+    totalEl.innerText         = formatar(total);
     }
 
     const sheetCsvUrl =
