@@ -52,10 +52,8 @@ function login() {
       let d = parseFloat(descontoEl.value) || 0;
       if (d > 3) { alert("Desconto máximo de 3%"); d = 3; descontoEl.value = 3; }
       // Arredonda desconto para 2 casas decimais
-      const valorDesc = +(valorTabela * (d / 100)).toFixed(2);
-      // Arredonda valor de venda para 2 casas decimais
-      let valorVenda = +(valorTabela - valorDesc).toFixed(2);
-      valorVenda = arredondaCentena(valorVenda);
+    const valorDesc = arredondaCentenaCima(valorTabela * (d / 100));
+    const valorVenda = +(valorTabela - valorDesc).toFixed(2);
       let lucroBruto = 0, comissao = 0, dsr = 0, total = 0;
 
       if (vendedorAtual) {
@@ -82,14 +80,10 @@ function login() {
       totalEl.innerText         = formatar(total);
     }
     // Função para arredondar para a centena mais próxima
-    function arredondaCentena(valor) {
-      return Math.round(valor / 100) * 100;
+    function arredondaCentenaCima(valor) {
+      return Math.ceil(valor / 100) * 100;
     }
-    // Função para arredondar para a centena mais próxima
-    function arredondaCentena(valor) {
-      return Math.round(valor / 100) * 100;
-    }
-    
+
     const sheetCsvUrl =
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw"
       + "/pub?gid=2122951741&single=true&output=csv";
