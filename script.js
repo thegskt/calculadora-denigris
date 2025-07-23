@@ -45,7 +45,7 @@ function login() {
     const vendedores = {};
 
     function formatar(v) {
-      return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+      return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
     function atualizarValores() {
