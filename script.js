@@ -48,44 +48,48 @@ function login() {
       return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
-      function atualizarValores() {
-    let d = parseFloat(descontoEl.value) || 0;
-    if (d > 3) { alert("Desconto máximo de 3%"); d = 3; descontoEl.value = 3; }
-    // Arredonda desconto para 2 casas decimais
-    const valorDesc = +(valorTabela * (d / 100)).toFixed(2);
-    // Arredonda valor de venda para 2 casas decimais
-    const valorVenda = +(valorTabela - valorDesc).toFixed(2);
-    valorVenda = arredondaCentena(valorVenda);
-    let lucroBruto = 0, comissao = 0, dsr = 0, total = 0;
+    function atualizarValores() {
+      let d = parseFloat(descontoEl.value) || 0;
+      if (d > 3) { alert("Desconto máximo de 3%"); d = 3; descontoEl.value = 3; }
+      // Arredonda desconto para 2 casas decimais
+      const valorDesc = +(valorTabela * (d / 100)).toFixed(2);
+      // Arredonda valor de venda para 2 casas decimais
+      let valorVenda = +(valorTabela - valorDesc).toFixed(2);
+      valorVenda = arredondaCentena(valorVenda);
+      let lucroBruto = 0, comissao = 0, dsr = 0, total = 0;
 
-    if (vendedorAtual) {
-      const receitaEfetiva = +(valorVenda - (valorVenda * 0.12)).toFixed(2);
-      const custoEfetivo = +((vendedorAtual.valorCompra || 0) - ((vendedorAtual.valorCompra || 0) * 0.12)).toFixed(2);
-      lucroBruto =
-        (receitaEfetiva - custoEfetivo)
-        + (vendedorAtual.fundoEstrela || 0)
-        + (vendedorAtual.retirada || 0)
-        + (vendedorAtual.programacao || 0)
-        - (vendedorAtual.frete || 0)
-        - (vendedorAtual.revisao || 0)
-        - (vendedorAtual.custosAdd || 0);
+      if (vendedorAtual) {
+        const receitaEfetiva = +(valorVenda - (valorVenda * 0.12)).toFixed(2);
+        const custoEfetivo = +((vendedorAtual.valorCompra || 0) - ((vendedorAtual.valorCompra || 0) * 0.12)).toFixed(2);
+        lucroBruto =
+          (receitaEfetiva - custoEfetivo)
+          + (vendedorAtual.fundoEstrela || 0)
+          + (vendedorAtual.retirada || 0)
+          + (vendedorAtual.programacao || 0)
+          - (vendedorAtual.frete || 0)
+          - (vendedorAtual.revisao || 0)
+          - (vendedorAtual.custosAdd || 0);
 
-      comissao = +(lucroBruto * 0.09).toFixed(2);
-      dsr = +(comissao * 0.15).toFixed(2);
-      total = +(comissao + dsr).toFixed(2);
+        comissao = +(lucroBruto * 0.09).toFixed(2);
+        dsr = +(comissao * 0.15).toFixed(2);
+        total = +(comissao + dsr).toFixed(2);
+      }
+
+      descontoReaisEl.innerText = formatar(valorDesc);
+      valorVendaEl.innerText    = formatar(valorVenda);
+      comissaoEl.innerText      = formatar(comissao);
+      dsrEl.innerText           = formatar(dsr);
+      totalEl.innerText         = formatar(total);
     }
-
-    descontoReaisEl.innerText = formatar(valorDesc);
-    valorVendaEl.innerText    = formatar(valorVenda);
-    comissaoEl.innerText      = formatar(comissao);
-    dsrEl.innerText           = formatar(dsr);
-    totalEl.innerText         = formatar(total);
-    }
-
+    // Função para arredondar para a centena mais próxima
     function arredondaCentena(valor) {
       return Math.round(valor / 100) * 100;
     }
-
+    // Função para arredondar para a centena mais próxima
+    function arredondaCentena(valor) {
+      return Math.round(valor / 100) * 100;
+    }
+    
     const sheetCsvUrl =
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw"
       + "/pub?gid=2122951741&single=true&output=csv";
