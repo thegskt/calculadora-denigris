@@ -52,7 +52,7 @@ function login() {
       let d = parseFloat(descontoEl.value) || 0;
       if (d > 3) { alert("Desconto máximo de 3%"); d = 3; descontoEl.value = 3; }
       // Arredonda desconto para 2 casas decimais
-    const valorDesc = arredondaCentenaCima(valorTabela * (d / 100));
+    const valorDesc = arredondaCentenaBaixo(valorTabela * (d / 100));
     const valorVenda = +(valorTabela - valorDesc).toFixed(2);
       let lucroBruto = 0, comissao = 0, dsr = 0, total = 0;
 
@@ -80,8 +80,8 @@ function login() {
       totalEl.innerText         = formatar(total);
     }
     // Função para arredondar para a centena mais próxima
-    function arredondaCentenaCima(valor) {
-      return Math.ceil(valor / 100) * 100;
+    function arredondaCentenaBaixo(valor) {
+      return Math.floor(valor / 100) * 100;
     }
 
     const sheetCsvUrl =
