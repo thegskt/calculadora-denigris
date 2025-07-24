@@ -467,11 +467,10 @@
     /* Responsivo para telas pequenas */
     @media (max-width: 600px) {
       #familiaFab {
-        gap: 0.2rem;
-        justify-content: flex-start;
+        gap: 0.05rem;
       }
       #familiaFab label {
-        font-size: 0.92rem;
-        padding: 0.08rem 0.15rem;
+        font-size: 0.74rem;
+        padding: 0.01rem 0.04rem;
       }
     }
