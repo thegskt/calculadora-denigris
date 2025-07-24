@@ -193,4 +193,27 @@ function login() {
       if(e.key === "Enter") btnVer.click();
     });
 
+    /* Adicione ao seu style.css para deixar os checkboxes alinhados */
+    #familiaFab label {
+      font-weight: 600;
+      color: #fff;
+      background: #333;
+      border-radius: 6px;
+      padding: 0.3rem 0.7rem;
+      margin-bottom: 0.3rem;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s;
+    }
+    #familiaFab input[type="checkbox"] {
+      margin-right: 0.4em;
+    }
+    #familiaFab label:hover {
+      background: #444;
+    }
+    .fabrica-theme #familiaFab label {
+      color: #fff;
+      background: #222;
+    }
+
     carregarDados();
