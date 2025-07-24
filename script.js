@@ -3,7 +3,7 @@ const usuarios = [
   { usuario: "goliveira", senha: "162134" },
   { usuario: "mferreira", senha: "Dn@1234" },
   { usuario: "lrocha", senha: "Dn@1234" },
-  { usuario: "lgallo", senha: "Dn@1234" },
+  { usuario: "csandrim", senha: "Dn@1234" },
 ];
 
 function login() {
