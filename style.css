@@ -427,31 +427,48 @@
     #familiaFab {
       display: flex;
       gap: 0.7rem;
-      flex-wrap: nowrap;      /* Não quebra linha */
+      flex-wrap: wrap;      /* Permite quebrar linha no mobile */
       align-items: center;
+      justify-content: flex-start;
     }
-    /* Adicione ao seu style.css para deixar os checkboxes alinhados */
+
     #familiaFab label {
       font-weight: 600;
       color: #fff;
       background: transparent;
       border-radius: 6px;
       padding: 0.1rem 0.5rem;
-      margin-bottom: 0;
+      margin-bottom: 0.2rem;
       cursor: pointer;
       user-select: none;
       transition: background 0.2s;
       display: flex;
       align-items: center;
       min-width: unset;
+      font-size: 1rem;
     }
+
     #familiaFab input[type="radio"] {
       margin-right: 0.4em;
     }
+
     #familiaFab label:hover {
       background: #444;
     }
+
     .fabrica-theme #familiaFab label {
       color: #fff;
       background: #222;
+    }
+
+    /* Responsivo para telas pequenas */
+    @media (max-width: 600px) {
+      #familiaFab {
+        gap: 0.3rem;
+        justify-content: flex-start;
+      }
+      #familiaFab label {
+        font-size: 0.92rem;
+        padding: 0.08rem 0.3rem;
+      }
     }
