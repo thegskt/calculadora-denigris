@@ -119,11 +119,20 @@
         <div class="card">
           <div class="form-group">
             <label for="anoModeloFab">Ano/Modelo</label>
-            <select id="anoModeloFab"></select>
+            <select id="anoModeloFab">
+              <option value="">Selecione</option>
+              <option value="25/25">25/25</option>
+              <option value="25/26">25/26</option>
+            </select>
           </div>
           <div class="form-group">
-            <label for="familiaFab">Família</label>
-            <select id="familiaFab"></select>
+            <label>Família</label>
+            <div id="familiaFab" style="display: flex; gap: 1.2rem; flex-wrap: wrap;">
+              <label><input type="checkbox" name="familiaFab" value="Accelo"> Accelo</label>
+              <label><input type="checkbox" name="familiaFab" value="Atego"> Atego</label>
+              <label><input type="checkbox" name="familiaFab" value="Arocs"> Arocs</label>
+              <label><input type="checkbox" name="familiaFab" value="Axor"> Axor</label>
+            </div>
           </div>
           <div class="form-group">
             <label for="upFab">UP</label>
@@ -137,25 +146,7 @@
         </div>
       </div>
     </div>
-    <!-- Ano/Modelo) -->
-    <div class="form-group">
-      <label for="anoModeloFab">Ano/Modelo</label>
-      <select id="anoModeloFab">
-        <option value="">Selecione</option>
-        <option value="25/25">25/25</option>
-        <option value="25/26">25/26</option>
-      </select>
-    </div>
-    <!-- Ano/Modelo) -->
-    <div class="form-group">
-      <label for="anoModeloFab">Ano/Modelo</label>
-      <select id="anoModeloFab">
-        <option value="">Selecione</option>
-        <option value="25/25">25/25</option>
-        <option value="25/26">25/26</option>
-      </select>
-    </div>
-
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
