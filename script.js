@@ -175,6 +175,15 @@ function login() {
       }
     });
 
+    document.getElementById('btnEstoqueProprio').onclick = function() {
+      document.getElementById('calcEstoqueProprio').classList.remove('hidden');
+      document.getElementById('calcEstoqueFabrica').classList.add('hidden');
+    };
+    document.getElementById('btnEstoqueFabrica').onclick = function() {
+      document.getElementById('calcEstoqueProprio').classList.add('hidden');
+      document.getElementById('calcEstoqueFabrica').classList.remove('hidden');
+    };
+
     // Enter para login
     document.getElementById("pass").addEventListener("keydown", function(e){
       if(e.key === "Enter") login();
