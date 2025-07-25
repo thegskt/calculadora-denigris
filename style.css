@@ -469,26 +469,12 @@
     /* Responsivo para telas pequenas */
     @media (max-width: 600px) {
       #familiaFab {
-        gap: 0.05rem;
-        flex-wrap: wrap;
+        gap: 0.02rem;
       }
       #familiaFab label {
-        font-size: 0.7rem;
-        padding: 0;
-        margin: 0;
-        min-width: unset;
-        white-space: nowrap;
-        display: inline-flex;
-        align-items: center;
+        font-size: 0.65rem;
       }
       #familiaFab input[type="radio"] {
-        margin-right: 0.1em !important;
-        margin-left: 0 !important;
-        position: static !important;
-        transform: none !important;
-        vertical-align: middle;
-      }
-      #familiaFab label span {
-        padding-left: 0 !important;
+        margin-right: 0.07em !important;
       }
     }
