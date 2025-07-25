@@ -494,4 +494,15 @@
         display: inline-block;
         padding-top: 0.15em; /* Move o texto um pouco para baixo */
       }
+      .calc-switch {
+        gap: 0.5rem;
+        margin-bottom: 0.7rem;
+      }
+      .calc-switch button,
+      .btn-primary,
+      .btn-secondary {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.5rem;
+        border-radius: 7px;
+      }
     }
