@@ -469,14 +469,14 @@
     /* Responsivo para telas pequenas */
     @media (max-width: 600px) {
       #familiaFab {
-        gap: 0.18rem; /* separa os botões entre si */
+        gap: 0.18rem;
       }
       #familiaFab label {
         font-size: 0.65rem;
-        padding: 0.01rem 0.04rem; /* padding pequeno */
+        padding: 0.01rem 0.04rem;
         margin-bottom: 0;
       }
       #familiaFab input[type="radio"] {
-        margin-right: 0.08em; /* aproxima o texto do botão */
+        margin-right: 0.01em; /* mínimo possível */
       }
     }
