@@ -465,6 +465,12 @@
       color: #fff;
       background: #222;
     }
+    
+    .btn-secondary {
+      background: linear-gradient(90deg, #111 0%, #444 100%);
+      color: #fff;
+      border: 1px solid #222;
+    }
 
     /* Responsivo para telas pequenas */
     @media (max-width: 600px) {
@@ -509,8 +515,8 @@
         width: auto;        /* Não ocupa 100% */
       }
       .btn-secondary {
-        background: linear-gradient(90deg, #111 0%, #444 100%);
-        color: #fff;
-        border: 1px solid #222;
-      }
+      background: linear-gradient(90deg, #111 0%, #444 100%);
+      color: #fff;
+      border: 1px solid #222;
+    }
     }
