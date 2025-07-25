@@ -505,5 +505,7 @@
         padding: 0.25rem 0.3rem;
         border-radius: 6px;
         min-width: unset;
+        max-width: 140px;   /* Limita a largura máxima */
+        width: auto;        /* Não ocupa 100% */
       }
     }
