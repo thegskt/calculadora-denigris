@@ -453,7 +453,7 @@
 
 
     #familiaFab input[type="radio"] {
-      margin-right: 0.2em;
+      margin-right: 0.08em;
       accent-color: #ffe066;
     }
 
@@ -471,9 +471,9 @@
       #familiaFab {
         gap: 0.01rem;
       }
-      #familiaFab label {
-        font-size: 0.55rem;
-        padding: 0;
-        margin-bottom: 0;
-      }
+    #familiaFab label {
+      font-size: 0.55rem;
+      padding: 0 0.02rem; /* lateral mínimo */
+      margin-bottom: 0;
+    }
     }
