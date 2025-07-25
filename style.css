@@ -477,6 +477,6 @@
         margin-bottom: 0;
       }
       #familiaFab input[type="radio"] {
-        margin-right: 0.04em; /* aproxima o texto do botão */
+        margin-right: 0.08em; /* aproxima o texto do botão */
       }
     }
