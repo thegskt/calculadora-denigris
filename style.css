@@ -490,7 +490,7 @@
         vertical-align: middle;
       }
       #familiaFab label span {
-        padding-left: 1.1em; /* espaço para o botão */
+        padding-left: 1.5em; /* espaço para o botão */
         display: inline-block;
       }
     }
