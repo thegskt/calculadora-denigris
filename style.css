@@ -473,12 +473,13 @@
       }
       #familiaFab label {
         font-size: 0.65rem;
-        padding: 0.01rem 0.04rem;
+        padding: 0;           /* Remove todo padding */
         margin-bottom: 0;
+        margin-right: 0;      /* Remove margem extra */
       }
-      /* Aumenta a especificidade e força o valor */
       .fabrica-theme #familiaFab input[type="radio"],
       #familiaFab input[type="radio"] {
-        margin-right: 0.01em !important;
+        margin-right: 0.01em !important; /* Quase colado ao texto */
+        margin-left: 0 !important;       /* Remove margem à esquerda */
       }
     }
