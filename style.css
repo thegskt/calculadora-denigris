@@ -317,13 +317,13 @@
       background: #16306b;
     }
     .btn-secondary {
-      background: #fff;
-      color: var(--primary);
-      border: 2px solid var(--primary);
+      background: linear-gradient(90deg, #111 0%, #444 100%);
+      color: #fff;
+      border: 1px solid #222;
     }
     .btn-secondary:hover {
-      background: var(--primary);
-      color: #fff;
+      background: linear-gradient(90deg, #414141 0%, #8f8f8f 100%);
+      color: #000000;
     }
     @media (max-width: 600px) {
       .main-header {
@@ -465,12 +465,8 @@
       color: #fff;
       background: #222;
     }
-    
-    .btn-secondary {
-      background: linear-gradient(90deg, #111 0%, #444 100%);
-      color: #fff;
-      border: 1px solid #222;
-    }
+
+
 
     /* Responsivo para telas pequenas */
     @media (max-width: 600px) {
