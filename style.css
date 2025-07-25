@@ -476,6 +476,8 @@
         padding: 0.01rem 0.04rem;
         margin-bottom: 0;
       }
+      /* Aumenta a especificidade e força o valor */
+      .fabrica-theme #familiaFab input[type="radio"],
       #familiaFab input[type="radio"] {
         margin-right: 0.01em !important;
       }
