@@ -473,7 +473,7 @@
         flex-wrap: wrap;
       }
       #familiaFab label {
-        font-size: 0.55rem;
+        font-size: 0.8rem;
         padding: 0;
         margin: 0;
         min-width: unset;
@@ -490,7 +490,7 @@
         vertical-align: middle;
       }
       #familiaFab label span {
-        padding-left: 1.8em; /* espaço para o botão */
+        padding-left: 2.0em; /* espaço para o botão */
         display: inline-block;
       }
     }
