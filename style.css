@@ -475,13 +475,11 @@
       #familiaFab label {
         font-size: 0.7rem;
         padding: 0;
-        padding-left: 1.8em;
-        padding-top: 0.15em;
         margin: 0;
         min-width: unset;
         white-space: nowrap;
-        display: inline-block;
-        align-items: flex-end;
+        display: inline-flex;
+        align-items: center;
         position: relative;
       }
       #familiaFab input[type="radio"] {
@@ -494,5 +492,6 @@
       #familiaFab label span {
         padding-left: 1.8em; /* espaço para o botão */
         display: inline-block;
+        padding-top: 0.15em; /* Move o texto um pouco para baixo */
       }
     }
