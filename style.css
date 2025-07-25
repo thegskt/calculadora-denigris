@@ -469,18 +469,21 @@
     /* Responsivo para telas pequenas */
     @media (max-width: 600px) {
       #familiaFab {
-        gap: 0.04rem;           /* mínimo possível */
+        gap: 0.04rem;
         flex-wrap: wrap;
       }
       #familiaFab label {
-        font-size: 0.55rem;     /* bem pequeno */
+        font-size: 0.55rem;
         padding: 0;
         margin: 0;
         min-width: unset;
-        white-space: nowrap;    /* impede quebra do texto do label */
+        white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
       }
       #familiaFab input[type="radio"] {
-        margin-right: 0.01em !important; /* cola o texto ao botão */
+        margin-right: 0.005em !important; /* quase colado ao texto */
         margin-left: 0 !important;
+        vertical-align: middle;
       }
     }
