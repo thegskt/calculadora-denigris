@@ -469,17 +469,18 @@
     /* Responsivo para telas pequenas */
     @media (max-width: 600px) {
       #familiaFab {
-        gap: 0.18rem;
+        gap: 0.04rem;           /* mínimo possível */
+        flex-wrap: wrap;
       }
       #familiaFab label {
-        font-size: 0.65rem;
-        padding: 0;           /* Remove todo padding */
-        margin-bottom: 0;
-        margin-right: 0;      /* Remove margem extra */
+        font-size: 0.55rem;     /* bem pequeno */
+        padding: 0;
+        margin: 0;
+        min-width: unset;
+        white-space: nowrap;    /* impede quebra do texto do label */
       }
-      .fabrica-theme #familiaFab input[type="radio"],
       #familiaFab input[type="radio"] {
-        margin-right: 0.01em !important; /* Quase colado ao texto */
-        margin-left: 0 !important;       /* Remove margem à esquerda */
+        margin-right: 0.01em !important; /* cola o texto ao botão */
+        margin-left: 0 !important;
       }
     }
