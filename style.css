@@ -508,4 +508,9 @@
         max-width: 140px;   /* Limita a largura máxima */
         width: auto;        /* Não ocupa 100% */
       }
+      .btn-secondary {
+        background: linear-gradient(90deg, #111 0%, #444 100%);
+        color: #fff;
+        border: 1px solid #222;
+      }
     }
