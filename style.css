@@ -501,8 +501,9 @@
       .calc-switch button,
       .btn-primary,
       .btn-secondary {
-        font-size: 0.85rem;
-        padding: 0.4rem 0.5rem;
-        border-radius: 7px;
+        font-size: 0.7rem;
+        padding: 0.25rem 0.3rem;
+        border-radius: 6px;
+        min-width: unset;
       }
     }
