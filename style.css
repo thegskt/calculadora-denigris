@@ -469,7 +469,7 @@
     /* Responsivo para telas pequenas */
     @media (max-width: 600px) {
       #familiaFab {
-        gap: 0.04rem;
+        gap: 0.01rem;
         flex-wrap: wrap;
       }
       #familiaFab label {
@@ -482,8 +482,9 @@
         align-items: center;
       }
       #familiaFab input[type="radio"] {
-        margin-right: 0.005em !important; /* quase colado ao texto */
+        margin-right: 0 !important;
         margin-left: 0 !important;
+        transform: translateX(-2px); /* aproxima o texto do botão */
         vertical-align: middle;
       }
     }
