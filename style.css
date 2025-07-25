@@ -467,20 +467,30 @@
     }
 
     /* Responsivo para telas pequenas */
-@media (max-width: 600px) {
-  #familiaFab {
-    gap: 0.08rem;
-  }
-  #familiaFab label {
-    font-size: 0.75rem;
-    padding: 0;
-    margin: 0;
-    display: inline-flex;
-    align-items: center;
-    white-space: nowrap;
-  }
-  #familiaFab input[type="radio"] {
-    margin-right: 0.02em !important;
-    accent-color: #ffe066;
-  }
-}
+    @media (max-width: 600px) {
+      #familiaFab {
+        gap: 0.08rem;
+        flex-wrap: wrap;
+      }
+      #familiaFab label {
+        font-size: 0.55rem;
+        padding: 0;
+        margin: 0;
+        min-width: unset;
+        white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
+        position: relative;
+      }
+      #familiaFab input[type="radio"] {
+        position: absolute;
+        left: 0;
+        margin: 0 !important;
+        transform: none;
+        vertical-align: middle;
+      }
+      #familiaFab label span {
+        padding-left: 1.1em; /* espaço para o botão */
+        display: inline-block;
+      }
+    }
