@@ -335,24 +335,29 @@ function login() {
       const select = this;
       switch (select.value) {
         case "Estoque":
-          select.style.backgroundColor = "#23408e"; // Azul De Nigris
-          select.style.color = "#fff";
+          select.style.backgroundColor = "#8dc2ffff"; // Azul De Nigris
+          select.style.color = "#001c3bff";
+          select.style.fontWeight = "bold";
           break;
         case "C.E.ABAST":
-          select.style.backgroundColor = "#ffd180"; // Laranja claro
-          select.style.color = "#000";
+          select.style.backgroundColor = "#ffc35bff"; // Laranja claro
+          select.style.color = "#301e01ff";
+          select.style.fontWeight = "bold";
           break;
         case "Frigorificado":
           select.style.backgroundColor = "#e1bee7"; // Roxo claro
-          select.style.color = "#000";
+          select.style.color = "#25002cff";
+          select.style.fontWeight = "bold";
           break;
         case "Postos de Combustiveis":
-          select.style.backgroundColor = "#c8e6c9"; // Verde claro
-          select.style.color = "#000";
+          select.style.backgroundColor = "#a2f3a5ff"; // Verde claro
+          select.style.color = "#002401ff";
+          select.style.fontWeight = "bold";
           break;
         case "Mais Alimentos":
-          select.style.backgroundColor = "#fff9c4"; // Amarelo claro
-          select.style.color = "#000";
+          select.style.backgroundColor = "#fff48fff"; // Amarelo claro
+          select.style.color = "#383200ff";
+          select.style.fontWeight = "bold";
           break;
         default:
           select.style.backgroundColor = "";
