@@ -331,5 +331,32 @@ function login() {
     pwdIn.addEventListener("keydown", function(e){
       if(e.key === "Enter") btnVer.click();
     });
-
+    document.getElementById("acaoFab").addEventListener("change", function() {
+      const select = this;
+      switch (select.value) {
+        case "Estoque":
+          select.style.backgroundColor = "#23408e"; // Azul De Nigris
+          select.style.color = "#fff";
+          break;
+        case "C.E.ABAST":
+          select.style.backgroundColor = "#ffd180"; // Laranja claro
+          select.style.color = "#000";
+          break;
+        case "Frigorificado":
+          select.style.backgroundColor = "#e1bee7"; // Roxo claro
+          select.style.color = "#000";
+          break;
+        case "Postos de Combustiveis":
+          select.style.backgroundColor = "#c8e6c9"; // Verde claro
+          select.style.color = "#000";
+          break;
+        case "Mais Alimentos":
+          select.style.backgroundColor = "#fff9c4"; // Amarelo claro
+          select.style.color = "#000";
+          break;
+        default:
+          select.style.backgroundColor = "";
+          select.style.color = "";
+      }
+    });
     carregarDados();
