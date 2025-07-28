@@ -467,8 +467,6 @@
       background: #222;
     }
 
-
-
     /* Responsivo para telas pequenas */
     @media (max-width: 600px) {
       #familiaFab {
@@ -508,8 +506,8 @@
         padding: 0.25rem 0.3rem;
         border-radius: 6px;
         min-width: unset;
-        max-width: 140px;   /* Limita a largura máxima */
-        width: auto;        /* Não ocupa 100% */
+        max-width: 140px;  
+        width: auto;     
       }
       .btn-secondary {
       background: linear-gradient(90deg, #111 0%, #444 100%);

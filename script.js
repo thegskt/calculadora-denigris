@@ -141,6 +141,27 @@ function login() {
       }
     });
 
+      function atualizarFamilias() {
+        const anoModelo = document.getElementById("anoModeloFab").value;
+        const familiaFab = document.getElementById("familiaFab");
+        familiaFab.innerHTML = "";
+
+        let familias = [];
+        if (anoModelo === "25/25") {
+          familias = ["Accelo", "Atego", "Actros", "Arocs"];
+        } else if (anoModelo === "25/26") {
+          familias = ["Accelo", "Atego", "Actros", "Axor", "Arocs"];
+        }
+
+        familias.forEach(fam => {
+          const label = document.createElement("label");
+          label.innerHTML = `<input type="radio" name="familiaFab" value="${fam}"><span>${fam}</span>`;
+          familiaFab.appendChild(label);
+        });
+    }
+
+    document.getElementById("anoModeloFab").addEventListener("change", atualizarFamilias);
+    atualizarFamilias();
     descontoEl.addEventListener("input", atualizarValores);
 
     let detalhesVisiveis = false;
