@@ -162,7 +162,7 @@ function login() {
 
       const upPorFamilia = {
         Accelo: ["Selecione","UPA", "UPF", "UPG", "UPH"],
-        Atego:  ["Selecione","UPB", "UPC", "UPD", "UPE", "UPF", "UPG", "UPH", "UPI"],
+        Atego:  ["Selecione","S/P","UPB", "UPC", "UPD", "UPE", "UPF", "UPG", "UPH", "UPI"],
         Actros: ["Selecione","UPH", "UPI", "UPJ"],
         Axor:   ["Selecione","UPG", "UPI", "UPH"],
         Arocs:  ["Selecione","UPE", "UPF", "UPG", "UPH"]
@@ -195,6 +195,61 @@ function login() {
         // (depois de adicionar os radios)
         atualizarUP();
       }
+      const modelosPorChave = {
+        "Accelo25/25UPA": ["Selecione", "ACCELO 817/39", "ACCELO 817/46", "ACCELO 1017/39", "ACCELO 1017/46", "ACCELO 1317/39", "ACCELO 1317/46"],
+        "Accelo25/25UPF": ["Selecione", "ACCELO 817/39", "ACCELO 817/46", "ACCELO 1017/39", "ACCELO 1017/46", "ACCELO 1317/39", "ACCELO 1317/46"],
+        "Accelo25/25UPG": ["Selecione", "ACCELO 817/39", "ACCELO 817/46", "ACCELO 1017/39", "ACCELO 1017/46", "ACCELO 1317/39", "ACCELO 1317/46"],
+        "Accelo25/25UPH": ["Selecione", "ACCELO 1317/46"],
+
+        "Atego25/25S/P": ["Selecione", "ATEGO 1729/39"],
+        "Atego25/25UPB": ["Selecione", "ATEGO 1419/48", "ATEGO 1719/48", "ATEGO 1726/48", "ATEGO 2429/48 6X2", "ATEGO 2433/48 6X2", "ATEGO 3033/48 8X2", "ATEGO 2730/48 6X4", "ATEGO 2730 B/36 6X4", "ATEGO 2730 K/36 6X4", "ATEGO 3330/54 8X4", "ATEGO 3330 B/46 8X4", "ATEGO 3330 K/46 8X4"],
+        "Atego25/25UPC": ["Selecione", "ATEGO 1419/48", "ATEGO 1719/48", "ATEGO 1726/48", "ATEGO 2429/48 6X2", "ATEGO 2433/48 6X2"],
+        "Atego25/25UPD": ["Selecione", "ATEGO 1419/48", "ATEGO 1719/48", "ATEGO 1726/48", "ATEGO 2429/48 6X2", "ATEGO 2429/54 6X2", "ATEGO 2433/48 6X2", "ATEGO 2433/54 6X2", "ATEGO 3033/48 8X2", "ATEGO 3033/54 8X2", "ATEGO 3033/63 8X2", "ATEGO 3133/48 6X4"],
+        "Atego25/25UPE": ["Selecione", "ATEGO 2730/48 6X4", "ATEGO 2730 B/36 6X4", "ATEGO 2730 K/36 6X4", "ATEGO 3330/54 8X4", "ATEGO 3330 B/46 8X4", "ATEGO 3330 K/46 8X4", "ATEGO 3133/48 6X4"],
+        "Atego25/25UPF": ["Selecione", "ATEGO 1419/48", "ATEGO 1719/48", "ATEGO 1726/48", "ATEGO 1733/48", "ATEGO 2429/48 6X2", "ATEGO 2429/54 6X2", "ATEGO 2433/48 6X2", "ATEGO 2433/54 6X2", "ATEGO 3033/48 8X2", "ATEGO 3033/54 8X2", "ATEGO 3033/63 8X2", "ATEGO 2730/48 6X4", "ATEGO 2730 B/36 6X4", "ATEGO 2730 K/36 6X4", "ATEGO 3330/54 8X4", "ATEGO 3330 B/46 8X4", "ATEGO 3330 K/46 8X4", "ATEGO 3133/48 6X4", "ATEGO 1933 LS/36"],
+        "Atego25/25UPG": ["Selecione", "ATEGO 3133/48 6X4"],
+        "Atego25/25UPH": ["Selecione", "ATEGO 2429/54 6X2", "ATEGO 2433/54 6X2", "ATEGO 3033/54 8X2", "ATEGO 3033/63 8X2", "ATEGO 1933 LS/36"],
+        "Atego25/25UPI": ["Selecione", "ATEGO 2429/54 6X2", "ATEGO 2433/54 6X2", "ATEGO 3033/54 8X2", "ATEGO 3033/63 8X2", "ATEGO 1933 LS/36"],
+
+        "Actros25/25UPH": ["Selecione", "ACTROS 2045 S/36 4X2", "ACTROS 2045 LS/36 4X2", "ACTROS 2548 S/36 6X2", "ACTROS 2548 LS/33 6X2", "ACTROS 2548 LS/36 6X2", "ACTROS 2651 S/36 6X4", "ACTROS 2651 LS/36 6X4", "ACTROS 2553 S/36 6X2", "ACTROS 2553 LS/36 6X2", "ACTROS 2653 S/36 6X4", "ACTROS 2653 LS/36 6X4"],
+        "Actros25/25UPI": ["Selecione", "ACTROS 2045 S/36 4X2", "ACTROS 2045 LS/36 4X2", "ACTROS 2548 S/36 6X2", "ACTROS 2548 LS/33 6X2", "ACTROS 2548 LS/36 6X2", "ACTROS 2651 S/36 6X4", "ACTROS 2651 LS/36 6X4", "ACTROS 2553 S/36 6X2", "ACTROS 2553 LS/36 6X2", "ACTROS 2653 S/36 6X4", "ACTROS 2653 LS/36 6X4"],
+        "Actros25/25UPJ": ["Selecione", "ACTROS 2045 LS/36 4X2", "ACTROS 2548 S/36 6X2", "ACTROS 2548 LS/33 6X2", "ACTROS 2548 LS/36 6X2", "ACTROS 2651 S/36 6X4", "ACTROS 2651 LS/36 6X4", "ACTROS 2553 S/36 6X2", "ACTROS 2553 LS/36 6X2", "ACTROS 2653 S/36 6X4", "ACTROS 2653 LS/36 6X4"],
+
+        "Arocs25/25UPE": ["Selecione", "AROCS 3351/48 6X4", "AROCS 3351 K/36 6X4", "AROCS 3351 S/33 6X4", "AROCS 3353 S/33 6X4", "AROCS 4151 K/36 6X4", "AROCS 4851/45 8X4"],
+        "Arocs25/25UPF": ["Selecione", "AROCS 3351/48 6X4", "AROCS 3351 K/36 6X4", "AROCS 3351 S/33 6X4", "AROCS 3353 S/33 6X4", "AROCS 4151 K/36 6X4"],
+        "Arocs25/25UPG": ["Selecione", "AROCS 3351 S/33 6X4", "AROCS 3353 S/33 6X4"],
+        "Arocs25/25UPH": ["Selecione", "AROCS 3351 S/33 6X4"]
+        // Adicione as chaves para 25/26 conforme necessário!
+      };
+
+      // Função para atualizar modelos
+      function atualizarModelos() {
+        const anoModelo = document.getElementById("anoModeloFab").value;
+        const familiaSelecionada = document.querySelector('input[name="familiaFab"]:checked');
+        const upFab = document.getElementById("upFab");
+        const modeloSelect = document.getElementById("modeloFab"); // id do select de modelos
+
+        modeloSelect.innerHTML = ""; // Limpa opções
+
+        if (!familiaSelecionada || !upFab.value || upFab.value === "Selecione") return;
+
+        const chave = `${familiaSelecionada.value}${anoModelo}${upFab.value}`;
+        const modelos = modelosPorChave[chave] || ["Selecione"];
+
+        modelos.forEach(modelo => {
+          const option = document.createElement("option");
+          option.value = modelo;
+          option.textContent = modelo;
+          modeloSelect.appendChild(option);
+        });
+      }
+
+      // Atualiza modelos ao trocar UP
+      document.getElementById("upFab").addEventListener("change", atualizarModelos);
+      // Atualiza modelos ao trocar família
+      document.getElementById("familiaFab").addEventListener("change", atualizarModelos);
+      // Atualiza modelos ao trocar ano/modelo
+      document.getElementById("anoModeloFab").addEventListener("change", atualizarModelos);
 
     document.getElementById("anoModeloFab").addEventListener("change", atualizarFamilias);
     atualizarFamilias();
