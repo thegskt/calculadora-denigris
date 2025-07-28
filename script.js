@@ -161,11 +161,11 @@ function login() {
     }
 
       const upPorFamilia = {
-        Accelo: ["UPA", "UPF", "UPG", "UPH"],
-        Atego:  ["UPB", "UPC", "UPD", "UPE", "UPF", "UPG", "UPH", "UPI"],
-        Actros: ["UPH", "UPI", "UPJ"],
-        Axor:   ["UPG", "UPI", "UPH"],
-        Arocs:  ["UPE", "UPF", "UPG", "UPH"]
+        Accelo: ["Selecione","UPA", "UPF", "UPG", "UPH"],
+        Atego:  ["Selecione","UPB", "UPC", "UPD", "UPE", "UPF", "UPG", "UPH", "UPI"],
+        Actros: ["Selecione","UPH", "UPI", "UPJ"],
+        Axor:   ["Selecione","UPG", "UPI", "UPH"],
+        Arocs:  ["Selecione","UPE", "UPF", "UPG", "UPH"]
       };
 
       function atualizarUP() {
