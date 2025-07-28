@@ -160,6 +160,42 @@ function login() {
         });
     }
 
+      const upPorFamilia = {
+        Accelo: ["UPA", "UPF", "UPG", "UPH"],
+        Atego:  ["UPB", "UPC", "UPD", "UPE", "UPF", "UPG", "UPH", "UPI"],
+        Actros: ["UPH", "UPI", "UPJ"],
+        Axor:   ["UPG", "UPI", "UPH"],
+        Arocs:  ["UPE", "UPF", "UPG", "UPH"]
+      };
+
+      function atualizarUP() {
+        const familiaSelecionada = document.querySelector('input[name="familiaFab"]:checked');
+        const upFab = document.getElementById("upFab");
+        upFab.innerHTML = ""; // Limpa opções
+
+        if (!familiaSelecionada) return;
+
+        const familia = familiaSelecionada.value;
+        const ups = upPorFamilia[familia] || [];
+
+        ups.forEach(up => {
+          const option = document.createElement("option");
+          option.value = up;
+          option.textContent = up;
+          upFab.appendChild(option);
+        });
+      }
+
+      // Atualiza UP ao selecionar família
+      document.getElementById("familiaFab").addEventListener("change", atualizarUP);
+
+      // Atualiza UP sempre que atualizar famílias
+      function atualizarFamilias() {
+        // ...seu código atual...
+        // (depois de adicionar os radios)
+        atualizarUP();
+      }
+
     document.getElementById("anoModeloFab").addEventListener("change", atualizarFamilias);
     atualizarFamilias();
     descontoEl.addEventListener("input", atualizarValores);
