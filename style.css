@@ -466,7 +466,9 @@
       color: #fff;
       background: #222;
     }
-
+    #btnCopiarVariante svg {
+      color: #fff;
+    }
     /* Responsivo para telas pequenas */
     @media (max-width: 600px) {
       #familiaFab {
@@ -513,5 +515,8 @@
       background: linear-gradient(90deg, #111 0%, #444 100%);
       color: #fff;
       border: 1px solid #222;
+    }
+      #btnCopiarVariante svg {
+      color: #444;
     }
     }
