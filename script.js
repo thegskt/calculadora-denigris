@@ -313,7 +313,7 @@ function login() {
   document.getElementById("modeloFab").addEventListener("change", atualizarVarianteFab);
   document.getElementById("upFab").addEventListener("change", atualizarVarianteFab);
   document.getElementById("anoModeloFab").addEventListener("change", atualizarVarianteFab);
-  
+
     // Elementos principais
     const fzEl              = document.getElementById("fz");
     const fzErrorEl         = document.getElementById("fzError");
@@ -411,6 +411,17 @@ function login() {
         console.error("Erro ao carregar CSV:", err);
       }
     }
+
+    document.getElementById("btnCopiarVariante").addEventListener("click", function() {
+      const varianteEl = document.getElementById("varianteFab");
+      const valor = varianteEl.textContent.trim();
+      if (valor) {
+        navigator.clipboard.writeText(valor);
+        this.textContent = "✅";
+        setTimeout(() => { this.textContent = "📋"; }, 1000);
+      }
+    });
+
 
     fzEl.addEventListener("input", () => {
       const raw = fzEl.value.replace(/\D/g, "").slice(0, 6);
