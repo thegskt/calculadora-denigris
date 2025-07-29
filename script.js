@@ -414,14 +414,19 @@ function login() {
 
     document.getElementById("btnCopiarVariante").addEventListener("click", function() {
       const varianteEl = document.getElementById("varianteFab");
+      const icon = document.getElementById("iconCopiarVariante");
+      const check = document.getElementById("iconCheckVariante");
       const valor = varianteEl.textContent.trim();
       if (valor) {
         navigator.clipboard.writeText(valor);
-        this.textContent = "✅";
-        setTimeout(() => { this.textContent = "📋"; }, 1000);
+        icon.style.display = "none";
+        check.style.display = "inline";
+        setTimeout(() => {
+          icon.style.display = "inline";
+          check.style.display = "none";
+        }, 900);
       }
     });
-
 
     fzEl.addEventListener("input", () => {
       const raw = fzEl.value.replace(/\D/g, "").slice(0, 6);
