@@ -339,7 +339,7 @@
     .variant-group {
       display: flex;
       align-items: center;
-      gap: 0.6rem 1rem;
+      gap: 10px;
       flex-wrap: wrap;
       width: 100%;
     }
@@ -349,11 +349,21 @@
       font-weight: 600;
       margin: 0;
     }
+
+    .fabrica-theme #upFab,
+    #upFab {
+      flex: 1 1 180px;         /* base ~180px, pode encolher/crescer */
+      min-width: 120px;        /* menor que o min global */
+      max-width: 240px;        /* não rouba espaço da Variante */
+      min-height: 32px;
+    }
+    
     .var-right {
       margin-left: auto;                 /* empurra Variante para a direita */
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      white-space: nowrap;
       margin-right: 0;
     }
 
