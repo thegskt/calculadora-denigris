@@ -32,8 +32,8 @@
 
   <!-- Conteúdo principal (inicialmente oculto) -->
   <div id="mainContent" class="hidden">
-    <!-- Botões para alternar entre calculadoras -->
-    <div class="calc-switch" style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 1.2rem;">
+    <!-- Alternância de calculadoras -->
+    <div class="calc-switch" style="display:flex;justify-content:center;gap:1rem;margin-bottom:1.2rem;">
       <button id="btnEstoqueProprio" class="btn-primary">Estoque De Nigris</button>
       <button id="btnEstoqueFabrica" class="btn-secondary">Estoque Fábrica</button>
     </div>
@@ -44,7 +44,7 @@
         <div class="header">Calculadora De Nigris</div>
         <div class="card">
 
-          <!-- campos iniciais -->
+          <!-- Campos iniciais -->
           <div class="grid-5">
             <div>Modelo<br><strong id="modelo">–</strong></div>
             <div>UP<br><strong id="up">–</strong></div>
@@ -57,13 +57,13 @@
             <div>Valor Tabela<br><strong id="valorTabela">R$ 0,00</strong></div>
           </div>
 
-          <!-- desconto -->
+          <!-- Desconto -->
           <div class="form-group">
             <label for="desconto">Desconto (%)</label>
             <input type="number" id="desconto" value="" min="0" max="3" step="0.5"/>
           </div>
 
-          <!-- resultados -->
+          <!-- Resultados -->
           <div class="results">
             <div class="row">
               <span class="label">Desconto (R$)</span>
@@ -73,7 +73,7 @@
               <span class="label">Valor de Venda</span>
               <span id="valorVenda">R$ 0,00</span>
             </div>
-            <!-- Comissão, DSR e Total protegidos -->
+            <!-- Protegidos -->
             <div class="row hidden" id="rowComissaoProtected">
               <span class="label">Comissão</span>
               <span id="comissaoProtected">R$ 0,00</span>
@@ -88,35 +88,35 @@
             </div>
           </div>
 
-          <!-- botão para liberar Comissão, DSR e Total -->
+          <!-- Detalhamento protegido -->
           <button id="btnMostrarProtegido">Detalhamento</button>
 
-          <!-- grupo de senha -->
+          <!-- Grupo de senha -->
           <div id="passwordGroup" class="hidden">
             <input type="password" id="senhaInput" placeholder="Digite a senha"/>
             <button id="btnVerificarSenha">Confirmar</button>
-            <div id="senhaError" style="color: var(--error);font-size:0.85rem;"></div>
+            <div id="senhaError" style="color:var(--error);font-size:0.85rem;"></div>
           </div>
 
-          <!-- ações finais -->
+          <!-- Ações finais -->
           <div class="actions">
-            <a id="linkEmitirPedido" href="https://gd.cimbb.com.br/p/crm/atividades/agenda/"
-              target="_blank" class="btn-primary">
+            <a id="linkEmitirPedido" href="https://gd.cimbb.com.br/p/crm/atividades/agenda/" target="_blank" class="btn-primary">
               Emitir Pedido
             </a>
-            <a href="https://wa.me/5511950583053"
-              target="_blank" class="btn-secondary">
+            <a href="https://wa.me/5511950583053" target="_blank" class="btn-secondary">
               Solicitar Reserva
             </a>
           </div>
         </div>
       </div>
     </div>
-    <!-- Calculadora Estoque Fábrica (inicialmente oculta) -->
+
+    <!-- Calculadora Estoque Fábrica -->
     <div id="calcEstoqueFabrica" class="hidden fabrica-theme">
       <div class="container">
         <div class="header">Calculadora Estoque Fábrica</div>
-          <div class="card" style="display: flex; flex-direction: column; gap: 1.2rem; align-items: flex-start;">
+        <div class="card" style="display:flex;flex-direction:column;gap:1.2rem;align-items:flex-start;">
+
           <div class="form-group">
             <label for="anoModeloFab">Ano/Modelo</label>
             <select id="anoModeloFab">
@@ -125,9 +125,10 @@
               <option value="25/26">25/26</option>
             </select>
           </div>
+
           <div class="form-group">
             <label>Família</label>
-            <div id="familiaFab" style="display: flex; gap: 1.2rem; flex-wrap: wrap;">
+            <div id="familiaFab" style="display:flex;gap:1.2rem;flex-wrap:wrap;">
               <label><input type="radio" name="familiaFab" value="Accelo"><span>Accelo</span></label>
               <label><input type="radio" name="familiaFab" value="Atego"><span>Atego</span></label>
               <label><input type="radio" name="familiaFab" value="Actros"><span>Actros</span></label>
@@ -135,66 +136,72 @@
               <label><input type="radio" name="familiaFab" value="Arocs"><span>Arocs</span></label>
             </div>
           </div>
-            <div class="form-group variant-group">
-              <label for="upFab">UP</label>
-              <select id="upFab"></select>
 
-              <!-- Variante absoluto, independente do UP -->
-              <div class="var-right"></div>
-                <span class="var-label">Variante:</span>
-                <div id="varianteFab" class="var-box"></div>
-                <button id="btnCopiarVariante" class="copy-variant" title="Copiar variante">
-                  <svg id="iconCopiarVariante" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M10 1.5A1.5 1.5 0 0 1 11.5 3v1h-1V3a.5.5 0 0 0-.5-.5h-7A.5.5 0 0 0 2 3v10a.5.5 0 0 0 .5.5H6v1H2.5A1.5 1.5 0 0 1 1 13.5v-10A1.5 1.5 0 0 1 2.5 2h7zm1 3A1.5 1.5 0 0 1 12.5 6v7A1.5 1.5 0 0 1 11 14.5h-5A1.5 1.5 0 0 1 4.5 13V6A1.5 1.5 0 0 1 6 4.5h5zm-5 1A.5.5 0 0 0 6 6v7a.5.5 0 0 0 .5.5h5a.5.5 0 0 0 .5-.5V6a.5.5 0 0 0-.5-.5h-5z"/>
-                  </svg>
-                  <svg id="iconCheckVariante" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="display:none;">
-                    <path d="M13.485 1.929a1 1 0 0 1 1.415 1.414l-8 8a1 1 0 0 1-1.415 0l-4-4A1 1 0 1 1 2.9 5.929l3.293 3.293 7.293-7.293z"/>
-                  </svg>
-                </button>
-              </div>
+          <!-- UP + Variante (corrigido: wrapper var-right) -->
+          <div class="form-group variant-group">
+            <label for="upFab">UP</label>
+            <select id="upFab"></select>
+
+            <div class="var-right">
+              <span class="var-label">Variante:</span>
+              <div id="varianteFab" class="var-box"></div>
+              <button id="btnCopiarVariante" class="copy-variant" title="Copiar variante">
+                <svg id="iconCopiarVariante" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M10 1.5A1.5 1.5 0 0 1 11.5 3v1h-1V3a.5.5 0 0 0-.5-.5h-7A.5.5 0 0 0 2 3v10a.5.5 0 0 0 .5.5H6v1H2.5A1.5 1.5 0 0 1 1 13.5v-10A1.5 1.5 0 0 1 2.5 2h7zm1 3A1.5 1.5 0 0 1 12.5 6v7A1.5 1.5 0 0 1 11 14.5h-5A1.5 1.5 0 0 1 4.5 13V6A1.5 1.5 0 0 1 6 4.5h5zm-5 1A.5.5 0 0 0 6 6v7a.5.5 0 0 0 .5.5h5a.5.5 0 0 0 .5-.5V6a.5.5 0 0 0-.5-.5h-5z"/>
+                </svg>
+                <svg id="iconCheckVariante" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="display:none;">
+                  <path d="M13.485 1.929a1 1 0 0 1 1.415 1.414l-8 8a1 1 0 0 1-1.415 0l-4-4A1 1 0 1 1 2.9 5.929l3.293 3.293 7.293-7.293z"/>
+                </svg>
+              </button>
             </div>
-              <div class="form-group model-group">
-                <label for="modeloFab">Modelo</label>
-                <select id="modeloFab"></select>
-                <a href="https://truckinfomb.com.br/variantes" target="_blank" class="truckinfo-link">
-                  <img src="Imagens/truckinfo.png" alt="Truck Info">
-                </a>
-              </div>
+          </div>
+
+          <div class="form-group model-group">
+            <label for="modeloFab">Modelo</label>
+            <select id="modeloFab"></select>
+            <a href="https://truckinfomb.com.br/variantes" target="_blank" class="truckinfo-link">
+              <img src="Imagens/truckinfo.png" alt="Truck Info">
+            </a>
+          </div>
+
           <div class="form-group">
             <label for="acaoFab">Ação</label>
-              <select id="acaoFab">
-                <option value="">Selecione</option>
-                <option value="Estoque">Estoque</option>
-                <option value="C.E.ABAST">C.E.ABAST</option>
-                <option value="Frigorificado">Frigorificado</option>
-                <option value="Postos de Combustiveis">Postos de Combustiveis</option>
-                <option value="Mais Alimentos">Mais Alimentos</option>
-              </select>
+            <select id="acaoFab">
+              <option value="">Selecione</option>
+              <option value="Estoque">Estoque</option>
+              <option value="C.E.ABAST">C.E.ABAST</option>
+              <option value="Frigorificado">Frigorificado</option>
+              <option value="Postos de Combustiveis">Postos de Combustiveis</option>
+              <option value="Mais Alimentos">Mais Alimentos</option>
+            </select>
           </div>
-            <div class="precos-fabrica-card" style="background: #f6f7fa; border-radius: 10px; box-shadow: 0 1px 4px rgba(40,40,40,0.06); padding: 1.1rem 1.3rem 1rem 1.3rem; margin: 2rem 0 1.2rem 0; width: 100%; border: 1px solid #ececec;">
-              <div style="display: flex; flex-direction: column; gap: 0.7rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="color: #888; font-weight: 500; font-size: 0.98rem;">VALOR TABELA</span>
-                  <span id="valorTabelaFab" style="color: #222; font-size: 1.13rem; font-weight: 600;">R$ 0,00</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="color: #888; font-weight: 500; font-size: 0.98rem;">VALOR VENDA</span>
-                  <span id="valorVendaFab" style="color: #222; font-size: 1.13rem; font-weight: 600;">R$ 0,00</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="color: #888; font-weight: 500; font-size: 0.98rem;">DESCONTO</span>
-                  <span id="descontoFab" style="color: #666; font-size: 1.05rem; font-weight: 500;">0%</span>
-                </div>
+
+          <!-- Card de preços -->
+          <div class="precos-fabrica-card" style="background:#f6f7fa;border-radius:10px;box-shadow:0 1px 4px rgba(40,40,40,0.06);padding:1.1rem 1.3rem 1rem 1.3rem;margin:2rem 0 1.2rem 0;width:100%;border:1px solid #ececec;">
+            <div style="display:flex;flex-direction:column;gap:0.7rem;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="color:#888;font-weight:500;font-size:0.98rem;">VALOR TABELA</span>
+                <span id="valorTabelaFab" style="color:#222;font-size:1.13rem;font-weight:600;">R$ 0,00</span>
               </div>
-              <button id="btnDetalhamentoFab"
-                style="margin-top: 1.1rem; width: 100%; background: #f2f4f8; color: #23408e; border: 1px solid #e0e3e8; border-radius: 6px; padding: 0.65rem 0; font-size: 1.03rem; font-weight: 600; cursor: pointer; transition: background 0.18s, color 0.18s;">
-                Detalhamento
-              </button>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="color:#888;font-weight:500;font-size:0.98rem;">VALOR VENDA</span>
+                <span id="valorVendaFab" style="color:#222;font-size:1.13rem;font-weight:600;">R$ 0,00</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="color:#888;font-weight:500;font-size:0.98rem;">DESCONTO</span>
+                <span id="descontoFab" style="color:#666;font-size:1.05rem;font-weight:500;">0%</span>
+              </div>
+            </div>
+            <button id="btnDetalhamentoFab" style="margin-top:1.1rem;width:100%;background:#f2f4f8;color:#23408e;border:1px solid #e0e3e8;border-radius:6px;padding:0.65rem 0;font-size:1.03rem;font-weight:600;cursor:pointer;transition:background .18s,color .18s;">
+              Detalhamento
+            </button>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
+        </div><!-- .card -->
+      </div><!-- .container -->
+    </div><!-- #calcEstoqueFabrica -->
+  </div><!-- #mainContent -->
+
   <script src="script.js"></script>
 </body>
 </html>
