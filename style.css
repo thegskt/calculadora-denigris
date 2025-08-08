@@ -294,17 +294,20 @@
     .actions {
       display: flex;
       align-items: center;
+      justify-content: center;  /* centraliza no desktop */
       gap: 12px;
-      justify-content: center; /* centraliza no desktop */
+      margin-top: 14px;         /* afasta do Detalhamento */
     }
     .actions a.btn-primary,
     .actions a.btn-secondary {
       display: inline-flex;
       justify-content: center;
       align-items: center;
-      padding: 10px 16px;
-      text-decoration: none;
-      white-space: nowrap; /* evita quebrar em duas linhas */
+      flex: 1 1 0;              /* mesma largura (50/50) */
+      min-width: 0;             /* permite encolher no iOS */
+      min-height: 42px;         /* mesma altura */
+      padding: 10px 16px;       /* padding consistente */
+      white-space: nowrap;
     }
     .btn-primary, .btn-secondary {
       padding: 0.6rem 1.1rem;
@@ -344,6 +347,7 @@
         gap: 10px;
         width: 100%;
         flex-wrap: nowrap;
+        margin-top: 16px;
       }
       .actions a.btn-primary,
       .actions a.btn-secondary {
