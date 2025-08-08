@@ -107,7 +107,6 @@
       padding: 0.1rem 0.5rem;
     }
     .logo-bar .logo-denigris {
-      max-height: 80px;
       max-width: 200;
     }
 
@@ -296,7 +295,7 @@
       align-items: center;
       justify-content: center;  /* centraliza no desktop */
       gap: 12px;
-      margin-top: 14px;         /* afasta do Detalhamento */
+      margin-top: 18px;         /* afasta do Detalhamento */
     }
     .actions a.btn-primary,
     .actions a.btn-secondary {
@@ -345,11 +344,19 @@
       gap: 0.6rem 1rem;
       flex-wrap: wrap;
     }
+
     .variant-group .var-label {
-      margin-left: auto;           /* empurra Variante para a direita */
       color: #fff;
       font-weight: 600;
     }
+    .var-right {
+      margin-left: auto;                 /* empurra Variante para a direita */
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transform: translateX(8px);        /* leve avanço à direita (PC) */
+    }
+
     .var-box {
       min-width: 90px;
       max-width: 180px;
@@ -387,6 +394,7 @@
       margin-left: auto;           /* leva o ícone para a direita */
       display: inline-flex;
       align-items: center;
+      transform: translateX(8px);
     }
     .model-group .truckinfo-link img {
       height: 30px;
@@ -474,10 +482,7 @@
       }
       .var-right {
         margin-left: auto;                 /* leva o grupo para a direita */
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        transform: translateX(6px);        /* “um pouco” mais à direita no PC */
+        transform: translateX(8px);        /* “um pouco” mais à direita no PC */
       }
       .variant-group .var-label {
         margin-left: 0;
