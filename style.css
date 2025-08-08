@@ -594,14 +594,13 @@
     }
     #familiaFab {
       display: flex;
-      gap: 0.3rem;
-      flex-wrap: wrap;
       align-items: center;
-      justify-content: flex-start;
-      margin-bottom: 0.5rem;
+      gap: 0.8rem;
+      flex-wrap: nowrap;       /* não quebra */
+      white-space: nowrap;     /* impede quebra dentro dos labels */
+      overflow-x: auto;        /* se não couber, rola para o lado */
+      scrollbar-width: thin;   /* Firefox */
     }
-
-
 
     #familiaFab label {
       font-weight: 600;
