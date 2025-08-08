@@ -545,9 +545,11 @@
       align-items: center;
       gap: 12px;
       width: 100%;
+      flex-wrap:nowrap; /* não quebra linha */
     }
+
     .fabrica-theme .card .form-group label {
-      min-width: 84px;
+      min-width: 72px;
       color: #fff;
       font-weight: 600;
     }
