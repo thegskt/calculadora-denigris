@@ -302,8 +302,6 @@
       display: inline-flex;
       justify-content: center;
       align-items: center;
-      flex: 1 1 0;              /* mesma largura (50/50) */
-      min-width: 0;             /* permite encolher no iOS */
       min-height: 42px;         /* mesma altura */
       padding: 10px 16px;       /* padding consistente */
       white-space: nowrap;
@@ -348,13 +346,14 @@
     .variant-group .var-label {
       color: #fff;
       font-weight: 600;
+      margin: 0;
     }
     .var-right {
       margin-left: auto;                 /* empurra Variante para a direita */
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      transform: translateX(8px);        /* leve avanço à direita (PC) */
+      gap: 8px;
+      margin-right: 8px;
     }
 
     .var-box {
@@ -387,14 +386,15 @@
     .model-group {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 12px;
       flex-wrap: nowrap;
+      width: 100%;
     }
     .model-group .truckinfo-link {
       margin-left: auto;           /* leva o ícone para a direita */
       display: inline-flex;
       align-items: center;
-      transform: translateX(8px);
+      margin-right: 8px;
     }
     .model-group .truckinfo-link img {
       height: 30px;
@@ -404,6 +404,11 @@
 
     @media (max-width: 600px) {
 
+      .fabrica-theme .card .form-group label { min-width: 62px; }
+      .fabrica-theme .card .form-group select {
+        flex: 1 1 auto;           /* select cresce/encolhe */
+        min-width: 0;             /* iOS permite encolher */
+      }
       .actions {
         display: flex !important;
         flex-direction: row !important;   /* não empilhar */
@@ -473,7 +478,7 @@
 
       .variant-group {
         flex-wrap: nowrap;           /* não quebra linha */
-        gap: 0.4rem;                 /* espaço menor para caber */
+        gap: 8px;                 /* espaço menor para caber */
       }
 
       #upFab {
@@ -481,8 +486,8 @@
         min-width: 0;                /* permite encolher no iOS */
       }
       .var-right {
-        margin-left: auto;                 /* leva o grupo para a direita */
-        transform: translateX(8px);        /* “um pouco” mais à direita no PC */
+        margin-left: 12px;                 /* leva o grupo para a direita */
+        margin-right: 10px;
       }
       .variant-group .var-label {
         margin-left: 0;
@@ -490,7 +495,6 @@
       }
       .model-group .truckinfo-link { 
         margin-left: auto;
-        transform: translateX(6px);
       }
       .var-box {
         flex: 0 0 auto;
@@ -517,6 +521,23 @@
       gap: 1rem;
       margin-bottom: 1.2rem;
     }
+
+    .fabrica-theme .card .form-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+    }
+    .fabrica-theme .card .form-group label {
+      min-width: 84px;
+      color: #fff;
+      font-weight: 600;
+    }
+    .fabrica-theme .card .form-group select {
+      min-width: 200px;          /* evita “triângulo” minúsculo */
+      max-width: 340px;
+    }    
+
     .fabrica-theme .header {
       background: linear-gradient(90deg, #222 60%, #555 100%);
       color: #fff;
@@ -646,9 +667,6 @@
     }
       #btnCopiarVariante svg {
       color: #444;
-    }
-      .var-right { transform: translateX(8px); }
-      .model-group .truckinfo-link { transform: translateX(8px); 
     }
     
     }
