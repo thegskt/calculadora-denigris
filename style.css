@@ -549,10 +549,11 @@
     }
 
     .fabrica-theme .card .form-group label {
-      min-width: 72px;
+      min-width: 60px;
       color: #fff;
       font-weight: 600;
     }
+
     .fabrica-theme .card .form-group select {
       min-width: 200px;          /* evita “triângulo” minúsculo */
       max-width: 340px;
