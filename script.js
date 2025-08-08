@@ -676,4 +676,42 @@ function login() {
           select.style.color = "";
       }
     });
+
+    (function setupDeepLinkEmitirPedido() {
+      const link = document.getElementById('linkEmitirPedido');
+      if (!link) return;
+
+      const webUrl = link.href;
+      const deepLink = 'dyvendasapp://';
+      const ua = navigator.userAgent;
+      const isAndroid = /Android/i.test(ua);
+      const isIOS = /iPhone|iPad|iPod/i.test(ua);
+
+      link.addEventListener('click', function (e) {
+        if (!(isAndroid || isIOS)) return; // desktop: segue para o site
+
+        e.preventDefault();
+
+        if (isIOS) {
+          const t = setTimeout(() => { window.location.href = webUrl; }, 1500);
+          const cancel = () => clearTimeout(t);
+          document.addEventListener('visibilitychange', () => { if (document.hidden) cancel(); }, { once: true });
+          window.addEventListener('pagehide', cancel, { once: true });
+          window.location.href = deepLink;
+          return;
+        }
+
+        let appAbriu = false;
+        const onVis = () => { if (document.hidden) appAbriu = true; };
+        document.addEventListener('visibilitychange', onVis, { once: true });
+
+        window.location.href = deepLink;
+
+        setTimeout(() => {
+          if (!appAbriu) window.location.href = webUrl;
+        }, 1200);
+      });
+    })();
+
+    
     carregarDados();
