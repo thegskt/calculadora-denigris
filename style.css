@@ -359,8 +359,8 @@
     #upFab {
       flex: 0 0 auto;                     /* não expande para “encher” */
       width: clamp(120px, 18vw, 180px);   /* ajuste automático */
-      min-width: 100px;
-      max-width: 160px;
+      min-width: 80px;
+      max-width: 140px;
       min-height: 32px;
     }
 
@@ -500,8 +500,8 @@
       #upFab {
         flex: 0 1 auto;
         width: clamp(100px, 40vw, 150px);
-        min-width: 90px;
-        max-width: 140px;
+        min-width: 70px;
+        max-width: 120px;
       }
       .var-right {
         margin-left: auto !important; 
