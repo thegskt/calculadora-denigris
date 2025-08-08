@@ -713,5 +713,4 @@ function login() {
       });
     })();
 
-    
     carregarDados();

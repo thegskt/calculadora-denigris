@@ -294,8 +294,18 @@
     .actions {
       display: flex;
       justify-content: center;
-      gap: 1rem;
-      margin-top: 1.2rem;
+      gap: 12px;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .actions a.btn-primary,
+    .actions a.btn-secondary {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 16px;
+      text-decoration: none;
+      white-space: nowrap; /* evita quebrar em duas linhas */
     }
     .btn-primary, .btn-secondary {
       padding: 0.6rem 1.1rem;
@@ -327,6 +337,17 @@
       border: 0.5px solid #555;
     }
     @media (max-width: 600px) {
+
+      .actions {
+        display: flex !important;
+        gap: 10px;
+        width: 100%;
+      }
+      .actions a.btn-primary,
+      .actions a.btn-secondary {
+        flex: 1 1 0;   /* divide igualmente */
+        min-width: 0;  /* permite encolher no iOS */
+      }
       .main-header {
         min-height: 44px;
         padding: 0 1vw;
