@@ -350,14 +350,20 @@
       margin: 0;
     }
 
+    .fabrica-theme .card .form-group select:not(#upFab) {
+      min-width: 200px;
+      max-width: 340px;
+    }
+
     .fabrica-theme #upFab,
     #upFab {
-      flex: 1 1 180px;         /* base ~180px, pode encolher/crescer */
-      min-width: 120px;        /* menor que o min global */
-      max-width: 240px;        /* não rouba espaço da Variante */
+      flex: 0 0 auto;                     /* não expande para “encher” */
+      width: clamp(120px, 18vw, 180px);   /* ajuste automático */
+      min-width: 110px;
+      max-width: 180px;
       min-height: 32px;
     }
-    
+
     .var-right {
       margin-left: auto;                 /* empurra Variante para a direita */
       display: inline-flex;
@@ -491,10 +497,11 @@
         flex-wrap: nowrap;           /* não quebra linha */
         gap: 8px;                 /* espaço menor para caber */
       }
-
       #upFab {
-        flex: 1 1 auto;
-        min-width: 0;                /* permite encolher no iOS */
+        flex: 0 1 auto;
+        width: clamp(100px, 40vw, 150px);
+        min-width: 100px;
+        max-width: 150px;
       }
       .var-right {
         margin-left: auto !important; 
