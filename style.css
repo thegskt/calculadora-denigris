@@ -341,6 +341,7 @@
       align-items: center;
       gap: 0.6rem 1rem;
       flex-wrap: wrap;
+      width: 100%;
     }
 
     .variant-group .var-label {
@@ -353,7 +354,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      margin-right: 8px;
+      margin-right: 0;
     }
 
     .var-box {
@@ -394,7 +395,7 @@
       margin-left: auto;           /* leva o ícone para a direita */
       display: inline-flex;
       align-items: center;
-      margin-right: 8px;
+      margin-right: 0;
     }
     .model-group .truckinfo-link img {
       height: 30px;
@@ -486,15 +487,15 @@
         min-width: 0;                /* permite encolher no iOS */
       }
       .var-right {
-        margin-left: 12px;                 /* leva o grupo para a direita */
-        margin-right: 10px;
+        margin-left: auto !important; 
+        margin-right: 0 !important;   /* substitui a regra anterior */
       }
       .variant-group .var-label {
         margin-left: 0;
         flex-basis: auto !important; /* remove quebra de linha */
       }
       .model-group .truckinfo-link { 
-        margin-left: auto;
+        margin-right: 0 !important; 
       }
       .var-box {
         flex: 0 0 auto;
