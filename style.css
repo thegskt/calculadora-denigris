@@ -472,10 +472,20 @@
         flex: 1 1 auto;
         min-width: 0;                /* permite encolher no iOS */
       }
-
+      .var-right {
+        margin-left: auto;                 /* leva o grupo para a direita */
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transform: translateX(6px);        /* “um pouco” mais à direita no PC */
+      }
       .variant-group .var-label {
-        margin-left: auto !important;
+        margin-left: 0;
         flex-basis: auto !important; /* remove quebra de linha */
+      }
+      .model-group .truckinfo-link { 
+        margin-left: auto;
+        transform: translateX(6px);
       }
       .var-box {
         flex: 0 0 auto;
@@ -486,7 +496,7 @@
       }
 
       .copy-variant { flex: 0 0 auto; }
-      
+
       .copy-variant svg { color: #444; } /* sua paleta mobile */
     }
     /* Login box extra style */
@@ -632,4 +642,8 @@
       #btnCopiarVariante svg {
       color: #444;
     }
+      .var-right { transform: translateX(8px); }
+      .model-group .truckinfo-link { transform: translateX(8px); 
+    }
+    
     }
