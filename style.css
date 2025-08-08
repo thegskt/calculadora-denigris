@@ -462,10 +462,31 @@
       .results { padding: 0.3rem; font-size: 0.9rem; }
       .actions { flex-direction: column; }
       .btn-primary, .btn-secondary { width: 100%; font-size: 0.95rem; padding: 0.5rem 0; }
-        .variant-group .var-label {
-        margin-left: 0;            /* volta para a esquerda no mobile */
-        flex-basis: 100%;          /* quebra linha depois do UP */
+
+      .variant-group {
+        flex-wrap: nowrap;           /* não quebra linha */
+        gap: 0.4rem;                 /* espaço menor para caber */
       }
+
+      #upFab {
+        flex: 1 1 auto;
+        min-width: 0;                /* permite encolher no iOS */
+      }
+
+      .variant-group .var-label {
+        margin-left: auto !important;
+        flex-basis: auto !important; /* remove quebra de linha */
+      }
+      .var-box {
+        flex: 0 0 auto;
+        max-width: 40vw;             /* evita estourar a linha */
+        min-width: 72px;
+        font-size: 0.95rem;
+        padding: 0 6px;
+      }
+
+      .copy-variant { flex: 0 0 auto; }
+      
       .copy-variant svg { color: #444; } /* sua paleta mobile */
     }
     /* Login box extra style */
