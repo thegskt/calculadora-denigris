@@ -293,10 +293,9 @@
     }
     .actions {
       display: flex;
-      justify-content: center;
-      gap: 12px;
       align-items: center;
-      justify-content: flex-start;
+      gap: 12px;
+      justify-content: center; /* centraliza no desktop */
     }
     .actions a.btn-primary,
     .actions a.btn-secondary {
@@ -340,13 +339,20 @@
 
       .actions {
         display: flex !important;
+        flex-direction: row !important;   /* não empilhar */
+        justify-content: center;
         gap: 10px;
         width: 100%;
+        flex-wrap: nowrap;
       }
       .actions a.btn-primary,
       .actions a.btn-secondary {
-        flex: 1 1 0;   /* divide igualmente */
-        min-width: 0;  /* permite encolher no iOS */
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1 1 0;       /* divide igualmente */
+        min-width: 0;      /* permite encolher no iOS */
+        width: auto !important; /* evita width:100% de outras regras */
       }
       .main-header {
         min-height: 44px;
