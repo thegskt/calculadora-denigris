@@ -358,9 +358,9 @@
     .fabrica-theme #upFab,
     #upFab {
       flex: 0 0 auto;                     /* não expande para “encher” */
-      width: clamp(120px, 18vw, 180px);   /* ajuste automático */
-      min-width: 40px;
-      max-width: 60px;
+      width: clamp(140px, 22vw, 220px);   /* ajuste automático */
+      min-width: 60px;
+      max-width: 80px;
       min-height: 32px;
     }
 
