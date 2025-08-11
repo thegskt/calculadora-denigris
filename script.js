@@ -885,23 +885,34 @@ function login() {
     function resolveChaveModeloAno() {
       const modeloSel = document.getElementById('modeloFab');
       const anoSel = document.getElementById('anoModeloFab');
-      const modelo = selectedText(modeloSel).toUpperCase().replace(/\s+/g, ' ').trim();
-      const ano = selectedText(anoSel).replace(/\s+/g, '').trim(); // exemplo "25/25"
-      // Se o modelo já termina com /{ano}, mantém; senão, concatena
-      const hasAno = ano && new RegExp(`/${ano}$`).test(modelo);
-      return hasAno ? modelo : (ano ? `${modelo}/${ano}` : modelo);
+
+      const modelo = (modeloSel?.value || '').toUpperCase().replace(/\s+/g, ' ').trim();
+      const ano    = (anoSel?.value || '').replace(/\s+/g, '').trim(); // ex.: 25/25
+
+      if (!modelo || modelo === 'SELECIONE' || !ano) return '';
+      // Ex.: "ACCELO 817/39" + "25/25" -> "ACCELO 817/3925/25"
+      return `${modelo}${ano}`;
     }
 
     // 5) Preenche #acaoFab conforme a chave
     function preencherAcoes() {
       const acaoSel = document.getElementById('acaoFab');
       if (!acaoSel) return;
+
       const chave = resolveChaveModeloAno();
-      const acoes = ACOES_MAP[chave] || ACOES_PADRAO;
+      let acoes = ACOES_PADRAO;
+
+      if (chave) {
+        // tenta chave sem barra (base principal)
+        if (ACOES_MAP[chave]) acoes = ACOES_MAP[chave];
+        // fallback opcional: tenta com barra extra se algum dado vier diferente
+        else if (ACOES_MAP[`${chave.slice(0, chave.length - 5)}/${chave.slice(-5)}`]) {
+          acoes = ACOES_MAP[`${chave.slice(0, chave.length - 5)}/${chave.slice(-5)}`];
+        }
+      }
 
       acaoSel.innerHTML = '';
-      const opt0 = new Option('Selecione', '');
-      acaoSel.add(opt0);
+      acaoSel.add(new Option('Selecione', ''));
       acoes.forEach(txt => acaoSel.add(new Option(txt, txt)));
       acaoSel.disabled = acoes.length === 0;
     }
