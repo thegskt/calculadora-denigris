@@ -157,7 +157,7 @@
       flex: 0 0 auto;
       width: clamp(140px, 22vw, 220px);
       min-width: 120px;     /* antes havia 40px */
-      max-width: 220px;     /* antes havia 80px */
+      max-width: 160px;     /* antes havia 80px */
       min-height: 32px;     /* melhora o toque no mobile */
       margin-left: 0 !important;
     }
