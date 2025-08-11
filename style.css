@@ -337,6 +337,7 @@
     }
 
     #upFab {
+    margin-right: -2px !important;
     margin-left: 0 !important;
     padding-left: 0 !important;
     min-width: 120px;
