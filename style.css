@@ -670,7 +670,6 @@
     @media (max-width: 600px) {
       #familiaFab {
         gap: 0.06rem;
-        flex-wrap: nowrap !important;      /* NÃO quebra linha */
         white-space: nowrap;
       }
       #familiaFab label {
