@@ -339,7 +339,7 @@
     .variant-group {
       display: flex;
       align-items: center;
-      gap: 0.1rem;
+      gap: 1px;
       flex-wrap: wrap;
       width: 100%;
     }
@@ -348,6 +348,9 @@
       color: #fff;
       font-weight: 600;
       margin: 0;
+      margin-right: 0; /* garante que não há margem extra */
+      min-width: unset;
+      padding-right: 0.1em; /* opcional: pequeno respiro */
     }
 
     .fabrica-theme .card .form-group select:not(#upFab) {
