@@ -670,6 +670,8 @@
     @media (max-width: 600px) {
       #familiaFab {
         gap: 0.06rem;
+        flex-wrap: nowrap !important;      /* NÃO quebra linha */
+        overflow-x: auto;                  /* rola para o lado se não couber */
         white-space: nowrap;
       }
       #familiaFab label {
@@ -680,20 +682,17 @@
         white-space: nowrap;
         display: inline-flex;
         align-items: center;
-        position: absolute;       /* remove absolute */
+        position: static !important;       /* remove absolute */
       }
       #familiaFab input[type="radio"] {
-        position: absolute;
-        left: 0;
+        position: static !important;       /* remove absolute */
         margin: 0 !important;
-        transform: scale(0.6);  /* bolinha um pouco menor */
-        transform-origin: center;
+        transform: scale(0.6);
         vertical-align: middle;
       }
       #familiaFab label span {
-        padding-left: 1.8em; /* espaço para o botão */
-        display: inline-block;
-        padding-top: 0.15em; /* Move o texto um pouco para baixo */
+        padding-left: 0 !important;
+        padding-top: 0 !important;
       }
       .calc-switch {
         gap: 0.5rem;
