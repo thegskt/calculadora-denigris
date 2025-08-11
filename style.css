@@ -669,14 +669,14 @@
     /* Responsivo para telas pequenas */
     @media (max-width: 600px) {
       #familiaFab {
-        gap: 0.08rem !important; /* mínimo, mas não zero */
+        gap: 0.12rem !important; /* mínimo, mas não zero */
         flex-wrap: nowrap !important;      /* NÃO quebra linha */
         overflow-x: auto;                  /* rola para o lado se não couber */
         white-space: nowrap;
       }
       #familiaFab label {
-        gap: 0.08rem !important; /* mínimo entre bolinha e texto */
-        font-size: 0.7rem;
+        gap: 0.12rem !important; /* mínimo entre bolinha e texto */
+        font-size: 0.92rem;
         padding: 0 0.01rem !important; /* mínimo lateral */
         margin: 0 !important;
         min-width: unset;
@@ -688,7 +688,7 @@
       #familiaFab input[type="radio"] {
         position: static !important;       /* remove absolute */
         margin: 0 !important;
-        transform: scale(0.7);
+        transform: scale(0.85);
         vertical-align: middle;
       }
       #familiaFab label span {
