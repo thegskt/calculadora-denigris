@@ -339,6 +339,8 @@
     #upFab {
     margin-left: 0 !important;
     padding-left: 0 !important;
+    min-width: 120px;
+    max-width: 220px;
     }
 
     .variant-group {
@@ -557,7 +559,7 @@
     }
 
     .fabrica-theme .card .form-group:has(#familiaFab) > label {
-      min-width: 52px; /* rótulo "Família" menor só neste grupo */
+      min-width: 20px; /* rótulo "Família" menor só neste grupo */
     }
 
     .fabrica-theme .card .form-group {
