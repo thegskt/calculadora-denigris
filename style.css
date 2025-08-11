@@ -339,7 +339,7 @@
     .variant-group {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 0.1rem;
       flex-wrap: wrap;
       width: 100%;
     }
