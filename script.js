@@ -1067,7 +1067,4 @@ function login() {
   // Chamada inicial (após montar selects dinâmicos iniciais)
   preencherAcoes();
 
-  // Chame preencherAcoes na primeira carga
-  document.addEventListener('DOMContentLoaded', preencherAcoes);
-
   carregarDados();
