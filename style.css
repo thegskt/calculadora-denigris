@@ -669,7 +669,7 @@
     /* Responsivo para telas pequenas */
     @media (max-width: 600px) {
       #familiaFab {
-        gap: 0.01rem;
+        gap: 0.001rem;
         flex-wrap: nowrap !important;      /* NÃO quebra linha */
         overflow-x: auto;                  /* rola para o lado se não couber */
         white-space: nowrap;
