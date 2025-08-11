@@ -345,16 +345,21 @@ function login() {
     }
 
     function atualizarValores() {
-      let d = parseFloat(descontoEl.value) || 0;
-      if (d > 3) { alert("Desconto máximo de 3%"); d = 3; descontoEl.value = 3; }
-      // Arredonda desconto para 2 casas decimais
-    const valorDesc = arredondaCentenaBaixo(valorTabela * (d / 100));
-    const valorVenda = +(valorTabela - valorDesc).toFixed(2);
+      let d = parseFloat((descontoEl.value || '').replace(',','.')) || 0;
+      if (d > 3) { alert("Desconto máximo de 3%"); d = 3; }
+      // força múltiplos de 0,5 sem subir para 1 quando é 0,5
+      d = Math.round(d * 2) / 2;
+      // reescreve o campo somente se mudou (mantendo 0.5 ou 1.5 etc.)
+      const novoTxt = (d % 1 === 0 ? d.toFixed(0) : d.toFixed(1)); // usa ponto para parseFloat funcionar
+      if (descontoEl.value !== novoTxt) descontoEl.value = novoTxt;
+
+      const valorDesc  = arredondaCentenaBaixo(valorTabela * (d / 100));
+      const valorVenda = +(valorTabela - valorDesc).toFixed(2);
       let lucroBruto = 0, comissao = 0, dsr = 0, total = 0;
 
       if (vendedorAtual) {
         const receitaEfetiva = +(valorVenda - (valorVenda * 0.12)).toFixed(2);
-        const custoEfetivo = +((vendedorAtual.valorCompra || 0) - ((vendedorAtual.valorCompra || 0) * 0.12)).toFixed(2);
+        const custoEfetivo   = +((vendedorAtual.valorCompra || 0) - ((vendedorAtual.valorCompra || 0) * 0.12)).toFixed(2);
         lucroBruto =
           (receitaEfetiva - custoEfetivo)
           + (vendedorAtual.fundoEstrela || 0)
@@ -365,8 +370,8 @@ function login() {
           - (vendedorAtual.custosAdd || 0);
 
         comissao = +(lucroBruto * 0.09).toFixed(2);
-        dsr = +(comissao * 0.15).toFixed(2);
-        total = +(comissao + dsr).toFixed(2);
+        dsr      = +(comissao * 0.15).toFixed(2);
+        total    = +(comissao + dsr).toFixed(2);
       }
 
       descontoReaisEl.innerText = formatar(valorDesc);
@@ -1077,39 +1082,36 @@ function login() {
     const MAX = parseFloat(input.max) || 3;
     const STEP = 0.5;
 
-    function normalizar(v){
+    function clamp(v){
       if (isNaN(v)) v = 0;
-      v = Math.round(v * 2)/2; // força múltiplos de 0.5
+      v = Math.round(v * 2)/2; // garante múltiplos de 0,5
       if (v < MIN) v = MIN;
       if (v > MAX) v = MAX;
       return v;
     }
 
     function aplicar(v){
-      v = normalizar(v);
-      input.value = v.toString().replace('.', '.');
-      if (typeof atualizarValores === 'function') atualizarValores(); // chama sua função já existente
+      v = clamp(v);
+      input.value = (v % 1 === 0 ? v.toFixed(0) : v.toFixed(1));
+      if (typeof atualizarValores === 'function') atualizarValores();
     }
 
     function alterar(delta){
-      const atual = parseFloat(input.value.replace(',','.')) || 0;
+      const atual = parseFloat((input.value || '').replace(',','.')) || 0;
       aplicar(atual + delta);
     }
 
     upBtn.addEventListener('click',   () => alterar(+STEP));
     downBtn.addEventListener('click', () => alterar(-STEP));
 
-    // Pressionar e segurar (desktop + mobile)
     function addHold(btn, delta){
       let holdT, repT;
-      const start = (e)=>{
+      const start = e => {
         e.preventDefault();
         alterar(delta);
-        holdT = setTimeout(()=> {
-          repT = setInterval(()=> alterar(delta), 120);
-        }, 420);
+        holdT = setTimeout(()=> repT = setInterval(()=> alterar(delta),120), 420);
       };
-      const stop = ()=>{
+      const stop = () => {
         clearTimeout(holdT);
         clearInterval(repT);
       };
@@ -1119,12 +1121,10 @@ function login() {
     addHold(upBtn, +STEP);
     addHold(downBtn, -STEP);
 
-    // Normaliza se usuário digitar manual
     input.addEventListener('change', ()=> aplicar(parseFloat(input.value.replace(',','.'))));
     input.addEventListener('blur',   ()=> aplicar(parseFloat(input.value.replace(',','.'))));
 
-    // Valor inicial
-    aplicar(parseFloat(input.value) || 0);
+    aplicar(parseFloat(input.value.replace(',','.')) || 0);
   })();
   
   carregarDados();
