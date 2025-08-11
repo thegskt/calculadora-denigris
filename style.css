@@ -361,7 +361,7 @@
       width: clamp(140px, 22vw, 220px);   /* ajuste automático */
       min-width: 10px;
       max-width: 50px;
-      min-height: 12px;
+      min-height: 32px;
     }
 
     .var-right {
