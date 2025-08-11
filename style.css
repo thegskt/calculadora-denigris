@@ -540,6 +540,10 @@
       margin-bottom: 1.2rem;
     }
 
+    .fabrica-theme .card .form-group:has(#familiaFab) > label {
+      min-width: 52px; /* rótulo "Família" menor só neste grupo */
+    }
+
     .fabrica-theme .card .form-group {
       display: flex;
       align-items: center;
@@ -598,7 +602,7 @@
     #familiaFab {
       display: flex;
       align-items: center;
-      gap: 0.8rem;
+      gap: clamp(0.35rem, 0.9vw, 0.6rem); /* menos espaço entre opções */
       flex-wrap: nowrap;       /* não quebra */
       white-space: nowrap;     /* impede quebra dentro dos labels */
       overflow-x: auto;        /* se não couber, rola para o lado */
