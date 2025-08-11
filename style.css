@@ -687,7 +687,7 @@
       }
       #familiaFab input[type="radio"] {
         position: static !important;       /* remove absolute */
-        margin-right: -2px !important; /* remove espaço entre radio e texto */
+        margin-right: 0px !important; /* remove espaço entre radio e texto */
         margin-left: 0 !important;
         padding: 0 !important;
         transform: scale(0.85);
