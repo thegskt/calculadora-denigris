@@ -713,4 +713,208 @@ function login() {
       });
     })();
 
+    const RAW_ACOES = `
+    'ACCELO 817/3925/25' : ['Estoque'],
+    'ACCELO 817/3925/25' : ['Estoque', 'Mais Alimentos'],
+    'ACCELO 817/3925/25' : ['Estoque'],
+    'ACCELO 817/4625/25' : ['Estoque'],
+    'ACCELO 817/4625/25' : ['Estoque', 'Mais Alimentos'],
+    'ACCELO 817/4625/25' : ['Estoque'],
+    'ACCELO 1017/3925/25' : ['Estoque'],
+    'ACCELO 1017/3925/25' : ['Estoque', 'Mais Alimentos'],
+    'ACCELO 1017/3925/25' : ['Estoque'],
+    'ACCELO 1017/4625/25' : ['Estoque'],
+    'ACCELO 1017/4625/25' : ['Estoque', 'Mais Alimentos'],
+    'ACCELO 1017/4625/25' : ['Estoque'],
+    'ACCELO 1317/3925/25' : ['Estoque', 'Frigorificado'],
+    'ACCELO 1317/3925/25' : ['Estoque', 'Frigorificado''Mais Alimentos'],
+    'ACCELO 1317/3925/25' : ['Estoque', 'Frigorificado'],
+    'ACCELO 1317/4625/25' : ['Estoque', 'Frigorificado'],
+    'ACCELO 1317/4625/25' : ['Estoque', 'Frigorificado''Mais Alimentos'],
+    'ACCELO 1317/4625/25' : ['Estoque', 'Frigorificado'],
+    'ACCELO 1317/4625/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 1419/4825/25' : ['Estoque', 'Mais Alimentos'],
+    'ATEGO 1419/4825/25' : ['Estoque'],
+    'ATEGO 1419/4825/25' : ['Estoque', 'Mais Alimentos'],
+    'ATEGO 1419/4825/25' : ['Estoque'],
+    'ATEGO 1719/4825/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST''Mais Alimentos'],
+    'ATEGO 1719/4825/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ATEGO 1719/4825/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST''Mais Alimentos'],
+    'ATEGO 1719/4825/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ATEGO 1726/4825/25' : ['Estoque', 'Frigorificado''C.E.ABAST'],
+    'ATEGO 1726/4825/25' : ['Estoque', 'Frigorificado''C.E.ABAST'],
+    'ATEGO 1726/4825/25' : ['Estoque', 'Frigorificado''C.E.ABAST'],
+    'ATEGO 1726/4825/25' : ['Estoque', 'Frigorificado''C.E.ABAST''Mais Alimentos'],
+    'ATEGO 1729/3925/25' : ['Estoque'],
+    'ATEGO 1733/4825/25' : ['Estoque'],
+    'ATEGO 2429/48 6X225/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ATEGO 2429/48 6X225/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ATEGO 2429/48 6X225/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ATEGO 2429/48 6X225/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST''Mais Alimentos'],
+    'ATEGO 2429/54 6X225/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ATEGO 2429/54 6X225/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ATEGO 2429/54 6X225/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ATEGO 2429/54 6X225/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST''Mais Alimentos'],
+    'ATEGO 2433/48 6X225/25' : ['Estoque', 'Frigorificado''C.E.ABAST'],
+    'ATEGO 2433/48 6X225/25' : ['Estoque', 'Frigorificado''C.E.ABAST'],
+    'ATEGO 2433/48 6X225/25' : ['Estoque', 'Frigorificado''C.E.ABAST'],
+    'ATEGO 2433/48 6X225/25' : ['Estoque', 'Frigorificado''C.E.ABAST'],
+    'ATEGO 2433/54 6X225/25' : ['Estoque', 'Frigorificado''C.E.ABAST'],
+    'ATEGO 2433/54 6X225/25' : ['Estoque', 'Frigorificado''C.E.ABAST'],
+    'ATEGO 2433/54 6X225/25' : ['Estoque', 'Frigorificado''C.E.ABAST'],
+    'ATEGO 2433/54 6X225/25' : ['Estoque', 'Frigorificado''C.E.ABAST''Mais Alimentos'],
+    'ATEGO 3033/48 8X225/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ATEGO 3033/48 8X225/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ATEGO 3033/48 8X225/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ATEGO 3033/54 8X225/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ATEGO 3033/54 8X225/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ATEGO 3033/54 8X225/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ATEGO 3033/54 8X225/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ATEGO 3033/63 8X225/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ATEGO 3033/63 8X225/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ATEGO 3033/63 8X225/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ATEGO 3033/63 8X225/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST''Mais Alimentos'],
+    'ATEGO 2730/48 6X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 2730/48 6X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 2730/48 6X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 2730 B/36 6X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 2730 B/36 6X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 2730 B/36 6X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 2730 K/36 6X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 2730 K/36 6X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 2730 K/36 6X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 3330/54 8X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 3330/54 8X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 3330/54 8X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 3330 B/46 8X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 3330 B/46 8X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 3330 B/46 8X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 3330 K/46 8X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 3330 K/46 8X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 3330 K/46 8X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 3133/48 6X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 3133/48 6X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 3133/48 6X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 3133/48 6X425/25' : ['Estoque', 'Frigorificado'],
+    'ATEGO 1933 LS/3625/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ATEGO 1933 LS/3625/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ATEGO 1933 LS/3625/25' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'],
+    'ACTROS 2045 S/36 4X225/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2045 S/36 4X225/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2045 LS/36 4X225/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2045 LS/36 4X225/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2045 LS/36 4X225/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2548 S/36 6X225/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2548 S/36 6X225/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2548 S/36 6X225/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2548 LS/33 6X225/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2548 LS/33 6X225/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2548 LS/33 6X225/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2548 LS/36 6X225/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2548 LS/36 6X225/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2548 LS/36 6X225/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2651 S/36 6X425/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2651 S/36 6X425/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2651 S/36 6X425/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2651 LS/36 6X425/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2651 LS/36 6X425/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2651 LS/36 6X425/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2553 S/36 6X225/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2553 S/36 6X225/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2553 S/36 6X225/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2553 LS/36 6X225/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2553 LS/36 6X225/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2553 LS/36 6X225/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2653 S/36 6X425/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2653 S/36 6X425/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2653 S/36 6X425/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2653 LS/36 6X425/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2653 LS/36 6X425/25' : ['Estoque', 'Postos de Combustiveis'],
+    'ACTROS 2653 LS/36 6X425/25' : ['Estoque', 'Postos de Combustiveis'],
+    'AROCS 3351/48 6X425/25' : ['Estoque'],
+    'AROCS 3351/48 6X425/25' : ['Estoque'],
+    'AROCS 3351 K/36 6X425/25' : ['Estoque'],
+    'AROCS 3351 K/36 6X425/25' : ['Estoque'],
+    'AROCS 3351 S/33 6X425/25' : ['Estoque'],
+    'AROCS 3351 S/33 6X425/25' : ['Estoque'],
+    'AROCS 3351 S/33 6X425/25' : ['Estoque'],
+    'AROCS 3351 S/33 6X425/25' : ['Estoque'],
+    'AROCS 3353 S/33 6X425/25' : ['Estoque'],
+    'AROCS 3353 S/33 6X425/25' : ['Estoque'],
+    'AROCS 3353 S/33 6X425/25' : ['Estoque'],
+    'AROCS 4151 K/36 6X425/25' : ['Estoque'],
+    'AROCS 4151 K/36 6X425/25' : ['Estoque'],
+    'AROCS 4851/45 8X425/25' : ['Estoque']
+    `;
+
+    // 2) Parse: cria um Map<modeloAno, Set<acoes>> unificando duplicados e vírgulas faltantes
+    function buildAcoesMap(raw) {
+      const map = new Map();
+      raw.split(/\r?\n/).forEach(line => {
+        const m = line.match(/'(.+?)'\s*:\s*\[(.+?)\]/);
+        if (!m) return;
+        const key = m[1].toUpperCase().trim();
+        // normaliza lista de ações (aceita vírgulas ou '' coladas)
+        const listRaw = m[2].replace(/''/g, "','");
+        const items = listRaw
+          .split(/,\s*|'\s*,\s*'|"\s*,\s*"/)
+          .map(s => s.replace(/['"]/g, '').trim())
+          .filter(Boolean);
+
+        const set = map.get(key) || new Set();
+        items.forEach(a => set.add(a));
+        map.set(key, set);
+      });
+      // converte Set -> array ordenada
+      const obj = {};
+      for (const [k, set] of map) obj[k] = Array.from(set);
+      return obj;
+    }
+
+    const ACOES_MAP = buildAcoesMap(RAW_ACOES);
+    const ACOES_PADRAO = ['Estoque'];
+
+    // 3) Helpers: texto do option selecionado
+    function selectedText(sel) {
+      if (!sel) return '';
+      const opt = sel.options[sel.selectedIndex];
+      return (opt?.textContent || opt?.value || '').trim();
+    }
+
+    // 4) Resolve chave (Modelo + Ano/Modelo)
+    function resolveChaveModeloAno() {
+      const modeloSel = document.getElementById('modeloFab');
+      const anoSel = document.getElementById('anoModeloFab');
+      const modelo = selectedText(modeloSel).toUpperCase().replace(/\s+/g, ' ').trim();
+      const ano = selectedText(anoSel).replace(/\s+/g, '').trim(); // exemplo "25/25"
+      // Se o modelo já termina com /{ano}, mantém; senão, concatena
+      const hasAno = ano && new RegExp(`/${ano}$`).test(modelo);
+      return hasAno ? modelo : (ano ? `${modelo}/${ano}` : modelo);
+    }
+
+    // 5) Preenche #acaoFab conforme a chave
+    function preencherAcoes() {
+      const acaoSel = document.getElementById('acaoFab');
+      if (!acaoSel) return;
+      const chave = resolveChaveModeloAno();
+      const acoes = ACOES_MAP[chave] || ACOES_PADRAO;
+
+      acaoSel.innerHTML = '';
+      const opt0 = new Option('Selecione', '');
+      acaoSel.add(opt0);
+      acoes.forEach(txt => acaoSel.add(new Option(txt, txt)));
+      acaoSel.disabled = acoes.length === 0;
+    }
+
+    // 6) Liga os eventos
+    function initAcoesDinamicas() {
+      const modeloSel = document.getElementById('modeloFab');
+      const anoSel = document.getElementById('anoModeloFab');
+      if (modeloSel) modeloSel.addEventListener('change', preencherAcoes);
+      if (anoSel) anoSel.addEventListener('change', preencherAcoes);
+      preencherAcoes(); // primeira carga
+    }
+
+    document.addEventListener('DOMContentLoaded', initAcoesDinamicas);
+
     carregarDados();
