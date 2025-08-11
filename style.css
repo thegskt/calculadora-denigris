@@ -675,9 +675,9 @@
         white-space: nowrap;
       }
       #familiaFab label {
-        gap: 0.12rem !important; /* mínimo entre bolinha e texto */
+        gap: 0 !important; /* mínimo entre bolinha e texto */
         font-size: 0.92rem;
-        padding: 0 0.01rem !important; /* mínimo lateral */
+        padding: 0 !important; /* mínimo lateral */
         margin: 0 !important;
         min-width: unset;
         white-space: nowrap;
@@ -687,15 +687,18 @@
       }
       #familiaFab input[type="radio"] {
         position: static !important;       /* remove absolute */
-        margin-right: 0 !important; /* remove espaço entre radio e texto */
+        margin-right: -2px !important; /* remove espaço entre radio e texto */
         margin-left: 0 !important;
         padding: 0 !important;
         transform: scale(0.85);
         vertical-align: middle;
+        width: 1em;
+        height: 1em;
       }
       #familiaFab label span {
         padding-left: 0 !important;
         padding-top: 0 !important;
+        margin-left: 0 !important;
       }
       .calc-switch {
         gap: 0.5rem;
