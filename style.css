@@ -336,6 +336,10 @@
       border: 0.5px solid #555;
     }
 
+    #upFab {
+      margin-left: 0;
+    }
+    
     .variant-group {
       display: flex;
       align-items: center;
