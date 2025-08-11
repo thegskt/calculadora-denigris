@@ -360,7 +360,7 @@
       flex: 0 0 auto;                     /* não expande para “encher” */
       width: clamp(140px, 22vw, 220px);   /* ajuste automático */
       min-width: 10px;
-      max-width: 50px;
+      max-width: 80px;
       min-height: 32px;
     }
 
