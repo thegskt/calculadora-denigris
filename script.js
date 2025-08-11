@@ -476,7 +476,7 @@ function login() {
         Accelo: ["Selecione","UPA", "UPF", "UPG", "UPH"],
         Atego:  ["Selecione","S/P","UPB", "UPC", "UPD", "UPE", "UPF", "UPG", "UPH", "UPI"],
         Actros: ["Selecione","UPH", "UPI", "UPJ"],
-        Axor:   ["Selecione","UPG", "UPI", "UPH"],
+        Axor:   ["Selecione","UPG", "UPH", "UPI"],
         Arocs:  ["Selecione","UPE", "UPF", "UPG", "UPH"]
       };
 
