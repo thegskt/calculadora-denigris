@@ -500,7 +500,7 @@
       #upFab {
         flex: 0 1 auto;
         width: clamp(100px, 40vw, 150px);
-        min-width: 70px;
+        min-width: 40px;
         max-width: 120px;
       }
       .var-right {
@@ -667,7 +667,8 @@
         position: absolute;
         left: 0;
         margin: 0 !important;
-        transform: none;
+        transform: scale(0.6);  /* bolinha um pouco menor */
+        transform-origin: center;
         vertical-align: middle;
       }
       #familiaFab label span {
