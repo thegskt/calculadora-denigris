@@ -352,7 +352,7 @@
 
     .fabrica-theme .card .form-group select:not(#upFab) {
       min-width: 100px;
-      max-width: 340px;
+      max-width: 200px;
     }
 
     .fabrica-theme #upFab,
