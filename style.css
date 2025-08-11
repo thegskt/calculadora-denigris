@@ -669,13 +669,13 @@
     /* Responsivo para telas pequenas */
     @media (max-width: 600px) {
       #familiaFab {
-        gap: 0.20rem !important; /* mínimo, mas não zero */
+        gap: 0.40rem !important; /* mínimo, mas não zero */
         flex-wrap: nowrap !important;      /* NÃO quebra linha */
         overflow-x: auto;                  /* rola para o lado se não couber */
         white-space: nowrap;
       }
       #familiaFab label {
-        gap: 0 !important; /* mínimo entre bolinha e texto */
+        gap: 0.05rem !important; /* mínimo entre bolinha e texto */
         font-size: 0.70rem;
         padding: 0 !important; /* mínimo lateral */
         margin: 0 !important;
