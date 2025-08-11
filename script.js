@@ -987,83 +987,87 @@ function login() {
     '0869T25/26' : ['Estoque']
     `;
 
-    // 2) Parse: cria um Map<modeloAno, Set<acoes>> unificando duplicados e vírgulas faltantes
-    function buildAcoesMap(raw) {
-      const map = new Map();
-      raw.split(/\r?\n/).forEach(line => {
-        const m = line.match(/'(.+?)'\s*:\s*\[(.+?)\]/);
-        if (!m) return;
-        const key = m[1].toUpperCase().trim();
-        // normaliza lista de ações (aceita vírgulas ou '' coladas)
-        const listRaw = m[2].replace(/''/g, "','");
-        const items = listRaw
-          .split(/,\s*|'\s*,\s*'|"\s*,\s*"/)
-          .map(s => s.replace(/['"]/g, '').trim())
-          .filter(Boolean);
+// === AÇÕES POR VARIANTE+ANO ===
 
-        const set = map.get(key) || new Set();
-        items.forEach(a => set.add(a));
-        map.set(key, set);
-      });
-      // converte Set -> array ordenada
-      const obj = {};
-      for (const [k, set] of map) obj[k] = Array.from(set);
-      return obj;
-    }
+// Parser robusto: extrai linhas 'CHAVE' : ['A','B',...]
+  function buildAcoesMap(raw) {
+    const map = {};
+    raw.split(/\r?\n/).forEach(line => {
+      const m = line.match(/'([^']+)'\s*:\s*\[(.*?)\]/);
+      if (!m) return;
+      const key = m[1].trim().toUpperCase();          // ex: 1035T25/25
+      const inside = m[2].trim();
 
-    const ACOES_MAP = buildAcoesMap(RAW_ACOES);
-    const ACOES_PADRAO = ['Estoque'];
+      if (!inside) { map[key] = []; return; }
 
-    // 3) Helpers: texto do option selecionado
-    function selectedText(sel) {
-      if (!sel) return '';
-      const opt = sel.options[sel.selectedIndex];
-      return (opt?.textContent || opt?.value || '').trim();
-    }
+      // Separa pelos commas que estão fora de colchetes (simples pois só há strings)
+      const parts = inside.split(/\s*,\s*/).map(p =>
+        p.replace(/^['"]|['"]$/g, '').trim()
+      ).filter(Boolean);
 
-    // 4) Resolve chave (Modelo + Ano/Modelo)
-    function resolveChaveModeloAno() {
-      const varianteEl = document.getElementById('varianteFab');
-      const anoSel = document.getElementById('anoModeloFab');
-      const variante = (varianteEl?.textContent || '').toUpperCase().replace(/\s+/g, '').trim();
-      const ano     = (anoSel?.value || '').replace(/\s+/g, '').trim();
-      if (!variante || variante === 'SELECIONE' || !ano) return '';
-      return `${variante}${ano}`;
-    }
-
-    // 5) Preenche #acaoFab conforme a chave
-    function preencherAcoes() {
-      const acaoSel = document.getElementById('acaoFab');
-      if (!acaoSel) return;
-
-      const chave = resolveChaveModeloAno();
-      let acoes = ACOES_PADRAO;
-
-      if (chave && ACOES_MAP[chave]) {
-        acoes = ACOES_MAP[chave];
-      }
-
-      acaoSel.innerHTML = '';
-      acaoSel.add(new Option('Selecione', ''));
-      acoes.forEach(txt => acaoSel.add(new Option(txt, txt)));
-      acaoSel.disabled = acoes.length === 0;
-    }
-
-    // 6) Liga os eventos
-    document.getElementById("modeloFab").addEventListener("change", () => {
-      atualizarVarianteFab();
-      preencherAcoes();
+      map[key] = Array.from(new Set(parts)); // remove duplicados
     });
-    document.getElementById("upFab").addEventListener("change", () => {
-      atualizarVarianteFab();
-      preencherAcoes();
-    });
-    document.getElementById("anoModeloFab").addEventListener("change", () => {
-      atualizarVarianteFab();
-      preencherAcoes();
-    });
+    return map;
+  }
 
-    // Chame preencherAcoes na primeira carga
-    document.addEventListener('DOMContentLoaded', preencherAcoes);
+  const ACOES_MAP = buildAcoesMap(RAW_ACOES);
+  const ACOES_PADRAO = ['Estoque'];
 
-    carregarDados();
+  // Depuração opcional: ver algumas chaves carregadas
+  // console.log('ACOES_MAP sample', Object.keys(ACOES_MAP).slice(0,10));
+
+  function resolveChaveModeloAno() {
+    const variante = (document.getElementById('varianteFab')?.textContent || '')
+      .toUpperCase().replace(/\s+/g, '').trim();       // ex: 1035T
+    const ano = (document.getElementById('anoModeloFab')?.value || '')
+      .replace(/\s+/g, '').trim();                     // ex: 25/25
+    if (!variante || !ano) return '';
+    return `${variante}${ano}`;                        // ex: 1035T25/25
+  }
+
+  function preencherAcoes() {
+    const acaoSel = document.getElementById('acaoFab');
+    if (!acaoSel) return;
+    const chave = resolveChaveModeloAno();
+    let acoes = ACOES_PADRAO;
+    if (chave && ACOES_MAP[chave]) acoes = ACOES_MAP[chave];
+
+    // Depuração:
+    // console.log('variante:', document.getElementById('varianteFab').textContent,
+    //             'ano:', document.getElementById('anoModeloFab').value,
+    //             'chave:', chave, 'acoes:', acoes);
+
+    acaoSel.innerHTML = '';
+    acaoSel.add(new Option('Selecione', ''));
+    acoes.forEach(a => acaoSel.add(new Option(a, a)));
+    acaoSel.disabled = acoes.length === 0;
+  }
+
+  function atualizarVarianteFab() {
+    const modelo = document.getElementById("modeloFab").value.trim();
+    const up = document.getElementById("upFab").value.trim();
+    const ano = document.getElementById("anoModeloFab").value.trim();
+
+    if (modelo === "Selecione" || up === "Selecione" || !ano) {
+      document.getElementById("varianteFab").textContent = "";
+      preencherAcoes(); // garante reset
+      return;
+    }
+    const chave = `${modelo}${up}${ano}`;              // ex: ACCELO 1317/39UPF25/25
+    const codigo = variantesFab[chave] || "";
+    document.getElementById("varianteFab").textContent = codigo;
+    preencherAcoes();
+  }
+
+  // Eventos (mantidos / reforçados)
+  document.getElementById("modeloFab").addEventListener("change", atualizarVarianteFab);
+  document.getElementById("upFab").addEventListener("change", atualizarVarianteFab);
+  document.getElementById("anoModeloFab").addEventListener("change", atualizarVarianteFab);
+
+  // Chamada inicial (após montar selects dinâmicos iniciais)
+  preencherAcoes();
+
+  // Chame preencherAcoes na primeira carga
+  document.addEventListener('DOMContentLoaded', preencherAcoes);
+
+  carregarDados();
