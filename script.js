@@ -1039,13 +1039,8 @@ function login() {
       const chave = resolveChaveModeloAno();
       let acoes = ACOES_PADRAO;
 
-      if (chave) {
-        // tenta chave sem barra (base principal)
-        if (ACOES_MAP[chave]) acoes = ACOES_MAP[chave];
-        // fallback opcional: tenta com barra extra se algum dado vier diferente
-        else if (ACOES_MAP[`${chave.slice(0, chave.length - 5)}/${chave.slice(-5)}`]) {
-          acoes = ACOES_MAP[`${chave.slice(0, chave.length - 5)}/${chave.slice(-5)}`];
-        }
+      if (chave && ACOES_MAP[chave]) {
+        acoes = ACOES_MAP[chave];
       }
 
       acaoSel.innerHTML = '';
@@ -1055,14 +1050,20 @@ function login() {
     }
 
     // 6) Liga os eventos
-    function initAcoesDinamicas() {
-      const modeloSel = document.getElementById('varianteFab');
-      const anoSel = document.getElementById('anoModeloFab');
-      if (modeloSel) modeloSel.addEventListener('change', preencherAcoes);
-      if (anoSel) anoSel.addEventListener('change', preencherAcoes);
-      preencherAcoes(); // primeira carga
-    }
+    document.getElementById("modeloFab").addEventListener("change", () => {
+      atualizarVarianteFab();
+      preencherAcoes();
+    });
+    document.getElementById("upFab").addEventListener("change", () => {
+      atualizarVarianteFab();
+      preencherAcoes();
+    });
+    document.getElementById("anoModeloFab").addEventListener("change", () => {
+      atualizarVarianteFab();
+      preencherAcoes();
+    });
 
-    document.addEventListener('DOMContentLoaded', initAcoesDinamicas);
+    // Chame preencherAcoes na primeira carga
+    document.addEventListener('DOMContentLoaded', preencherAcoes);
 
     carregarDados();
