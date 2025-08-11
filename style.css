@@ -337,7 +337,8 @@
     }
 
     #upFab {
-      margin-left: 0 !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
     }
 
     .variant-group {
@@ -373,9 +374,10 @@
     #upFab {
       flex: 0 0 auto;                     /* não expande para “encher” */
       width: clamp(140px, 22vw, 220px);   /* ajuste automático */
-      min-width: 10px;
-      max-width: 80px;
+      min-width: 120px;
+      max-width: 220px;
       min-height: 22px;
+      margin-left: 0 !important;
     }
 
     .var-right {
