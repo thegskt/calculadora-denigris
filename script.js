@@ -1023,15 +1023,12 @@ function login() {
 
     // 4) Resolve chave (Modelo + Ano/Modelo)
     function resolveChaveModeloAno() {
-      const modeloSel = document.getElementById('varianteFab');
+      const varianteEl = document.getElementById('varianteFab');
       const anoSel = document.getElementById('anoModeloFab');
-
-      const modelo = (modeloSel?.value || '').toUpperCase().replace(/\s+/g, ' ').trim();
-      const ano    = (anoSel?.value || '').replace(/\s+/g, '').trim(); // ex.: 25/25
-
-      if (!modelo || modelo === 'SELECIONE' || !ano) return '';
-      // Ex.: "ACCELO 817/39" + "25/25" -> "ACCELO 817/3925/25"
-      return `${modelo}${ano}`;
+      const variante = (varianteEl?.textContent || '').toUpperCase().replace(/\s+/g, '').trim();
+      const ano     = (anoSel?.value || '').replace(/\s+/g, '').trim();
+      if (!variante || variante === 'SELECIONE' || !ano) return '';
+      return `${variante}${ano}`;
     }
 
     // 5) Preenche #acaoFab conforme a chave
