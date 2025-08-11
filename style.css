@@ -680,7 +680,7 @@
         white-space: nowrap;
         display: inline-flex;
         align-items: center;
-        position: static !important;       /* remove absolute */
+        position: absolute;       /* remove absolute */
       }
       #familiaFab input[type="radio"] {
         position: absolute;
