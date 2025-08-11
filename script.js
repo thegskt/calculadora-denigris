@@ -1067,4 +1067,64 @@ function login() {
   // Chamada inicial (após montar selects dinâmicos iniciais)
   preencherAcoes();
 
+  (function initControleDesconto(){
+    const input   = document.getElementById('desconto');
+    const upBtn   = document.getElementById('btnDescontoUp');
+    const downBtn = document.getElementById('btnDescontoDown');
+    if(!input || !upBtn || !downBtn) return;
+
+    const MIN = parseFloat(input.min) || 0;
+    const MAX = parseFloat(input.max) || 3;
+    const STEP = 0.5;
+
+    function normalizar(v){
+      if (isNaN(v)) v = 0;
+      v = Math.round(v * 2)/2; // força múltiplos de 0.5
+      if (v < MIN) v = MIN;
+      if (v > MAX) v = MAX;
+      return v;
+    }
+
+    function aplicar(v){
+      v = normalizar(v);
+      input.value = v.toString().replace('.', '.');
+      if (typeof atualizarValores === 'function') atualizarValores(); // chama sua função já existente
+    }
+
+    function alterar(delta){
+      const atual = parseFloat(input.value.replace(',','.')) || 0;
+      aplicar(atual + delta);
+    }
+
+    upBtn.addEventListener('click',   () => alterar(+STEP));
+    downBtn.addEventListener('click', () => alterar(-STEP));
+
+    // Pressionar e segurar (desktop + mobile)
+    function addHold(btn, delta){
+      let holdT, repT;
+      const start = (e)=>{
+        e.preventDefault();
+        alterar(delta);
+        holdT = setTimeout(()=> {
+          repT = setInterval(()=> alterar(delta), 120);
+        }, 420);
+      };
+      const stop = ()=>{
+        clearTimeout(holdT);
+        clearInterval(repT);
+      };
+      ['mousedown','touchstart'].forEach(ev=>btn.addEventListener(ev,start,{passive:false}));
+      ['mouseup','mouseleave','touchend','touchcancel'].forEach(ev=>btn.addEventListener(ev,stop));
+    }
+    addHold(upBtn, +STEP);
+    addHold(downBtn, -STEP);
+
+    // Normaliza se usuário digitar manual
+    input.addEventListener('change', ()=> aplicar(parseFloat(input.value.replace(',','.'))));
+    input.addEventListener('blur',   ()=> aplicar(parseFloat(input.value.replace(',','.'))));
+
+    // Valor inicial
+    aplicar(parseFloat(input.value) || 0);
+  })();
+  
   carregarDados();
