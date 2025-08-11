@@ -631,6 +631,8 @@
       position: static;       /* REMOVER absolute */
       margin: 0;              /* zera e usa o gap do label */
       accent-color: #ffe066;
+      transform: scale(0.9);  /* bolinha um pouco menor */
+      transform-origin: center;
     }
 
     #familiaFab label:hover {
@@ -638,7 +640,7 @@
     }
 
     .fabrica-theme #familiaFab label {
-      color: #fff;
+      color: #b3ff00;
       background: #222;
     }
     #btnCopiarVariante svg {
