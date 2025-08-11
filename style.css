@@ -343,9 +343,16 @@
     .variant-group {
       display: flex;
       align-items: center;
-      gap: 1px;
-      flex-wrap: wrap;
+      gap: 0;
+      flex-wrap: nowrap;
       width: 100%;
+    }
+
+    .variant-group label[for="upFab"],
+    .variant-group .var-label {
+      margin-right: 0;
+      min-width: 0;
+      padding-right: 0; /* sem respiro extra */
     }
 
     .variant-group .var-label {
