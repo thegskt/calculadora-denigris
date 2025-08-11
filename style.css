@@ -372,7 +372,11 @@
     min-width: 36px !important; /* antes 60px, reduz só para UP */
     margin-right: 0;            /* sem espaço extra */
     padding-right: 0;
-  }
+    }
+    
+    .fabrica-theme .card .form-group.variant-group > #upFab {
+    margin-left: 0 !important;
+    }
 
     .fabrica-theme .card .form-group select:not(#upFab) {
       min-width: 100px;
