@@ -694,6 +694,7 @@
         flex-wrap: nowrap !important;      /* NÃO quebra linha */
         overflow-x: auto;                  /* rola para o lado se não couber */
         white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
       }
       #familiaFab label {
         gap: 0.05rem !important; /* mínimo entre bolinha e texto */
