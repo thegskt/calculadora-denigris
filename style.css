@@ -513,7 +513,7 @@
 
       .variant-group {
         flex-wrap: nowrap;           /* não quebra linha */
-        gap: 8px;                 /* espaço menor para caber */
+        gap: 4px;                 /* espaço menor para caber */
       }
       #upFab {
         flex: 0 1 auto;
