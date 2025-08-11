@@ -671,7 +671,6 @@
       #familiaFab {
         gap: 0.06rem;
         flex-wrap: nowrap !important;      /* NÃO quebra linha */
-        overflow-x: auto;                  /* rola para o lado se não couber */
         white-space: nowrap;
       }
       #familiaFab label {
