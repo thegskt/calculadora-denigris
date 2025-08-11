@@ -674,7 +674,7 @@
       }
       #familiaFab label {
         font-size: 0.7rem;
-        padding: 0;
+        padding: 0 0.01rem;
         margin: 0;
         min-width: unset;
         white-space: nowrap;
