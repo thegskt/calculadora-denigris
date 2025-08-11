@@ -633,6 +633,7 @@
       accent-color: #ffe066;
       transform: scale(0.9);  /* bolinha um pouco menor */
       transform-origin: center;
+      font-size: bold;
     }
 
     #familiaFab label:hover {
