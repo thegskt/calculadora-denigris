@@ -345,17 +345,21 @@ function login() {
     }
 
     function atualizarValores() {
-      let d = parseFloat((descontoEl.value || '').replace(',','.')) || 0;
-      if (d > 3) { alert("Desconto máximo de 3%"); d = 3; }
-      // força múltiplos de 0,5 sem subir para 1 quando é 0,5
-      d = Math.round(d * 2) / 2;
-      // reescreve o campo somente se mudou (mantendo 0.5 ou 1.5 etc.)
-      const novoTxt = (d % 1 === 0 ? d.toFixed(0) : d.toFixed(1)); // usa ponto para parseFloat funcionar
+      let d = parseFloat((descontoEl.value || '').replace(',','.'));
+      if (isNaN(d)) d = 0;
+      // limita faixa 0..3 sem quantizar em 0,5
+      if (d < 0) d = 0;
+      if (d > 3) d = 3;
+
+      // normaliza exibição: até 2 casas, sem forçar inteiro
+      const decsDigitadas = ((descontoEl.value || '').replace(',','.').split('.')[1] || '').length;
+      const novoTxt = Number.isInteger(d) ? d.toFixed(0) : d.toFixed(Math.min(2, Math.max(1, decsDigitadas)));
       if (descontoEl.value !== novoTxt) descontoEl.value = novoTxt;
 
       const valorDesc  = arredondaCentenaBaixo(valorTabela * (d / 100));
       const valorVenda = +(valorTabela - valorDesc).toFixed(2);
       let lucroBruto = 0, comissao = 0, dsr = 0, total = 0;
+      // ...existing code...
 
       if (vendedorAtual) {
         const receitaEfetiva = +(valorVenda - (valorVenda * 0.12)).toFixed(2);
@@ -1106,9 +1110,8 @@ function login() {
     function alterarPorBotao(delta){
       let atual = parseFloat((input.value||'').replace(',','.'));
       if (isNaN(atual)) atual = 0;
-      let novo = atual + delta;
-      // arredonda para 1 casa para evitar 0.30000000004
-      novo = Math.round(novo * 10) / 10;
+      let novo = atual + delta;              // soma em passos de 0,5
+      novo = Math.round(novo * 100) / 100;   // evita 0.3000000004, preserva 2 casas (0.2 + 0.5 = 0.7; 0.25 + 0.5 = 0.75)
       aplicarValor(novo);
     }
 
