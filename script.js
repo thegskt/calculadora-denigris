@@ -1205,4 +1205,60 @@ function login() {
     }
   });
 
+  function showCalcProprio() {
+    const sp = document.getElementById('calcEstoqueProprio');
+    const sf = document.getElementById('calcEstoqueFabrica');
+    if (sp) sp.classList.remove('hidden');
+    if (sf) sf.classList.add('hidden');
+  }
+  function showCalcFabrica() {
+    const sp = document.getElementById('calcEstoqueProprio');
+    const sf = document.getElementById('calcEstoqueFabrica');
+    if (sf) sf.classList.remove('hidden');
+    if (sp) sp.classList.add('hidden');
+  }
+
+  // Lê ?calc=proprio|fabrica e ?fz=123456
+  function applyQueryParams() {
+    const params = new URLSearchParams(location.search);
+    const calc = (params.get('calc') || '').toLowerCase();
+    const fz = (params.get('fz') || '').replace(/\D/g,'').slice(0,6);
+
+    // Seleciona a calculadora (padrão: próprio)
+    if (calc === 'fabrica') showCalcFabrica();
+    else showCalcProprio();
+
+    // Preenche FZ e dispara cálculo
+    if (fz) {
+      const fzInput = document.getElementById('fz');
+      if (fzInput) {
+        fzInput.value = fz;
+        fzInput.dispatchEvent(new Event('input', { bubbles:true }));
+        fzInput.dispatchEvent(new Event('change', { bubbles:true }));
+      }
+    }
+  }
+
+  // Liga os botões e define a calculadora padrão ao carregar
+  document.addEventListener('DOMContentLoaded', () => {
+    // padrão ao abrir: Estoque Próprio
+    showCalcProprio();
+
+    document.getElementById('btnEstoqueProprio')?.addEventListener('click', showCalcProprio);
+    document.getElementById('btnEstoqueFabrica')?.addEventListener('click', showCalcFabrica);
+
+    // Se o conteúdo já estiver visível (sem login) aplica já
+    const main = document.getElementById('mainContent');
+    if (main && !main.classList.contains('hidden')) applyQueryParams();
+  });
+
+  // Se usa login, chame applyQueryParams após liberar o mainContent:
+  const originalLogin = window.login;
+  window.login = function(...args) {
+    const r = typeof originalLogin === 'function' ? originalLogin.apply(this, args) : undefined;
+    // Aguarda o DOM mostrar o mainContent e aplica parâmetros
+    setTimeout(applyQueryParams, 0);
+    return r;
+  };
+  
   carregarDados();
