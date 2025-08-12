@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Estoque De Nigris</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Arial,sans-serif;margin:16px;background:#f6f8fb;color:#0b1a2b}
+    header{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:12px}
+    h1{font-size:20px;margin:0}
+    .tools{display:flex;gap:8px;flex-wrap:wrap}
+    input[type=search]{padding:8px 10px;border:1px solid #ccd3dd;border-radius:8px;min-width:240px}
+    table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #e2e7ef;border-radius:8px;overflow:hidden}
+    thead th{background:#eef3ff;text-align:left;font-weight:700;padding:10px;border-bottom:1px solid #d9e1ef;font-size:13px}
+    tbody td{padding:10px;border-bottom:1px solid #eef2f7;font-size:13px}
+    tbody tr:hover{background:#f5f9ff}
+    .right{text-align:right}
+    .btn{padding:6px 10px;border-radius:6px;border:none;cursor:pointer;font-weight:700}
+    .btn-primary{background:#23408e;color:#fff}
+    .muted{color:#5b6b82}
+    .wrap{max-width:1200px;margin:0 auto}
+    @media (max-width:720px){
+      thead{display:none}
+      table,tbody,tr,td{display:block;width:100%}
+      tbody tr{border-bottom:8px solid #f6f8fb}
+      tbody td{display:flex;justify-content:space-between;gap:8px}
+      tbody td::before{content:attr(data-label);font-weight:700;color:#4b5d78}
+      .right{text-align:left}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Estoque De Nigris</h1>
+      <div class="tools">
+        <input id="busca" type="search" placeholder="Buscar por FZ, modelo, UP ou ano...">
+      </div>
+    </header>
+
+    <table id="grid">
+      <thead>
+        <tr>
+          <th>FZ</th>
+          <th>Modelo</th>
+          <th>UP</th>
+          <th>Ano</th>
+          <th class="right">Valor Tabela</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    const sheetCsvUrl =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw"
+      + "/pub?gid=2122951741&single=true&output=csv";
+
+    const tbody = document.querySelector('#grid tbody');
+    const busca = document.getElementById('busca');
+    let itens = [];
+
+    function fmtBRL(v){
+      if (isNaN(v)) return "R$ 0,00";
+      return v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+    }
+
+    function render(list){
+      tbody.innerHTML = '';
+      for (const r of list){
+        const tr = document.createElement('tr');
+
+        const tdFz = document.createElement('td');
+        tdFz.textContent = r.fz;
+        tdFz.setAttribute('data-label','FZ');
+
+        const tdMod = document.createElement('td');
+        tdMod.textContent = r.modelo;
+        tdMod.className = 'muted';
+        tdMod.setAttribute('data-label','Modelo');
+
+        const tdUp = document.createElement('td');
+        tdUp.textContent = r.up;
+        tdUp.setAttribute('data-label','UP');
+
+        const tdAno = document.createElement('td');
+        tdAno.textContent = r.anoMod;
+        tdAno.setAttribute('data-label','Ano');
+
+        const tdVal = document.createElement('td');
+        tdVal.textContent = fmtBRL(r.valorTabela);
+        tdVal.className = 'right';
+        tdVal.setAttribute('data-label','Valor Tabela');
+
+        const tdAc = document.createElement('td');
+        const a = document.createElement('a');
+        a.className = 'btn btn-primary';
+        a.textContent = 'Calcular';
+        // Abre a calculadora já no modo Estoque Próprio e com FZ preenchido
+        a.href = `index.html?calc=proprio&fz=${r.fz}`;
+        tdAc.appendChild(a);
+
+        tr.append(tdFz, tdMod, tdUp, tdAno, tdVal, tdAc);
+        tbody.appendChild(tr);
+      }
+    }
+
+    function filtrar(){
+      const q = busca.value.trim().toLowerCase();
+      if (!q) { render(itens); return; }
+      const f = itens.filter(r =>
+        r.fz.includes(q.replace(/\D/g,'')) ||
+        r.modelo.toLowerCase().includes(q) ||
+        r.up.toLowerCase().includes(q) ||
+        r.anoMod.toLowerCase().includes(q)
+      );
+      render(f);
+    }
+
+    busca.addEventListener('input', filtrar);
+
+    async function carregar(){
+      try{
+        const res = await fetch(sheetCsvUrl);
+        const txt = await res.text();
+        const rows = txt.trim().split('\n').slice(1); // pula cabeçalho
+        itens = rows.map(line => {
+          const cols = line
+            .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+            .map(c => c.replace(/^"|"$/g, "").trim());
+          return {
+            fz: cols[0].padStart(6, "0"),
+            modelo: cols[1],
+            up: cols[2],
+            anoMod: cols[3],
+            valorTabela: parseFloat(cols[4].replace(/\./g,"").replace(/,/g,".")) || 0
+          };
+        });
+        render(itens);
+      }catch(e){
+        console.error('Erro ao carregar estoque:', e);
+      }
+    }
+
+    carregar();
+  </script>
+</body>
+</html>
