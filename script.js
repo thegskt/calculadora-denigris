@@ -1153,5 +1153,56 @@ function login() {
 
     aplicarValor(parseFloat(input.value)||0);
   })();
-  
+    function applyQueryParams() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const calc = (params.get('calc') || '').toLowerCase();
+      const fz = (params.get('fz') || '').replace(/\D/g,'').slice(0,6);
+
+      // Seleciona a calculadora Estoque Próprio se solicitado
+      if (calc === 'proprio') {
+        const sp = document.getElementById('calcEstoqueProprio');
+        const sf = document.getElementById('calcEstoqueFabrica');
+        if (sp && sf) {
+          sp.classList.remove('hidden');
+          sf.classList.add('hidden');
+        }
+      }
+
+      // Preenche FZ e dispara cálculo
+      if (fz) {
+        const fzInput = document.getElementById('fz');
+        if (fzInput) {
+          fzInput.value = fz;
+          fzInput.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      }
+    } catch(e) {
+      console.warn('applyQueryParams error', e);
+    }
+  }
+  // ...existing code...
+
+  // Chame após login com sucesso
+  function login() {
+    const u = document.getElementById("user").value;
+    const p = document.getElementById("pass").value;
+    const autorizado = usuarios.some(user => user.usuario === u && user.senha === p);
+    if (autorizado) {
+      document.getElementById("loginBox").classList.add("hidden");
+      document.getElementById("mainContent").classList.remove("hidden");
+      applyQueryParams(); // aplica parâmetros ao entrar
+    } else {
+      document.getElementById("loginError").innerText = "Usuário ou senha inválidos";
+    }
+  }
+
+  // Se sua app já inicia logada (ou sem login), pode chamar também no load:
+  document.addEventListener('DOMContentLoaded', () => {
+    const main = document.getElementById("mainContent");
+    if (main && !main.classList.contains('hidden')) {
+      applyQueryParams();
+    }
+  });
+
   carregarDados();
