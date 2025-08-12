@@ -1115,9 +1115,9 @@ function login() {
       aplicarValor(novo);
     }
 
-    upBtn.addEventListener('click',   () => alterarPorBotao(+STEP_BTN));
-    downBtn.addEventListener('click', () => alterarPorBotao(-STEP_BTN));
-
+ upBtn.addEventListener('click',   (e) => { if (e.detail === 0) alterarPorBotao(+STEP_BTN); });
+    downBtn.addEventListener('click', (e) => { if (e.detail === 0) alterarPorBotao(-STEP_BTN); });
+// ...existing code...
     // Pressionar e segurar (auto repeat)
     function addHold(btn, delta){
       let holdT, repT;
