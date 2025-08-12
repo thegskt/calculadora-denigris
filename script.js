@@ -1080,51 +1080,75 @@ function login() {
 
     const MIN = parseFloat(input.min) || 0;
     const MAX = parseFloat(input.max) || 3;
-    const STEP = 0.5;
+    const STEP_BTN = 0.5;          // passo apenas para os botões
 
-    function clamp(v){
+    function clampRange(v){
       if (isNaN(v)) v = 0;
-      v = Math.round(v * 2)/2; // garante múltiplos de 0,5
       if (v < MIN) v = MIN;
       if (v > MAX) v = MAX;
       return v;
     }
 
-    function aplicar(v){
-      v = clamp(v);
-      input.value = (v % 1 === 0 ? v.toFixed(0) : v.toFixed(1));
+    function formatValor(v){
+      // Inteiro sem casas; senão até 2 casas (mantém 0.2, 0.25 se digitar)
+      if (Number.isInteger(v)) return v.toString();
+      const txt = v.toString();
+      // limita a 2 casas sem remover dígitos significativos que o usuário digitou
+      return txt.replace(/^(-?\d+)(\.\d{1,2}).*$/, '$1$2');
+    }
+
+    function aplicarValor(v){
+      v = clampRange(v);
+      input.value = formatValor(v);
       if (typeof atualizarValores === 'function') atualizarValores();
     }
 
-    function alterar(delta){
-      const atual = parseFloat((input.value || '').replace(',','.')) || 0;
-      aplicar(atual + delta);
+    function alterarPorBotao(delta){
+      let atual = parseFloat((input.value||'').replace(',','.'));
+      if (isNaN(atual)) atual = 0;
+      let novo = atual + delta;
+      // arredonda para 1 casa para evitar 0.30000000004
+      novo = Math.round(novo * 10) / 10;
+      aplicarValor(novo);
     }
 
-    upBtn.addEventListener('click',   () => alterar(+STEP));
-    downBtn.addEventListener('click', () => alterar(-STEP));
+    upBtn.addEventListener('click',   () => alterarPorBotao(+STEP_BTN));
+    downBtn.addEventListener('click', () => alterarPorBotao(-STEP_BTN));
 
+    // Pressionar e segurar (auto repeat)
     function addHold(btn, delta){
       let holdT, repT;
       const start = e => {
         e.preventDefault();
-        alterar(delta);
-        holdT = setTimeout(()=> repT = setInterval(()=> alterar(delta),120), 420);
+        alterarPorBotao(delta);
+        holdT = setTimeout(()=> {
+          repT = setInterval(()=> alterarPorBotao(delta), 140);
+        }, 450);
       };
       const stop = () => {
         clearTimeout(holdT);
         clearInterval(repT);
       };
-      ['mousedown','touchstart'].forEach(ev=>btn.addEventListener(ev,start,{passive:false}));
-      ['mouseup','mouseleave','touchend','touchcancel'].forEach(ev=>btn.addEventListener(ev,stop));
+      ['mousedown','touchstart'].forEach(ev => btn.addEventListener(ev,start,{passive:false}));
+      ['mouseup','mouseleave','touchend','touchcancel'].forEach(ev => btn.addEventListener(ev,stop));
     }
-    addHold(upBtn, +STEP);
-    addHold(downBtn, -STEP);
+    addHold(upBtn, +STEP_BTN);
+    addHold(downBtn, -STEP_BTN);
 
-    input.addEventListener('change', ()=> aplicar(parseFloat(input.value.replace(',','.'))));
-    input.addEventListener('blur',   ()=> aplicar(parseFloat(input.value.replace(',','.'))));
+    // Digitação manual: só limita faixa, não força múltiplos de 0,5
+    function onManual(){
+      const v = parseFloat((input.value||'').replace(',','.'));
+      aplicarValor(isNaN(v)?0:v);
+    }
+    input.addEventListener('change', onManual);
+    input.addEventListener('blur',   onManual);
+    input.addEventListener('input',  () => {
+      // evita mais de 2 casas decimais digitadas
+      const m = input.value.match(/^(\d+)([.,](\d{0,2})?)?$/);
+      if (!m) return;
+    });
 
-    aplicar(parseFloat(input.value.replace(',','.')) || 0);
+    aplicarValor(parseFloat(input.value)||0);
   })();
   
   carregarDados();
