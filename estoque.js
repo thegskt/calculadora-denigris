@@ -201,7 +201,10 @@ carregar();
 // Depois que o DOM carregar, liga o botão Sair
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('logout')?.addEventListener('click', () => {
-    localStorage.removeItem('dn_auth');
-    location.replace('login.html');
+    netlifyIdentity?.logout();
   });
+  if (netlifyIdentity) {
+    netlifyIdentity.on('logout', () => location.replace('login.html'));
+    netlifyIdentity.on('init', user => { if (!user) {/* opcional: location.replace('login.html') */} });
+  }
 });

@@ -1,26 +1,17 @@
 // AVISO: este login é apenas uma barreira simples no front-end (não é segurança real).
 const form = document.getElementById('loginForm');
-const pinEl = document.getElementById('pin');
 const msg = document.getElementById('msg');
+const btn = document.getElementById('btnGoogle');
 const params = new URLSearchParams(location.search);
-const next = params.get('next'); // opcional: voltar para onde o user tentou acessar
+const next = params.get('next') || 'estoque.html';
 
-// Defina seu PIN aqui (troque "1234"):
-const VALID_PINS = ['1234']; // adicione outros se quiser
+function goNext(){ location.replace(next); }
 
-// Se já está logado, pula login
-if (localStorage.getItem('dn_auth') === 'ok') {
-  location.replace(next || 'estoque.html');
+if (window.netlifyIdentity) {
+  netlifyIdentity.on('init', user => { if (user) goNext(); });
+  netlifyIdentity.on('login', () => goNext());
+  netlifyIdentity.on('error', (e) => { msg.textContent = 'Falha ao autenticar. Tente novamente.'; console.error(e); });
 }
-
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const pin = (pinEl.value || '').trim();
-  if (VALID_PINS.includes(pin)) {
-    localStorage.setItem('dn_auth', 'ok');
-    location.replace(next || 'estoque.html');
-  } else {
-    msg.textContent = 'PIN inválido.';
-    pinEl.focus();
-  }
+btn?.addEventListener('click', () => {
+  netlifyIdentity?.open('login'); // abre modal com “Google”
 });

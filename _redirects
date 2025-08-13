@@ -1,2 +1,7 @@
-/         /login.html     200
-/estoque  /estoque.html   200
+/                /login.html     200
+/estoque.html    /estoque.html   200!  Role=member
+/estoque         /estoque.html   200
+/index.html      /index.html     200!  Role=member
+/index           /index.html     200
+/estoque.html    /login.html     302
+/index.html      /login.html     302

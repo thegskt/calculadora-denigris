@@ -10,15 +10,14 @@
   <main class="login-wrap">
     <section class="panel">
       <h1>Entrar</h1>
-      <p class="muted">Acesse com seu PIN</p>
-      <form id="loginForm" autocomplete="off">
-        <label for="pin">PIN</label>
-        <input id="pin" name="pin" type="password" inputmode="numeric" placeholder="****" required minlength="4" maxlength="12" />
-        <button type="submit" class="btn btn-primary">Entrar</button>
-        <div id="msg" class="msg" aria-live="polite"></div>
-      </form>
+      <p class="muted">Use sua conta Google</p>
+      <button id="btnGoogle" class="btn btn-primary" type="button">Entrar com Google</button>
+      <div id="msg" class="msg" aria-live="polite"></div>
     </section>
   </main>
+
+  <!-- Widget do Netlify Identity -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script src="login.js" defer></script>
 </body>
 </html>
