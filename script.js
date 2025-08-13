@@ -1758,29 +1758,28 @@ async function carregarDados(){
 
 // ================== POPULAR SELECTS DINÂMICOS (FÁBRICA) ==================
 function getFamilias() {
-  // Extrai todas as famílias únicas do variantesFab
   const fams = new Set();
   Object.keys(variantesFab).forEach(k => {
-    const m = k.match(/^([A-Z0-9\s\/\-]+?)(UP[A-Z])?\d{2}\/\d{2}$/);
+    // Pega tudo até o primeiro UP ou SEM UP ou S/P e ano
+    const m = k.match(/^(.+?)(UP[A-Z]|SEM UP|S\/P)?\d{2}\/\d{2}$/);
     if (m) fams.add(m[1].trim());
   });
   return Array.from(fams).sort();
 }
 
 function getUps(familia) {
-  // Extrai todos os UPs únicos para a família selecionada
   const ups = new Set();
   Object.keys(variantesFab).forEach(k => {
     if (k.startsWith(familia)) {
-      const m = k.match(/^.+?(UP[A-Z])\d{2}\/\d{2}$/);
+      const m = k.match(/^.+?(UP[A-Z]|SEM UP|S\/P)\d{2}\/\d{2}$/);
       if (m) ups.add(m[1]);
     }
   });
   return Array.from(ups).sort();
 }
 
+// Extrai anos únicos para família+UP
 function getAnos(familia, up) {
-  // Extrai todos os anos únicos para a família e UP selecionados
   const anos = new Set();
   Object.keys(variantesFab).forEach(k => {
     if (k.startsWith(familia) && k.includes(up)) {
@@ -1800,6 +1799,7 @@ function preencherFamilias() {
   });
   upFabEl.innerHTML = '<option>Selecione</option>';
   anoFabEl.innerHTML = '<option>Selecione</option>';
+  atualizarVarianteFab();
 }
 
 // Preenche o select de UP ao escolher família
@@ -1807,7 +1807,10 @@ modeloFabEl?.addEventListener('change', () => {
   const familia = modeloFabEl.value;
   upFabEl.innerHTML = '<option>Selecione</option>';
   anoFabEl.innerHTML = '<option>Selecione</option>';
-  if (!familia || familia === 'Selecione') return;
+  if (!familia || familia === 'Selecione') {
+    atualizarVarianteFab();
+    return;
+  }
   getUps(familia).forEach(up => {
     upFabEl.add(new Option(up, up));
   });
@@ -1819,14 +1822,19 @@ upFabEl?.addEventListener('change', () => {
   const familia = modeloFabEl.value;
   const up = upFabEl.value;
   anoFabEl.innerHTML = '<option>Selecione</option>';
-  if (!familia || familia === 'Selecione' || !up || up === 'Selecione') return;
+  if (!familia || familia === 'Selecione' || !up || up === 'Selecione') {
+    atualizarVarianteFab();
+    return;
+  }
   getAnos(familia, up).forEach(ano => {
     anoFabEl.add(new Option(ano, ano));
   });
   atualizarVarianteFab();
 });
+// Atualiza variante e ações ao trocar o ano
+anoFabEl?.addEventListener('change', atualizarVarianteFab);
 
-// Preenche UP e Ano ao carregar
+// Chame só UMA vez no DOMContentLoaded:
 document.addEventListener('DOMContentLoaded', preencherFamilias);
 
 // ================== VARIANTE & AÇÕES (FÁBRICA) ==================
