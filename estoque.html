@@ -4,28 +4,36 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Estoque DN</title>
-  <style>
-    body{font-family:system-ui,Segoe UI,Arial,sans-serif;margin:16px;background:#f6f8fb;color:#0b1a2b}
-    header{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:12px}
+ <style>
+    *{box-sizing:border-box}
+    body{font-family:system-ui,Segoe UI,Arial,sans-serif;margin:0;background:#f6f8fb;color:#0b1a2b}
+    .wrap{max-width:1200px;margin:0 auto;padding:16px}
+    header{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}
     h1{font-size:20px;margin:0}
-    .tools{display:flex;gap:8px;flex-wrap:wrap}
-    input[type=search]{padding:8px 10px;border:1px solid #ccd3dd;border-radius:8px;min-width:240px}
-    table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #e2e7ef;border-radius:8px;overflow:hidden}
+    .tools{display:flex;gap:8px;flex:1 1 260px}
+    .tools input[type=search]{flex:1 1 auto;padding:10px 12px;border:1px solid #ccd3dd;border-radius:8px;min-width:240px}
+
+    table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #e2e7ef;border-radius:10px;overflow:hidden;table-layout:auto}
     thead th{background:#eef3ff;text-align:left;font-weight:700;padding:10px;border-bottom:1px solid #d9e1ef;font-size:13px}
     tbody td{padding:10px;border-bottom:1px solid #eef2f7;font-size:13px}
     tbody tr:hover{background:#f5f9ff}
     .right{text-align:right}
-    .btn{padding:6px 10px;border-radius:6px;border:none;cursor:pointer;font-weight:700}
+    .btn{padding:10px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:700;min-height:42px}
     .btn-primary{background:#23408e;color:#fff}
-    .muted{color:#5b6b82}
-    .wrap{max-width:1200px;margin:0 auto}
+
+    /* Mobile: vira cards, botão 100% */
     @media (max-width:720px){
       thead{display:none}
-      table,tbody,tr,td{display:block;width:100%}
-      tbody tr{border-bottom:8px solid #f6f8fb}
-      tbody td{display:flex;justify-content:space-between;gap:8px}
+      table{border:0;background:transparent}
+      tbody{display:block}
+      tbody tr{display:block;width:100%;background:#fff;border:1px solid #e2e7ef;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.04);margin-bottom:12px;overflow:hidden}
+      tbody td{display:grid;grid-template-columns:120px 1fr;gap:8px;padding:10px;border-bottom:1px solid #f0f3f8}
+      tbody td:last-child{border-bottom:0}
       tbody td::before{content:attr(data-label);font-weight:700;color:#4b5d78}
       .right{text-align:left}
+      .btn-primary{width:100%}
+      .tools{width:100%}
+      .tools input[type=search]{min-width:0;width:100%}
     }
   </style>
 </head>
