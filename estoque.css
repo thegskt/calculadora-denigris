@@ -24,16 +24,18 @@ h1{font-size:20px;margin:0}
 /* Cabeçalho das colunas (desktop) */
 .cols{
   display:grid;
-  grid-template-columns: 1fr 90px 80px 80px 140px 120px; /* Modelo, FZ, UP, Ano, Valor, Ação */
-  gap:10px;font-weight:700;padding:10px 14px;border-top:1px solid #e3e9f3;border-bottom:1px solid #eef3fb;background:#fafcff;color:#2b3d64
+  grid-template-columns: 1fr 120px 80px 120px 80px 140px 120px; /* Modelo, Cor, UP, Var., Ano, Valor, Ação */
+  gap:10px;
+  /* ...existing code... */
 }
 
 /* Linhas */
 .rows{display:flex;flex-direction:column}
 .row{
   display:grid;
-  grid-template-columns: 1fr 90px 80px 80px 140px 120px; /* Modelo, FZ, UP, Ano, Valor, Ação */
-  gap:10px;align-items:center;padding:10px 14px;border-top:1px solid #eef3fb
+  grid-template-columns: 1fr 120px 80px 120px 80px 140px 120px; /* Modelo, Cor, UP, Var., Ano, Valor, Ação */
+  gap:10px;
+  /* ...existing code... */
 }
 .row:first-child{border-top:0}
 
@@ -68,16 +70,14 @@ h1{font-size:20px;margin:0}
     content: attr(data-label) ": ";
     font-weight:700;color:#4b5d78;
   }
-  /* Ordem conforme DOM: (1) Modelo, (2) FZ, (3) UP, (4) Ano, (5) Valor, (6) Botão, (7) Meta) */
+  /* (1) Modelo (2) Cor (3) UP (4) Var. (5) Ano (6) Valor (7) Botão (8) Meta */
   .row > div:nth-child(1){ grid-column:1; grid-row:1; } /* Modelo */
-  .row > div:nth-child(2){ grid-column:2; grid-row:1; } /* FZ */
+  .row > div:nth-child(2){ grid-column:2; grid-row:1; } /* Cor */
   .row > div:nth-child(3){ grid-column:1; grid-row:2; } /* UP */
-  .row > div:nth-child(4){ grid-column:2; grid-row:2; } /* Ano */
-  .row > div:nth-child(5){ grid-column:1; grid-row:3; } /* Valor */
-  .row > div:nth-child(6){ grid-column:2; grid-row:3; } /* Botão */
-  .row > div:nth-child(7){ grid-column:1 / -1; grid-row:4; } /* Meta */
-
-  .btn-primary{width:100%}
+  .row > div:nth-child(4){ grid-column:2; grid-row:2; } /* Var. */
+  .row > div:nth-child(5){ grid-column:1; grid-row:3; } /* Ano */
+  .row > div:nth-child(6){ grid-column:2; grid-row:3; } /* Valor */
+  .row > div:nth-child(7){ grid-column:1 / -1; grid-row:4; } /* Botão */
+  .row > div:nth-child(8){ grid-column:1 / -1; grid-row:5; } /* Meta */
   .row > div[data-label="Valor Tabela"]::before{ content: "Valor: "; }
-  .row .meta::before{content:none !important;}
 }

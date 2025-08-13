@@ -77,8 +77,9 @@ function render(list){
     cols.className = 'cols';
     cols.innerHTML = `
       <div>Modelo</div>
-      <div>FZ</div>
+      <div>Cor</div>
       <div>UP</div>
+      <div>Var.</div>
       <div>Ano</div>
       <div class="right">Valor Tabela</div>
       <div>Ação</div>
@@ -101,22 +102,26 @@ function render(list){
       const infoBtn = document.createElement('button');
       infoBtn.type = 'button';
       infoBtn.className = 'chip-btn';
-      infoBtn.title = 'Detalhes (Pátio, Cor, Variante)';
+      infoBtn.title = 'Detalhes (Pátio e FZ)';
       infoBtn.textContent = 'i';
       infoBtn.addEventListener('click', (e)=>{ e.preventDefault(); row.classList.toggle('show-meta'); });
       cMod.append(modTxt, infoBtn);
 
-      // FZ
-      const cFz = document.createElement('div');
-      cFz.className = 'fz';
-      cFz.textContent = r.fz;
-      cFz.setAttribute('data-label','FZ');
+      // Cor (no lugar do FZ)
+      const cCor = document.createElement('div');
+      cCor.textContent = r.cor || '-';
+      cCor.setAttribute('data-label','Cor');
 
       // UP (destaque)
       const cUp = document.createElement('div');
       cUp.className = 'up';
       cUp.textContent = r.up;
       cUp.setAttribute('data-label','UP');
+
+      // Variante (entre UP e Ano)
+      const cVar = document.createElement('div');
+      cVar.textContent = r.variante || '-';
+      cVar.setAttribute('data-label','Var.');
 
       // Ano
       const cAno = document.createElement('div');
@@ -137,17 +142,16 @@ function render(list){
       a.href = `index.html?calc=proprio&fz=${encodeURIComponent(r.fz)}`;
       cAc.appendChild(a);
 
-      // Meta (Pátio, Cor, Variante) — chips suaves
+      // Meta (apenas Pátio e FZ)
       const cMeta = document.createElement('div');
       cMeta.className = 'meta';
       cMeta.setAttribute('data-label','');
-      cMeta.style.gridColumn = '1 / -1'; // ocupa toda largura no desktop
-      if (r.patio)    cMeta.insertAdjacentHTML('beforeend', `<span class="chip"><b>Pátio</b> ${r.patio}</span>`);
-      if (r.cor)      cMeta.insertAdjacentHTML('beforeend', `<span class="chip"><b>Cor</b> ${r.cor}</span>`);
-      if (r.variante) cMeta.insertAdjacentHTML('beforeend', `<span class="chip"><b>Var.</b> ${r.variante}</span>`);
+      cMeta.style.gridColumn = '1 / -1';
+      if (r.patio) cMeta.insertAdjacentHTML('beforeend', `<span class="chip"><b>Pátio</b> ${r.patio}</span>`);
+      if (r.fz)    cMeta.insertAdjacentHTML('beforeend', `<span class="chip"><b>FZ</b> ${r.fz}</span>`);
 
-      // Ordem: Modelo, FZ, UP, Ano, Valor, Ação, Meta
-      row.append(cMod, cFz, cUp, cAno, cVal, cAc, cMeta);
+      // Nova ordem: Modelo, Cor, UP, Var., Ano, Valor, Ação, Meta
+      row.append(cMod, cCor, cUp, cVar, cAno, cVal, cAc, cMeta);
       rows.appendChild(row);
     }
 
