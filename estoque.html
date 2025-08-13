@@ -170,8 +170,8 @@
         const cols = document.createElement('div');
         cols.className = 'cols';
         cols.innerHTML = `
-          <div>FZ</div>
           <div>Modelo</div>
+          <div>FZ</div>
           <div>UP</div>
           <div>Ano</div>
           <div class="right">Valor Tabela</div>
@@ -186,15 +186,16 @@
           const row = document.createElement('div');
           row.className = 'row';
 
+          const cMod = document.createElement('div');
+          cMod.textContent = r.modelo;
+          cMod.className = 'modelo';
+          cMod.setAttribute('data-label','Modelo');
+
+          // Depois FZ
           const cFz = document.createElement('div');
           cFz.className = 'fz';
           cFz.textContent = r.fz;
           cFz.setAttribute('data-label','FZ');
-
-          const cMod = document.createElement('div');
-          cMod.textContent = r.modelo;
-          cMod.className = 'muted';
-          cMod.setAttribute('data-label','Modelo');
 
           const cUp = document.createElement('div');
           cUp.textContent = r.up;
@@ -216,7 +217,7 @@
           a.href = `index.html?calc=proprio&fz=${encodeURIComponent(r.fz)}`;
           cAc.appendChild(a);
 
-          row.append(cFz, cMod, cUp, cAno, cVal, cAc);
+          row.append(cMod, cFz, cUp, cAno, cVal, cAc);
           rows.appendChild(row);
         }
 
