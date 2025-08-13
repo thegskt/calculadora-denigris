@@ -28,14 +28,23 @@
 
     /* Lista interna (linhas) */
     .rows{display:flex;flex-direction:column}
-    .row{display:grid;grid-template-columns: 90px 1fr 80px 80px 140px 120px;gap:10px;align-items:center;padding:10px 14px;border-top:1px solid #eef2f7}
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 90px 80px 80px 140px 120px; /* Modelo, FZ, UP, Ano, Valor, Ação */
+      gap:10px;align-items:center;padding:10px 14px;border-top:1px solid #eef2f7
+    }
     .row:first-child{border-top:0}
     .fz{font-weight:700}
     .right{text-align:right}
     .muted{color:#5b6b82}
+    .modelo{font-weight:700} /* destaque para Modelo */
 
     /* Cabeçalho das colunas (desktop) */
-    .cols{display:grid;grid-template-columns: 90px 1fr 80px 80px 140px 120px;gap:10px;font-weight:700;padding:10px 14px;border-top:1px solid #e2e7ef;border-bottom:1px solid #eef2f7;background:#fafcff}
+        .cols{
+      display:grid;
+      grid-template-columns: 1fr 90px 80px 80px 140px 120px; /* Modelo, FZ, UP, Ano, Valor, Ação */
+      gap:10px;font-weight:700;padding:10px 14px;border-top:1px solid #e2e7ef;border-bottom:1px solid #eef2f7;background:#fafcff
+    }
 
     /* Mobile: cards */
     @media (max-width:720px){
@@ -48,16 +57,12 @@
         gap:8px 12px;
         padding:8px 12px;
       }
-      /* Cada célula mostra rótulo curto + valor, lado a lado */
       .row > div{
-        display:flex;
-        align-items:center;
-        gap:6px;
+        display:flex;align-items:center;gap:6px;
       }
       .row > div::before{
         content: attr(data-label) ": ";
-        font-weight:700;
-        color:#4b5d78;
+        font-weight:700;color:#4b5d78;
       }
       /* Posiciona os itens em 3 linhas x 2 colunas */
       .row > div:nth-child(2){ grid-column:2; grid-row:1; } /* Modelo */
