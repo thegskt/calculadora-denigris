@@ -73,10 +73,24 @@ h1{font-size:20px;margin:0}
     gap:8px 12px;
     padding:8px 12px;
   }
-  .row > div{display:flex;align-items:center;gap:6px}
+
+  /* AQUI o conserto: não aplicar nos detalhes (.meta) */
+  .row > div:not(.meta){
+    display:flex;align-items:center;gap:6px;
+  }
+  .row > .meta{
+    display:none;                /* escondido por padrão */
+    grid-column:1 / -1;          /* ocupa a largura toda */
+  }
+  .row.show-meta > .meta{
+    display:flex;                /* mostra quando clica no "i" */
+    flex-wrap:wrap;gap:6px;
+  }
+  .row > .meta::before{content:none !important;}
+
   .row > div::before{content: attr(data-label) ": ";font-weight:700;color:#4b5d78}
 
-  /* (1) Modelo (2) Cor (3) UP (4) Var. (5) Ano (6) Valor (7) Ação (8) Meta */
+  /* (1) Modelo (2) Cor (3) UP (4) Var. (5) Ano (6) Valor (7) Ação) */
   .row > div:nth-child(1){ grid-column:1; grid-row:1; }
   .row > div:nth-child(2){ grid-column:2; grid-row:1; }
   .row > div:nth-child(3){ grid-column:1; grid-row:2; }
@@ -84,8 +98,7 @@ h1{font-size:20px;margin:0}
   .row > div:nth-child(5){ grid-column:1; grid-row:3; }
   .row > div:nth-child(6){ grid-column:2; grid-row:3; }
   .row > div:nth-child(7){ grid-column:1 / -1; grid-row:4; justify-content:flex-end }
-  .row > div:nth-child(8){ grid-column:1 / -1; grid-row:5; }
-  .row > div[data-label="Valor Tabela"]::before{ content: "Valor: "; }
 
+  .row > div[data-label="Valor Tabela"]::before{ content: "Valor: "; }
   .btn-primary{width:auto;max-width:100%}
 }
