@@ -1756,6 +1756,79 @@ async function carregarDados(){
   }
 }
 
+// ================== POPULAR SELECTS DINÂMICOS (FÁBRICA) ==================
+function getFamilias() {
+  // Extrai todas as famílias únicas do variantesFab
+  const fams = new Set();
+  Object.keys(variantesFab).forEach(k => {
+    const m = k.match(/^([A-Z0-9\s\/\-]+?)(UP[A-Z])?\d{2}\/\d{2}$/);
+    if (m) fams.add(m[1].trim());
+  });
+  return Array.from(fams).sort();
+}
+
+function getUps(familia) {
+  // Extrai todos os UPs únicos para a família selecionada
+  const ups = new Set();
+  Object.keys(variantesFab).forEach(k => {
+    if (k.startsWith(familia)) {
+      const m = k.match(/^.+?(UP[A-Z])\d{2}\/\d{2}$/);
+      if (m) ups.add(m[1]);
+    }
+  });
+  return Array.from(ups).sort();
+}
+
+function getAnos(familia, up) {
+  // Extrai todos os anos únicos para a família e UP selecionados
+  const anos = new Set();
+  Object.keys(variantesFab).forEach(k => {
+    if (k.startsWith(familia) && k.includes(up)) {
+      const m = k.match(/(\d{2}\/\d{2})$/);
+      if (m) anos.add(m[1]);
+    }
+  });
+  return Array.from(anos).sort();
+}
+
+// Preenche o select de modelo/família ao carregar
+function preencherFamilias() {
+  if (!modeloFabEl) return;
+  modeloFabEl.innerHTML = '<option>Selecione</option>';
+  getFamilias().forEach(f => {
+    modeloFabEl.add(new Option(f, f));
+  });
+  upFabEl.innerHTML = '<option>Selecione</option>';
+  anoFabEl.innerHTML = '<option>Selecione</option>';
+}
+
+// Preenche o select de UP ao escolher família
+modeloFabEl?.addEventListener('change', () => {
+  const familia = modeloFabEl.value;
+  upFabEl.innerHTML = '<option>Selecione</option>';
+  anoFabEl.innerHTML = '<option>Selecione</option>';
+  if (!familia || familia === 'Selecione') return;
+  getUps(familia).forEach(up => {
+    upFabEl.add(new Option(up, up));
+  });
+  atualizarVarianteFab();
+});
+
+// Preenche o select de Ano ao escolher UP
+upFabEl?.addEventListener('change', () => {
+  const familia = modeloFabEl.value;
+  const up = upFabEl.value;
+  anoFabEl.innerHTML = '<option>Selecione</option>';
+  if (!familia || familia === 'Selecione' || !up || up === 'Selecione') return;
+  getAnos(familia, up).forEach(ano => {
+    anoFabEl.add(new Option(ano, ano));
+  });
+  atualizarVarianteFab();
+});
+
+// Preenche UP e Ano ao carregar
+document.addEventListener('DOMContentLoaded', preencherFamilias);
+
 // ================== VARIANTE & AÇÕES (FÁBRICA) ==================
 function chaveVariante(){
   const modelo = modeloFabEl?.value?.trim();
