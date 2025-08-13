@@ -1865,8 +1865,49 @@ function preencherAcoes(){
   lista.forEach(a=> acaoFabEl.add(new Option(a,a)));
   acaoFabEl.disabled = lista.length===0;
 }
-modeloFabEl?.addEventListener('change', atualizarVarianteFab);
-upFabEl?.addEventListener('change', atualizarVarianteFab);
+
+function preencherFamilias() {
+  if (!modeloFabEl) return;
+  modeloFabEl.innerHTML = '<option>Selecione</option>';
+  getFamilias().forEach(f => {
+    modeloFabEl.add(new Option(f, f));
+  });
+  upFabEl.innerHTML = '<option>Selecione</option>';
+  anoFabEl.innerHTML = '<option>Selecione</option>';
+  atualizarVarianteFab();
+}
+
+// Preenche o select de UP ao escolher família
+modeloFabEl?.addEventListener('change', () => {
+  const familia = modeloFabEl.value;
+  upFabEl.innerHTML = '<option>Selecione</option>';
+  anoFabEl.innerHTML = '<option>Selecione</option>';
+  if (!familia || familia === 'Selecione') {
+    atualizarVarianteFab();
+    return;
+  }
+  getUps(familia).forEach(up => {
+    upFabEl.add(new Option(up, up));
+  });
+  atualizarVarianteFab();
+});
+
+// Preenche o select de Ano ao escolher UP
+upFabEl?.addEventListener('change', () => {
+  const familia = modeloFabEl.value;
+  const up = upFabEl.value;
+  anoFabEl.innerHTML = '<option>Selecione</option>';
+  if (!familia || familia === 'Selecione' || !up || up === 'Selecione') {
+    atualizarVarianteFab();
+    return;
+  }
+  getAnos(familia, up).forEach(ano => {
+    anoFabEl.add(new Option(ano, ano));
+  });
+  atualizarVarianteFab();
+});
+
+// Atualiza variante e ações ao trocar o ano
 anoFabEl?.addEventListener('change', atualizarVarianteFab);
 
 // ================== COPIAR VARIANTE ==================
