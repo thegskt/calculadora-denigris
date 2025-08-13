@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Login - DN</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <main class="login-wrap">
+    <section class="panel">
+      <h1>Entrar</h1>
+      <p class="muted">Acesse com seu PIN</p>
+      <form id="loginForm" autocomplete="off">
+        <label for="pin">PIN</label>
+        <input id="pin" name="pin" type="password" inputmode="numeric" placeholder="****" required minlength="4" maxlength="12" />
+        <button type="submit" class="btn btn-primary">Entrar</button>
+        <div id="msg" class="msg" aria-live="polite"></div>
+      </form>
+    </section>
+  </main>
+  <script src="login.js" defer></script>
+</body>
+</html>

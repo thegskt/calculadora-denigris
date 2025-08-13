@@ -1,3 +1,11 @@
+// Exige login para acessar o estoque
+(function ensureAuth(){
+  if (localStorage.getItem('dn_auth') !== 'ok') {
+    const nextUrl = location.pathname + location.search;
+    location.replace('login.html?next=' + encodeURIComponent(nextUrl));
+  }
+})();
+
 // Fonte de dados (CSV do Google Sheets)
 const sheetCsvUrl =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw"
@@ -189,3 +197,11 @@ async function carregar(){
 }
 
 carregar();
+
+// Depois que o DOM carregar, liga o botão Sair
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('logout')?.addEventListener('click', () => {
+    localStorage.removeItem('dn_auth');
+    location.replace('login.html');
+  });
+});

@@ -1,0 +1,13 @@
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:system-ui,Segoe UI,Arial,sans-serif;background:#f7f9fc;color:#0b1a2b}
+.login-wrap{min-height:100%;display:grid;place-items:center;padding:24px}
+.panel{width:100%;max-width:360px;background:#fff;border:1px solid #e3e9f3;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);padding:20px}
+h1{margin:0 0 6px;font-size:22px}
+.muted{color:#667792;margin:0 0 14px;font-size:13px}
+label{display:block;font-weight:700;margin:8px 0 6px}
+input{width:100%;padding:12px;border:1px solid #d6deea;border-radius:10px;outline:none}
+input:focus{border-color:#23408e;box-shadow:0 0 0 3px rgba(35,64,142,.12)}
+.btn{padding:10px 12px;border-radius:10px;border:1px solid #d6deea;cursor:pointer;font-weight:700;min-height:40px;background:#fff;color:#223a86;width:100%;margin-top:12px}
+.btn-primary{background:#23408e;color:#fff;border-color:#23408e}
+.msg{min-height:20px;margin-top:10px;font-size:13px;color:#a03030}
