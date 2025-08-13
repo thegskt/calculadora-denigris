@@ -1844,17 +1844,30 @@ acaoFabEl?.addEventListener('change',()=>{
   }
   function addHold(btn,delta){
     if(!btn) return;
-    let t1,t2;
+    let t1,t2,hold=false;
     const start=e=>{
-      e.preventDefault(); alter(delta);
-      t1=setTimeout(()=> t2=setInterval(()=>alter(delta),140),450);
+      e.preventDefault();
+      hold = false;
+      t1=setTimeout(()=>{
+        hold = true;
+        alter(delta);
+        t2=setInterval(()=>alter(delta),140);
+      },450);
     };
-    const stop=()=>{clearTimeout(t1);clearInterval(t2);};
-    ['mousedown','touchstart'].forEach(ev=>btn.addEventListener(ev,start,{passive:false}));
-    ['mouseup','mouseleave','touchend','touchcancel'].forEach(ev=>btn.addEventListener(ev,stop));
+    const stop=()=>{
+      clearTimeout(t1); clearInterval(t2);
+    };
+    btn.addEventListener('mousedown',start,{passive:false});
+    btn.addEventListener('touchstart',start,{passive:false});
+    btn.addEventListener('mouseup',stop);
+    btn.addEventListener('mouseleave',stop);
+    btn.addEventListener('touchend',stop);
+    btn.addEventListener('touchcancel',stop);
+    // Clique rápido só altera se não foi hold
+    btn.addEventListener('click',e=>{
+      if (!hold) alter(delta);
+    });
   }
-  upBtn?.addEventListener('click', ()=>alter(+STEP));
-  dnBtn?.addEventListener('click', ()=>alter(-STEP));
   addHold(upBtn,+STEP);
   addHold(dnBtn,-STEP);
   descontoEl.addEventListener('change',()=> setVal(parseFloat((descontoEl.value||'').replace(',','.'))||0));
