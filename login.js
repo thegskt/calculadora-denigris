@@ -7,11 +7,17 @@ const next = params.get('next') || 'estoque.html';
 
 function goNext(){ location.replace(next); }
 
+// Força sair sempre que abrir o login (zera sessão/cookie)
+document.addEventListener('DOMContentLoaded', () => {
+  window.netlifyIdentity?.logout();
+});
+
 if (window.netlifyIdentity) {
-  netlifyIdentity.on('init', user => { if (user) goNext(); });
   netlifyIdentity.on('login', () => goNext());
   netlifyIdentity.on('error', (e) => { msg.textContent = 'Falha ao autenticar. Tente novamente.'; console.error(e); });
+  netlifyIdentity.init();
 }
+
 btn?.addEventListener('click', () => {
-  netlifyIdentity?.open('login'); // abre modal com “Google”
+  netlifyIdentity?.open('login');
 });

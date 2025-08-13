@@ -6,6 +6,20 @@
   }
 })();
 
+// Se for reload, desloga e volta ao login
+(function redirectOnReload(){
+  try{
+    const nav = performance.getEntriesByType?.('navigation')?.[0];
+    const reloaded = nav ? nav.type === 'reload' : performance.navigation?.type === 1;
+    if (reloaded) {
+      window.netlifyIdentity?.logout();
+      setTimeout(() => {
+        location.replace('login.html?next=' + encodeURIComponent('estoque.html'));
+      }, 50);
+    }
+  }catch(e){}
+})();
+
 // Fonte de dados (CSV do Google Sheets)
 const sheetCsvUrl =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw"
