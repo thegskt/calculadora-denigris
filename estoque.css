@@ -6,7 +6,18 @@ h1{font-size:20px;margin:0}
 .tools{display:flex;gap:8px;flex:1 1 260px}
 .tools input[type=search]{flex:1 1 auto;padding:10px 12px;border:1px solid #d6deea;border-radius:10px;min-width:240px;background:#fff}
 
-.btn{padding:10px 12px;border-radius:10px;border:1px solid #d6deea;cursor:pointer;font-weight:700;min-height:40px;background:#fff;color:#223a86;white-space:nowrap}
+.btn{
+  padding:6px 10px;            /* antes: 10px 12px */
+  border-radius:8px;           /* antes: 10px */
+  border:1px solid #d6deea;
+  cursor:pointer;
+  font-weight:700;
+  min-height:34px;             /* antes: 40px */
+  font-size:13px;              /* novo: menor */
+  background:#fff;
+  color:#223a86;
+  white-space:nowrap
+}
 .btn-primary{background:#23408e;color:#fff;border-color:#23408e}
 
 #groups{display:flex;flex-direction:column;gap:12px}
@@ -22,13 +33,13 @@ h1{font-size:20px;margin:0}
 .cols{
   display:grid;
   grid-template-columns:
-    minmax(220px,1.6fr)  /* Modelo */
-    minmax(90px,.8fr)    /* Cor */
-    minmax(70px,.7fr)    /* UP */
-    minmax(100px,.9fr)   /* Var. */
-    minmax(70px,.7fr)    /* Ano */
-    minmax(120px,.9fr)   /* Valor */
-    minmax(110px,.8fr);  /* Ação */
+    minmax(220px,1.6fr)
+    minmax(90px,.8fr)
+    minmax(70px,.7fr)
+    minmax(100px,.9fr)
+    minmax(70px,.7fr)
+    minmax(120px,.9fr)
+    minmax(96px,.7fr);   /* Ação menor (antes ~110px) */
   gap:10px;
   font-weight:700;
   padding:10px 14px;
@@ -40,13 +51,13 @@ h1{font-size:20px;margin:0}
 .row{
   display:grid;
   grid-template-columns:
-    minmax(220px,1.6fr)  /* Modelo */
-    minmax(90px,.8fr)    /* Cor */
-    minmax(70px,.7fr)    /* UP */
-    minmax(100px,.9fr)   /* Var. */
-    minmax(70px,.7fr)    /* Ano */
-    minmax(120px,.9fr)   /* Valor */
-    minmax(110px,.8fr);  /* Ação */
+    minmax(220px,1.6fr)
+    minmax(90px,.8fr)
+    minmax(70px,.7fr)
+    minmax(100px,.9fr)
+    minmax(70px,.7fr)
+    minmax(120px,.9fr)
+    minmax(96px,.7fr);   /* Ação menor */
   gap:10px;align-items:center;padding:10px 14px;border-top:1px solid #eef3fb
 }
 .row:first-child{border-top:0}
