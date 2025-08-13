@@ -41,10 +41,35 @@
     @media (max-width:720px){
       .tools input[type=search]{min-width:0;width:100%}
       .cols{display:none}
-      .row{grid-template-columns:1fr;gap:6px}
-      .row > div{display:flex;justify-content:space-between;gap:10px}
-      .row > div::before{content:attr(data-label);font-weight:700;color:#4b5d78}
-      .btn-primary{width:100%}
+      .acc-h{padding:10px 12px}
+      .row{
+        display:grid;
+        grid-template-columns: 1fr 1fr; /* duas colunas */
+        gap:8px 12px;
+        padding:8px 12px;
+      }
+      /* Cada célula mostra rótulo curto + valor, lado a lado */
+      .row > div{
+        display:flex;
+        align-items:center;
+        gap:6px;
+      }
+      .row > div::before{
+        content: attr(data-label) ": ";
+        font-weight:700;
+        color:#4b5d78;
+      }
+      /* Posiciona os itens em 3 linhas x 2 colunas */
+      .row > div:nth-child(1){ grid-column:1; grid-row:1; } /* FZ */
+      .row > div:nth-child(2){ grid-column:2; grid-row:1; } /* Modelo */
+      .row > div:nth-child(3){ grid-column:1; grid-row:2; } /* UP */
+      .row > div:nth-child(4){ grid-column:2; grid-row:2; } /* Ano */
+      .row > div:nth-child(5){ grid-column:1; grid-row:3; } /* Valor */
+      .row > div:nth-child(6){ grid-column:2; grid-row:3; } /* Botão */
+
+      .btn-primary{width:100%} /* botão ocupa a coluna inteira */
+      /* Ajusta rótulo longo para curto só no mobile */
+      .row > div[data-label="Valor Tabela"]::before{ content: "Valor: "; }
     }
   </style>
 </head>
