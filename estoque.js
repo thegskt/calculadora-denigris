@@ -100,92 +100,64 @@ function render(list){
       const modTxt = document.createElement('span');
       modTxt.textContent = r.modelo;
       const infoBtn = document.createElement('button');
-      infoBtn.type = 'button';
-      infoBtn.className = 'chip-btn';
-      infoBtn.title = 'Detalhes (Pátio e FZ)';
-      infoBtn.textContent = 'i';
+      infoBtn.type = 'button'; infoBtn.className = 'chip-btn'; infoBtn.title = 'Detalhes (Pátio e FZ)'; infoBtn.textContent = 'i';
       infoBtn.addEventListener('click', (e)=>{ e.preventDefault(); row.classList.toggle('show-meta'); });
       cMod.append(modTxt, infoBtn);
 
-      // Cor (no lugar do FZ)
-      const cCor = document.createElement('div');
-      cCor.textContent = r.cor || '-';
-      cCor.setAttribute('data-label','Cor');
+      // Cor (substitui FZ na coluna visível)
+      const cCor = document.createElement('div'); cCor.textContent = r.cor || '-'; cCor.setAttribute('data-label','Cor');
 
       // UP (destaque)
-      const cUp = document.createElement('div');
-      cUp.className = 'up';
-      cUp.textContent = r.up;
-      cUp.setAttribute('data-label','UP');
+      const cUp = document.createElement('div'); cUp.className = 'up'; cUp.textContent = r.up; cUp.setAttribute('data-label','UP');
 
       // Variante (entre UP e Ano)
-      const cVar = document.createElement('div');
-      cVar.textContent = r.variante || '-';
-      cVar.setAttribute('data-label','Var.');
+      const cVar = document.createElement('div'); cVar.textContent = r.variante || '-'; cVar.setAttribute('data-label','Var.');
 
       // Ano
-      const cAno = document.createElement('div');
-      cAno.textContent = r.anoMod;
-      cAno.setAttribute('data-label','Ano');
+      const cAno = document.createElement('div'); cAno.textContent = r.anoMod; cAno.setAttribute('data-label','Ano');
 
       // Valor
-      const cVal = document.createElement('div');
-      cVal.textContent = fmtBRL(r.valorTabela);
-      cVal.className = 'right';
-      cVal.setAttribute('data-label','Valor Tabela');
+      const cVal = document.createElement('div'); cVal.textContent = fmtBRL(r.valorTabela); cVal.className = 'right'; cVal.setAttribute('data-label','Valor Tabela');
 
       // Ação
       const cAc = document.createElement('div');
-      const a = document.createElement('a');
-      a.className = 'btn btn-primary';
-      a.textContent = 'Calcular';
+      const a = document.createElement('a'); a.className = 'btn btn-primary'; a.textContent = 'Calcular';
       a.href = `index.html?calc=proprio&fz=${encodeURIComponent(r.fz)}`;
       cAc.appendChild(a);
 
       // Meta (apenas Pátio e FZ)
-      const cMeta = document.createElement('div');
-      cMeta.className = 'meta';
-      cMeta.setAttribute('data-label','');
-      cMeta.style.gridColumn = '1 / -1';
+      const cMeta = document.createElement('div'); cMeta.className = 'meta'; cMeta.setAttribute('data-label',''); cMeta.style.gridColumn = '1 / -1';
       if (r.patio) cMeta.insertAdjacentHTML('beforeend', `<span class="chip"><b>Pátio</b> ${r.patio}</span>`);
       if (r.fz)    cMeta.insertAdjacentHTML('beforeend', `<span class="chip"><b>FZ</b> ${r.fz}</span>`);
 
-      // Nova ordem: Modelo, Cor, UP, Var., Ano, Valor, Ação, Meta
+      // Ordem: Modelo, Cor, UP, Var., Ano, Valor, Ação, Meta
       row.append(cMod, cCor, cUp, cVar, cAno, cVal, cAc, cMeta);
       rows.appendChild(row);
     }
 
-    c.appendChild(rows);
-    acc.append(h, c);
-    groupsEl.appendChild(acc);
+    c.appendChild(rows); acc.append(h, c); groupsEl.appendChild(acc);
 
-    // toggle
-    const toggle = () => {
-      const isOpen = acc.classList.toggle('open');
-      h.setAttribute('aria-expanded', String(isOpen));
-    };
+    const toggle = () => { const isOpen = acc.classList.toggle('open'); h.setAttribute('aria-expanded', String(isOpen)); };
     h.addEventListener('click', toggle);
-    h.addEventListener('keydown', (e)=> {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
-    });
+    h.addEventListener('keydown', (e)=> { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
   }
 }
 
 function filtrar(){
-  const q = busca.value.trim().toLowerCase();
+  const q = (busca.value || '').trim().toLowerCase();
   if (!q) { render(itens); return; }
   const qNum = q.replace(/\D/g,'');
   const f = itens.filter(r =>
     r.fz.includes(qNum) ||
     r.modelo.toLowerCase().includes(q) ||
     r.up.toLowerCase().includes(q) ||
-    r.anoMod.toLowerCase().includes(q)
+    r.anoMod.toLowerCase().includes(q) ||
+    (r.cor||'').toLowerCase().includes(q) ||
+    (r.variante||'').toLowerCase().includes(q)
   );
   render(f);
-  // abre automaticamente as famílias filtradas
   document.querySelectorAll('.acc').forEach(sec => {
-    sec.classList.add('open');
-    sec.querySelector('.acc-h')?.setAttribute('aria-expanded','true');
+    sec.classList.add('open'); sec.querySelector('.acc-h')?.setAttribute('aria-expanded','true');
   });
 }
 
@@ -195,21 +167,18 @@ async function carregar(){
   try{
     const res = await fetch(sheetCsvUrl, { cache:'no-store' });
     const txt = await res.text();
-    const rows = txt.trim().split('\n');
-    rows.shift(); // cabeçalho
+    const rows = txt.trim().split('\n'); rows.shift(); // cabeçalho
     itens = rows.map(line => {
-      const cols = line
-        .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
-        .map(c => c.replace(/^"|"$/g, "").trim());
+      const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, "").trim());
       return {
         fz: (cols[0] || '').padStart(6, "0"),
         modelo: cols[1] || '',
         up: cols[2] || '',
         anoMod: cols[3] || '',
         valorTabela: parseFloat((cols[4] || '0').replace(/\./g,"").replace(/,/g,".")) || 0,
-        patio: cols[12] || '',       // coluna 13 (1-based)
-        cor: cols[13] || '',         // coluna 14
-        variante: cols[14] || ''     // coluna 15
+        patio: cols[12] || '',   // 13ª
+        cor: cols[13] || '',     // 14ª
+        variante: cols[14] || '' // 15ª
       };
     });
     render(itens);
