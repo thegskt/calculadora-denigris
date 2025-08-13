@@ -92,11 +92,19 @@ function render(list){
       const row = document.createElement('div');
       row.className = 'row';
 
-      // Modelo primeiro
+      // Modelo (com botão "i" para detalhes)
       const cMod = document.createElement('div');
-      cMod.textContent = r.modelo;
       cMod.className = 'modelo';
       cMod.setAttribute('data-label','Modelo');
+      const modTxt = document.createElement('span');
+      modTxt.textContent = r.modelo;
+      const infoBtn = document.createElement('button');
+      infoBtn.type = 'button';
+      infoBtn.className = 'chip-btn';
+      infoBtn.title = 'Detalhes (Pátio, Cor, Variante)';
+      infoBtn.textContent = 'i';
+      infoBtn.addEventListener('click', (e)=>{ e.preventDefault(); row.classList.toggle('show-meta'); });
+      cMod.append(modTxt, infoBtn);
 
       // FZ
       const cFz = document.createElement('div');
@@ -104,19 +112,24 @@ function render(list){
       cFz.textContent = r.fz;
       cFz.setAttribute('data-label','FZ');
 
+      // UP (destaque)
       const cUp = document.createElement('div');
+      cUp.className = 'up';
       cUp.textContent = r.up;
       cUp.setAttribute('data-label','UP');
 
+      // Ano
       const cAno = document.createElement('div');
       cAno.textContent = r.anoMod;
       cAno.setAttribute('data-label','Ano');
 
+      // Valor
       const cVal = document.createElement('div');
       cVal.textContent = fmtBRL(r.valorTabela);
       cVal.className = 'right';
       cVal.setAttribute('data-label','Valor Tabela');
 
+      // Ação
       const cAc = document.createElement('div');
       const a = document.createElement('a');
       a.className = 'btn btn-primary';
@@ -124,8 +137,17 @@ function render(list){
       a.href = `index.html?calc=proprio&fz=${encodeURIComponent(r.fz)}`;
       cAc.appendChild(a);
 
-      // Ordem: Modelo, FZ, UP, Ano, Valor, Ação
-      row.append(cMod, cFz, cUp, cAno, cVal, cAc);
+      // Meta (Pátio, Cor, Variante) — chips suaves
+      const cMeta = document.createElement('div');
+      cMeta.className = 'meta';
+      cMeta.setAttribute('data-label','');
+      cMeta.style.gridColumn = '1 / -1'; // ocupa toda largura no desktop
+      if (r.patio)    cMeta.insertAdjacentHTML('beforeend', `<span class="chip"><b>Pátio</b> ${r.patio}</span>`);
+      if (r.cor)      cMeta.insertAdjacentHTML('beforeend', `<span class="chip"><b>Cor</b> ${r.cor}</span>`);
+      if (r.variante) cMeta.insertAdjacentHTML('beforeend', `<span class="chip"><b>Var.</b> ${r.variante}</span>`);
+
+      // Ordem: Modelo, FZ, UP, Ano, Valor, Ação, Meta
+      row.append(cMod, cFz, cUp, cAno, cVal, cAc, cMeta);
       rows.appendChild(row);
     }
 
@@ -156,7 +178,7 @@ function filtrar(){
     r.anoMod.toLowerCase().includes(q)
   );
   render(f);
-  // abre automaticamente as famílias que aparecerem no filtro
+  // abre automaticamente as famílias filtradas
   document.querySelectorAll('.acc').forEach(sec => {
     sec.classList.add('open');
     sec.querySelector('.acc-h')?.setAttribute('aria-expanded','true');
@@ -180,7 +202,10 @@ async function carregar(){
         modelo: cols[1] || '',
         up: cols[2] || '',
         anoMod: cols[3] || '',
-        valorTabela: parseFloat((cols[4] || '0').replace(/\./g,"").replace(/,/g,".")) || 0
+        valorTabela: parseFloat((cols[4] || '0').replace(/\./g,"").replace(/,/g,".")) || 0,
+        patio: cols[12] || '',       // coluna 13 (1-based)
+        cor: cols[13] || '',         // coluna 14
+        variante: cols[14] || ''     // coluna 15
       };
     });
     render(itens);
