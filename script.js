@@ -1,25 +1,9 @@
-const usuarios = [
-  { usuario: "lpereira", senha: "Dn@1234" },
-  { usuario: "goliveira", senha: "162134" },
-  { usuario: "mferreira", senha: "Dn@1234" },
-  { usuario: "lrocha", senha: "Dn@1234" },
-  { usuario: "csandrim", senha: "Dn@1234" },
-];
+// ================== CONFIG / PLACEHOLDERS ==================
+// 1) Substitua pelo CSV correto se mudar a planilha:
+const sheetCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=2122951741&single=true&output=csv";
 
-function login() {
-  const u = document.getElementById("user").value;
-  const p = document.getElementById("pass").value;
-  const autorizado = usuarios.some(user => user.usuario === u && user.senha === p);
-  if (autorizado) {
-    document.getElementById("loginBox").classList.add("hidden");
-    document.getElementById("mainContent").classList.remove("hidden");
-  } else {
-    document.getElementById("loginError").innerText = "Usuário ou senha inválidos";
-  }
-}
-
-// VARIANTES (adicione todas as linhas conforme sua lista)
-  const variantesFab = {
+// 2) COLE SUA LISTA COMPLETA DE VARIANTES (SEM DUPLICAR) AQUI:
+const variantesFab = {
     "ACCELO 1017/39UPA25/25": "2284T",
     "ACCELO 1017/39UPF25/25": "2285T",
     "ACCELO 1017/39UPG25/25": "2287T",
@@ -1331,364 +1315,9 @@ function login() {
     "AROCS 4851/45 8X4UPE25/26": "0869T"
   };
 
-  function atualizarVarianteFab() {
-  const modelo = document.getElementById("modeloFab").value.trim();
-  const up = document.getElementById("upFab").value.trim();
-  const ano = document.getElementById("anoModeloFab").value.trim();
-  if (modelo === "Selecione" || up === "Selecione" || !ano) {
-    document.getElementById("varianteFab").textContent = "";
-    return;
-  }
-  const chave = `${modelo}${up}${ano}`;
-  document.getElementById("varianteFab").textContent = variantesFab[chave] || "";
-  }
-
-  document.getElementById("modeloFab").addEventListener("change", atualizarVarianteFab);
-  document.getElementById("upFab").addEventListener("change", atualizarVarianteFab);
-  document.getElementById("anoModeloFab").addEventListener("change", atualizarVarianteFab);
-
-    // Elementos principais
-    const fzEl              = document.getElementById("fz");
-    const fzErrorEl         = document.getElementById("fzError");
-    const modeloEl          = document.getElementById("modelo");
-    const upEl              = document.getElementById("up");
-    const anoModEl          = document.getElementById("anoMod");
-    const valorTabelaEl     = document.getElementById("valorTabela");
-    const descontoEl        = document.getElementById("desconto");
-    const descontoReaisEl   = document.getElementById("descontoReais");
-    const valorVendaEl      = document.getElementById("valorVenda");
-    const comissaoEl        = document.getElementById("comissaoProtected");
-    const dsrEl             = document.getElementById("dsrProtected");
-    const totalEl           = document.getElementById("total");
-    const rowCom            = document.getElementById("rowComissaoProtected");
-    const rowDsr            = document.getElementById("rowDsrProtected");
-    const rowTotal          = document.getElementById("rowTotalProtected");
-    const btnMost           = document.getElementById("btnMostrarProtegido");
-    const pwdGrp            = document.getElementById("passwordGroup");
-    const pwdIn             = document.getElementById("senhaInput");
-    const btnVer            = document.getElementById("btnVerificarSenha");
-    const pwdErr            = document.getElementById("senhaError");
-
-    let valorTabela = 0;
-    let vendedorAtual = null;
-    const vendedores = {};
-
-    function formatar(v) {
-      return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }
-
-    function atualizarValores() {
-      let d = parseFloat((descontoEl.value || '').replace(',','.'));
-      if (isNaN(d)) d = 0;
-      // limita faixa 0..3 sem quantizar em 0,5
-      if (d < 0) d = 0;
-      if (d > 3) d = 3;
-
-      // normaliza exibição: até 2 casas, sem forçar inteiro
-      const decsDigitadas = ((descontoEl.value || '').replace(',','.').split('.')[1] || '').length;
-      const novoTxt = Number.isInteger(d) ? d.toFixed(0) : d.toFixed(Math.min(2, Math.max(1, decsDigitadas)));
-      if (descontoEl.value !== novoTxt) descontoEl.value = novoTxt;
-
-      const valorDesc  = arredondaCentenaBaixo(valorTabela * (d / 100));
-      const valorVenda = +(valorTabela - valorDesc).toFixed(2);
-      let lucroBruto = 0, comissao = 0, dsr = 0, total = 0;
-      // ...existing code...
-
-      if (vendedorAtual) {
-        const receitaEfetiva = +(valorVenda - (valorVenda * 0.12)).toFixed(2);
-        const custoEfetivo   = +((vendedorAtual.valorCompra || 0) - ((vendedorAtual.valorCompra || 0) * 0.12)).toFixed(2);
-        lucroBruto =
-          (receitaEfetiva - custoEfetivo)
-          + (vendedorAtual.fundoEstrela || 0)
-          + (vendedorAtual.retirada || 0)
-          + (vendedorAtual.programacao || 0)
-          - (vendedorAtual.frete || 0)
-          - (vendedorAtual.revisao || 0)
-          - (vendedorAtual.custosAdd || 0);
-
-        comissao = +(lucroBruto * 0.09).toFixed(2);
-        dsr      = +(comissao * 0.15).toFixed(2);
-        total    = +(comissao + dsr).toFixed(2);
-      }
-
-      descontoReaisEl.innerText = formatar(valorDesc);
-      valorVendaEl.innerText    = formatar(valorVenda);
-      comissaoEl.innerText      = formatar(comissao);
-      dsrEl.innerText           = formatar(dsr);
-      totalEl.innerText         = formatar(total);
-    }
-    // Função para arredondar para a centena mais próxima
-    function arredondaCentenaBaixo(valor) {
-      return Math.floor(valor / 100) * 100;
-    }
-
-    const sheetCsvUrl =
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw"
-      + "/pub?gid=2122951741&single=true&output=csv";
-
-    async function carregarDados() {
-      try {
-        const res = await fetch(sheetCsvUrl);
-        const txt = await res.text();
-        txt.trim().split("\n").slice(1).forEach(line => {
-          const cols = line
-            .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
-            .map(c => c.replace(/^"|"$/g, "").trim());
-          if (!cols[0]) return;
-          const fzKey = cols[0].padStart(6, "0");
-          vendedores[fzKey] = {
-            modelo: cols[1],
-            up:     cols[2],
-            anoMod: cols[3],
-            valorTabela: parseFloat((cols[4]||'0').replace(/\./g, "").replace(/,/g, ".")) || 0,
-            valorCompra: parseFloat((cols[5]||'0').replace(/\./g, "").replace(/,/g, ".")) || 0,
-            fundoEstrela: parseFloat((cols[6]||'0').replace(/\./g, "").replace(/,/g, ".")) || 0,
-            retirada: parseFloat((cols[7]||'0').replace(/\./g, "").replace(/,/g, ".")) || 0,
-            programacao: parseFloat((cols[8]||'0').replace(/\./g, "").replace(/,/g, ".")) || 0,
-            frete: parseFloat((cols[9]||'0').replace(/\./g, "").replace(/,/g, ".")) || 0,
-            revisao: parseFloat((cols[10]||'0').replace(/\./g, "").replace(/,/g, ".")) || 0,
-            custosAdd: parseFloat((cols[11]||'0').replace(/\./g, "").replace(/,/g, ".")) || 0
-          };
-        });
-        dadosCarregados = true;
-
-        // Se havia FZ pendente (da URL), aplica agora
-        if (pendingFZ) {
-          const fzInput = document.getElementById('fz');
-          if (fzInput) {
-            fzInput.value = pendingFZ;
-            fzInput.dispatchEvent(new Event('input',  { bubbles:true }));
-            fzInput.dispatchEvent(new Event('change', { bubbles:true }));
-          }
-          pendingFZ = null;
-        }
-      } catch (err) {
-        console.error("Erro ao carregar CSV:", err);
-      }
-    }
-
-    document.getElementById("btnCopiarVariante").addEventListener("click", function() {
-      const varianteEl = document.getElementById("varianteFab");
-      const icon = document.getElementById("iconCopiarVariante");
-      const check = document.getElementById("iconCheckVariante");
-      const valor = varianteEl.textContent.trim();
-      if (valor) {
-        navigator.clipboard.writeText(valor);
-        icon.style.display = "none";
-        check.style.display = "inline";
-        setTimeout(() => {
-          icon.style.display = "inline";
-          check.style.display = "none";
-        }, 900);
-      }
-    });
-
-    // Substitua o listener antigo do FZ por este guardado:
-    if (fzEl) {
-      fzEl.addEventListener("input", () => {
-        const raw = fzEl.value.replace(/\D/g, "").slice(0, 6);
-        fzEl.value = raw;
-        const key = raw.padStart(6, "0");
-
-        if (vendedores[key]) {
-          vendedorAtual = vendedores[key];
-          modeloEl.innerText      = vendedorAtual.modelo;
-          upEl.innerText          = vendedorAtual.up;
-          anoModEl.innerText      = vendedorAtual.anoMod;
-          valorTabela             = vendedorAtual.valorTabela;
-          valorTabelaEl.innerText = formatar(valorTabela);
-          fzErrorEl.innerText     = "";
-          atualizarValores();
-        } else {
-          modeloEl.innerText      = "–";
-          upEl.innerText          = "–";
-          anoModEl.innerText      = "–";
-          valorTabelaEl.innerText = "R$ 0,00";
-          fzErrorEl.innerText     = raw.length ? "FZ não encontrado" : "";
-          vendedorAtual           = null;
-          atualizarValores();
-        }
-      });
-    }
-
-    // ==== UNIFICAR A PARTIR DAQUI (remova versões antigas duplicadas) ====
-
-    let dadosCarregados = false;
-    let pendingFZ = null;
-
-    function showCalcProprio() {
-      document.getElementById('calcEstoqueProprio')?.classList.remove('hidden');
-      document.getElementById('calcEstoqueFabrica')?.classList.add('hidden');
-    }
-    function showCalcFabrica() {
-      document.getElementById('calcEstoqueProprio')?.classList.add('hidden');
-      document.getElementById('calcEstoqueFabrica')?.classList.remove('hidden');
-    }
-
-    function applyQueryParams() {
-      try {
-        const params = new URLSearchParams(location.search);
-        const calc = (params.get('calc') || '').toLowerCase();
-        const fz = (params.get('fz') || '').replace(/\D/g,'').slice(0,6);
-
-        if (calc === 'fabrica') showCalcFabrica(); else showCalcProprio();
-
-        if (fz) {
-          const key = fz.padStart(6,'0');
-          // Se dados já carregados, aplica direto; senão guarda
-          if (dadosCarregados) {
-            const fzInput = document.getElementById('fz');
-            if (fzInput) {
-              fzInput.value = fz;
-              fzInput.dispatchEvent(new Event('input',  { bubbles:true }));
-              fzInput.dispatchEvent(new Event('change', { bubbles:true }));
-            }
-          } else {
-            pendingFZ = fz;
-          }
-        }
-      } catch(e) {
-        console.warn('applyQueryParams error', e);
-      }
-    }
-
-    // Ajusta função carregarDados para marcar carregamento e aplicar FZ pendente
-    async function carregarDados() {
-      try {
-        const res = await fetch(sheetCsvUrl);
-        const txt = await res.text();
-        txt.trim().split("\n").slice(1).forEach(line => {
-          const cols = line
-            .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
-            .map(c => c.replace(/^"|"$/g, "").trim());
-          if (!cols[0]) return;
-          const fzKey = cols[0].padStart(6, "0");
-          vendedores[fzKey] = {
-            modelo: cols[1],
-            up:     cols[2],
-            anoMod: cols[3],
-            valorTabela: parseFloat((cols[4]||'0').replace(/\./g, "").replace(/,/g, ".")) || 0,
-            valorCompra: parseFloat((cols[5]||'0').replace(/\./g, "").replace(/,/g, ".")) || 0,
-            fundoEstrela: parseFloat((cols[6]||'0').replace(/\./g, "").replace(/,/g, ".")) || 0,
-            retirada: parseFloat((cols[7]||'0').replace(/\./g, "").replace(/,/g, ".")) || 0,
-            programacao: parseFloat((cols[8]||'0').replace(/\./g, "").replace(/,/g, ".")) || 0,
-            frete: parseFloat((cols[9]||'0').replace(/\./g, "").replace(/,/g, ".")) || 0,
-            revisao: parseFloat((cols[10]||'0').replace(/\./g, "").replace(/,/g, ".")) || 0,
-            custosAdd: parseFloat((cols[11]||'0').replace(/\./g, "").replace(/,/g, ".")) || 0
-          };
-        });
-        dadosCarregados = true;
-
-        // Se havia FZ pendente (da URL), aplica agora
-        if (pendingFZ) {
-          const fzInput = document.getElementById('fz');
-          if (fzInput) {
-            fzInput.value = pendingFZ;
-            fzInput.dispatchEvent(new Event('input',  { bubbles:true }));
-            fzInput.dispatchEvent(new Event('change', { bubbles:true }));
-          }
-          pendingFZ = null;
-        }
-      } catch (err) {
-        console.error("Erro ao carregar CSV:", err);
-      }
-    }
-
-    document.getElementById("btnCopiarVariante").addEventListener("click", function() {
-      const varianteEl = document.getElementById("varianteFab");
-      const icon = document.getElementById("iconCopiarVariante");
-      const check = document.getElementById("iconCheckVariante");
-      const valor = varianteEl.textContent.trim();
-      if (valor) {
-        navigator.clipboard.writeText(valor);
-        icon.style.display = "none";
-        check.style.display = "inline";
-        setTimeout(() => {
-          icon.style.display = "inline";
-          check.style.display = "none";
-        }, 900);
-      }
-    });
-
-    // Enter para login
-    document.getElementById("pass").addEventListener("keydown", function(e){
-      if(e.key === "Enter") login();
-    });
-    // Enter para senha protegida
-    pwdIn.addEventListener("keydown", function(e){
-      if(e.key === "Enter") btnVer.click();
-    });
-    document.getElementById("acaoFab").addEventListener("change", function() {
-      const select = this;
-      switch (select.value) {
-        case "Estoque":
-          select.style.backgroundColor = "#8dc2ffff"; // Azul De Nigris
-          select.style.color = "#001c3bff";
-          select.style.fontWeight = "900";
-          break;
-        case "C.E.ABAST":
-          select.style.backgroundColor = "#ffc35bff"; // Laranja claro
-          select.style.color = "#301e01ff";
-          select.style.fontWeight = "900";
-          break;
-        case "Frigorificado":
-          select.style.backgroundColor = "#e1bee7"; // Roxo claro
-          select.style.color = "#25002cff";
-          select.style.fontWeight = "900";
-          break;
-        case "Postos de Combustiveis":
-          select.style.backgroundColor = "#a2f3a5ff"; // Verde claro
-          select.style.color = "#002401ff";
-          select.style.fontWeight = "900";
-          break;
-        case "Mais Alimentos":
-          select.style.backgroundColor = "#fff48fff"; // Amarelo claro
-          select.style.color = "#383200ff";
-          select.style.fontWeight = "900";
-          break;
-        default:
-          select.style.backgroundColor = "";
-          select.style.color = "";
-      }
-    });
-
-    (function setupDeepLinkEmitirPedido() {
-      const link = document.getElementById('linkEmitirPedido');
-      if (!link) return;
-
-      const webUrl = link.href;
-      const deepLink = 'dyvendasapp://';
-      const ua = navigator.userAgent;
-      const isAndroid = /Android/i.test(ua);
-      const isIOS = /iPhone|iPad|iPod/i.test(ua);
-
-      link.addEventListener('click', function (e) {
-        if (!(isAndroid || isIOS)) return; // desktop: segue para o site
-
-        e.preventDefault();
-
-        if (isIOS) {
-          const t = setTimeout(() => { window.location.href = webUrl; }, 1500);
-          const cancel = () => clearTimeout(t);
-          document.addEventListener('visibilitychange', () => { if (document.hidden) cancel(); }, { once: true });
-          window.addEventListener('pagehide', cancel, { once: true });
-          window.location.href = deepLink;
-          return;
-        }
-
-        let appAbriu = false;
-        const onVis = () => { if (document.hidden) appAbriu = true; };
-        document.addEventListener('visibilitychange', onVis, { once: true });
-
-        window.location.href = deepLink;
-
-        setTimeout(() => {
-          if (!appAbriu) window.location.href = webUrl;
-        }, 1200);
-      });
-    })();
-
-    const RAW_ACOES = `
+// 3) COLE SUA LISTA RAW_ACOES COMPLETA (UMA VEZ) AQUI:
+// Cada linha: 'CODIGOANO' : ['Acao1','Acao2']
+const RAW_ACOES = `
     '02037T25/25' : ['Estoque'],
     '02105T25/25' : ['Estoque', 'Mais Alimentos'],
     '02109T25/25' : ['Estoque'],
@@ -1962,232 +1591,299 @@ function login() {
     '0869T25/26' : ['Estoque']
     `;
 
-// === AÇÕES POR VARIANTE+ANO ===
+// ================== ESTADO ==================
+const vendedores = {}; // FZ -> dados
+let vendedorAtual = null;
+let valorTabela = 0;
+let dadosCarregados = false;
+let pendingFZ = null;
 
-// Parser robusto: extrai linhas 'CHAVE' : ['A','B',...]
-  function buildAcoesMap(raw) {
-    const map = {};
-    raw.split(/\r?\n/).forEach(line => {
-      const m = line.match(/'([^']+)'\s*:\s*\[(.*?)\]/);
-      if (!m) return;
-      const key = m[1].trim().toUpperCase();          // ex: 1035T25/25
-      const inside = m[2].trim();
+// ================== MAP DE AÇÕES ==================
+function buildAcoesMap(raw){
+  const map = {};
+  raw.split(/\r?\n/).forEach(line=>{
+    const m = line.match(/'([^']+)'\s*:\s*\[(.*?)\]/);
+    if(!m) return;
+    const key = m[1].trim().toUpperCase();
+    const inside = m[2].trim();
+    if(!inside){ map[key]=[]; return; }
+    const parts = inside.split(/\s*,\s*/)
+      .map(p=>p.replace(/^['"]|['"]$/g,'').trim())
+      .filter(Boolean);
+    map[key] = Array.from(new Set(parts));
+  });
+  return map;
+}
+const ACOES_MAP = buildAcoesMap(RAW_ACOES);
+const ACOES_PADRAO = ['Estoque'];
 
-      if (!inside) { map[key] = []; return; }
+// ================== ELEMENTOS ==================
+const els = id => document.getElementById(id);
 
-      // Separa pelos commas que estão fora de colchetes (simples pois só há strings)
-      const parts = inside.split(/\s*,\s*/).map(p =>
-        p.replace(/^['"]|['"]$/g, '').trim()
-      ).filter(Boolean);
+const fzEl            = els("fz");
+const fzErrorEl       = els("fzError");
+const modeloEl        = els("modelo");
+const upEl            = els("up");
+const anoModEl        = els("anoMod");
+const valorTabelaEl   = els("valorTabela");
+const descontoEl      = els("desconto");
+const descontoReaisEl = els("descontoReais");
+const valorVendaEl    = els("valorVenda");
+const comissaoEl      = els("comissaoProtected");
+const dsrEl           = els("dsrProtected");
+const totalEl         = els("total");
 
-      map[key] = Array.from(new Set(parts)); // remove duplicados
+const modeloFabEl     = els("modeloFab");
+const upFabEl         = els("upFab");
+const anoFabEl        = els("anoModeloFab");
+const varianteFabEl   = els("varianteFab");
+const acaoFabEl       = els("acaoFab");
+
+// ================== UTIL ==================
+function formatar(v){
+  return (v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+}
+function arredondaCentenaBaixo(v){ return Math.floor(v/100)*100; }
+
+// ================== MOSTRAR CALCULADORAS ==================
+function showCalcProprio(){
+  els('calcEstoqueProprio')?.classList.remove('hidden');
+  els('calcEstoqueFabrica')?.classList.add('hidden');
+}
+function showCalcFabrica(){
+  els('calcEstoqueProprio')?.classList.add('hidden');
+  els('calcEstoqueFabrica')?.classList.remove('hidden');
+}
+
+// ================== CÁLCULO ==================
+function atualizarValores(){
+  if(!descontoEl) return;
+  let d = parseFloat((descontoEl.value||'').replace(',','.'));
+  if(isNaN(d)) d=0;
+  if(d<0) d=0;
+  if(d>3) d=3;
+
+  const frac = ((descontoEl.value||'').split(/[.,]/)[1]||'').length;
+  const txt = Number.isInteger(d)? d.toFixed(0): d.toFixed(Math.min(2, Math.max(1, frac)));
+  if (descontoEl.value !== txt) descontoEl.value = txt;
+
+  const valorDesc  = arredondaCentenaBaixo(valorTabela * (d/100));
+  const valorVenda = +(valorTabela - valorDesc).toFixed(2);
+
+  let comissao=0, dsr=0, total=0;
+  if (vendedorAtual){
+    const receitaEfetiva = +(valorVenda - valorVenda*0.12).toFixed(2);
+    const custoEfetivo   = +((vendedorAtual.valorCompra||0) - (vendedorAtual.valorCompra||0)*0.12).toFixed(2);
+    const lucroBruto =
+      (receitaEfetiva - custoEfetivo) +
+      (vendedorAtual.fundoEstrela||0) +
+      (vendedorAtual.retirada||0) +
+      (vendedorAtual.programacao||0) -
+      (vendedorAtual.frete||0) -
+      (vendedorAtual.revisao||0) -
+      (vendedorAtual.custosAdd||0);
+
+    comissao = +(lucroBruto * 0.09).toFixed(2);
+    dsr      = +(comissao * 0.15).toFixed(2);
+    total    = +(comissao + dsr).toFixed(2);
+  }
+
+  descontoReaisEl && (descontoReaisEl.innerText = formatar(valorDesc));
+  valorVendaEl    && (valorVendaEl.innerText    = formatar(valorVenda));
+  comissaoEl      && (comissaoEl.innerText      = formatar(comissao));
+  dsrEl           && (dsrEl.innerText           = formatar(dsr));
+  totalEl         && (totalEl.innerText         = formatar(total));
+}
+
+// ================== FZ LOOKUP ==================
+function aplicarFZ(fzRaw){
+  const raw = (fzRaw||'').replace(/\D/g,'').slice(0,6);
+  if (fzEl) fzEl.value = raw;
+  const key = raw.padStart(6,'0');
+
+  if (vendedores[key]){
+    vendedorAtual = vendedores[key];
+    modeloEl && (modeloEl.innerText = vendedorAtual.modelo || '–');
+    upEl     && (upEl.innerText     = vendedorAtual.up || '–');
+    anoModEl && (anoModEl.innerText = vendedorAtual.anoMod || '–');
+    valorTabela = vendedorAtual.valorTabela || 0;
+    valorTabelaEl && (valorTabelaEl.innerText = formatar(valorTabela));
+    fzErrorEl && (fzErrorEl.innerText = '');
+  } else {
+    vendedorAtual = null;
+    modeloEl && (modeloEl.innerText = '–');
+    upEl     && (upEl.innerText     = '–');
+    anoModEl && (anoModEl.innerText = '–');
+    valorTabela = 0;
+    valorTabelaEl && (valorTabelaEl.innerText = "R$ 0,00");
+    fzErrorEl && (fzErrorEl.innerText = raw.length ? "FZ não encontrado" : "");
+  }
+  atualizarValores();
+}
+fzEl?.addEventListener('input', ()=> aplicarFZ(fzEl.value));
+
+// ================== CARREGAR CSV ==================
+async function carregarDados(){
+  try{
+    const res = await fetch(sheetCsvUrl);
+    const txt = await res.text();
+    txt.trim().split('\n').slice(1).forEach(line=>{
+      const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+        .map(c=>c.replace(/^"|"$/g,'').trim());
+      if(!cols[0]) return;
+      const fzKey = cols[0].padStart(6,'0');
+      vendedores[fzKey] = {
+        modelo: cols[1],
+        up: cols[2],
+        anoMod: cols[3],
+        valorTabela: parseFloat((cols[4]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        valorCompra: parseFloat((cols[5]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        fundoEstrela: parseFloat((cols[6]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        retirada: parseFloat((cols[7]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        programacao: parseFloat((cols[8]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        frete: parseFloat((cols[9]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        revisao: parseFloat((cols[10]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        custosAdd: parseFloat((cols[11]||'0').replace(/\./g,'').replace(/,/g,'.'))||0
+      };
     });
-    return map;
-  }
-
-  const ACOES_MAP = buildAcoesMap(RAW_ACOES);
-  const ACOES_PADRAO = ['Estoque'];
-
-  // Depuração opcional: ver algumas chaves carregadas
-  // console.log('ACOES_MAP sample', Object.keys(ACOES_MAP).slice(0,10));
-
-  function resolveChaveModeloAno() {
-    const variante = (document.getElementById('varianteFab')?.textContent || '')
-      .toUpperCase().replace(/\s+/g, '').trim();       // ex: 1035T
-    const ano = (document.getElementById('anoModeloFab')?.value || '')
-      .replace(/\s+/g, '').trim();                     // ex: 25/25
-    if (!variante || !ano) return '';
-    return `${variante}${ano}`;                        // ex: 1035T25/25
-  }
-
-  function preencherAcoes() {
-    const acaoSel = document.getElementById('acaoFab');
-    if (!acaoSel) return;
-    const chave = resolveChaveModeloAno();
-    let acoes = ACOES_PADRAO;
-    if (chave && ACOES_MAP[chave]) acoes = ACOES_MAP[chave];
-
-    // Depuração:
-    // console.log('variante:', document.getElementById('varianteFab').textContent,
-    //             'ano:', document.getElementById('anoModeloFab').value,
-    //             'chave:', chave, 'acoes:', acoes);
-
-    acaoSel.innerHTML = '';
-    acaoSel.add(new Option('Selecione', ''));
-    acoes.forEach(a => acaoSel.add(new Option(a, a)));
-    acaoSel.disabled = acoes.length === 0;
-  }
-
-  function atualizarVarianteFab() {
-    const modelo = document.getElementById("modeloFab").value.trim();
-    const up = document.getElementById("upFab").value.trim();
-    const ano = document.getElementById("anoModeloFab").value.trim();
-
-    if (modelo === "Selecione" || up === "Selecione" || !ano) {
-      document.getElementById("varianteFab").textContent = "";
-      preencherAcoes(); // garante reset
-      return;
+    dadosCarregados = true;
+    if (pendingFZ){
+      aplicarFZ(pendingFZ);
+      pendingFZ = null;
     }
-    const chave = `${modelo}${up}${ano}`;              // ex: ACCELO 1317/39UPF25/25
-    const codigo = variantesFab[chave] || "";
-    document.getElementById("varianteFab").textContent = codigo;
+  }catch(e){
+    console.error('Erro ao carregar CSV', e);
+  }
+}
+
+// ================== VARIANTE & AÇÕES (FÁBRICA) ==================
+function chaveVariante(){
+  const modelo = modeloFabEl?.value?.trim();
+  const up     = upFabEl?.value?.trim();
+  const ano    = anoFabEl?.value?.trim();
+  if (!modelo || modelo==="Selecione" || !up || up==="Selecione" || !ano) return null;
+  return `${modelo}${up}${ano}`; // Ex: ACCELO 817/39UPA25/25
+}
+function atualizarVarianteFab(){
+  const chave = chaveVariante();
+  if (!varianteFabEl) return;
+  if (!chave){
+    varianteFabEl.textContent = '';
     preencherAcoes();
+    return;
   }
-
-  // Eventos (mantidos / reforçados)
-  document.getElementById("modeloFab").addEventListener("change", atualizarVarianteFab);
-  document.getElementById("upFab").addEventListener("change", atualizarVarianteFab);
-  document.getElementById("anoModeloFab").addEventListener("change", atualizarVarianteFab);
-
-  // Chamada inicial (após montar selects dinâmicos iniciais)
+  const codigo = variantesFab[chave] || '';
+  varianteFabEl.textContent = codigo;
   preencherAcoes();
+}
+function resolveChaveAcao(){
+  const cod = (varianteFabEl?.textContent || '').toUpperCase().replace(/\s+/g,'');
+  const ano = (anoFabEl?.value || '').replace(/\s+/g,'');
+  if (!cod || !ano) return '';
+  return `${cod}${ano}`; // Ex: 1035T25/25
+}
+function preencherAcoes(){
+  if (!acaoFabEl) return;
+  const chave = resolveChaveAcao();
+  let lista = ACOES_PADRAO;
+  if (chave && ACOES_MAP[chave]) lista = ACOES_MAP[chave];
+  acaoFabEl.innerHTML = '';
+  acaoFabEl.add(new Option('Selecione',''));
+  lista.forEach(a=> acaoFabEl.add(new Option(a,a)));
+  acaoFabEl.disabled = lista.length===0;
+}
+modeloFabEl?.addEventListener('change', atualizarVarianteFab);
+upFabEl?.addEventListener('change', atualizarVarianteFab);
+anoFabEl?.addEventListener('change', atualizarVarianteFab);
 
-  (function initControleDesconto(){
-    const input   = document.getElementById('desconto');
-    const upBtn   = document.getElementById('btnDescontoUp');
-    const downBtn = document.getElementById('btnDescontoDown');
-    if(!input || !upBtn || !downBtn) return;
-
-    const MIN = parseFloat(input.min) || 0;
-    const MAX = parseFloat(input.max) || 3;
-    const STEP_BTN = 0.5;          // passo apenas para os botões
-
-    function clampRange(v){
-      if (isNaN(v)) v = 0;
-      if (v < MIN) v = MIN;
-      if (v > MAX) v = MAX;
-      return v;
-    }
-
-    function formatValor(v){
-      // Inteiro sem casas; senão até 2 casas (mantém 0.2, 0.25 se digitar)
-      if (Number.isInteger(v)) return v.toString();
-      const txt = v.toString();
-      // limita a 2 casas sem remover dígitos significativos que o usuário digitou
-      return txt.replace(/^(-?\d+)(\.\d{1,2}).*$/, '$1$2');
-    }
-
-    function aplicarValor(v){
-      v = clampRange(v);
-      input.value = formatValor(v);
-      if (typeof atualizarValores === 'function') atualizarValores();
-    }
-
-    function alterarPorBotao(delta){
-      let atual = parseFloat((input.value||'').replace(',','.'));
-      if (isNaN(atual)) atual = 0;
-      let novo = atual + delta;              // soma em passos de 0,5
-      novo = Math.round(novo * 100) / 100;   // evita 0.3000000004, preserva 2 casas (0.2 + 0.5 = 0.7; 0.25 + 0.5 = 0.75)
-      aplicarValor(novo);
-    }
-
-    upBtn.addEventListener('click',   (e) => { if (e.detail === 0) alterarPorBotao(+STEP_BTN); });
-    downBtn.addEventListener('click', (e) => { if (e.detail === 0) alterarPorBotao(-STEP_BTN); });
-    // Pressionar e segurar (auto repeat)
-    function addHold(btn, delta){
-      let holdT, repT;
-      const start = e => {
-        e.preventDefault();
-        alterarPorBotao(delta);
-        holdT = setTimeout(()=> {
-          repT = setInterval(()=> alterarPorBotao(delta), 140);
-        }, 450);
-      };
-      const stop = () => {
-        clearTimeout(holdT);
-        clearInterval(repT);
-      };
-      ['mousedown','touchstart'].forEach(ev => btn.addEventListener(ev,start,{passive:false}));
-      ['mouseup','mouseleave','touchend','touchcancel'].forEach(ev => btn.addEventListener(ev,stop));
-    }
-    addHold(upBtn, +STEP_BTN);
-    addHold(downBtn, -STEP_BTN);
-
-    // Digitação manual: só limita faixa, não força múltiplos de 0,5
-    function onManual(){
-      const v = parseFloat((input.value||'').replace(',','.'));
-      aplicarValor(isNaN(v)?0:v);
-    }
-    input.addEventListener('change', onManual);
-    input.addEventListener('blur',   onManual);
-    input.addEventListener('input',  () => {
-      // evita mais de 2 casas decimais digitadas
-      const m = input.value.match(/^(\d+)([.,](\d{0,2})?)?$/);
-      if (!m) return;
-    });
-
-    aplicarValor(parseFloat(input.value)||0);
-  })();
-    function applyQueryParams() {
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const calc = (params.get('calc') || '').toLowerCase();
-      const fz = (params.get('fz') || '').replace(/\D/g,'').slice(0,6);
-
-      // Seleciona a calculadora Estoque Próprio se solicitado
-      if (calc === 'proprio') {
-        const sp = document.getElementById('calcEstoqueProprio');
-        const sf = document.getElementById('calcEstoqueFabrica');
-        if (sp && sf) {
-          sp.classList.remove('hidden');
-          sf.classList.add('hidden');
-        }
-      }
-
-      // Preenche FZ e dispara cálculo
-      if (fz) {
-        const fzInput = document.getElementById('fz');
-        if (fzInput) {
-          fzInput.value = fz;
-          fzInput.dispatchEvent(new Event('input', { bubbles: true }));
-        }
-      }
-    } catch(e) {
-      console.warn('applyQueryParams error', e);
-    }
+// ================== COPIAR VARIANTE ==================
+els("btnCopiarVariante")?.addEventListener("click", ()=>{
+  const v = (varianteFabEl?.textContent||'').trim();
+  if(!v) return;
+  navigator.clipboard.writeText(v);
+  const icon  = els("iconCopiarVariante");
+  const check = els("iconCheckVariante");
+  if(icon && check){
+    icon.style.display='none';
+    check.style.display='inline';
+    setTimeout(()=>{icon.style.display='inline';check.style.display='none';},900);
   }
-  // Chame após login com sucesso
-  function login() {
-    const u = document.getElementById("user").value;
-    const p = document.getElementById("pass").value;
-    const autorizado = usuarios.some(user => user.usuario === u && user.senha === p);
-    if (autorizado) {
-      document.getElementById("loginBox").classList.add("hidden");
-      document.getElementById("mainContent").classList.remove("hidden");
-      applyQueryParams(); // aplica parâmetros ao entrar
-    } else {
-      document.getElementById("loginError").innerText = "Usuário ou senha inválidos";
-    }
-  }
+});
 
-  // Se sua app já inicia logada (ou sem login), pode chamar também no load:
-  document.addEventListener('DOMContentLoaded', () => {
-    const main = document.getElementById("mainContent");
-    if (main && !main.classList.contains('hidden')) {
-      applyQueryParams();
-    }
-  });
-
-  // Liga os botões e define a calculadora padrão ao carregar
-  document.addEventListener('DOMContentLoaded', () => {
-    // padrão ao abrir: Estoque Próprio
-    showCalcProprio();
-
-    document.getElementById('btnEstoqueProprio')?.addEventListener('click', showCalcProprio);
-    document.getElementById('btnEstoqueFabrica')?.addEventListener('click', showCalcFabrica);
-
-    // Se o conteúdo já estiver visível (sem login) aplica já
-    const main = document.getElementById('mainContent');
-    if (main && !main.classList.contains('hidden')) applyQueryParams();
-  });
-
-  // Se usa login, chame applyQueryParams após liberar o mainContent:
-  const originalLogin = window.login;
-  window.login = function(...args) {
-    const r = typeof originalLogin === 'function' ? originalLogin.apply(this, args) : undefined;
-    // Aguarda o DOM mostrar o mainContent e aplica parâmetros
-    setTimeout(applyQueryParams, 0);
-    return r;
+// ================== COLORIR AÇÃO ==================
+acaoFabEl?.addEventListener('change',()=>{
+  const val = acaoFabEl.value;
+  const map = {
+    "Estoque":               {bg:"#8dc2ff", fg:"#001c3b"},
+    "C.E.ABAST":             {bg:"#ffc35b", fg:"#301e01"},
+    "Frigorificado":         {bg:"#e1bee7", fg:"#25002c"},
+    "Postos de Combustiveis":{bg:"#a2f3a5", fg:"#002401"},
+    "Mais Alimentos":        {bg:"#fff48f", fg:"#383200"}
   };
-  
+  const cfg = map[val] || {bg:"",fg:""};
+  acaoFabEl.style.backgroundColor = cfg.bg;
+  acaoFabEl.style.color = cfg.fg;
+  acaoFabEl.style.fontWeight = cfg.bg? "900":"";
+});
+
+// ================== CONTROLE DESCONTO (BOTÕES) ==================
+(function initDesconto(){
+  if(!descontoEl) return;
+  const upBtn = els('btnDescontoUp');
+  const dnBtn = els('btnDescontoDown');
+  const MIN=0, MAX=3, STEP=0.5;
+
+  function clamp(v){ if(isNaN(v)) v=0; return Math.min(MAX, Math.max(MIN,v)); }
+  function fmt(v){ return Number.isInteger(v)? v.toString(): v.toFixed(2).replace(/0$/,'').replace(/0$/,''); }
+  function setVal(v){ v=clamp(v); descontoEl.value=fmt(v); atualizarValores(); }
+  function alter(d){
+    let v=parseFloat((descontoEl.value||'').replace(',','.'));
+    if(isNaN(v)) v=0;
+    v = Math.round((v+d)*100)/100;
+    setVal(v);
+  }
+  function addHold(btn,delta){
+    if(!btn) return;
+    let t1,t2;
+    const start=e=>{
+      e.preventDefault(); alter(delta);
+      t1=setTimeout(()=> t2=setInterval(()=>alter(delta),140),450);
+    };
+    const stop=()=>{clearTimeout(t1);clearInterval(t2);};
+    ['mousedown','touchstart'].forEach(ev=>btn.addEventListener(ev,start,{passive:false}));
+    ['mouseup','mouseleave','touchend','touchcancel'].forEach(ev=>btn.addEventListener(ev,stop));
+  }
+  upBtn?.addEventListener('click', ()=>alter(+STEP));
+  dnBtn?.addEventListener('click', ()=>alter(-STEP));
+  addHold(upBtn,+STEP);
+  addHold(dnBtn,-STEP);
+  descontoEl.addEventListener('change',()=> setVal(parseFloat((descontoEl.value||'').replace(',','.'))||0));
+  descontoEl.addEventListener('blur',  ()=> setVal(parseFloat((descontoEl.value||'').replace(',','.'))||0));
+})();
+
+// ================== QUERY PARAMS ==================
+function applyQueryParams(){
+  const params = new URLSearchParams(location.search);
+  const calc = (params.get('calc')||'').toLowerCase();
+  const fz   = (params.get('fz')||'').replace(/\D/g,'').slice(0,6);
+
+  if (calc === 'fabrica') showCalcFabrica(); else showCalcProprio();
+
+  if (fz){
+    if (dadosCarregados) aplicarFZ(fz);
+    else pendingFZ = fz;
+  }
+}
+
+// ================== INIT ==================
+function init(){
+  showCalcProprio();
+  applyQueryParams();
   carregarDados();
+  atualizarVarianteFab();
+  preencherAcoes();
+}
+document.addEventListener('DOMContentLoaded', init);
+
+els('btnEstoqueProprio')?.addEventListener('click', showCalcProprio);
+els('btnEstoqueFabrica')?.addEventListener('click', showCalcFabrica);
