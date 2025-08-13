@@ -1844,8 +1844,9 @@ acaoFabEl?.addEventListener('change',()=>{
   }
   function addHold(btn,delta){
     if(!btn) return;
-    let t1,t2,hold=false;
-    const start=e=>{
+    let t1,t2,hold=false, touchStarted=false;
+    // Desktop: click rápido, hold = mouse
+    btn.addEventListener('mousedown',e=>{
       e.preventDefault();
       hold = false;
       t1=setTimeout(()=>{
@@ -1853,19 +1854,35 @@ acaoFabEl?.addEventListener('change',()=>{
         alter(delta);
         t2=setInterval(()=>alter(delta),140);
       },450);
-    };
-    const stop=()=>{
+    },{passive:false});
+    btn.addEventListener('mouseup',()=>{
       clearTimeout(t1); clearInterval(t2);
-    };
-    btn.addEventListener('mousedown',start,{passive:false});
-    btn.addEventListener('touchstart',start,{passive:false});
-    btn.addEventListener('mouseup',stop);
-    btn.addEventListener('mouseleave',stop);
-    btn.addEventListener('touchend',stop);
-    btn.addEventListener('touchcancel',stop);
-    // Clique rápido só altera se não foi hold
+    });
+    btn.addEventListener('mouseleave',()=>{
+      clearTimeout(t1); clearInterval(t2);
+    });
     btn.addEventListener('click',e=>{
-      if (!hold) alter(delta);
+      if (!hold && !touchStarted) alter(delta);
+    });
+
+    // Mobile: touchstart já incrementa, se segurar faz hold
+    btn.addEventListener('touchstart',e=>{
+      e.preventDefault();
+      hold = false;
+      touchStarted = true;
+      alter(delta); // tap já incrementa
+      t1=setTimeout(()=>{
+        hold = true;
+        t2=setInterval(()=>alter(delta),140);
+      },450);
+    },{passive:false});
+    btn.addEventListener('touchend',()=>{
+      clearTimeout(t1); clearInterval(t2);
+      setTimeout(()=>{touchStarted=false;},50); // libera para próximo tap
+    });
+    btn.addEventListener('touchcancel',()=>{
+      clearTimeout(t1); clearInterval(t2);
+      setTimeout(()=>{touchStarted=false;},50);
     });
   }
   addHold(upBtn,+STEP);
