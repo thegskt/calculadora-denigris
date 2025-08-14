@@ -1757,6 +1757,8 @@ async function carregarDados(){
 }
 
 // ================== POPULAR SELECTS DINÂMICOS (FÁBRICA) ==================
+
+// Extrai famílias (modelo base) do objeto variantesFab
 function getFamilias() {
   const fams = new Set();
   Object.keys(variantesFab).forEach(k => {
@@ -1767,6 +1769,7 @@ function getFamilias() {
   return Array.from(fams).sort();
 }
 
+// Extrai UPs únicos para a família selecionada
 function getUps(familia) {
   const ups = new Set();
   Object.keys(variantesFab).forEach(k => {
@@ -1831,6 +1834,7 @@ upFabEl?.addEventListener('change', () => {
   });
   atualizarVarianteFab();
 });
+
 // Atualiza variante e ações ao trocar o ano
 anoFabEl?.addEventListener('change', atualizarVarianteFab);
 
