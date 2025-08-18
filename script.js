@@ -1940,6 +1940,10 @@ function preencherUps(){
   preencherAcoes?.();
 }
 
+function formatFamilia(f){
+  if(!f) return '';
+  return f.charAt(0) + f.slice(1).toLowerCase();
+}
 
 function preencherModelos(){
   limparSelect(modeloFabEl);
@@ -1947,11 +1951,15 @@ function preencherModelos(){
   const familia = familiaSelecionada();
   const up = upFabEl.value;
   if(!ano || !familia || !up) return;
-  getModelos(ano,familia,up).forEach(m=> modeloFabEl.add(new Option(m,m)));
+  const familiaLabel = formatFamilia(familia);
+  getModelos(ano,familia,up).forEach(m=>{
+    // Mostrar "Atego 1419/48" mas manter value só como modelo
+    const opt = new Option(`${familiaLabel} ${m}`, m);
+    modeloFabEl.add(opt);
+  });
   varianteFabEl && (varianteFabEl.textContent='');
   preencherAcoes?.();
 }
-
 // chaveVariante (mantém só UMA definição)
 function chaveVariante(){
   const ano = anoFabEl.value;
