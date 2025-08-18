@@ -1817,16 +1817,21 @@ async function carregarDados(){
 if (typeof preencherFamilias !== 'undefined') {
   // apenas evita conflitos se algo restar
 }
+// Mapeamento fixo de UPs por família base
+const MAP_FAMILIA_UPS = {
+  ACCELO: ['UPA','UPF','UPG','UPH'],
+  ATEGO:  ['UPB','UPC','UPD','UPE','UPF','UPG','UPH','UPI'],
+  ACTROS: ['UPH','UPI','UPJ'],
+  AXOR:   ['UPG','UPH','UPI'],
+  AROCS:  ['UPE','UPF','UPG','UPH']
+};
+
+// (REMOVA quaisquer definições duplicadas de chaveVariante / atualizarVarianteFab mais abaixo)
 
 function parseKey(k){
-  // Ex: "ACCELO 1017/39UPA25/25"
   const m = k.match(/^(.+?)(UP[A-Z]|SEM UP|S\/P)(\d{2}\/\d{2})$/);
   if(!m) return null;
-  return {
-    familia: m[1].trim(),
-    up: m[2],
-    ano: m[3]
-  };
+  return { familia: m[1].trim(), up: m[2], ano: m[3] };
 }
 
 function getAnosGlobais(){
@@ -1845,17 +1850,6 @@ function getFamiliasPorAno(ano){
     if(p && p.ano === ano) fams.add(p.familia);
   });
   return Array.from(fams).sort();
-}
-
-function getUpsPorFamiliaAno(familia, ano){
-  const ups = new Set();
-  Object.keys(variantesFab).forEach(k=>{
-    const p = parseKey(k);
-    if(p && p.ano === ano && p.familia === familia){
-      ups.add(p.up);
-    }
-  });
-  return Array.from(ups).sort();
 }
 
 function limparSelect(sel, placeholder='Selecione'){
@@ -1893,18 +1887,25 @@ function preencherUpsFamilia(familia, ano){
     preencherAcoes();
     return;
   }
-  getUpsPorFamiliaAno(familia, ano).forEach(u=> upFabEl.add(new Option(u,u)));
+  const base = familia.split(/\s+/)[0].toUpperCase();
+  const candidatos = MAP_FAMILIA_UPS[base] || [];
+  // Filtrar somente UPs que realmente existem para (familia+UP+ano)
+  const existentes = candidatos.filter(up=>{
+    return variantesFab.hasOwnProperty(`${familia}${up}${ano}`);
+  });
+  const lista = existentes.length ? existentes : candidatos;
+  lista.forEach(u=> upFabEl.add(new Option(u,u)));
   if(varianteFabEl) varianteFabEl.textContent='';
   preencherAcoes();
 }
 
-// Override de chaveVariante permanece compatível (usa valores atuais)
+// chaveVariante (mantém só UMA definição)
 function chaveVariante(){
   const ano = anoFabEl?.value?.trim();
   const familia = modeloFabEl?.value?.trim();
   const up = upFabEl?.value?.trim();
   if(!ano || !familia || !up) return null;
-  return `${familia}${up}${ano}`; // mesmo padrão: FAMÍLIA + UP + ANO
+  return `${familia}${up}${ano}`;
 }
 
 function atualizarVarianteFab(){
@@ -1923,107 +1924,16 @@ function atualizarVarianteFab(){
   preencherAcoes();
 }
 
-// Eventos (ordem)
+// Eventos (apenas estes)
 anoFabEl?.addEventListener('change', ()=>{
-  const ano = anoFabEl.value;
-  preencherFamiliasAno(ano);
+  preencherFamiliasAno(anoFabEl.value);
   atualizarVarianteFab();
 });
-
 modeloFabEl?.addEventListener('change', ()=>{
-  const ano = anoFabEl.value;
-  const familia = modeloFabEl.value;
-  preencherUpsFamilia(familia, ano);
+  preencherUpsFamilia(modeloFabEl.value, anoFabEl.value);
   atualizarVarianteFab();
 });
-
-upFabEl?.addEventListener('change', ()=>{
-  atualizarVarianteFab();
-});
-
-// Atualiza variante e ações ao trocar o ano
-anoFabEl?.addEventListener('change', atualizarVarianteFab);
-
-// Chame só UMA vez no DOMContentLoaded:
-document.addEventListener('DOMContentLoaded', preencherFamilias);
-
-// ================== VARIANTE & AÇÕES (FÁBRICA) ==================
-function chaveVariante(){
-  const modelo = modeloFabEl?.value?.trim();
-  const up     = upFabEl?.value?.trim();
-  const ano    = anoFabEl?.value?.trim();
-  if (!modelo || modelo==="Selecione" || !up || up==="Selecione" || !ano) return null;
-  return `${modelo}${up}${ano}`; // Ex: ACCELO 817/39UPA25/25
-}
-function atualizarVarianteFab(){
-  const chave = chaveVariante();
-  if (!varianteFabEl) return;
-  if (!chave){
-    varianteFabEl.textContent = '';
-    preencherAcoes();
-    return;
-  }
-  const codigo = variantesFab[chave] || '';
-  varianteFabEl.textContent = codigo;
-  preencherAcoes();
-}
-function resolveChaveAcao(){
-  const cod = (varianteFabEl?.textContent || '').toUpperCase().replace(/\s+/g,'');
-  const ano = (anoFabEl?.value || '').replace(/\s+/g,'');
-  if (!cod || !ano) return '';
-  return `${cod}${ano}`; // Ex: 1035T25/25
-}
-function preencherAcoes(){
-  if (!acaoFabEl) return;
-  const chave = resolveChaveAcao();
-  let lista = ACOES_PADRAO;
-  if (chave && ACOES_MAP[chave]) lista = ACOES_MAP[chave];
-  acaoFabEl.innerHTML = '';
-  acaoFabEl.add(new Option('Selecione',''));
-  lista.forEach(a=> acaoFabEl.add(new Option(a,a)));
-  acaoFabEl.disabled = lista.length===0;
-}
-
-function preencherFamilias() {
-  if (!modeloFabEl) return;
-  modeloFabEl.innerHTML = '<option>Selecione</option>';
-  getFamilias().forEach(f => {
-    modeloFabEl.add(new Option(f, f));
-  });
-  upFabEl.innerHTML = '<option>Selecione</option>';
-  anoFabEl.innerHTML = '<option>Selecione</option>';
-  atualizarVarianteFab();
-}
-
-// Preenche o select de UP ao escolher família
-modeloFabEl?.addEventListener('change', () => {
-  const familia = modeloFabEl.value;
-  upFabEl.innerHTML = '<option>Selecione</option>';
-  anoFabEl.innerHTML = '<option>Selecione</option>';
-  if (!familia || familia === 'Selecione') {
-    atualizarVarianteFab();
-    return;
-  }
-  getUps(familia).forEach(up => {
-    upFabEl.add(new Option(up, up));
-  });
-  atualizarVarianteFab();
-});
-
-// Preenche o select de Ano ao escolher UP
-upFabEl?.addEventListener('change', () => {
-  const familia = modeloFabEl.value;
-  const up = upFabEl.value;
-  anoFabEl.innerHTML = '<option>Selecione</option>';
-  if (!familia || familia === 'Selecione' || !up || up === 'Selecione') {
-    atualizarVarianteFab();
-    return;
-  }
-  getAnos(familia, up).forEach(ano => {
-    anoFabEl.add(new Option(ano, ano));
-  });
-  atualizarVarianteFab();
-});
+upFabEl?.addEventListener('change', atualizarVarianteFab);
 
 // ================== COPIAR VARIANTE ==================
 els("btnCopiarVariante")?.addEventListener("click", ()=>{
@@ -2139,8 +2049,13 @@ function init(){
   showCalcProprio();
   applyQueryParams();
   carregarDados();
-  preencherAnos();          // novo
-  atualizarVarianteFab();   // garante reset
+  preencherAnos();
+  // Pré-selecionar primeiro ano (opcional):
+  if(anoFabEl && anoFabEl.options.length>1){
+    anoFabEl.selectedIndex = 1;
+    anoFabEl.dispatchEvent(new Event('change'));
+  }
+  atualizarVarianteFab();
   preencherAcoes();
 }
 document.addEventListener('DOMContentLoaded', init);
