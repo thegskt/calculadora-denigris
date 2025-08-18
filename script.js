@@ -1882,21 +1882,26 @@ function preencherFamiliasAno(ano){
 
 function preencherUpsFamilia(familia, ano){
   limparSelect(upFabEl);
-  if(!familia || !ano){
+  if(!familia){
     if(varianteFabEl) varianteFabEl.textContent='';
-    preencherAcoes();
+    preencherAcoes?.();
     return;
   }
   const base = familia.split(/\s+/)[0].toUpperCase();
   const candidatos = MAP_FAMILIA_UPS[base] || [];
-  // Filtrar somente UPs que realmente existem para (familia+UP+ano)
-  const existentes = candidatos.filter(up=>{
-    return variantesFab.hasOwnProperty(`${familia}${up}${ano}`);
-  });
-  const lista = existentes.length ? existentes : candidatos;
+  let lista = candidatos;
+
+  // Só filtra por ano se ano estiver escolhido
+  if(ano){
+    const existentes = candidatos.filter(up=>{
+      return variantesFab.hasOwnProperty(`${familia}${up}${ano}`);
+    });
+    if(existentes.length) lista = existentes;
+  }
+
   lista.forEach(u=> upFabEl.add(new Option(u,u)));
   if(varianteFabEl) varianteFabEl.textContent='';
-  preencherAcoes();
+  preencherAcoes?.();
 }
 
 // chaveVariante (mantém só UMA definição)
