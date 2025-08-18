@@ -1878,21 +1878,44 @@ function limparSelect(sel, placeholder='Selecione'){
   sel.add(new Option(placeholder,''));
 }
 
+function familiaSelecionada(){
+  const r = document.querySelector('#familiaFab input[name="familiaFab"]:checked');
+  return r ? r.value.trim().toUpperCase() : null;
+}
+
 function preencherAnos(){
   limparSelect(anoFabEl);
   getAnos().forEach(a=> anoFabEl.add(new Option(a,a)));
-  limparSelect(familiaFabEl);
+  // Apenas limpa UP/Modelo
   limparSelect(upFabEl);
   limparSelect(modeloFabEl);
   varianteFabEl && (varianteFabEl.textContent='');
+  // Desabilita / habilita radios depois de limpar ano (nenhum ano selecionado ainda)
+  atualizarRadiosFamilia();
   preencherAcoes?.();
 }
 
-function preencherFamilias(){
-  limparSelect(familiaFabEl);
+function atualizarRadiosFamilia(){
   const ano = anoFabEl.value;
-  if(!ano) return;
-  getFamilias(ano).forEach(f=> familiaFabEl.add(new Option(f,f)));
+  const permitidas = new Set(getFamilias(ano));
+  const radios = document.querySelectorAll('#familiaFab input[name="familiaFab"]');
+  let precisaLimpar = false;
+  radios.forEach(r=>{
+    const fam = r.value.trim().toUpperCase();
+    const habilita = !ano || permitidas.has(fam);
+    r.disabled = !habilita;
+    r.parentElement.style.opacity = habilita? '1' : '.35';
+    if(!habilita && r.checked) precisaLimpar = true;
+  });
+  if(precisaLimpar){
+    radios.forEach(r=> r.checked = false);
+  }
+}
+
+function preencherFamilias(){ 
+  // Agora só habilita/desabilita radios conforme ano
+  atualizarRadiosFamilia();
+  // Limpa dependentes
   limparSelect(upFabEl);
   limparSelect(modeloFabEl);
   varianteFabEl && (varianteFabEl.textContent='');
@@ -1902,28 +1925,26 @@ function preencherFamilias(){
 function preencherUps(){
   limparSelect(upFabEl);
   const ano = anoFabEl.value;
-  const familia = familiaFabEl.value;
+  const familia = familiaSelecionada();
   if(!ano || !familia) return;
-  // Usa mapa fixo (não filtra ainda por existência para exibir todas; depois filtramos modelos)
   const candidatos = MAP_FAMILIA_UPS[familia] || [];
-  // Opcional: filtrar só ups presentes para este ano/familia
   const existentes = candidatos.filter(up=>{
-    // procura ao menos uma variante que tenha essa combinação
     return Object.keys(variantesFab).some(k=>{
       const p = parseKey(k);
       return p && p.ano===ano && p.familia===familia && p.up===up;
     });
   });
-  (existentes.length?existentes:candidatos).forEach(u=> upFabEl.add(new Option(u,u)));
+  (existentes.length? existentes : candidatos).forEach(u=> upFabEl.add(new Option(u,u)));
   limparSelect(modeloFabEl);
   varianteFabEl && (varianteFabEl.textContent='');
   preencherAcoes?.();
 }
 
+
 function preencherModelos(){
   limparSelect(modeloFabEl);
   const ano = anoFabEl.value;
-  const familia = familiaFabEl.value;
+  const familia = familiaSelecionada();
   const up = upFabEl.value;
   if(!ano || !familia || !up) return;
   getModelos(ano,familia,up).forEach(m=> modeloFabEl.add(new Option(m,m)));
@@ -1934,11 +1955,10 @@ function preencherModelos(){
 // chaveVariante (mantém só UMA definição)
 function chaveVariante(){
   const ano = anoFabEl.value;
-  const familia = familiaFabEl.value;
+  const familia = familiaSelecionada();
   const up = upFabEl.value;
   const modelo = modeloFabEl.value;
   if(!ano || !familia || !up || !modelo) return null;
-  // Monta exatamente igual às chaves: "FAMILIA MODELOUPANO"
   return `${familia} ${modelo}${up}${ano}`;
 }
 
@@ -1959,15 +1979,18 @@ anoFabEl?.addEventListener('change', ()=>{
   preencherFamilias();
   atualizarVarianteFab();
 });
-familiaFabEl?.addEventListener('change', ()=>{
-  preencherUps();
-  atualizarVarianteFab();
+familiaFabEl?.addEventListener('change', e=>{
+  if(e.target && e.target.name === 'familiaFab'){
+    preencherUps();
+    atualizarVarianteFab();
+  }
 });
 upFabEl?.addEventListener('change', ()=>{
   preencherModelos();
   atualizarVarianteFab();
 });
 modeloFabEl?.addEventListener('change', atualizarVarianteFab);
+
 
 // ================== COPIAR VARIANTE ==================
 els("btnCopiarVariante")?.addEventListener("click", ()=>{
