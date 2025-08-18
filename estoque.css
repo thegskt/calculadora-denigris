@@ -30,35 +30,41 @@ h1{font-size:20px;margin:0}
 .acc-c{display:none}
 .acc.open .acc-c{display:block}
 
+/* ===== Ajuste grid principal (mais flexível) ===== */
 .cols{
   display:grid;
   grid-template-columns:
-    minmax(220px,1.6fr)
+    minmax(190px,1.5fr)
+    minmax(70px,.7fr)
+    minmax(60px,.6fr)
     minmax(90px,.8fr)
-    minmax(70px,.7fr)
-    minmax(100px,.9fr)
-    minmax(70px,.7fr)
-    minmax(120px,.9fr)
-    minmax(96px,.7fr);   /* Ação menor (antes ~110px) */
+    minmax(60px,.6fr)
+    minmax(100px,.8fr)
+    minmax(82px,.6fr);
   gap:10px;
   font-weight:700;
   padding:10px 14px;
-  border-top:1px solid #e3e9f3;border-bottom:1px solid #eef3fb;
-  background:#fafcff;color:#2b3d64
+  border-top:1px solid #e3e9f3;
+  border-bottom:1px solid #eef3fb;
+  background:#fafcff;
+  color:#2b3d64;
 }
 
 .rows{display:flex;flex-direction:column}
 .row{
   display:grid;
   grid-template-columns:
-    minmax(220px,1.6fr)
+    minmax(190px,1.5fr)
+    minmax(70px,.7fr)
+    minmax(60px,.6fr)
     minmax(90px,.8fr)
-    minmax(70px,.7fr)
-    minmax(100px,.9fr)
-    minmax(70px,.7fr)
-    minmax(120px,.9fr)
-    minmax(96px,.7fr);   /* Ação menor */
-  gap:10px;align-items:center;padding:10px 14px;border-top:1px solid #eef3fb
+    minmax(60px,.6fr)
+    minmax(100px,.8fr)
+    minmax(82px,.6fr);
+  gap:10px;
+  align-items:center;
+  padding:10px 14px;
+  border-top:1px solid #eef3fb;
 }
 .row:first-child{border-top:0}
 
@@ -75,41 +81,102 @@ h1{font-size:20px;margin:0}
 .chip-btn{margin-left:8px;width:24px;height:24px;border-radius:999px;border:1px solid #d6deea;cursor:pointer;background:#eef3ff;color:#223a86;font-weight:800;line-height:1}
 .chip-btn:active{filter:brightness(.95)}
 
-@media (max-width:720px){
-  .tools input[type=search]{min-width:0;width:100%}
-  .cols{display:none}
-  .acc-h{padding:10px 12px}
+@media (max-width:900px){
+  .cols,
   .row{
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns:
+      minmax(150px,1.4fr)
+      minmax(60px,.6fr)
+      minmax(55px,.55fr)
+      minmax(80px,.7fr)
+      minmax(55px,.55fr)
+      minmax(90px,.7fr)
+      minmax(74px,.55fr);
+  }
+  .row > div[data-label="Valor Tabela"]{font-size:.92rem;}
+  .row .btn{padding:6px 8px;font-size:.72rem;}
+}
+
+/* Mobile forte */
+@media (max-width:720px){
+  .cols{display:none;}
+
+  .row{
+    grid-template-columns:1fr 1fr;
     gap:8px 12px;
     padding:8px 12px;
   }
 
-  /* AQUI o conserto: não aplicar nos detalhes (.meta) */
+  /* Reorganização:
+     1: Modelo
+     2: Cor
+     3: UP
+     4: Var
+     5: Ano
+     6: Valor (linha inteira)
+     7: Ação (linha inteira) */
+
+  .row > div:nth-child(1){grid-column:1;grid-row:1;}
+  .row > div:nth-child(2){grid-column:2;grid-row:1;}
+  .row > div:nth-child(3){grid-column:1;grid-row:2;}
+  .row > div:nth-child(4){grid-column:2;grid-row:2;}
+  .row > div:nth-child(5){grid-column:1;grid-row:3;}
+  .row > div:nth-child(6){
+    grid-column:1 / -1;
+    grid-row:4;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:6px;
+    padding:4px 0;
+  }
+  .row > div:nth-child(7){
+    grid-column:1 / -1;
+    grid-row:5;
+    display:flex;
+    justify-content:stretch;
+  }
+
+  /* Labels prefixados */
   .row > div:not(.meta){
-    display:flex;align-items:center;gap:6px;
+    display:flex;
+    align-items:center;
+    gap:6px;
   }
-  .row > .meta{
-    display:none;                /* escondido por padrão */
-    grid-column:1 / -1;          /* ocupa a largura toda */
+  .row > div::before{
+    content: attr(data-label) ": ";
+    font-weight:700;
+    color:#4b5d78;
   }
-  .row.show-meta > .meta{
-    display:flex;                /* mostra quando clica no "i" */
-    flex-wrap:wrap;gap:6px;
+  .row > div[data-label="Valor Tabela"]::before{
+    content:"Valor: ";
   }
-  .row > .meta::before{content:none !important;}
 
-  .row > div::before{content: attr(data-label) ": ";font-weight:700;color:#4b5d78}
+  /* Botão ocupa largura total */
+  .row > div:nth-child(7) .btn,
+  .row > div:nth-child(7) button{
+    width:100%;
+    justify-content:center;
+  }
 
-  /* (1) Modelo (2) Cor (3) UP (4) Var. (5) Ano (6) Valor (7) Ação) */
-  .row > div:nth-child(1){ grid-column:1; grid-row:1; }
-  .row > div:nth-child(2){ grid-column:2; grid-row:1; }
-  .row > div:nth-child(3){ grid-column:1; grid-row:2; }
-  .row > div:nth-child(4){ grid-column:2; grid-row:2; }
-  .row > div:nth-child(5){ grid-column:1; grid-row:3; }
-  .row > div:nth-child(6){ grid-column:2; grid-row:3; }
-  .row > div:nth-child(7){ grid-column:1 / -1; grid-row:4; justify-content:flex-end }
+  /* Segurança contra overflow */
+  .row > div{min-width:0;}
+}
 
-  .row > div[data-label="Valor Tabela"]::before{ content: "Valor: "; }
-  .btn-primary{width:auto;max-width:100%}
+@media (max-width:480px){
+  .row{
+    gap:6px 10px;
+    padding:8px 10px;
+  }
+  .row > div:nth-child(6){
+    flex-wrap:wrap;
+  }
+  .row > div:nth-child(6) span,
+  .row > div:nth-child(6) strong{
+    max-width:100%;
+  }
+  .row > div:nth-child(7) .btn{
+    padding:8px 10px;
+    font-size:.8rem;
+  }
 }
