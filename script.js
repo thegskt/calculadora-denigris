@@ -1591,29 +1591,83 @@ const RAW_ACOES = `
     '0869T25/26' : ['Estoque']
     `;
 
-// ================== ESTADO ==================
-const vendedores = {}; // FZ -> dados
-let vendedorAtual = null;
-let valorTabela = 0;
-let dadosCarregados = false;
-let pendingFZ = null;
+
+    // --- DETALHAMENTO ESTOQUE PRÓPRIO ---
+  const btnMostrarProtegido = document.getElementById('btnMostrarProtegido');
+  const passwordGroup       = document.getElementById('passwordGroup');
+  const senhaInput          = document.getElementById('senhaInput');
+  const btnVerificarSenha   = document.getElementById('btnVerificarSenha');
+  const senhaError          = document.getElementById('senhaError');
+
+  const rowComissaoProtected = document.getElementById('rowComissaoProtected');
+  const rowDsrProtected      = document.getElementById('rowDsrProtected');
+  const rowTotalProtected    = document.getElementById('rowTotalProtected');
+
+  function toggleHidden(el){ el.classList.toggle('hidden'); }
+
+  if (btnMostrarProtegido) {
+    btnMostrarProtegido.addEventListener('click', () => {
+      toggleHidden(passwordGroup);
+      senhaError.textContent = "";
+      if (!passwordGroup.classList.contains('hidden')) {
+        senhaInput.focus();
+      }
+    });
+  }
+
+  if (btnVerificarSenha) {
+    btnVerificarSenha.addEventListener('click', () => {
+      const senha = senhaInput.value.trim();
+      // Ajuste a senha real aqui
+      if (senha === '1234') {
+        [rowComissaoProtected, rowDsrProtected, rowTotalProtected].forEach(r => r.classList.remove('hidden'));
+        passwordGroup.classList.add('hidden');
+        senhaInput.value = '';
+        senhaError.textContent = "";
+      } else {
+        senhaError.textContent = "Senha incorreta.";
+      }
+    });
+  }
+
+  // (Opcional) Enter para confirmar senha
+  if (senhaInput) {
+    senhaInput.addEventListener('keyup', e => {
+      if (e.key === 'Enter') btnVerificarSenha.click();
+    });
+  }
+
+  // --- DETALHAMENTO FABRICA (apenas exemplo de toggle) ---
+  const btnDetalhamentoFab = document.getElementById('btnDetalhamentoFab');
+  if (btnDetalhamentoFab) {
+    btnDetalhamentoFab.addEventListener('click', () => {
+      alert('Aqui você pode abrir um modal ou mostrar valores detalhados.');
+    });
+  }
+
+  // ================== ESTADO ==================
+  const vendedores = {}; // FZ -> dados
+  let vendedorAtual = null;
+  let valorTabela = 0;
+  let dadosCarregados = false;
+  let pendingFZ = null;
 
 // ================== MAP DE AÇÕES ==================
-function buildAcoesMap(raw){
-  const map = {};
-  raw.split(/\r?\n/).forEach(line=>{
-    const m = line.match(/'([^']+)'\s*:\s*\[(.*?)\]/);
-    if(!m) return;
-    const key = m[1].trim().toUpperCase();
-    const inside = m[2].trim();
-    if(!inside){ map[key]=[]; return; }
-    const parts = inside.split(/\s*,\s*/)
-      .map(p=>p.replace(/^['"]|['"]$/g,'').trim())
-      .filter(Boolean);
-    map[key] = Array.from(new Set(parts));
-  });
-  return map;
-}
+  function buildAcoesMap(raw){
+    const map = {};
+    raw.split(/\r?\n/).forEach(line=>{
+      const m = line.match(/'([^']+)'\s*:\s*\[(.*?)\]/);
+      if(!m) return;
+      const key = m[1].trim().toUpperCase();
+      const inside = m[2].trim();
+      if(!inside){ map[key]=[]; return; }
+      const parts = inside.split(/\s*,\s*/)
+        .map(p=>p.replace(/^['"]|['"]$/g,'').trim())
+        .filter(Boolean);
+      map[key] = Array.from(new Set(parts));
+    });
+    return map;
+  }
 const ACOES_MAP = buildAcoesMap(RAW_ACOES);
 const ACOES_PADRAO = ['Estoque'];
 
