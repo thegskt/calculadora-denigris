@@ -1817,6 +1817,9 @@ async function carregarDados(){
 if (typeof preencherFamilias !== 'undefined') {
   // apenas evita conflitos se algo restar
 }
+
+const familiaFabEl = els("familiaFab");
+
 // Mapeamento fixo de UPs por família base
 const MAP_FAMILIA_UPS = {
   ACCELO: ['UPA','UPF','UPG','UPH'],
@@ -1829,116 +1832,142 @@ const MAP_FAMILIA_UPS = {
 // (REMOVA quaisquer definições duplicadas de chaveVariante / atualizarVarianteFab mais abaixo)
 
 function parseKey(k){
-  const m = k.match(/^(.+?)(UP[A-Z]|SEM UP|S\/P)(\d{2}\/\d{2})$/);
+  const m = k.match(/^([A-Z]+)\s+(.+?)(UP[A-Z]|SEM UP|S\/P)(\d{2}\/\d{2})$/i);
   if(!m) return null;
-  return { familia: m[1].trim(), up: m[2], ano: m[3] };
+  return {
+    familia: m[1].toUpperCase(),    // ACCELO
+    modelo: m[2].trim(),            // 1017/39
+    up: m[3],
+    ano: m[4]
+  };
 }
 
-function getAnosGlobais(){
-  const anos = new Set();
+function getAnos(){
+  const s = new Set();
   Object.keys(variantesFab).forEach(k=>{
-    const p = parseKey(k);
-    if(p) anos.add(p.ano);
+    const p = parseKey(k); if(p) s.add(p.ano);
   });
-  return Array.from(anos).sort();
+  return Array.from(s).sort();
 }
 
-function getFamiliasPorAno(ano){
-  const fams = new Set();
+function getFamilias(ano){
+  const s = new Set();
   Object.keys(variantesFab).forEach(k=>{
     const p = parseKey(k);
-    if(p && p.ano === ano) fams.add(p.familia);
+    if(p && (!ano || p.ano===ano)) s.add(p.familia);
   });
-  return Array.from(fams).sort();
+  return Array.from(s).sort();
+}
+
+function getModelos(ano,familia,up){
+  const s = new Set();
+  Object.keys(variantesFab).forEach(k=>{
+    const p = parseKey(k);
+    if(!p) return;
+    if(p.ano !== ano) return;
+    if(p.familia !== familia) return;
+    if(p.up !== up) return;
+    s.add(p.modelo);
+  });
+  return Array.from(s).sort();
 }
 
 function limparSelect(sel, placeholder='Selecione'){
   if(!sel) return;
-  sel.innerHTML = '';
+  sel.innerHTML='';
   sel.add(new Option(placeholder,''));
 }
 
 function preencherAnos(){
   limparSelect(anoFabEl);
-  getAnosGlobais().forEach(a=> anoFabEl.add(new Option(a,a)));
-  limparSelect(modeloFabEl);
+  getAnos().forEach(a=> anoFabEl.add(new Option(a,a)));
+  limparSelect(familiaFabEl);
   limparSelect(upFabEl);
-  if(varianteFabEl) varianteFabEl.textContent='';
-  preencherAcoes();
+  limparSelect(modeloFabEl);
+  varianteFabEl && (varianteFabEl.textContent='');
+  preencherAcoes?.();
 }
 
-function preencherFamiliasAno(ano){
-  limparSelect(modeloFabEl);
+function preencherFamilias(){
+  limparSelect(familiaFabEl);
+  const ano = anoFabEl.value;
+  if(!ano) return;
+  getFamilias(ano).forEach(f=> familiaFabEl.add(new Option(f,f)));
   limparSelect(upFabEl);
-  if(!ano){
-    if(varianteFabEl) varianteFabEl.textContent='';
-    preencherAcoes();
-    return;
-  }
-  getFamiliasPorAno(ano).forEach(f=> modeloFabEl.add(new Option(f,f)));
-  if(varianteFabEl) varianteFabEl.textContent='';
-  preencherAcoes();
+  limparSelect(modeloFabEl);
+  varianteFabEl && (varianteFabEl.textContent='');
+  preencherAcoes?.();
 }
 
-function preencherUpsFamilia(familia, ano){
+function preencherUps(){
   limparSelect(upFabEl);
-  if(!familia){
-    if(varianteFabEl) varianteFabEl.textContent='';
-    preencherAcoes?.();
-    return;
-  }
-  const base = familia.split(/\s+/)[0].toUpperCase();
-  const candidatos = MAP_FAMILIA_UPS[base] || [];
-  let lista = candidatos;
-
-  // Só filtra por ano se ano estiver escolhido
-  if(ano){
-    const existentes = candidatos.filter(up=>{
-      return variantesFab.hasOwnProperty(`${familia}${up}${ano}`);
+  const ano = anoFabEl.value;
+  const familia = familiaFabEl.value;
+  if(!ano || !familia) return;
+  // Usa mapa fixo (não filtra ainda por existência para exibir todas; depois filtramos modelos)
+  const candidatos = MAP_FAMILIA_UPS[familia] || [];
+  // Opcional: filtrar só ups presentes para este ano/familia
+  const existentes = candidatos.filter(up=>{
+    // procura ao menos uma variante que tenha essa combinação
+    return Object.keys(variantesFab).some(k=>{
+      const p = parseKey(k);
+      return p && p.ano===ano && p.familia===familia && p.up===up;
     });
-    if(existentes.length) lista = existentes;
-  }
+  });
+  (existentes.length?existentes:candidatos).forEach(u=> upFabEl.add(new Option(u,u)));
+  limparSelect(modeloFabEl);
+  varianteFabEl && (varianteFabEl.textContent='');
+  preencherAcoes?.();
+}
 
-  lista.forEach(u=> upFabEl.add(new Option(u,u)));
-  if(varianteFabEl) varianteFabEl.textContent='';
+function preencherModelos(){
+  limparSelect(modeloFabEl);
+  const ano = anoFabEl.value;
+  const familia = familiaFabEl.value;
+  const up = upFabEl.value;
+  if(!ano || !familia || !up) return;
+  getModelos(ano,familia,up).forEach(m=> modeloFabEl.add(new Option(m,m)));
+  varianteFabEl && (varianteFabEl.textContent='');
   preencherAcoes?.();
 }
 
 // chaveVariante (mantém só UMA definição)
 function chaveVariante(){
-  const ano = anoFabEl?.value?.trim();
-  const familia = modeloFabEl?.value?.trim();
-  const up = upFabEl?.value?.trim();
-  if(!ano || !familia || !up) return null;
-  return `${familia}${up}${ano}`;
+  const ano = anoFabEl.value;
+  const familia = familiaFabEl.value;
+  const up = upFabEl.value;
+  const modelo = modeloFabEl.value;
+  if(!ano || !familia || !up || !modelo) return null;
+  // Monta exatamente igual às chaves: "FAMILIA MODELOUPANO"
+  return `${familia} ${modelo}${up}${ano}`;
 }
 
 function atualizarVarianteFab(){
   const chave = chaveVariante();
-  if(!varianteFabEl){
-    preencherAcoes();
-    return;
-  }
+  if(!varianteFabEl) return;
   if(!chave){
     varianteFabEl.textContent='';
-    preencherAcoes();
+    preencherAcoes?.();
     return;
   }
-  const codigo = variantesFab[chave] || '';
-  varianteFabEl.textContent = codigo;
-  preencherAcoes();
+  varianteFabEl.textContent = variantesFab[chave] || '';
+  preencherAcoes?.();
 }
 
 // Eventos (apenas estes)
 anoFabEl?.addEventListener('change', ()=>{
-  preencherFamiliasAno(anoFabEl.value);
+  preencherFamilias();
   atualizarVarianteFab();
 });
-modeloFabEl?.addEventListener('change', ()=>{
-  preencherUpsFamilia(modeloFabEl.value, anoFabEl.value);
+familiaFabEl?.addEventListener('change', ()=>{
+  preencherUps();
   atualizarVarianteFab();
 });
-upFabEl?.addEventListener('change', atualizarVarianteFab);
+upFabEl?.addEventListener('change', ()=>{
+  preencherModelos();
+  atualizarVarianteFab();
+});
+modeloFabEl?.addEventListener('change', atualizarVarianteFab);
 
 // ================== COPIAR VARIANTE ==================
 els("btnCopiarVariante")?.addEventListener("click", ()=>{
