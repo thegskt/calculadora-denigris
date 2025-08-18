@@ -1619,7 +1619,7 @@ const RAW_ACOES = `
     btnVerificarSenha.addEventListener('click', () => {
       const senha = senhaInput.value.trim();
       // Ajuste a senha real aqui
-      if (senha === '1234') {
+      if (senha === 'Vendas123') {
         [rowComissaoProtected, rowDsrProtected, rowTotalProtected].forEach(r => r.classList.remove('hidden'));
         passwordGroup.classList.add('hidden');
         senhaInput.value = '';
@@ -1883,9 +1883,9 @@ upFabEl?.addEventListener('change', () => {
     atualizarVarianteFab();
     return;
   }
-  getAnos(familia, up).forEach(ano => {
-    anoFabEl.add(new Option(ano, ano));
-  });
+  const anos = getAnos(familia, up);
+  const lista = anos.length ? anos : ['25/25','25/26'];
+  lista.forEach(ano => anoFabEl.add(new Option(ano, ano)));
   atualizarVarianteFab();
 });
 
