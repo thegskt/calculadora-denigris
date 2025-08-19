@@ -2139,6 +2139,26 @@ const fabPrecosPorAno = {}; // { "25/25": { CHAVE: { tabela: number, raw:{} } } 
 function variantCodigoFab(){
   return (varianteFabEl?.textContent||'').trim();
 }
+function getAcoesForCurrentVariant(){
+  const cod = (varianteFabEl?.textContent || '').trim().toUpperCase();
+  const ano = (anoFabEl?.value || '').trim().toUpperCase();
+  if(!cod || !ano) return ACOES_PADRAO;
+  const key = (cod + ano).toUpperCase(); // ex: 2284T25/25
+  return ACOES_MAP[key] || ACOES_PADRAO;
+}
+function preencherAcoes(){
+  if(!acaoFabEl) return;
+  const lista = getAcoesForCurrentVariant();
+  acaoFabEl.innerHTML = '';
+  lista.forEach(a=>{
+    const opt = document.createElement('option');
+    opt.value = a;
+    opt.textContent = a;
+    acaoFabEl.appendChild(opt);
+  });
+  // dispara para aplicar cores
+  acaoFabEl.dispatchEvent(new Event('change'));
+}
 function anoSelecionadoFab(){
   return anoFabEl?.value || "";
 }
