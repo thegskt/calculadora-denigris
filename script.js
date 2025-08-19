@@ -1974,14 +1974,19 @@ function atualizarVarianteFab(){
   const chave = chaveVariante();
   if(!varianteFabEl) return;
   if(!chave){
-    varianteFabEl.textContent='';
+    varianteFabEl.textContent = '';
     preencherAcoes?.();
+    atualizarPrecoFab?.(); // limpa preço
     return;
   }
-  varianteFabEl.textContent = variantesFab[chave] || '';
-  preencherAcoes?.();
-}
 
+  // Seta o código da variante (ex: 2284T)
+  const codigo = variantesFab[chave] || '';
+  varianteFabEl.textContent = codigo;
+  preencherAcoes?.();
+  // Atualiza preço após garantir que o código já está no DOM
+  atualizarPrecoFab?.();
+}
 // Eventos (apenas estes)
 anoFabEl?.addEventListener('change', ()=>{
   preencherFamilias();
@@ -2190,28 +2195,23 @@ function parseFabPrecoCSV(csv){
 }
 
 async function atualizarPrecoFab(){
-  const ano = anoSelecionadoFab();
+  const ano = anoSelecionadoFab?.();
   await garantirPrecosAno(ano);
   const chave = chavePrecoFab();
-  const span = document.getElementById('fabValorTabela');
+  // seu HTML usa faValorTabela (não fabValorTabela)
+  const span = document.getElementById('faValorTabela');
   if(!span){
     return;
   }
   if(!chave){
-    span.textContent = "";
+    span.textContent = "R$ 0,00";
     return;
   }
   const dataAno = fabPrecosPorAno[ano] || {};
   const item = dataAno[chave.toUpperCase()];
-  span.textContent = item ? formatar(item.tabela) : "";
+  span.textContent = item ? formatar(item.tabela) : "R$ 0,00";
 }
 
-// Hook: após atualizar variante ou ano -> também atualiza preço
-const _oldAtualizarVarianteFab_hook = atualizarVarianteFab;
-function atualizarVarianteFab(){
-  _oldAtualizarVarianteFab_hook();
-  atualizarPrecoFab();
-}
 
 // Re-hook listener de ano (já existe; apenas garante chamada de preço se mudar ano)
 anoFabEl?.addEventListener('change', ()=> {
