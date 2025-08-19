@@ -2190,46 +2190,92 @@ function parseFabPrecoCSV(csv){
     // separa por vírgula ignorando vírgulas entre aspas
     return line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c=>c.replace(/^"|"$/g,'').trim());
   };
-  const header = splitSmart(lines.shift()).map(h=>h.toUpperCase());
+   // Mantemos header só para referência (não dependemos dele para as colunas de ação)
+  const header = splitSmart(lines.shift());
+    // Mapeamento fixo informado: (letras -> índices 0-based)
+  // I=9  K=11  M=13  O=15  Q=17
+  const IDX = {
+    CHAVE: 0,        // A
+    TABELA: 4,       // E (coluna "TABELA")
+    ESTOQUE: 8,      // I
+    POSTOS: 10,      // K
+    FRIGOR: 12,      // M
+    CEABAST: 14,     // O
+    MAISAL: 16       // Q
+  };
   const idxChave  = header.indexOf("CHAVE");
   const idxTabela = header.indexOf("TABELA");
   const map = {};
   lines.forEach(l=>{
     const cols = splitSmart(l);
-    const chave = (cols[idxChave]||'').trim();
+    const chave = (cols[IDX.CHAVE]||'').trim();
     if(!chave) return;
-    const tabelaNum = parseNumeroBR(cols[idxTabela]||'');
-    if(isNaN(tabelaNum)) return;
+
+    const tabelaNum = parseNumeroBR(cols[IDX.TABELA]||'');
+    if(isNaN(tabelaNum)) return; // sem tabela ignora
+
+    function num(idx){
+      const v = parseNumeroBR(cols[idx]||'');
+      return isNaN(v)? null : v;
+    }
+
     map[chave.toUpperCase()] = {
       tabela: tabelaNum,
+      precos: {
+        "Estoque": num(IDX.ESTOQUE),
+        "Postos de Combustiveis": num(IDX.POSTOS),
+        "Frigorificado": num(IDX.FRIGOR),
+        "C.E.ABAST": num(IDX.CEABAST),
+        "Mais Alimentos": num(IDX.MAISAL)
+      },
       _raw: cols
     };
   });
   return map;
 }
-
-async function atualizarPrecoFab(){
+function atualizarPrecoVendaFab(){
+  const span = document.getElementById('faPrecoVenda');
+  if(!span) return;
   const ano = anoSelecionadoFab?.();
-  await garantirPrecosAno(ano);
-  const chave = chavePrecoFab();
-  // seu HTML usa faValorTabela (não fabValorTabela)
-  const span = document.getElementById('faValorTabela');
-  if(!span){
-    return;
-  }
-  if(!chave){
+  const codigo = variantCodigoFab();
+  const acao = acaoFabEl?.value || '';
+  if(!ano || !codigo || !acao){
     span.textContent = "R$ 0,00";
     return;
   }
   const dataAno = fabPrecosPorAno[ano] || {};
-  const item = dataAno[chave.toUpperCase()];
-  span.textContent = item ? formatar(item.tabela) : "R$ 0,00";
+  // chavePrecoFab = codigo+ano
+  const item = dataAno[(codigo+ano).toUpperCase()];
+  if(!item){
+    span.textContent = "R$ 0,00";
+    return;
+  }
+  const valor = item.precos?.[acao] ?? null;
+  span.textContent = valor != null ? formatar(valor) : "R$ 0,00";
 }
 
+// Atualize atualizarPrecoFab para chamar atualizarPrecoVendaFab:
+const _old_atualizarPrecoFab = atualizarPrecoFab;
+atualizarPrecoFab = async function(){
+  await _old_atualizarPrecoFab();
+  atualizarPrecoVendaFab();
+};
 
 // Re-hook listener de ano (já existe; apenas garante chamada de preço se mudar ano)
-anoFabEl?.addEventListener('change', ()=> {
-  atualizarPrecoFab();
+acaoFabEl?.addEventListener('change',()=>{
+  const val = acaoFabEl.value;
+  const map = {
+    "Estoque":               {bg:"#8dc2ff", fg:"#001c3b"},
+    "C.E.ABAST":             {bg:"#ffc35b", fg:"#301e01"},
+    "Frigorificado":         {bg:"#e1bee7", fg:"#25002c"},
+    "Postos de Combustiveis":{bg:"#a2f3a5", fg:"#002401"},
+    "Mais Alimentos":        {bg:"#fff48f", fg:"#383200"}
+  };
+  const cfg = map[val] || {bg:"",fg:""};
+  acaoFabEl.style.backgroundColor = cfg.bg;
+  acaoFabEl.style.color = cfg.fg;
+  acaoFabEl.style.fontWeight = cfg.bg? "900":"";
+  atualizarPrecoVendaFab(); // <--- NOVO
 });
 
 // Inicialização extra
