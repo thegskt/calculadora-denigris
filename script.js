@@ -192,87 +192,6 @@ const variantesFab = {
     "ATEGO 2730/48 6X4UPB25/26": "4711T",
     "ATEGO 2730/48 6X4UPE25/26": "4696T",
     "ATEGO 2730/48 6X4UPF25/26": "4691T",
-    "ATEGO 3033/48 8X2UPB25/26": "1438T",
-    "ATEGO 3033/48 8X2UPD25/26": "1434T",
-    "ATEGO 3033/48 8X2UPF25/26": "1432T",
-    "ATEGO 3033/54 8X2UPD25/26": "1440T",
-    "ATEGO 3033/54 8X2UPF25/26": "1433T",
-    "ATEGO 3033/54 8X2UPH25/26": "1585T",
-    "ATEGO 3033/54 8X2UPI25/26": "1591T",
-    "ATEGO 3033/63 8X2UPD25/26": "1428T",
-    "ATEGO 3033/63 8X2UPF25/26": "1427T",
-    "ATEGO 3033/63 8X2UPH25/26": "1485T",
-    "ATEGO 3033/63 8X2UPI25/26": "1582T",
-    "ATEGO 3133/48 6X4UPD25/26": "0337T",
-    "ATEGO 3133/48 6X4UPE25/26": "0330T",
-    "ATEGO 3133/48 6X4UPF25/26": "0334T",
-    "ATEGO 3133/48 6X4UPG25/26": "0206T",
-    "ATEGO 3330 B/46 8X4UPB25/26": "0959T",
-    "ATEGO 3330 B/46 8X4UPE25/26": "0936T",
-    "ATEGO 3330 B/46 8X4UPF25/26": "0970T",
-    "ATEGO 3330 K/46 8X4UPB25/26": "0960T",
-    "ATEGO 3330 K/46 8X4UPE25/26": "0956T",
-    "ATEGO 3330 K/46 8X4UPF25/26": "0971T",
-    "ATEGO 3330/54 8X4UPB25/26": "0973T",
-    "ATEGO 3330/54 8X4UPE25/26": "0947T",
-    "ATEGO 3330/54 8X4UPF25/26": "0977T",
-    "ACCELO 917/31UPA25/26": "00029T",
-    "ACCELO 917/31UPF25/26": "00030T",
-    "ACCELO 917/39UPA25/26": "00025T",
-    "ACCELO 917/39UPF25/26": "00026T",
-    "ACCELO 917/46UPA25/26": "00027T",
-    "ACCELO 917/46UPF25/26": "00028T",
-    "ACCELO 1117/31UPA25/26": "0065T",
-    "ACCELO 1117/31UPF25/26": "0066T",
-    "ACCELO 1117/31UPG25/26": "0067T",
-    "ACCELO 1117/39UPA25/26": "0072T",
-    "ACCELO 1117/39UPF25/26": "0071T",
-    "ACCELO 1117/39UPG25/26": "0074T",
-    "ACCELO 1117/46UPA25/26": "0070T",
-    "ACCELO 1117/46UPF25/26": "0068T",
-    "ACCELO 1117/46UPG25/26": "0069T",
-    "ACCELO 1417/39UPA25/26": "0047T",
-    "ACCELO 1417/39UPF25/26": "0049T",
-    "ACCELO 1417/39UPG25/26": "0052T",
-    "ACCELO 1417/39UPH25/26": "0053T",
-    "ACCELO 1417/46UPA25/26": "0048T",
-    "ACCELO 1417/46UPF25/26": "0050T",
-    "ACCELO 1417/46UPG25/26": "0051T",
-    "ACCELO 1417/46UPH25/26": "0054T",
-    "ATEGO 1419/48UPB25/26": "3574T",
-    "ATEGO 1419/48UPC25/26": "3299T",
-    "ATEGO 1419/48UPD25/26": "3570T",
-    "ATEGO 1419/48UPF25/26": "3341T",
-    "ATEGO 1719/48UPB25/26": "8830T",
-    "ATEGO 1719/48UPC25/26": "8376T",
-    "ATEGO 1719/48UPD25/26": "8373T",
-    "ATEGO 1719/48UPF25/26": "8375T",
-    "ATEGO 1726/48UPB25/26": "9482T",
-    "ATEGO 1726/48UPC25/26": "9490T",
-    "ATEGO 1726/48UPD25/26": "9479T",
-    "ATEGO 1726/48UPF25/26": "10135T",
-    "ATEGO 1726/54UPI25/26": "9532T",
-    "ATEGO 1729/39S/P25/26": "1908T",
-    "ATEGO 1733/48UPF25/26": "0199T",
-    "ATEGO 2429/48 6X2UPB25/26": "3388T",
-    "ATEGO 2429/48 6X2UPC25/26": "3385T",
-    "ATEGO 2429/48 6X2UPD25/26": "3397T",
-    "ATEGO 2429/48 6X2UPF25/26": "3853T",
-    "ATEGO 2429/54 6X2UPD25/26": "3395T",
-    "ATEGO 2429/54 6X2UPF25/26": "3391T",
-    "ATEGO 2429/54 6X2UPH25/26": "3393T",
-    "ATEGO 2429/54 6X2UPI25/26": "3838T",
-    "ATEGO 2433/48 6X2UPB25/26": "0829T",
-    "ATEGO 2433/48 6X2UPC25/26": "0854T",
-    "ATEGO 2433/48 6X2UPD25/26": "0825T",
-    "ATEGO 2433/48 6X2UPF25/26": "0828T",
-    "ATEGO 2433/54 6X2UPD25/26": "0889T",
-    "ATEGO 2433/54 6X2UPF25/26": "0834T",
-    "ATEGO 2433/54 6X2UPH25/26": "0839T",
-    "ATEGO 2433/54 6X2UPI25/26": "0899T",
-    "ATEGO 2730/48 6X4UPB25/26": "4711T",
-    "ATEGO 2730/48 6X4UPE25/26": "4696T",
-    "ATEGO 2730/48 6X4UPF25/26": "4691T",
     "ATEGO 2730 B/36 6X4UPB25/26": "4724T",
     "ATEGO 2730 B/36 6X4UPE25/26": "4669T",
     "ATEGO 2730 B/36 6X4UPF25/26": "4700T",
@@ -1323,392 +1242,455 @@ const variantesFab = {
     "ATEGO 2730 K/36 6X4UPB25/26": "4726T",
     "ATEGO 2730 K/36 6X4UPE25/26": "4673T",
     "ATEGO 2730 K/36 6X4UPF25/26": "4701T",
-    "ATEGO 3033/48 8X2UPB25/26": "1438T",
-    "ATEGO 3033/48 8X2UPD25/26": "1434T",
-    "ATEGO 3033/48 8X2UPF25/26": "1432T",
-    "ATEGO 3033/54 8X2UPD25/26": "1440T",
-    "ATEGO 3033/54 8X2UPF25/26": "1433T",
-    "ATEGO 3033/54 8X2UPH25/26": "1585T",
-    "ATEGO 3033/54 8X2UPI25/26": "1591T",
-    "ATEGO 3033/63 8X2UPD25/26": "1428T",
-    "ATEGO 3033/63 8X2UPF25/26": "1427T",
-    "ATEGO 3033/63 8X2UPH25/26": "1485T",
-    "ATEGO 3033/63 8X2UPI25/26": "1582T",
-    "ATEGO 3133/48 6X4UPD25/26": "0337T",
-    "ATEGO 3133/48 6X4UPE25/26": "0330T",
-    "ATEGO 3133/48 6X4UPF25/26": "0334T",
-    "ATEGO 3133/48 6X4UPG25/26": "0206T",
+    "ATEGO 3330/54 8X4UPB25/26": "0973T",
+    "ATEGO 3330/54 8X4UPE25/26": "0947T",
+    "ATEGO 3330/54 8X4UPF25/26": "0977T",
     "ATEGO 3330 B/46 8X4UPB25/26": "0959T",
     "ATEGO 3330 B/46 8X4UPE25/26": "0936T",
     "ATEGO 3330 B/46 8X4UPF25/26": "0970T",
     "ATEGO 3330 K/46 8X4UPB25/26": "0960T",
     "ATEGO 3330 K/46 8X4UPE25/26": "0956T",
     "ATEGO 3330 K/46 8X4UPF25/26": "0971T",
-    "ATEGO 3330/54 8X4UPB25/26": "0973T",
-    "ATEGO 3330/54 8X4UPE25/26": "0947T",
-    "ATEGO 3330/54 8X4UPF25/26": "0977T",
-    "ACCELO 917/31UPA25/26": "00029T",
-    "ACCELO 917/31UPF25/26": "00030T",
-    "ACCELO 917/39UPA25/26": "00025T",
-    "ACCELO 917/39UPF25/26": "00026T",
-    "ACCELO 917/46UPA25/26": "00027T",
-    "ACCELO 917/46UPF25/26": "00028T",
-    "ACCELO 1117/31UPA25/26": "0065T",
-    "ACCELO 1117/31UPF25/26": "0066T",
-    "ACCELO 1117/31UPG25/26": "0067T",
-    "ACCELO 1117/39UPA25/26": "0072T",
-    "ACCELO 1117/39UPF25/26": "0071T",
-    "ACCELO 1117/39UPG25/26": "0074T",
-    "ACCELO 1117/46UPA25/26": "0070T",
-    "ACCELO 1117/46UPF25/26": "0068T",
-    "ACCELO 1117/46UPG25/26": "0069T",
-    "ACCELO 1417/39UPA25/26": "0047T",
-    "ACCELO 1417/39UPF25/26": "0049T",
-    "ACCELO 1417/39UPG25/26": "0052T",
-    "ACCELO 1417/39UPH25/26": "0053T",
-    "ACCELO 1417/46UPA25/26": "0048T",
-    "ACCELO 1417/46UPF25/26": "0050T",
-    "ACCELO 1417/46UPG25/26": "0051T",
-    "ACCELO 1417/46UPH25/26": "0054T",
-    "ATEGO 1419/48UPB25/26": "3574T",
-    "ATEGO 1419/48UPC25/26": "3299T",
-    "ATEGO 1419/48UPD25/26": "3570T",
-    "ATEGO 1419/48UPF25/26": "3341T",
-    "ATEGO 1719/48UPB25/26": "8830T",
-    "ATEGO 1719/48UPC25/26": "8376T",
-    "ATEGO 1719/48UPD25/26": "8373T",
-    "ATEGO 1719/48UPF25/26": "8375T",
-    "ATEGO 1726/48UPB25/26": "9482T",
-    "ATEGO 1726/48UPC25/26": "9490T",
-    "ATEGO 1726/48UPD25/26": "9479T",
-    "ATEGO 1726/48UPF25/26": "10135T",
-    "ATEGO 1726/54UPI25/26": "9532T",
-    "ATEGO 1729/39S/P25/26": "1908T",
-    "ATEGO 1733/48UPF25/26": "0199T",
-    "ATEGO 2429/48 6X2UPB25/26": "3388T",
-    "ATEGO 2429/48 6X2UPC25/26": "3385T",
-    "ATEGO 2429/48 6X2UPD25/26": "3397T",
-    "ATEGO 2429/48 6X2UPF25/26": "3853T",
-    "ATEGO 2429/54 6X2UPD25/26": "3395T",
-    "ATEGO 2429/54 6X2UPF25/26": "3391T",
-    "ATEGO 2429/54 6X2UPH25/26": "3393T",
-    "ATEGO 2429/54 6X2UPI25/26": "3838T",
-    "ATEGO 2433/48 6X2UPB25/26": "0829T",
-    "ATEGO 2433/48 6X2UPC25/26": "0854T",
-    "ATEGO 2433/48 6X2UPD25/26": "0825T",
-    "ATEGO 2433/48 6X2UPF25/26": "0828T",
-    "ATEGO 2433/54 6X2UPD25/26": "0889T",
-    "ATEGO 2433/54 6X2UPF25/26": "0834T",
-    "ATEGO 2433/54 6X2UPH25/26": "0839T",
-    "ATEGO 2433/54 6X2UPI25/26": "0899T",
-    "ATEGO 2730/48 6X4UPB25/26": "4711T",
-    "ATEGO 2730/48 6X4UPE25/26": "4696T",
-    "ATEGO 2730/48 6X4UPF25/26": "4691T",
-    "ATEGO 2730 B/36 6X4UPB25/26": "4724T",
-    "ATEGO 2730 B/36 6X4UPE25/26": "4669T",
-    "ATEGO 2730 B/36 6X4UPF25/26": "4700T",
-    "ATEGO 2730 K/36 6X4UPB25/26": "4726T",
-    "ATEGO 2730 K/36 6X4UPE25/26": "4673T",
-    "ATEGO 2730 K/36 6X4UPF25/26": "4701T",
-    "ATEGO 3033/48 8X2UPB25/26": "1438T",
-    "ATEGO 3033/48 8X2UPD25/26": "1434T",
-    "ATEGO 3033/48 8X2UPF25/26": "1432T",
-    "ATEGO 3033/54 8X2UPD25/26": "1440T",
-    "ATEGO 3033/54 8X2UPF25/26": "1433T",
-    "ATEGO 3033/54 8X2UPH25/26": "1585T",
-    "ATEGO 3033/54 8X2UPI25/26": "1591T",
-    "ATEGO 3033/63 8X2UPD25/26": "1428T",
-    "ATEGO 3033/63 8X2UPF25/26": "1427T",
-    "ATEGO 3033/63 8X2UPH25/26": "1485T",
-    "ATEGO 3033/63 8X2UPI25/26": "1582T",
     "ATEGO 3133/48 6X4UPD25/26": "0337T",
     "ATEGO 3133/48 6X4UPE25/26": "0330T",
     "ATEGO 3133/48 6X4UPF25/26": "0334T",
     "ATEGO 3133/48 6X4UPG25/26": "0206T",
-    "ATEGO 3330 B/46 8X4UPB25/26": "0959T",
-    "ATEGO 3330 B/46 8X4UPE25/26": "0936T",
-    "ATEGO 3330 B/46 8X4UPF25/26": "0970T",
-    "ATEGO 3330 K/46 8X4UPB25/26": "0960T",
-    "ATEGO 3330 K/46 8X4UPE25/26": "0956T",
-    "ATEGO 3330 K/46 8X4UPF25/26": "0971T",
-    "ATEGO 3330/54 8X4UPB25/26": "0973T",
-    "ATEGO 3330/54 8X4UPE25/26": "0947T",
-    "ATEGO 3330/54 8X4UPF25/26": "0977T",
-    "ACCELO 917/31UPA25/26": "00029T",
-    "ACCELO 917/31UPF25/26": "00030T",
-    "ACCELO 917/39UPA25/26": "00025T",
-    "ACCELO 917/39UPF25/26": "00026T",
-    "ACCELO 917/46UPA25/26": "00027T",
-    "ACCELO 917/46UPF25/26": "00028T",
-    "ACCELO 1117/31UPA25/26": "0065T",
-    "ACCELO 1117/31UPF25/26": "0066T",
-    "ACCELO 1117/31UPG25/26": "0067T",
-    "ACCELO 1117/39UPA25/26": "0072T",
-    "ACCELO 1117/39UPF25/26": "0071T",
-    "ACCELO 1117/39UPG25/26": "0074T",
-    "ACCELO 1117/46UPA25/26": "0070T",
-    "ACCELO 1117/46UPF25/26": "0068T",
-    "ACCELO 1117/46UPG25/26": "0069T",
-    "ACCELO 1417/39UPA25/26": "0047T",
-    "ACCELO 1417/39UPF25/26": "0049T",
-    "ACCELO 1417/39UPG25/26": "0052T",
-    "ACCELO 1417/39UPH25/26": "0053T",
-    "ACCELO 1417/46UPA25/26": "0048T",
-    "ACCELO 1417/46UPF25/26": "0050T",
-    "ACCELO 1417/46UPG25/26": "0051T",
-    "ACCELO 1417/46UPH25/26": "0054T",
-    "ATEGO 1419/48UPB25/26": "3574T",
-    "ATEGO 1419/48UPC25/26": "3299T",
-    "ATEGO 1419/48UPD25/26": "3570T",
-    "ATEGO 1419/48UPF25/26": "3341T",
-    "ATEGO 1719/48UPB25/26": "8830T",
-    "ATEGO 1719/48UPC25/26": "8376T",
-    "ATEGO 1719/48UPD25/26": "8373T",
-    "ATEGO 1719/48UPF25/26": "8375T",
-    "ATEGO 1726/48UPB25/26": "9482T",
-    "ATEGO 1726/48UPC25/26": "9490T",
-    "ATEGO 1726/48UPD25/26": "9479T",
-    "ATEGO 1726/48UPF25/26": "10135T",
-    "ATEGO 1726/54UPI25/26": "9532T",
-    "ATEGO 1729/39S/P25/26": "1908T",
-    "ATEGO 1733/48UPF25/26": "0199T",
-    "ATEGO 2429/48 6X2UPB25/26": "3388T",
-    "ATEGO 2429/48 6X2UPC25/26": "3385T",
-    "ATEGO 2429/48 6X2UPD25/26": "3397T",
-    "ATEGO 2429/48 6X2UPF25/26": "3853T",
-    "ATEGO 2429/54 6X2UPD25/26": "3395T",
-    "ATEGO 2429/54 6X2UPF25/26": "3391T",
-    "ATEGO 2429/54 6X2UPH25/26": "3393T",
-    "ATEGO 2429/54 6X2UPI25/26": "3838T",
-    "ATEGO 2433/48 6X2UPB25/26": "0829T",
-    "ATEGO 2433/48 6X2UPC25/26": "0854T",
-    "ATEGO 2433/48 6X2UPD25/26": "0825T",
-    "ATEGO 2433/48 6X2UPF25/26": "0828T",
-    "ATEGO 2433/54 6X2UPD25/26": "0889T",
-    "ATEGO 2433/54 6X2UPF25/26": "0834T",
-    "ATEGO 2433/54 6X2UPH25/26": "0839T",
-    "ATEGO 2433/54 6X2UPI25/26": "0899T",
-    "ATEGO 2730/48 6X4UPB25/26": "4711T",
-    "ATEGO 2730/48 6X4UPE25/26": "4696T",
-    "ATEGO 2730/48 6X4UPF25/26": "4691T",
-    "ATEGO 2730 B/36 6X4UPB25/26": "4724T",
-    "ATEGO 2730 B/36 6X4UPE25/26": "4669T",
-    "ATEGO 2730 B/36 6X4UPF25/26": "4700T",
-    "ATEGO 2730 K/36 6X4UPB25/26": "4726T",
-    "ATEGO 2730 K/36 6X4UPE25/26": "4673T",
-    "ATEGO 2730 K/36 6X4UPF25/26": "4701T",
-    "ATEGO 3033/48 8X2UPB25/26": "1438T",
-    "ATEGO 3033/48 8X2UPD25/26": "1434T",
-    "ATEGO 3033/48 8X2UPF25/26": "1432T",
-    "ATEGO 3033/54 8X2UPD25/26": "1440T",
-    "ATEGO 3033/54 8X2UPF25/26": "1433T",
-    "ATEGO 3033/54 8X2UPH25/26": "1585T",
-    "ATEGO 3033/54 8X2UPI25/26": "1591T",
-    "ATEGO 3033/63 8X2UPD25/26": "1428T",
-    "ATEGO 3033/63 8X2UPF25/26": "1427T",
-    "ATEGO 3033/63 8X2UPH25/26": "1485T",
-    "ATEGO 3033/63 8X2UPI25/26": "1582T",
-    "ATEGO 3133/48 6X4UPD25/26": "0337T",
-    "ATEGO 3133/48 6X4UPE25/26": "0330T",
-    "ATEGO 3133/48 6X4UPF25/26": "0334T",
-    "ATEGO 3133/48 6X4UPG25/26": "0206T",
-    "ATEGO 3330 B/46 8X4UPB25/26": "0959T",
-    "ATEGO 3330 B/46 8X4UPE25/26": "0936T",
-    "ATEGO 3330 B/46 8X4UPF25/26": "0970T",
-    "ATEGO 3330 K/46 8X4UPB25/26": "0960T",
-    "ATEGO 3330 K/46 8X4UPE25/26": "0956T",
-    "ATEGO 3330 K/46 8X4UPF25/26": "0971T",
-    "ATEGO 3330/54 8X4UPB25/26": "0973T",
-    "ATEGO 3330/54 8X4UPE25/26": "0947T",
-    "ATEGO 3330/54 8X4UPF25/26": "0977T",
-    "ACCELO 917/31UPA25/26": "00029T",
-    "ACCELO 917/31UPF25/26": "00030T",
-    "ACCELO 917/39UPA25/26": "00025T",
-    "ACCELO 917/39UPF25/26": "00026T",
-    "ACCELO 917/46UPA25/26": "00027T",
-    "ACCELO 917/46UPF25/26": "00028T",
-    "ACCELO 1117/31UPA25/26": "0065T",
-    "ACCELO 1117/31UPF25/26": "0066T",
-    "ACCELO 1117/31UPG25/26": "0067T",
-    "ACCELO 1117/39UPA25/26": "0072T",
-    "ACCELO 1117/39UPF25/26": "0071T",
-    "ACCELO 1117/39UPG25/26": "0074T",
-    "ACCELO 1117/46UPA25/26": "0070T",
-    "ACCELO 1117/46UPF25/26": "0068T",
-    "ACCELO 1117/46UPG25/26": "0069T",
-    "ACCELO 1417/39UPA25/26": "0047T",
-    "ACCELO 1417/39UPF25/26": "0049T",
-    "ACCELO 1417/39UPG25/26": "0052T",
-    "ACCELO 1417/39UPH25/26": "0053T",
-    "ACCELO 1417/46UPA25/26": "0048T",
-    "ACCELO 1417/46UPF25/26": "0050T",
-    "ACCELO 1417/46UPG25/26": "0051T",
-    "ACCELO 1417/46UPH25/26": "0054T",
-    "ATEGO 1419/48UPB25/26": "3574T",
-    "ATEGO 1419/48UPC25/26": "3299T",
-    "ATEGO 1419/48UPD25/26": "3570T",
-    "ATEGO 1419/48UPF25/26": "3341T",
-    "ATEGO 1719/48UPB25/26": "8830T",
-    "ATEGO 1719/48UPC25/26": "8376T",
-    "ATEGO 1719/48UPD25/26": "8373T",
-    "ATEGO 1719/48UPF25/26": "8375T",
-    "ATEGO 1726/48UPB25/26": "9482T",
-    "ATEGO 1726/48UPC25/26": "9490T",
-    "ATEGO 1726/48UPD25/26": "9479T",
-    "ATEGO 1726/48UPF25/26": "10135T",
-    "ATEGO 1726/54UPI25/26": "9532T",
-    "ATEGO 1729/39S/P25/26": "1908T",
-    "ATEGO 1733/48UPF25/26": "0199T",
-    "ATEGO 2429/48 6X2UPB25/26": "3388T",
-    "ATEGO 2429/48 6X2UPC25/26": "3385T",
-    "ATEGO 2429/48 6X2UPD25/26": "3397T",
-    "ATEGO 2429/48 6X2UPF25/26": "3853T",
-    "ATEGO 2429/54 6X2UPD25/26": "3395T",
-    "ATEGO 2429/54 6X2UPF25/26": "3391T",
-    "ATEGO 2429/54 6X2UPH25/26": "3393T",
-    "ATEGO 2429/54 6X2UPI25/26": "3838T",
-    "ATEGO 2433/48 6X2UPB25/26": "0829T",
-    "ATEGO 2433/48 6X2UPC25/26": "0854T",
-    "ATEGO 2433/48 6X2UPD25/26": "0825T",
-    "ATEGO 2433/48 6X2UPF25/26": "0828T",
-    "ATEGO 2433/54 6X2UPD25/26": "0889T",
-    "ATEGO 2433/54 6X2UPF25/26": "0834T",
-    "ATEGO 2433/54 6X2UPH25/26": "0839T",
-    "ATEGO 2433/54 6X2UPI25/26": "0899T",
-    "ATEGO 2730/48 6X4UPB25/26": "4711T",
-    "ATEGO 2730/48 6X4UPE25/26": "4696T",
-    "ATEGO 2730/48 6X4UPF25/26": "4691T",
-    "ATEGO 2730 B/36 6X4UPB25/26": "4724T",
-    "ATEGO 2730 B/36 6X4UPE25/26": "4669T",
-    "ATEGO 2730 B/36 6X4UPF25/26": "4700T",
-    "ATEGO 2730 K/36 6X4UPB25/26": "4726T",
-    "ATEGO 2730 K/36 6X4UPE25/26": "4673T",
-    "ATEGO 2730 K/36 6X4UPF25/26": "4701T",
-    "ATEGO 3033/48 8X2UPB25/26": "1438T",
-    "ATEGO 3033/48 8X2UPD25/26": "1434T",
-    "ATEGO 3033/48 8X2UPF25/26": "1432T",
-    "ATEGO 3033/54 8X2UPD25/26": "1440T",
-    "ATEGO 3033/54 8X2UPF25/26": "1433T",
-    "ATEGO 3033/54 8X2UPH25/26": "1585T",
-    "ATEGO 3033/54 8X2UPI25/26": "1591T",
-    "ATEGO 3033/63 8X2UPD25/26": "1428T",
-    "ATEGO 3033/63 8X2UPF25/26": "1427T",
-    "ATEGO 3033/63 8X2UPH25/26": "1485T",
-    "ATEGO 3033/63 8X2UPI25/26": "1582T",
-    "ATEGO 3133/48 6X4UPD25/26": "0337T",
-    "ATEGO 3133/48 6X4UPE25/26": "0330T",
-    "ATEGO 3133/48 6X4UPF25/26": "0334T",
-    "ATEGO 3133/48 6X4UPG25/26": "0206T",
-    "ATEGO 3330 B/46 8X4UPB25/26": "0959T",
-    "ATEGO 3330 B/46 8X4UPE25/26": "0936T",
-    "ATEGO 3330 B/46 8X4UPF25/26": "0970T",
-    "ATEGO 3330 K/46 8X4UPB25/26": "0960T",
-    "ATEGO 3330 K/46 8X4UPE25/26": "0956T",
-    "ATEGO 3330 K/46 8X4UPF25/26": "0971T",
-    "ATEGO 3330/54 8X4UPB25/26": "0973T",
-    "ATEGO 3330/54 8X4UPE25/26": "0947T",
-    "ATEGO 3330/54 8X4UPF25/26": "0977T",
-    "ACCELO 917/31UPA25/26": "00029T",
-    "ACCELO 917/31UPF25/26": "00030T",
-    "ACCELO 917/39UPA25/26": "00025T",
-    "ACCELO 917/39UPF25/26": "00026T",
-    "ACCELO 917/46UPA25/26": "00027T",
-    "ACCELO 917/46UPF25/26": "00028T",
-    "ACCELO 1117/31UPA25/26": "0065T",
-    "ACCELO 1117/31UPF25/26": "0066T",
-    "ACCELO 1117/31UPG25/26": "0067T",
-    "ACCELO 1117/39UPA25/26": "0072T",
-    "ACCELO 1117/39UPF25/26": "0071T",
-    "ACCELO 1117/39UPG25/26": "0074T",
-    "ACCELO 1117/46UPA25/26": "0070T",
-    "ACCELO 1117/46UPF25/26": "0068T",
-    "ACCELO 1117/46UPG25/26": "0069T",
-    "ACCELO 1417/39UPA25/26": "0047T",
-    "ACCELO 1417/39UPF25/26": "0049T",
-    "ACCELO 1417/39UPG25/26": "0052T",
-    "ACCELO 1417/39UPH25/26": "0053T",
-    "ACCELO 1417/46UPA25/26": "0048T",
-    "ACCELO 1417/46UPF25/26": "0050T",
-    "ACCELO 1417/46UPG25/26": "0051T",
-    "ACCELO 1417/46UPH25/26": "0054T",
-    "ATEGO 1419/48UPB25/26": "3574T",
-    "ATEGO 1419/48UPC25/26": "3299T",
-    "ATEGO 1419/48UPD25/26": "3570T",
-    "ATEGO 1419/48UPF25/26": "3341T",
-    "ATEGO 1719/48UPB25/26": "8830T",
-    "ATEGO 1719/48UPC25/26": "8376T",
-    "ATEGO 1719/48UPD25/26": "8373T",
-    "ATEGO 1719/48UPF25/26": "8375T",
-    "ATEGO 1726/48UPB25/26": "9482T",
-    "ATEGO 1726/48UPC25/26": "9490T",
-    "ATEGO 1726/48UPD25/26": "9479T",
-    "ATEGO 1726/48UPF25/26": "10135T",
-    "ATEGO 1726/54UPI25/26": "9532T",
-    "ATEGO 1729/39S/P25/26": "1908T",
-    "ATEGO 1733/48UPF25/26": "0199T",
-    "ATEGO 2429/48 6X2UPB25/26": "3388T",
-    "ATEGO 2429/48 6X2UPC25/26": "3385T",
-    "ATEGO 2429/48 6X2UPD25/26": "3397T",
-    "ATEGO 2429/48 6X2UPF25/26": "3853T",
-    "ATEGO 2429/54 6X2UPD25/26": "3395T",
-    "ATEGO 2429/54 6X2UPF25/26": "3391T",
-    "ATEGO 2429/54 6X2UPH25/26": "3393T",
-    "ATEGO 2429/54 6X2UPI25/26": "3838T",
-    "ATEGO 2433/48 6X2UPB25/26": "0829T",
-    "ATEGO 2433/48 6X2UPC25/26": "0854T",
-    "ATEGO 2433/48 6X2UPD25/26": "0825T",
-    "ATEGO 2433/48 6X2UPF25/26": "0828T",
-    "ATEGO 2433/54 6X2UPD25/26": "0889T",
-    "ATEGO 2433/54 6X2UPF25/26": "0834T",
-    "ATEGO 2433/54 6X2UPH25/26": "0839T",
-    "ATEGO 2433/54 6X2UPI25/26": "0899T",
-    "ATEGO 2730/48 6X4UPB25/26": "4711T",
-    "ATEGO 2730/48 6X4UPE25/26": "4696T",
-    "ATEGO 2730/48 6X4UPF25/26": "4691T",
-    "ATEGO 2730 B/36 6X4UPB25/26": "4724T",
-    "ATEGO 2730 B/36 6X4UPE25/26": "4669T",
-    "ATEGO 2730 B/36 6X4UPF25/26": "4700T",
-    "ATEGO 2730 K/36 6X4UPB25/26": "4726T",
-    "ATEGO 2730 K/36 6X4UPE25/26": "4673T",
-    "ATEGO 2730 K/36 6X4UPF25/26": "4701T",
-    "ATEGO 3033/48 8X2UPB25/26": "1438T",
-    "ATEGO 3033/48 8X2UPD25/26": "1434T",
-    "ATEGO 3033/48 8X2UPF25/26": "1432T",
-    "ATEGO 3033/54 8X2UPD25/26": "1440T",
-    "ATEGO 3033/54 8X2UPF25/26": "1433T",
-    "ATEGO 3033/54 8X2UPH25/26": "1585T",
-    "ATEGO 3033/54 8X2UPI25/26": "1591T",
-    "ATEGO 3033/63 8X2UPD25/26": "1428T",
-    "ATEGO 3033/63 8X2UPF25/26": "1427T",
-    "ATEGO 3033/63 8X2UPH25/26": "1485T",
-    "ATEGO 3033/63 8X2UPI25/26": "1582T",
-    "ATEGO 3133/48 6X4UPD25/26": "0337T",
-    "ATEGO 3133/48 6X4UPE25/26": "0330T",
-    "ATEGO 3133/48 6X4UPF25/26": "0334T",
-    "ATEGO 3133/48 6X4UPG25/26": "0206T",
-    "ATEGO 3330 B/46 8X4UPB25/26": "0959T",
-    "ATEGO 3330 B/46 8X4UPE25/26": "0936T",
-    "ATEGO 3330 B/46 8X4UPF25/26": "0970T",
-    "ATEGO 3330 K/46 8X4UPB25/26": "0960T",
-    "ATEGO 3330 K/46 8X4UPE25/26": "0956T",
-    "ATEGO 3330 K/46 8X4UPF25/26": "0971T",
-    "ATEGO 3330/54 8X4UPB25/26": "0973T",
-    "ATEGO 3330/54 8X4UPE25/26": "0947T",
-    "ATEGO 3330/54 8X4UPF25/26": "0977T",
-    "ACCELO 917/31UPA25/26": "00029T",
-    "ACCELO 917/31UPF25/26": "00030T",
-    "ACCELO 917/39UPA25/26": "00025T",
-    "ACCELO 917/39UPF25/26": "00026T",
-    "ACCELO 917/46UPA25/26": "00027T",
-    "ACCELO 917/46UPF25/26": "00028T",
-    "ACCELO 1117/31UPA25/26": "0065T",
-    "ACCELO 1117/31UPF25/26": "0066T",
-    "ACCELO 1117/31UPG25/26": "0067T",
-    "ACCELO 1117/39UPA25/26": "0072T",
-    "ACCELO 1117/39UPF25/26": "0071T",
-    "ACCELO 1117/39UPG25/26": "0074T",
-};
+    "ATEGO 1933 LS/36UPF25/26": "2575T",
+    "ATEGO 1933 LS/36UPH25/26": "2547T",
+    "ATEGO 1933 LS/36UPI25/26": "2548T",
+    "AXOR 2038 S/36UPG25/26": "",
+    "AXOR 2038 S/36UPH25/26": "",
+    "AXOR 2038 S/36UPI25/26": "0159T",
+    "AXOR 2538 S/36UPG25/26": "",
+    "AXOR 2538 S/36UPH25/26": "",
+    "AXOR 2538 S/36UPI25/26": "0055T",
+    "AXOR 2545 S/36UPG25/26": "",
+    "AXOR 2545 S/36UPH25/26": "0554T",
+    "AXOR 2545 S/36UPI25/26": "0564T",
+    "ACTROS 2045 S/36 4X2UPH25/26": "2494T",
+    "ACTROS 2045 S/36 4X2UPI25/26": "2580T",
+    "ACTROS 2045 LS/36 4X2UPH25/26": "2476T",
+    "ACTROS 2045 LS/36 4X2UPI25/26": "2475T",
+    "ACTROS 2045 LS/36 4X2UPJ25/26": "2499T",
+    "ACTROS 2548 S/36 6X2UPH25/26": "12183T",
+    "ACTROS 2548 S/36 6X2UPI25/26": "12180T",
+    "ACTROS 2548 S/36 6X2UPJ25/26": "12206T",
+    "ACTROS 2548 LS/33 6X2UPH25/26": "12179T",
+    "ACTROS 2548 LS/33 6X2UPI25/26": "12106T",
+    "ACTROS 2548 LS/33 6X2UPJ25/26": "12049T",
+    "ACTROS 2548 LS/36 6X2UPH25/26": "12014T",
+    "ACTROS 2548 LS/36 6X2UPI25/26": "12012T",
+    "ACTROS 2548 LS/36 6X2UPJ25/26": "12057T",
+    "ACTROS 2651 S/36 6X4UPH25/26": "14520T",
+    "ACTROS 2651 S/36 6X4UPI25/26": "14687T",
+    "ACTROS 2651 S/36 6X4UPJ25/26": "14697T",
+    "ACTROS 2651 LS/36 6X4UPH25/26": "14683T",
+    "ACTROS 2651 LS/36 6X4UPI25/26": "14686T",
+    "ACTROS 2651 LS/36 6X4UPJ25/26": "14696T",
+    "ACTROS 2553 S/36 6X2UPH25/26": "1713T",
+    "ACTROS 2553 S/36 6X2UPI25/26": "1685T",
+    "ACTROS 2553 S/36 6X2UPJ25/26": "1736T",
+    "ACTROS 2553 LS/36 6X2UPH25/26": "1668T",
+    "ACTROS 2553 LS/36 6X2UPI25/26": "1540T",
+    "ACTROS 2553 LS/36 6X2UPJ25/26": "1534T",
+    "ACTROS 2653 S/36 6X4UPH25/26": "7310T",
+    "ACTROS 2653 S/36 6X4UPI25/26": "7186T",
+    "ACTROS 2653 S/36 6X4UPJ25/26": "7224T",
+    "ACTROS 2653 LS/36 6X4UPH25/26": "7211T",
+    "ACTROS 2653 LS/36 6X4UPI25/26": "7207T",
+    "ACTROS 2653 LS/36 6X4UPJ25/26": "7345T",
+    "AROCS 3351/48 6X4UPE25/26": "2103T",
+    "AROCS 3351/48 6X4UPF25/26": "2085T",
+    "AROCS 3351 K/36 6X4UPE25/26": "2458T",
+    "AROCS 3351 K/36 6X4UPF25/26": "2457T",
+    "AROCS 3351 S/33 6X4UPE25/26": "2631T",
+    "AROCS 3351 S/33 6X4UPF25/26": "2634T",
+    "AROCS 3351 S/33 6X4UPG25/26": "2632T",
+    "AROCS 3351 S/33 6X4UPH25/26": "2633T",
+    "AROCS 3353 S/33 6X4UPE25/26": "0398T",
+    "AROCS 3353 S/33 6X4UPF25/26": "0399T",
+    "AROCS 3353 S/33 6X4UPG25/26": "0397T",
+    "AROCS 4151 K/36 6X4UPE25/26": "0225T",
+    "AROCS 4151 K/36 6X4UPF25/26": "0240T",
+    "AROCS 4851/45 8X4UPE25/26": "0869T"
+  };
 
+// 3) COLE SUA LISTA RAW_ACOES COMPLETA (UMA VEZ) AQUI:
+// Cada linha: 'CODIGOANO' : ['Acao1','Acao2']
+const RAW_ACOES = `
+    '02037T25/25' : ['Estoque'],
+    '02105T25/25' : ['Estoque', 'Mais Alimentos'],
+    '02109T25/25' : ['Estoque'],
+    '02035T25/25' : ['Estoque'],
+    '02034T25/25' : ['Estoque', 'Mais Alimentos'],
+    '02036T25/25' : ['Estoque'],
+    '2284T25/25' : ['Estoque'],
+    '2285T25/25' : ['Estoque', 'Mais Alimentos'],
+    '2287T25/25' : ['Estoque'],
+    '2286T25/25' : ['Estoque'],
+    '2282T25/25' : ['Estoque', 'Mais Alimentos'],
+    '2283T25/25' : ['Estoque'],
+    '1040T25/25' : ['Estoque', 'Frigorificado'],
+    '1035T25/25' : ['Estoque', 'Frigorificado', 'Mais Alimentos'],
+    '1038T25/25' : ['Estoque', 'Frigorificado'],
+    '1106T25/25' : ['Estoque', 'Frigorificado'],
+    '1033T25/25' : ['Estoque', 'Frigorificado', 'Mais Alimentos'],
+    '1036T25/25' : ['Estoque', 'Frigorificado'],
+    '1042T25/25' : ['Estoque', 'Frigorificado'],
+    '3295T25/25' : ['Estoque', 'Mais Alimentos'],
+    '3299T25/25' : ['Estoque'],
+    '3296T25/25' : ['Estoque', 'Mais Alimentos'],
+    '3341T25/25' : ['Estoque'],
+    '8372T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST', 'Mais Alimentos'],
+    '8376T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '8373T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST', 'Mais Alimentos'],
+    '8375T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '9482T25/25' : ['Estoque', 'Frigorificado', 'C.E.ABAST'],
+    '9490T25/25' : ['Estoque', 'Frigorificado', 'C.E.ABAST'],
+    '9479T25/25' : ['Estoque', 'Frigorificado', 'C.E.ABAST'],
+    '9980T25/25' : ['Estoque', 'Frigorificado', 'C.E.ABAST', 'Mais Alimentos'],
+    '1908T25/25' : ['Estoque'],
+    '0199T25/25' : ['Estoque'],
+    '3388T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '3385T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '3397T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '3392T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST', 'Mais Alimentos'],
+    '3395T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '3391T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '3393T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '3387T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST', 'Mais Alimentos'],
+    '0829T25/25' : ['Estoque', 'Frigorificado', 'C.E.ABAST'],
+    '0854T25/25' : ['Estoque', 'Frigorificado', 'C.E.ABAST'],
+    '0825T25/25' : ['Estoque', 'Frigorificado', 'C.E.ABAST'],
+    '0828T25/25' : ['Estoque', 'Frigorificado', 'C.E.ABAST'],
+    '0889T25/25' : ['Estoque', 'Frigorificado', 'C.E.ABAST'],
+    '0834T25/25' : ['Estoque', 'Frigorificado', 'C.E.ABAST'],
+    '0839T25/25' : ['Estoque', 'Frigorificado', 'C.E.ABAST'],
+    '0899T25/25' : ['Estoque', 'Frigorificado', 'C.E.ABAST', 'Mais Alimentos'],
+    '1438T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '1434T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '1432T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '1440T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '1433T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '1585T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '1591T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '1428T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '1427T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '1485T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '1582T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST', 'Mais Alimentos'],
+    '4711T25/25' : ['Estoque', 'Frigorificado'],
+    '4696T25/25' : ['Estoque', 'Frigorificado'],
+    '4691T25/25' : ['Estoque', 'Frigorificado'],
+    '4724T25/25' : ['Estoque', 'Frigorificado'],
+    '4669T25/25' : ['Estoque', 'Frigorificado'],
+    '4700T25/25' : ['Estoque', 'Frigorificado'],
+    '4726T25/25' : ['Estoque', 'Frigorificado'],
+    '4673T25/25' : ['Estoque', 'Frigorificado'],
+    '4701T25/25' : ['Estoque', 'Frigorificado'],
+    '0973T25/25' : ['Estoque', 'Frigorificado'],
+    '0947T25/25' : ['Estoque', 'Frigorificado'],
+    '0977T25/25' : ['Estoque', 'Frigorificado'],
+    '0959T25/25' : ['Estoque', 'Frigorificado'],
+    '0936T25/25' : ['Estoque', 'Frigorificado'],
+    '0970T25/25' : ['Estoque', 'Frigorificado'],
+    '0960T25/25' : ['Estoque', 'Frigorificado'],
+    '0956T25/25' : ['Estoque', 'Frigorificado'],
+    '0971T25/25' : ['Estoque', 'Frigorificado'],
+    '0337T25/25' : ['Estoque', 'Frigorificado'],
+    '0330T25/25' : ['Estoque', 'Frigorificado'],
+    '0334T25/25' : ['Estoque', 'Frigorificado'],
+    '0206T25/25' : ['Estoque', 'Frigorificado'],
+    '2575T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '2547T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '2548T25/25' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '2494T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '2580T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '2476T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '2475T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '2499T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '12183T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '12180T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '12206T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '12179T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '12106T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '12049T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '12014T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '12012T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '12057T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '14520T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '14687T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '14697T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '14683T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '14686T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '14696T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '1713T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '1685T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '1736T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '1668T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '1540T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '1534T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '7310T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '7186T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '7224T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '7211T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '7207T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '7345T25/25' : ['Estoque', 'Postos de Combustiveis'],
+    '2103T25/25' : ['Estoque'],
+    '2085T25/25' : ['Estoque'],
+    '2458T25/25' : ['Estoque'],
+    '2457T25/25' : ['Estoque'],
+    '2631T25/25' : ['Estoque'],
+    '2634T25/25' : ['Estoque'],
+    '2632T25/25' : ['Estoque'],
+    '2633T25/25' : ['Estoque'],
+    '0398T25/25' : ['Estoque'],
+    '0399T25/25' : ['Estoque'],
+    '0397T25/25' : ['Estoque'],
+    '0225T25/25' : ['Estoque'],
+    '0240T25/25' : ['Estoque'],
+    '0869T25/25' : ['Estoque'],
+    '00029T25/26' : ['Estoque', 'Frigorificado', 'C.E.ABAST'],
+    '00030T25/26' : ['Estoque', 'Frigorificado', 'C.E.ABAST'],
+    '00025T25/26' : ['Estoque', 'Frigorificado', 'C.E.ABAST'],
+    '00026T25/26' : ['Estoque', 'Frigorificado', 'C.E.ABAST', 'Mais Alimentos'],
+    '00027T25/26' : ['Estoque', 'Frigorificado', 'C.E.ABAST'],
+    '00028T25/26' : ['Estoque', 'Frigorificado', 'C.E.ABAST', 'Mais Alimentos'],
+    '0065T25/26' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '0066T25/26' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '0067T25/26' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '0072T25/26' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '0071T25/26' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST', 'Mais Alimentos'],
+    '0074T25/26' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '0070T25/26' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '0068T25/26' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST', 'Mais Alimentos'],
+    '0069T25/26' : ['Estoque', 'Postos de Combustiveis', 'Frigorificado', 'C.E.ABAST'],
+    '0047T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '0049T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST', 'Mais Alimentos'],
+    '0052T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '0053T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '0048T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '0050T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST', 'Mais Alimentos'],
+    '0051T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '0054T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '3574T25/26' : ['Estoque', 'Mais Alimentos'],
+    '3299T25/26' : ['Estoque'],
+    '3570T25/26' : ['Estoque', 'Mais Alimentos'],
+    '3341T25/26' : ['Estoque'],
+    '8830T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST', 'Mais Alimentos'],
+    '8376T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '8373T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '8375T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '9482T25/26' : ['Estoque', 'C.E.ABAST'],
+    '9490T25/26' : ['Estoque', 'C.E.ABAST'],
+    '9479T25/26' : ['Estoque', 'C.E.ABAST'],
+    '10135T25/26' : ['Estoque', 'C.E.ABAST', 'Mais Alimentos'],
+    '9532T25/26' : ['Estoque', 'C.E.ABAST', 'Mais Alimentos'],
+    '1908T25/26' : ['Estoque'],
+    '0199T25/26' : ['Estoque'],
+    '3388T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '3385T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '3397T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '3853T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST', 'Mais Alimentos'],
+    '3395T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '3391T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '3393T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '3838T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST', 'Mais Alimentos'],
+    '0829T25/26' : ['Estoque', 'C.E.ABAST'],
+    '0854T25/26' : ['Estoque', 'C.E.ABAST'],
+    '0825T25/26' : ['Estoque', 'C.E.ABAST'],
+    '0828T25/26' : ['Estoque', 'C.E.ABAST'],
+    '0889T25/26' : ['Estoque', 'C.E.ABAST'],
+    '0834T25/26' : ['Estoque', 'C.E.ABAST'],
+    '0839T25/26' : ['Estoque', 'C.E.ABAST'],
+    '0899T25/26' : ['Estoque', 'C.E.ABAST'],
+    '1438T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '1434T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '1432T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '1440T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '1433T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '1585T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '1591T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '1428T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '1427T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '1485T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '1793T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST', 'Mais Alimentos'],
+    '4711T25/26' : ['Estoque'],
+    '4696T25/26' : ['Estoque'],
+    '4691T25/26' : ['Estoque'],
+    '4724T25/26' : ['Estoque'],
+    '4669T25/26' : ['Estoque'],
+    '4700T25/26' : ['Estoque'],
+    '4726T25/26' : ['Estoque'],
+    '4673T25/26' : ['Estoque'],
+    '4701T25/26' : ['Estoque'],
+    '0973T25/26' : ['Estoque'],
+    '0947T25/26' : ['Estoque'],
+    '0977T25/26' : ['Estoque'],
+    '0959T25/26' : ['Estoque'],
+    '0936T25/26' : ['Estoque'],
+    '0970T25/26' : ['Estoque'],
+    '0960T25/26' : ['Estoque'],
+    '0956T25/26' : ['Estoque'],
+    '0971T25/26' : ['Estoque'],
+    '0337T25/26' : ['Estoque'],
+    '0330T25/26' : ['Estoque'],
+    '0334T25/26' : ['Estoque'],
+    '0206T25/26' : ['Estoque'],
+    '2575T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '2547T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '2548T25/26' : ['Estoque', 'Postos de Combustiveis', 'C.E.ABAST'],
+    '0159T25/26' : ['Estoque'],
+    '0055T25/26' : ['Estoque'],
+    '0554T25/26' : ['Estoque'],
+    '0564T25/26' : ['Estoque'],
+    '2494T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '2580T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '2476T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '2475T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '2499T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '12183T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '12180T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '12206T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '12179T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '12106T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '12049T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '12014T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '12012T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '12057T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '14520T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '14687T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '14697T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '14683T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '14686T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '14696T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '1713T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '1685T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '1736T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '1668T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '1540T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '1534T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '7310T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '7186T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '7224T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '7211T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '7207T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '7345T25/26' : ['Estoque', 'Postos de Combustiveis'],
+    '2103T25/26' : ['Estoque'],
+    '2085T25/26' : ['Estoque'],
+    '2458T25/26' : ['Estoque'],
+    '2457T25/26' : ['Estoque'],
+    '2631T25/26' : ['Estoque'],
+    '2634T25/26' : ['Estoque'],
+    '2632T25/26' : ['Estoque'],
+    '2633T25/26' : ['Estoque'],
+    '0398T25/26' : ['Estoque'],
+    '0399T25/26' : ['Estoque'],
+    '0397T25/26' : ['Estoque'],
+    '0225T25/26' : ['Estoque'],
+    '0240T25/26' : ['Estoque'],
+    '0869T25/26' : ['Estoque']
+    `;
+
+
+    // --- DETALHAMENTO ESTOQUE PRÓPRIO ---
+  const btnMostrarProtegido = document.getElementById('btnMostrarProtegido');
+  const passwordGroup       = document.getElementById('passwordGroup');
+  const senhaInput          = document.getElementById('senhaInput');
+  const btnVerificarSenha   = document.getElementById('btnVerificarSenha');
+  const senhaError          = document.getElementById('senhaError');
+
+  const rowComissaoProtected = document.getElementById('rowComissaoProtected');
+  const rowDsrProtected      = document.getElementById('rowDsrProtected');
+  const rowTotalProtected    = document.getElementById('rowTotalProtected');
+
+  function toggleHidden(el){ el.classList.toggle('hidden'); }
+
+  if (btnMostrarProtegido) {
+    btnMostrarProtegido.addEventListener('click', () => {
+      toggleHidden(passwordGroup);
+      senhaError.textContent = "";
+      if (!passwordGroup.classList.contains('hidden')) {
+        senhaInput.focus();
+      }
+    });
+  }
+
+  if (btnVerificarSenha) {
+    btnVerificarSenha.addEventListener('click', () => {
+      const senha = senhaInput.value.trim();
+      // Ajuste a senha real aqui
+      if (senha === 'Vendas123') {
+        [rowComissaoProtected, rowDsrProtected, rowTotalProtected].forEach(r => r.classList.remove('hidden'));
+        passwordGroup.classList.add('hidden');
+        senhaInput.value = '';
+        senhaError.textContent = "";
+      } else {
+        senhaError.textContent = "Senha incorreta.";
+      }
+    });
+  }
+
+  // (Opcional) Enter para confirmar senha
+  if (senhaInput) {
+    senhaInput.addEventListener('keyup', e => {
+      if (e.key === 'Enter') btnVerificarSenha.click();
+    });
+  }
+
+  // --- DETALHAMENTO FABRICA (apenas exemplo de toggle) ---
+  const btnDetalhamentoFab = document.getElementById('btnDetalhamentoFab');
+  if (btnDetalhamentoFab) {
+    btnDetalhamentoFab.addEventListener('click', () => {
+      alert('Aqui você pode abrir um modal ou mostrar valores detalhados.');
+    });
+  }
+
+  // ================== ESTADO ==================
+  const vendedores = {}; // FZ -> dados
+  let vendedorAtual = null;
+  let valorTabela = 0;
+  let dadosCarregados = false;
+  let pendingFZ = null;
+
+// ================== MAP DE AÇÕES ==================
+  function buildAcoesMap(raw){
+    const map = {};
+    raw.split(/\r?\n/).forEach(line=>{
+      const m = line.match(/'([^']+)'\s*:\s*\[(.*?)\]/);
+      if(!m) return;
+      const key = m[1].trim().toUpperCase();
+      const inside = m[2].trim();
+      if(!inside){ map[key]=[]; return; }
+      const parts = inside.split(/\s*,\s*/)
+        .map(p=>p.replace(/^['"]|['"]$/g,'').trim())
+        .filter(Boolean);
+      map[key] = Array.from(new Set(parts));
+    });
+    return map;
+  }
+const ACOES_MAP = buildAcoesMap(RAW_ACOES);
+const ACOES_PADRAO = ['Estoque'];
+
+// ================== ELEMENTOS ==================
+const els = id => document.getElementById(id);
+
+const fzEl            = els("fz");
+const fzErrorEl       = els("fzError");
+const modeloEl        = els("modelo");
+const upEl            = els("up");
+const anoModEl        = els("anoMod");
+const valorTabelaEl   = els("valorTabela");
+const descontoEl      = els("desconto");
+const descontoReaisEl = els("descontoReais");
+const valorVendaEl    = els("valorVenda");
+const comissaoEl      = els("comissaoProtected");
+const dsrEl           = els("dsrProtected");
+const totalEl         = els("total");
+
+const modeloFabEl     = els("modeloFab");
+const upFabEl         = els("upFab");
+const anoFabEl        = els("anoModeloFab");
+const varianteFabEl   = els("varianteFab");
 const acaoFabEl       = els("acaoFab");
 
 // ================== UTIL ==================
@@ -1993,13 +1975,16 @@ function atualizarVarianteFab(){
   if(!varianteFabEl) return;
   if(!chave){
     varianteFabEl.textContent = '';
-    preencherAcoes();
-    atualizarPrecoFab?.();
+    preencherAcoes?.();
+    atualizarPrecoFab?.(); // limpa preço
     return;
   }
+
+  // Seta o código da variante (ex: 2284T)
   const codigo = variantesFab[chave] || '';
   varianteFabEl.textContent = codigo;
-  preencherAcoes();
+  preencherAcoes?.();
+  // Atualiza preço após garantir que o código já está no DOM
   atualizarPrecoFab?.();
 }
 // Eventos (apenas estes)
@@ -2191,92 +2176,46 @@ function parseFabPrecoCSV(csv){
     // separa por vírgula ignorando vírgulas entre aspas
     return line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c=>c.replace(/^"|"$/g,'').trim());
   };
-   // Mantemos header só para referência (não dependemos dele para as colunas de ação)
-  const header = splitSmart(lines.shift());
-    // Mapeamento fixo informado: (letras -> índices 0-based)
-  // I=9  K=11  M=13  O=15  Q=17
-  const IDX = {
-    CHAVE: 0,        // A
-    TABELA: 4,       // E (coluna "TABELA")
-    ESTOQUE: 8,      // I
-    POSTOS: 10,      // K
-    FRIGOR: 12,      // M
-    CEABAST: 14,     // O
-    MAISAL: 16       // Q
-  };
+  const header = splitSmart(lines.shift()).map(h=>h.toUpperCase());
   const idxChave  = header.indexOf("CHAVE");
   const idxTabela = header.indexOf("TABELA");
   const map = {};
   lines.forEach(l=>{
     const cols = splitSmart(l);
-    const chave = (cols[IDX.CHAVE]||'').trim();
+    const chave = (cols[idxChave]||'').trim();
     if(!chave) return;
-
-    const tabelaNum = parseNumeroBR(cols[IDX.TABELA]||'');
-    if(isNaN(tabelaNum)) return; // sem tabela ignora
-
-    function num(idx){
-      const v = parseNumeroBR(cols[idx]||'');
-      return isNaN(v)? null : v;
-    }
-
+    const tabelaNum = parseNumeroBR(cols[idxTabela]||'');
+    if(isNaN(tabelaNum)) return;
     map[chave.toUpperCase()] = {
       tabela: tabelaNum,
-      precos: {
-        "Estoque": num(IDX.ESTOQUE),
-        "Postos de Combustiveis": num(IDX.POSTOS),
-        "Frigorificado": num(IDX.FRIGOR),
-        "C.E.ABAST": num(IDX.CEABAST),
-        "Mais Alimentos": num(IDX.MAISAL)
-      },
       _raw: cols
     };
   });
   return map;
 }
-function atualizarPrecoVendaFab(){
-  const span = document.getElementById('faPrecoVenda');
-  if(!span) return;
+
+async function atualizarPrecoFab(){
   const ano = anoSelecionadoFab?.();
-  const codigo = variantCodigoFab();
-  const acao = acaoFabEl?.value || '';
-  if(!ano || !codigo || !acao){
+  await garantirPrecosAno(ano);
+  const chave = chavePrecoFab();
+  // seu HTML usa faValorTabela (não fabValorTabela)
+  const span = document.getElementById('faValorTabela');
+  if(!span){
+    return;
+  }
+  if(!chave){
     span.textContent = "R$ 0,00";
     return;
   }
   const dataAno = fabPrecosPorAno[ano] || {};
-  // chavePrecoFab = codigo+ano
-  const item = dataAno[(codigo+ano).toUpperCase()];
-  if(!item){
-    span.textContent = "R$ 0,00";
-    return;
-  }
-  const valor = item.precos?.[acao] ?? null;
-  span.textContent = valor != null ? formatar(valor) : "R$ 0,00";
+  const item = dataAno[chave.toUpperCase()];
+  span.textContent = item ? formatar(item.tabela) : "R$ 0,00";
 }
 
-// Atualize atualizarPrecoFab para chamar atualizarPrecoVendaFab:
-const _old_atualizarPrecoFab = atualizarPrecoFab;
-atualizarPrecoFab = async function(){
-  await _old_atualizarPrecoFab();
-  atualizarPrecoVendaFab();
-};
 
 // Re-hook listener de ano (já existe; apenas garante chamada de preço se mudar ano)
-acaoFabEl?.addEventListener('change',()=>{
-  const val = acaoFabEl.value;
-  const map = {
-    "Estoque":               {bg:"#8dc2ff", fg:"#001c3b"},
-    "C.E.ABAST":             {bg:"#ffc35b", fg:"#301e01"},
-    "Frigorificado":         {bg:"#e1bee7", fg:"#25002c"},
-    "Postos de Combustiveis":{bg:"#a2f3a5", fg:"#002401"},
-    "Mais Alimentos":        {bg:"#fff48f", fg:"#383200"}
-  };
-  const cfg = map[val] || {bg:"",fg:""};
-  acaoFabEl.style.backgroundColor = cfg.bg;
-  acaoFabEl.style.color = cfg.fg;
-  acaoFabEl.style.fontWeight = cfg.bg? "900":"";
-  atualizarPrecoVendaFab(); // <--- NOVO
+anoFabEl?.addEventListener('change', ()=> {
+  atualizarPrecoFab();
 });
 
 // Inicialização extra
