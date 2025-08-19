@@ -2123,6 +2123,107 @@ function init(){
   atualizarVarianteFab();
   preencherAcoes();
 }
+
+const FAB_PRECO_URLS = {
+  "25/25": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=320257334&single=true&output=csv",
+  "25/26": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=1188555781&single=true&output=csv"
+};
+
+const fabPrecosPorAno = {}; // { "25/25": { CHAVE: { tabela: number, raw:{} } } }
+
+function variantCodigoFab(){
+  return (varianteFabEl?.textContent||'').trim();
+}
+function anoSelecionadoFab(){
+  return anoFabEl?.value || "";
+}
+function chavePrecoFab(){
+  const cod = variantCodigoFab();
+  const ano = anoSelecionadoFab();
+  if(!cod || !ano) return null;
+  return cod + ano; // ex: 2284T25/25
+}
+
+function parseNumeroBR(str){
+  if(!str) return NaN;
+  // Remove R$, espaços, pontos milhar e troca vírgula por ponto
+  return parseFloat(str.replace(/R\$\s*/i,'').replace(/\./g,'').replace(/,/g,'.'));
+}
+
+async function garantirPrecosAno(ano){
+  if(!ano || fabPrecosPorAno[ano]) return;
+  const url = FAB_PRECO_URLS[ano];
+  if(!url) return;
+  try{
+    const res = await fetch(url,{cache:'no-store'});
+    const csv = await res.text();
+    fabPrecosPorAno[ano] = parseFabPrecoCSV(csv);
+  }catch(e){
+    console.warn("Falha ao carregar preços fábrica ano", ano, e);
+    fabPrecosPorAno[ano] = {};
+  }
+}
+
+function parseFabPrecoCSV(csv){
+  const lines = csv.split(/\r?\n/).filter(l=>l.trim());
+  if(!lines.length) return {};
+  const splitSmart = line => {
+    // separa por vírgula ignorando vírgulas entre aspas
+    return line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c=>c.replace(/^"|"$/g,'').trim());
+  };
+  const header = splitSmart(lines.shift()).map(h=>h.toUpperCase());
+  const idxChave  = header.indexOf("CHAVE");
+  const idxTabela = header.indexOf("TABELA");
+  const map = {};
+  lines.forEach(l=>{
+    const cols = splitSmart(l);
+    const chave = (cols[idxChave]||'').trim();
+    if(!chave) return;
+    const tabelaNum = parseNumeroBR(cols[idxTabela]||'');
+    if(isNaN(tabelaNum)) return;
+    map[chave.toUpperCase()] = {
+      tabela: tabelaNum,
+      _raw: cols
+    };
+  });
+  return map;
+}
+
+async function atualizarPrecoFab(){
+  const ano = anoSelecionadoFab();
+  await garantirPrecosAno(ano);
+  const chave = chavePrecoFab();
+  const span = document.getElementById('fabValorTabela');
+  if(!span){
+    return;
+  }
+  if(!chave){
+    span.textContent = "";
+    return;
+  }
+  const dataAno = fabPrecosPorAno[ano] || {};
+  const item = dataAno[chave.toUpperCase()];
+  span.textContent = item ? formatar(item.tabela) : "";
+}
+
+// Hook: após atualizar variante ou ano -> também atualiza preço
+const _oldAtualizarVarianteFab_hook = atualizarVarianteFab;
+function atualizarVarianteFab(){
+  _oldAtualizarVarianteFab_hook();
+  atualizarPrecoFab();
+}
+
+// Re-hook listener de ano (já existe; apenas garante chamada de preço se mudar ano)
+anoFabEl?.addEventListener('change', ()=> {
+  atualizarPrecoFab();
+});
+
+// Inicialização extra
+document.addEventListener('DOMContentLoaded', ()=>{
+  // se já tiver algo selecionado após init
+  setTimeout(()=> atualizarPrecoFab(), 300);
+});
+
 document.addEventListener('DOMContentLoaded', init);
 
 els('btnEstoqueProprio')?.addEventListener('click', showCalcProprio);
