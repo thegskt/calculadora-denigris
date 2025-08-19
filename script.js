@@ -1671,6 +1671,23 @@ const RAW_ACOES = `
 const ACOES_MAP = buildAcoesMap(RAW_ACOES);
 const ACOES_PADRAO = ['Estoque'];
 
+// Função para popular o select de ações da Fábrica
+function preencherAcoes(){
+  if(!acaoFabEl) return;
+  const ano = anoFabEl?.value;
+  const codigoVar = (varianteFabEl?.textContent||'').trim();
+  acaoFabEl.innerHTML = '';
+  if(!codigoVar || !ano){
+    acaoFabEl.add(new Option('',''));
+    return;
+  }
+  const chaveAcao = (codigoVar + ano).toUpperCase(); // ex: 2284T25/25
+  const lista = ACOES_MAP[chaveAcao] || ACOES_PADRAO;
+  lista.forEach(a=> acaoFabEl.add(new Option(a,a)));
+  // Dispara para aplicar cor
+  acaoFabEl.dispatchEvent(new Event('change'));
+}
+
 // ================== ELEMENTOS ==================
 const els = id => document.getElementById(id);
 
@@ -1975,16 +1992,13 @@ function atualizarVarianteFab(){
   if(!varianteFabEl) return;
   if(!chave){
     varianteFabEl.textContent = '';
-    preencherAcoes?.();
-    atualizarPrecoFab?.(); // limpa preço
+    preencherAcoes();
+    atualizarPrecoFab?.();
     return;
   }
-
-  // Seta o código da variante (ex: 2284T)
   const codigo = variantesFab[chave] || '';
   varianteFabEl.textContent = codigo;
-  preencherAcoes?.();
-  // Atualiza preço após garantir que o código já está no DOM
+  preencherAcoes();
   atualizarPrecoFab?.();
 }
 // Eventos (apenas estes)
