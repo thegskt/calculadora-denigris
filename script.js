@@ -2134,6 +2134,25 @@ const FAB_PRECO_URLS = {
   "25/26": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=1188555781&single=true&output=csv"
 };
 
+// MAPA (AÇÃO -> COLUNA) conforme especificado
+const FAB_ACTION_COLS = {
+  "Estoque":"I",
+  "Postos de Combustiveis":"K",
+  "Frigorificado":"M",
+  "C.E.ABAST":"O",
+  "Mais Alimentos":"Q"
+};
+
+function colLetterToIdx(letter){
+  letter = (letter||'').toUpperCase().trim();
+  let n=0;
+  for (const ch of letter){
+    if(ch<'A'||ch>'Z') return -1;
+    n = n*26 + (ch.charCodeAt(0)-64);
+  }
+  return n-1;
+}
+
 const fabPrecosPorAno = {}; // { "25/25": { CHAVE: { tabela: number, raw:{} } } }
 
 function variantCodigoFab(){
@@ -2192,13 +2211,14 @@ async function garantirPrecosAno(ano){
 function parseFabPrecoCSV(csv){
   const lines = csv.split(/\r?\n/).filter(l=>l.trim());
   if(!lines.length) return {};
-  const splitSmart = line => {
-    // separa por vírgula ignorando vírgulas entre aspas
-    return line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c=>c.replace(/^"|"$/g,'').trim());
-  };
-  const header = splitSmart(lines.shift()).map(h=>h.toUpperCase());
-  const idxChave  = header.indexOf("CHAVE");
-  const idxTabela = header.indexOf("TABELA");
+  const splitSmart = line =>
+    line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c=>c.replace(/^"|"$/g,'').trim());
+  const header = splitSmart(lines.shift());
+  // índices dinâmicos por nome (fallback)
+  const hdrUpper = header.map(h=>h.toUpperCase());
+  const idxChave  = hdrUpper.indexOf("CHAVE");
+  const idxTabela = hdrUpper.indexOf("TABELA");
+
   const map = {};
   lines.forEach(l=>{
     const cols = splitSmart(l);
@@ -2208,30 +2228,61 @@ function parseFabPrecoCSV(csv){
     if(isNaN(tabelaNum)) return;
     map[chave.toUpperCase()] = {
       tabela: tabelaNum,
-      _raw: cols
+      cols   : cols // guarda linha completa para pegar colunas I,K,M,O,Q
     };
   });
   return map;
+}
+
+// Retorna valor de venda para a ação escolhida
+function valorVendaAcao(item, acao){
+  if(!item) return 0;
+  const colLetter = FAB_ACTION_COLS[acao];
+  if(!colLetter) return 0;
+  const idx = colLetterToIdx(colLetter);
+  if(idx<0 || idx >= item.cols.length) return 0;
+  const v = parseNumeroBR(item.cols[idx]);
+  return isNaN(v)?0:v;
 }
 
 async function atualizarPrecoFab(){
   const ano = anoSelecionadoFab?.();
   await garantirPrecosAno(ano);
   const chave = chavePrecoFab();
-  // seu HTML usa faValorTabela (não fabValorTabela)
-  const span = document.getElementById('faValorTabela');
-  if(!span){
+  const tabelaSpan = document.getElementById('faValorTabela');
+  const vendaSpan  = document.getElementById('faValorVenda');
+  if(!tabelaSpan || !vendaSpan){
     return;
   }
   if(!chave){
-    span.textContent = "R$ 0,00";
+    tabelaSpan.textContent = "R$ 0,00";
+    vendaSpan.textContent  = "R$ 0,00";
     return;
   }
   const dataAno = fabPrecosPorAno[ano] || {};
   const item = dataAno[chave.toUpperCase()];
-  span.textContent = item ? formatar(item.tabela) : "R$ 0,00";
+  tabelaSpan.textContent = item ? formatar(item.tabela) : "R$ 0,00";
+  const acaoAtual = acaoFabEl?.value || "Estoque";
+  const venda = valorVendaAcao(item, acaoAtual);
+  vendaSpan.textContent = formatar(venda);
 }
 
+// Ajusta listener para também recalcular venda
+acaoFabEl?.addEventListener('change', ()=>{
+  const val = acaoFabEl.value;
+  const map = {
+    "Estoque":               {bg:"#8dc2ff", fg:"#001c3b"},
+    "C.E.ABAST":             {bg:"#ffc35b", fg:"#301e01"},
+    "Frigorificado":         {bg:"#e1bee7", fg:"#25002c"},
+    "Postos de Combustiveis":{bg:"#a2f3a5", fg:"#002401"},
+    "Mais Alimentos":        {bg:"#fff48f", fg:"#383200"}
+  };
+  const cfg = map[val] || {bg:"",fg:""};
+  acaoFabEl.style.backgroundColor = cfg.bg;
+  acaoFabEl.style.color = cfg.fg;
+  acaoFabEl.style.fontWeight = cfg.bg? "900":"";
+  atualizarPrecoFab();
+});
 
 // Re-hook listener de ano (já existe; apenas garante chamada de preço se mudar ano)
 anoFabEl?.addEventListener('change', ()=> {
