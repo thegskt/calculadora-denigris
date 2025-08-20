@@ -2251,20 +2251,34 @@ async function atualizarPrecoFab(){
   const chave = chavePrecoFab();
   const tabelaSpan = document.getElementById('faValorTabela');
   const vendaSpan  = document.getElementById('faValorVenda');
+  const descValSpan = document.getElementById('faDesconto');
+  const descPercSpan = document.getElementById('faDescontoPerc');
   if(!tabelaSpan || !vendaSpan){
     return;
   }
   if(!chave){
     tabelaSpan.textContent = "R$ 0,00";
     vendaSpan.textContent  = "R$ 0,00";
+    if(descValSpan)  descValSpan.textContent  = "R$ 0,00";
+    if(descPercSpan) descPercSpan.textContent = "0,00%";
     return;
   }
   const dataAno = fabPrecosPorAno[ano] || {};
   const item = dataAno[chave.toUpperCase()];
+  const tabelaNum = item ? item.tabela : 0;
   tabelaSpan.textContent = item ? formatar(item.tabela) : "R$ 0,00";
   const acaoAtual = acaoFabEl?.value || "Estoque";
   const venda = valorVendaAcao(item, acaoAtual);
   vendaSpan.textContent = formatar(venda);
+
+  // === Cálculo do desconto ===
+  const descontoValor = Math.max(0, tabelaNum - venda);
+  const descontoPerc  = (tabelaNum > 0 && venda <= tabelaNum)
+    ? (descontoValor / tabelaNum) * 100
+    : 0;
+
+  if(descValSpan)  descValSpan.textContent  = formatar(descontoValor);
+  if(descPercSpan) descPercSpan.textContent = descontoPerc.toFixed(2).replace('.',',') + '%';
 }
 
 // Ajusta listener para também recalcular venda
