@@ -170,6 +170,17 @@ function filtrar(){
 
 busca.addEventListener('input', filtrar);
 
+// Função para converter URL do OneDrive em URL de imagem direta
+function converterUrlOneDrive(url) {
+  if (!url || !url.includes('1drv.ms')) return url;
+  // Extrai o ID do arquivo e cria URL de download direto
+  const match = url.match(/\/IQ([A-Za-z0-9_-]+)/);
+  if (match) {
+    return `https://onedrive.live.com/embed?resid=${match[1]}&authkey=!APj8gZhT7HZXbH4&width=660&height=550`;
+  }
+  return url;
+}
+
 async function carregar(){
   try{
     const res = await fetch(sheetCsvUrl, { cache:'no-store' });
@@ -183,11 +194,10 @@ async function carregar(){
     itens = rows.map((line, idx) => {
       const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, "").trim());
       
-      // Debug: mostrar coluna 15 (índice 15)
+      // Debug: mostrar coluna 16 (índice 15)
       if (idx === 0) {
         console.log('Coluna 16 (idx 15):', cols[15]);
         console.log('Total de colunas:', cols.length);
-        console.log('Todas as colunas:', cols);
       }
       
       return {
@@ -199,7 +209,7 @@ async function carregar(){
         patio: cols[12] || '',   // 13ª
         cor: cols[13] || '',     // 14ª
         variante: cols[14] || '', // 15ª
-        fotoUrl: cols[15] || ''  // 16ª - NOVA COLUNA
+        fotoUrl: converterUrlOneDrive(cols[15] || '')  // 16ª - CONVERTIDA
       };
     });
     render(itens);
@@ -224,7 +234,7 @@ function abrirFoto(fotoUrl, modelo) {
     <div class="modal-conteudo">
       <button class="modal-fechar">&times;</button>
       <h3>${modelo}</h3>
-      <img src="${fotoUrl}" alt="${modelo}" onerror="this.src='https://via.placeholder.com/400?text=Foto+não+disponível'">
+      <img src="${fotoUrl}" alt="${modelo}" style="max-width: 100%; height: auto;" onerror="this.src='https://via.placeholder.com/400?text=Foto+não+disponível'">
     </div>
   `;
   document.body.appendChild(modal);
