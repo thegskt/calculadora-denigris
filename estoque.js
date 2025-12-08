@@ -125,10 +125,17 @@ function render(list){
       a.href = `index.html?calc=proprio&fz=${encodeURIComponent(r.fz)}`;
       cAc.appendChild(a);
 
-      // Meta (apenas Pátio e FZ)
+      // Meta (apenas Pátio, FZ e Foto)
       const cMeta = document.createElement('div'); cMeta.className = 'meta'; cMeta.setAttribute('data-label',''); cMeta.style.gridColumn = '1 / -1';
       if (r.patio) cMeta.insertAdjacentHTML('beforeend', `<span class="chip"><b>Pátio</b> ${r.patio}</span>`);
       if (r.fz)    cMeta.insertAdjacentHTML('beforeend', `<span class="chip"><b>FZ</b> ${r.fz}</span>`);
+      if (r.fotoUrl) {
+        const btnFoto = document.createElement('button');
+        btnFoto.className = 'chip chip-foto';
+        btnFoto.innerHTML = '📷 Foto';
+        btnFoto.addEventListener('click', () => abrirFoto(r.fotoUrl, r.modelo));
+        cMeta.appendChild(btnFoto);
+      }
 
       // Ordem: Modelo, Cor, UP, Var., Ano, Valor, Ação, Meta
       row.append(cMod, cCor, cUp, cVar, cAno, cVal, cAc, cMeta);
@@ -178,7 +185,8 @@ async function carregar(){
         valorTabela: parseFloat((cols[4] || '0').replace(/\./g,"").replace(/,/g,".")) || 0,
         patio: cols[12] || '',   // 13ª
         cor: cols[13] || '',     // 14ª
-        variante: cols[14] || '' // 15ª
+        variante: cols[14] || '', // 15ª
+        fotoUrl: cols[15] || ''  // 16ª - NOVA COLUNA
       };
     });
     render(itens);
@@ -186,6 +194,22 @@ async function carregar(){
     console.error('Erro ao carregar estoque:', e);
     groupsEl.innerHTML = '<div class="acc"><div class="acc-h"><div class="acc-title"><span>Erro</span></div></div><div class="acc-c"><div class="rows"><div class="row"><div>Não foi possível carregar o estoque.</div></div></div></div></div>';
   }
+}
+
+// Função para abrir modal com foto
+function abrirFoto(fotoUrl, modelo) {
+  const modal = document.createElement('div');
+  modal.className = 'modal-foto';
+  modal.innerHTML = `
+    <div class="modal-conteudo">
+      <button class="modal-fechar">&times;</button>
+      <h3>${modelo}</h3>
+      <img src="${fotoUrl}" alt="${modelo}" onerror="this.src='https://via.placeholder.com/400?text=Foto+não+disponível'">
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.querySelector('.modal-fechar').addEventListener('click', () => modal.remove());
+  modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
 }
 
 carregar();
