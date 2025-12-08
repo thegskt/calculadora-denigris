@@ -170,14 +170,19 @@ function filtrar(){
 
 busca.addEventListener('input', filtrar);
 
-// Função para converter URL do OneDrive em URL de imagem direta
-function converterUrlOneDrive(url) {
-  if (!url || !url.includes('1drv.ms')) return url;
-  // Extrai o ID do arquivo e cria URL de download direto
-  const match = url.match(/\/IQ([A-Za-z0-9_-]+)/);
+// Função para converter URL do Google Drive em URL de imagem direta
+function converterUrlFoto(url) {
+  if (!url || url.trim() === '') return '';
+  
+  // Se já é Google Drive direto, retorna como está
+  if (url.includes('drive.google.com/uc?export=view')) return url;
+  
+  // Se é compartilhado do Drive, extrai o ID
+  const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
   if (match) {
-    return `https://onedrive.live.com/embed?resid=${match[1]}&authkey=!APj8gZhT7HZXbH4&width=660&height=550`;
+    return `https://drive.google.com/uc?export=view&id=${match[1]}`;
   }
+  
   return url;
 }
 
@@ -204,7 +209,7 @@ async function carregar(){
         console.log('Total de colunas:', cols.length);
       }
       
-      const fotoUrl = converterUrlOneDrive(cols[15] || '');
+      const fotoUrl = converterUrlFoto(cols[15] || '');
       console.log(`Veículo: ${cols[1]} | Foto URL: ${fotoUrl}`);
       
       return {
