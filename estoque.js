@@ -174,9 +174,22 @@ async function carregar(){
   try{
     const res = await fetch(sheetCsvUrl, { cache:'no-store' });
     const txt = await res.text();
-    const rows = txt.trim().split('\n'); rows.shift(); // cabeçalho
-    itens = rows.map(line => {
+    const rows = txt.trim().split('\n'); 
+    
+    // Debug: mostrar cabeçalho
+    console.log('Cabeçalho:', rows[0]);
+    
+    rows.shift(); // cabeçalho
+    itens = rows.map((line, idx) => {
       const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, "").trim());
+      
+      // Debug: mostrar coluna 15 (índice 15)
+      if (idx === 0) {
+        console.log('Coluna 16 (idx 15):', cols[15]);
+        console.log('Total de colunas:', cols.length);
+        console.log('Todas as colunas:', cols);
+      }
+      
       return {
         fz: (cols[0] || '').padStart(6, "0"),
         modelo: cols[1] || '',
@@ -198,6 +211,13 @@ async function carregar(){
 
 // Função para abrir modal com foto
 function abrirFoto(fotoUrl, modelo) {
+  console.log('Abrindo foto:', fotoUrl); // Debug
+  
+  if (!fotoUrl || fotoUrl.trim() === '') {
+    alert('URL da foto não disponível');
+    return;
+  }
+  
   const modal = document.createElement('div');
   modal.className = 'modal-foto';
   modal.innerHTML = `
