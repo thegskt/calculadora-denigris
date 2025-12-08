@@ -2344,24 +2344,72 @@ async function fetchFotoByFz(fzRaw) {
 // Modal simples para exibir a foto
 function abrirFoto(fotoUrl, titulo = '') {
   if (!fotoUrl) { alert('Foto não disponível.'); return; }
+
   const modal = document.createElement('div');
   modal.className = 'modal-foto';
-  modal.style = `
-    position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9999;
+  modal.tabIndex = -1;
+  modal.innerHTML = `
+    <div class="modal-conteudo" role="dialog" aria-modal="true" aria-label="Foto do veículo">
+      <button class="modal-close" aria-label="Fechar">×</button>
+      <div class="photo-frame" title="${titulo || 'Foto'}">
+        <img class="photo-img" src="${fotoUrl}" alt="${titulo || 'Foto do veículo'}"
+             onerror="this.src='https://via.placeholder.com/800x600?text=Foto+não+disponível'">
+      </div>
+      <div class="photo-caption">${titulo || ''}</div>
+      <div class="photo-actions">
+        <button class="btn btn-open" title="Abrir em nova aba">Abrir</button>
+        <button class="btn btn-download" title="Baixar foto">Baixar</button>
+      </div>
+    </div>
   `;
-  const inner = document.createElement('div');
-  inner.style = 'background:#fff;padding:16px;border-radius:8px;max-width:90%;max-height:90%;overflow:auto;position:relative;';
-  inner.innerHTML = `
-    <button aria-label="Fechar" style="position:absolute;right:8px;top:6px;border:none;background:none;font-size:22px;cursor:pointer;">&times;</button>
-    <h3 style="margin:0 0 8px 0;font-size:1rem;">${titulo}</h3>
-    <img src="${fotoUrl}" alt="${titulo}" style="max-width:100%;height:auto;" onerror="this.src='https://via.placeholder.com/600x400?text=Foto+não+disponível'">
-  `;
-  modal.appendChild(inner);
-  document.body.appendChild(modal);
-  inner.querySelector('button').addEventListener('click', () => modal.remove());
-  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
-}
 
+  document.body.appendChild(modal);
+
+  // focar para acessibilidade
+  setTimeout(()=> modal.focus(), 50);
+
+  // fechar clicando fora
+  modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+
+  // botão fechar
+  modal.querySelector('.modal-close').addEventListener('click', ()=> modal.remove());
+
+  // abrir em nova aba
+  modal.querySelector('.btn-open').addEventListener('click', ()=>{
+    window.open(fotoUrl, '_blank', 'noopener');
+  });
+
+  // baixar
+  modal.querySelector('.btn-download').addEventListener('click', ()=>{
+    // tentativa de download via link
+    const a = document.createElement('a');
+    a.href = fotoUrl;
+    a.download = (titulo || 'foto').replace(/\s+/g,'_') + '.jpg';
+    // algumas URLs (Google) bloqueiam download, então abrir em nova aba como fallback
+    try {
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } catch (err) {
+      window.open(fotoUrl, '_blank', 'noopener');
+    }
+  });
+
+  // ESC para fechar
+  function onKey(e){
+    if (e.key === 'Escape') { modal.remove(); document.removeEventListener('keydown', onKey); }
+  }
+  document.addEventListener('keydown', onKey);
+
+  // cleanup ao remover do DOM
+  const obs = new MutationObserver(()=> {
+    if (!document.body.contains(modal)) {
+      document.removeEventListener('keydown', onKey);
+      obs.disconnect();
+    }
+  });
+  obs.observe(document.body, { childList:true });
+}
 // Listener do botão novo
 document.addEventListener('DOMContentLoaded', () => {
   const btnVerFoto = document.getElementById('btnVerFoto');
