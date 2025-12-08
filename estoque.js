@@ -189,16 +189,23 @@ async function carregar(){
     
     // Debug: mostrar cabeçalho
     console.log('Cabeçalho:', rows[0]);
+    console.log('Primeira linha de dados:', rows[1]);
     
     rows.shift(); // cabeçalho
     itens = rows.map((line, idx) => {
       const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, "").trim());
       
-      // Debug: mostrar coluna 16 (índice 15)
+      // Debug: mostrar TODAS as colunas da primeira linha
       if (idx === 0) {
-        console.log('Coluna 16 (idx 15):', cols[15]);
+        console.log('=== PRIMEIRA LINHA ===');
+        cols.forEach((col, i) => {
+          console.log(`Coluna ${i}: ${col}`);
+        });
         console.log('Total de colunas:', cols.length);
       }
+      
+      const fotoUrl = converterUrlOneDrive(cols[15] || '');
+      console.log(`Veículo: ${cols[1]} | Foto URL: ${fotoUrl}`);
       
       return {
         fz: (cols[0] || '').padStart(6, "0"),
@@ -209,7 +216,7 @@ async function carregar(){
         patio: cols[12] || '',   // 13ª
         cor: cols[13] || '',     // 14ª
         variante: cols[14] || '', // 15ª
-        fotoUrl: converterUrlOneDrive(cols[15] || '')  // 16ª - CONVERTIDA
+        fotoUrl: fotoUrl  // 16ª - CONVERTIDA
       };
     });
     render(itens);
