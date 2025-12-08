@@ -2303,6 +2303,85 @@ anoFabEl?.addEventListener('change', ()=> {
   atualizarPrecoFab();
 });
 
+// Converte links comuns para formatos diretos (Drive / Google Fotos)
+function converterUrlFoto(url) {
+  if (!url) return '';
+  url = url.trim();
+  if (!url) return '';
+  if (url.includes('lh3.googleusercontent.com')) return url;
+  if (url.includes('drive.google.com/uc?export=view')) return url;
+  const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+  if (match) return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+  // fallback: retorna original
+  return url;
+}
+
+// Busca foto no CSV pelo FZ (espera FZ com até 6 dígitos)
+async function fetchFotoByFz(fzRaw) {
+  const fz = (fzRaw || '').replace(/\D/g, '').padStart(6, '0');
+  if (!fz || fz === '000000') return '';
+  try {
+    const res = await fetch(sheetCsvUrl, { cache: 'no-store' });
+    const txt = await res.text();
+    const rows = txt.trim().split('\n');
+    rows.shift(); // remove cabeçalho
+    for (const line of rows) {
+      const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, "").trim());
+      const rowFz = (cols[0] || '').padStart(6, '0');
+      if (rowFz === fz) {
+        // coluna 16 = índice 15
+        const rawUrl = cols[15] || '';
+        return converterUrlFoto(rawUrl);
+      }
+    }
+    return '';
+  } catch (e) {
+    console.error('Erro ao buscar foto:', e);
+    return '';
+  }
+}
+
+// Modal simples para exibir a foto
+function abrirFoto(fotoUrl, titulo = '') {
+  if (!fotoUrl) { alert('Foto não disponível.'); return; }
+  const modal = document.createElement('div');
+  modal.className = 'modal-foto';
+  modal.style = `
+    position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9999;
+  `;
+  const inner = document.createElement('div');
+  inner.style = 'background:#fff;padding:16px;border-radius:8px;max-width:90%;max-height:90%;overflow:auto;position:relative;';
+  inner.innerHTML = `
+    <button aria-label="Fechar" style="position:absolute;right:8px;top:6px;border:none;background:none;font-size:22px;cursor:pointer;">&times;</button>
+    <h3 style="margin:0 0 8px 0;font-size:1rem;">${titulo}</h3>
+    <img src="${fotoUrl}" alt="${titulo}" style="max-width:100%;height:auto;" onerror="this.src='https://via.placeholder.com/600x400?text=Foto+não+disponível'">
+  `;
+  modal.appendChild(inner);
+  document.body.appendChild(modal);
+  inner.querySelector('button').addEventListener('click', () => modal.remove());
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+// Listener do botão novo
+document.addEventListener('DOMContentLoaded', () => {
+  const btnVerFoto = document.getElementById('btnVerFoto');
+  const fzInput = document.getElementById('fz');
+  const modeloEl = document.getElementById('modelo');
+
+  if (btnVerFoto && fzInput) {
+    btnVerFoto.addEventListener('click', async () => {
+      const fz = fzInput.value || '';
+      if (!fz.trim()) { alert('Informe o FZ antes de ver a foto.'); return; }
+      btnVerFoto.disabled = true;
+      btnVerFoto.textContent = 'Carregando...';
+      const fotoUrl = await fetchFotoByFz(fz);
+      btnVerFoto.disabled = false;
+      btnVerFoto.textContent = '📷 Foto';
+      abrirFoto(fotoUrl, modeloEl ? modeloEl.textContent.trim() : '');
+    });
+  }
+});
+
 // Inicialização extra
 document.addEventListener('DOMContentLoaded', ()=>{
   // se já tiver algo selecionado após init
@@ -2313,3 +2392,4 @@ document.addEventListener('DOMContentLoaded', init);
 
 els('btnEstoqueProprio')?.addEventListener('click', showCalcProprio);
 els('btnEstoqueFabrica')?.addEventListener('click', showCalcFabrica);
+

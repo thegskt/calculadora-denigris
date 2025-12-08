@@ -52,10 +52,14 @@
           <!-- Desconto -->
           <div class="form-group">
             <label for="desconto">Desconto (%)</label>
-            <div class="desconto-wrapper">
-              <button type="button" id="btnDescontoDown" aria-label="Diminuir desconto">▼</button>
-              <input type="number" id="desconto" value="0" min="0" max="2" step="0.01" inputmode="decimal">
-              <button type="button" id="btnDescontoUp" aria-label="Aumentar desconto">▲</button>
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <div class="desconto-wrapper">
+                <button type="button" id="btnDescontoDown" aria-label="Diminuir desconto">▼</button>
+                <input type="number" id="desconto" value="0" min="0" max="2" step="0.01" inputmode="decimal">
+                <button type="button" id="btnDescontoUp" aria-label="Aumentar desconto">▲</button>
+              </div>
+              <!-- NOVO: botão para ver foto do veículo (coluna 16 do Sheets) -->
+              <button type="button" id="btnVerFoto" class="btn-photo" title="Ver foto do veículo">📷 Foto</button>
             </div>
           </div>
 
