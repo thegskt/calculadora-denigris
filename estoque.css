@@ -408,6 +408,23 @@ h1{font-size:20px;margin:0}
   .up { font-size: 12px; }
   .btn { font-size: 13px; padding: 8px 10px; min-height: 40px; border-radius:8px; }
   .sub-acc-h, .subheader { padding: 6px 8px; font-size: 13px; }
-  .nav-menu { display: none; }
-  .nav-menu.open { display: flex; pointer-events: auto; }
+  
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-menu {
+    position: absolute;
+    top: 64px;
+    right: 24px;
+    background: #0b1c2d;
+    flex-direction: column;
+    padding: 16px;
+    border-radius: 10px;
+    display: none;
+  }
+
+  .nav-menu.open {
+    display: flex;
+  }
 }
