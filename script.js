@@ -2166,6 +2166,23 @@ function init(){
   // Adicionar event listeners para os botões
   els('btnEstoqueProprio')?.addEventListener('click', showCalcProprio);
   els('btnEstoqueFabrica')?.addEventListener('click', showCalcFabrica);
+
+  // Ajuste dinâmico do padding-top do body para evitar que o header fixe sobreponha o conteúdo
+  const adjustBodyPadding = () => {
+    const hdr = document.querySelector('.main-header');
+    if (hdr) {
+      const h = hdr.offsetHeight || 72;
+      document.body.style.paddingTop = h + 'px';
+      const headerSpace = document.querySelector('.header-space');
+      if (headerSpace) headerSpace.style.height = h + 'px';
+    }
+  };
+  adjustBodyPadding();
+  window.addEventListener('resize', () => {
+    // debounce
+    clearTimeout(window._adjustHeaderTimer);
+    window._adjustHeaderTimer = setTimeout(adjustBodyPadding, 120);
+  });
 }
 
 const FAB_PRECO_URLS = {
