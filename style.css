@@ -1145,3 +1145,20 @@
     font-size: 0.95rem;
   }
 }
+
+/* Garantir que os botões de alternância estejam sempre visíveis */
+.calc-switch {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+.calc-switch button {
+  display: inline-block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+#mainContent {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
