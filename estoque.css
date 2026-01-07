@@ -50,6 +50,72 @@ h1{font-size:20px;margin:0}
   color:#2b3d64;
 }
 
+    /* HEADER FIXO */
+    .main-header {
+      width: 100vw;
+      background: linear-gradient(90deg, #111 60%, #444 100%);
+      color: #fff;
+      box-shadow: 0 2px 12px rgba(35,64,142,0.08);
+      position: fixed;
+      top: 0; left: 0; z-index: 100;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2vw;
+      transition: min-height 0.2s;
+    }
+    .main-header .logo-menu {
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+    }
+    .main-header img {
+      height: 34px;
+      max-width: 90px;
+      object-fit: contain;
+      box-shadow: 0 2px 8px #0001;
+      padding: 0;
+      background: none;
+      border-radius: 0;
+    }
+    .main-header .logo-denigris {
+      height: 44px !important;
+      max-width: 120px !important;
+    }
+    .main-header nav {
+      display: flex;
+      gap: 1.1rem;
+    }
+    .main-header nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      padding: 3px 10px;
+      border-bottom: 2px solid transparent;
+      border-radius: 6px;
+      transition: 
+        border 0.2s,
+        background 0.18s,
+        color 0.18s;
+    }
+    .main-header nav a:hover,
+    .main-header nav a:focus,
+    .main-header nav a:active {
+      background: #fff2;
+      color: #ffe066;
+      border-bottom: 2px solid #ffe066;
+      outline: none;
+    }
+
+    /* Espaço para header fixo */
+    .header-space {
+      height: 62px;
+      width: 100%;
+    }
+
 .subheader{
   grid-column: 1 / -1;
   font-weight: 600;
