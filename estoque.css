@@ -340,13 +340,13 @@ h1{font-size:20px;margin:0}
 /* Media Queries para Estoque */
 @media (max-width: 768px) {
   .wrap {
-    padding: 8px 4px;
+    padding: 8px 6px;
   }
   .wrap > header {
     flex-direction: column;
-    gap: 8px;
-    padding: 8px;
-    margin-bottom: 8px;
+    gap: 6px;
+    padding: 6px;
+    margin-bottom: 6px;
   }
   .wrap > header .logo-menu {
     justify-content: center;
@@ -354,58 +354,53 @@ h1{font-size:20px;margin:0}
   .tools {
     width: 100%;
     gap: 8px;
+    flex-direction: column;
+    align-items: stretch;
   }
   .tools input[type=search],
   .search-input {
     width: 100%;
-    font-size: 12px;
-    padding: 6px 8px;
-    height: 32px;
-    border-radius: 6px;
+    font-size: 14px;
+    padding: 8px 10px;
+    min-height: 40px;
+    height: auto;
+    min-width: 0;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+  .cols{display:none;}
+  .row{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    padding:6px;
+    border-top:1px solid #eef3fb;
+    align-items:flex-start;
+  }
+  .row > div{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    min-height:20px;
+    width:100%;
+  }
+  .row > div[data-label]::before{
+    content:attr(data-label) ": ";
+    font-weight:700;
+    color:#4b5d78;
+    font-size:.9rem;
   }
   .acc-h {
-    padding: 6px 8px;
-    font-size: 13px;
+    padding: 8px 10px;
+    font-size: 14px;
   }
-  .acc-title {
-    gap: 6px;
-  }
-  .badge {
-    font-size: 10px;
-    padding: 1px 4px;
-  }
-  .cols, .row {
-    grid-template-columns: minmax(100px, 1fr) minmax(40px, 0.4fr) minmax(35px, 0.35fr) minmax(60px, 0.6fr) minmax(35px, 0.35fr) minmax(70px, 0.7fr) minmax(50px, 0.5fr);
-    gap: 4px;
-    padding: 4px 6px;
-  }
-  .modelo {
-    font-size: 12px;
-  }
-  .up {
-    font-size: 12px;
-  }
-  .btn {
-    font-size: 10px;
-    padding: 2px 4px;
-    min-height: 40px;
-  }
-  .sub-acc-h {
-    padding: 4px 6px;
-    font-size: 11px;
-  }
-  .subheader {
-    padding: 4px 6px;
-    font-size: 12px;
-  }
-  .nav-menu {
-    display: none;
-  }
-  .nav-menu.open {
-    display: flex;
-    pointer-events: auto;
-  }
-  .nav-toggle {
-    display: block;
-  }
+  .acc-title { gap: 8px; }
+  .badge { font-size: 11px; padding: 2px 6px; }
+  .modelo { font-size: 13px; }
+  .up { font-size: 12px; }
+  .btn { font-size: 13px; padding: 8px 10px; min-height: 40px; border-radius:8px; }
+  .sub-acc-h, .subheader { padding: 6px 8px; font-size: 13px; }
+  .nav-menu { display: none; }
+  .nav-menu.open { display: flex; pointer-events: auto; }
+  .nav-toggle { display: block; }
 }
