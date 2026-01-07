@@ -308,7 +308,7 @@ function abrirFoto(fotoUrl, modelo) {
       <img src="${fotoUrl}" alt="${modelo}" style="max-width: 100%; height: auto;" onerror="this.src='https://via.placeholder.com/400?text=Foto+não+disponível'">
     </div>
   `;
-  
+
   document.body.appendChild(modal);
   modal.querySelector('.modal-fechar').addEventListener('click', () => modal.remove());
   modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
@@ -351,6 +351,48 @@ function abrirFoto(fotoUrl, modelo) {
       if (window.innerWidth >= 769) setNavState(false);
     });
   }
+ 
 }
+
+// NAV: centralizar comportamento do toggle para todas as páginas
+  const navToggle = document.querySelector('.nav-toggle');
+  const navMenu = document.getElementById('main-nav') || document.querySelector('.nav-menu');
+  const innerNavToggle = document.querySelector('.inner-nav-toggle');
+  const setNavState = (open)=>{
+    if (!navMenu || !navToggle) return;
+    if(open){
+      navMenu.classList.add('open');
+      navToggle.setAttribute('aria-expanded','true');
+    } else {
+      navMenu.classList.remove('open');
+      navToggle.setAttribute('aria-expanded','false');
+    }
+  };
+  if (navToggle && navMenu){
+    navToggle.addEventListener('click', (e)=>{
+      e.preventDefault();
+      setNavState(!navMenu.classList.contains('open'));
+    });
+    if (innerNavToggle){
+      innerNavToggle.addEventListener('click', (e)=>{
+        e.preventDefault();
+        setNavState(!navMenu.classList.contains('open'));
+      });
+    }
+    // close on link click inside nav
+    navMenu.addEventListener('click', (e)=>{
+      if (e.target && e.target.tagName === 'A') setNavState(false);
+    });
+    // close on outside click when open (mobile)
+    document.addEventListener('click', (e)=>{
+      if (!navMenu.classList.contains('open')) return;
+      if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) setNavState(false);
+    });
+    // close nav when resizing to desktop width
+    window.addEventListener('resize', ()=>{
+      if (window.innerWidth >= 769) setNavState(false);
+    });
+  }
+
 
 carregar();
