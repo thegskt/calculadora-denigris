@@ -2196,6 +2196,7 @@ function init(){
   // NAV: centralizar comportamento do toggle para todas as páginas
   const navToggle = document.querySelector('.nav-toggle');
   const navMenu = document.getElementById('main-nav') || document.querySelector('.nav-menu');
+  const innerNavToggle = document.querySelector('.inner-nav-toggle');
   const setNavState = (open)=>{
     if (!navMenu || !navToggle) return;
     if(open){
@@ -2211,6 +2212,12 @@ function init(){
       e.preventDefault();
       setNavState(!navMenu.classList.contains('open'));
     });
+    if (innerNavToggle){
+      innerNavToggle.addEventListener('click', (e)=>{
+        e.preventDefault();
+        setNavState(!navMenu.classList.contains('open'));
+      });
+    }
     // close on link click inside nav
     navMenu.addEventListener('click', (e)=>{
       if (e.target && e.target.tagName === 'A') setNavState(false);

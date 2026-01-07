@@ -343,8 +343,11 @@ h1{font-size:20px;margin:0}
     padding: 8px 6px;
   }
   .wrap > header {
-    flex-direction: column;
-    gap: 6px;
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    align-items:center;
+    gap: 8px;
     padding: 6px;
     margin-bottom: 6px;
   }
@@ -353,9 +356,10 @@ h1{font-size:20px;margin:0}
   }
   .tools {
     width: 100%;
+    display:flex;
     gap: 8px;
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: row;
+    align-items: center;
   }
   .tools input[type=search],
   .search-input {
@@ -369,6 +373,15 @@ h1{font-size:20px;margin:0}
     box-sizing: border-box;
   }
   .cols{display:none;}
+  .inner-nav-toggle{
+    background:none;
+    border:0;
+    font-size:20px;
+    padding:6px 8px;
+    border-radius:6px;
+    cursor:pointer;
+    color: #223a86;
+  }
   .row{
     display:flex;
     flex-direction:column;
