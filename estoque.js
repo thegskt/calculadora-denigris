@@ -51,7 +51,11 @@ function groupBySubModel(items){
     map.get(sub).push(it);
   }
   const arr = Array.from(map.entries()).map(([name, items]) => ({ name, items }));
-  arr.sort((a, b) => a.name.localeCompare(b.name));
+  arr.sort((a, b) => {
+    const numA = parseInt(a.name.match(/(\d+)/)?.[1] || '0');
+    const numB = parseInt(b.name.match(/(\d+)/)?.[1] || '0');
+    return numA - numB;
+  });
   return arr;
 }
 
