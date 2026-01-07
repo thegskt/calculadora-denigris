@@ -232,6 +232,8 @@ h1{font-size:20px;margin:0}
 
 /* ==== MOBILE BASE ==== */
 @media (max-width:720px){
+  .wrap > header { margin-bottom: 6px; }
+  .tools input[type=search]{ min-width: 0; }
   .cols{display:none;}
 
   .row{
