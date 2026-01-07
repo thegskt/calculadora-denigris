@@ -655,7 +655,12 @@
         padding: 0.9px 0;
       }
       .header-space {
-        height: 48px;
+        /* espaço reservado para header fixo — aumentar para evitar sobreposição */
+        height: 72px;
+      }
+      /* Garantir que o conteúdo principal não fique embaixo do header fixo */
+      #mainContent {
+        padding-top: 8px; /* pequeno espaçamento extra */
       }
       .logo-bar {
         gap: 0.7rem;
