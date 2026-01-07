@@ -354,11 +354,14 @@ h1{font-size:20px;margin:0}
     flex-direction: column;
     gap: 8px;
   }
-  .tools input[type=search] {
+  .tools input[type=search],
+  .search-input {
     width: 100%;
     min-width: unset;
-    font-size: 13px;
-    padding: 6px 8px;
+    font-size: 12px;
+    padding: 4px 6px;
+    height: 32px;
+    border-radius: 6px;
   }
   .acc-h {
     padding: 8px 10px;
