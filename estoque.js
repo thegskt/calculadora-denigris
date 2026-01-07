@@ -38,6 +38,23 @@ function groupByFamily(list){
   return arr;
 }
 
+function normSubModel(modelo=''){
+  const parts = (modelo || '').split('/');
+  return parts[0].trim();
+}
+
+function groupBySubModel(items){
+  const map = new Map();
+  for (const it of items){
+    const sub = normSubModel(it.modelo);
+    if (!map.has(sub)) map.set(sub, []);
+    map.get(sub).push(it);
+  }
+  const arr = Array.from(map.entries()).map(([name, items]) => ({ name, items }));
+  arr.sort((a, b) => a.name.localeCompare(b.name));
+  return arr;
+}
+
 function render(list){
   groupsEl.innerHTML = '';
   const groups = groupByFamily(list);
@@ -89,57 +106,66 @@ function render(list){
     const rows = document.createElement('div');
     rows.className = 'rows';
 
-    for (const r of g.items){
-      const row = document.createElement('div');
-      row.className = 'row';
+    const subGroups = groupBySubModel(g.items);
+    for (const sub of subGroups){
+      // Subheader
+      const subHeader = document.createElement('div');
+      subHeader.className = 'subheader';
+      subHeader.textContent = `${sub.name} (${sub.items.length})`;
+      rows.appendChild(subHeader);
 
-      // Modelo (com botão "i" para detalhes)
-      const cMod = document.createElement('div');
-      cMod.className = 'modelo';
-      cMod.setAttribute('data-label','Modelo');
-      const modTxt = document.createElement('span');
-      modTxt.textContent = r.modelo;
-      const infoBtn = document.createElement('button');
-      infoBtn.type = 'button'; infoBtn.className = 'chip-btn'; infoBtn.title = 'Detalhes (Pátio e FZ)'; infoBtn.textContent = 'i';
-      infoBtn.addEventListener('click', (e)=>{ e.preventDefault(); row.classList.toggle('show-meta'); });
-      cMod.append(modTxt, infoBtn);
+      for (const r of sub.items){
+        const row = document.createElement('div');
+        row.className = 'row';
 
-      // Cor (substitui FZ na coluna visível)
-      const cCor = document.createElement('div'); cCor.textContent = r.cor || '-'; cCor.setAttribute('data-label','Cor');
+        // Modelo (com botão "i" para detalhes)
+        const cMod = document.createElement('div');
+        cMod.className = 'modelo';
+        cMod.setAttribute('data-label','Modelo');
+        const modTxt = document.createElement('span');
+        modTxt.textContent = r.modelo;
+        const infoBtn = document.createElement('button');
+        infoBtn.type = 'button'; infoBtn.className = 'chip-btn'; infoBtn.title = 'Detalhes (Pátio e FZ)'; infoBtn.textContent = 'i';
+        infoBtn.addEventListener('click', (e)=>{ e.preventDefault(); row.classList.toggle('show-meta'); });
+        cMod.append(modTxt, infoBtn);
 
-      // UP (destaque)
-      const cUp = document.createElement('div'); cUp.className = 'up'; cUp.textContent = r.up; cUp.setAttribute('data-label','UP');
+        // Cor (substitui FZ na coluna visível)
+        const cCor = document.createElement('div'); cCor.textContent = r.cor || '-'; cCor.setAttribute('data-label','Cor');
 
-      // Variante (entre UP e Ano)
-      const cVar = document.createElement('div'); cVar.textContent = r.variante || '-'; cVar.setAttribute('data-label','Var.');
+        // UP (destaque)
+        const cUp = document.createElement('div'); cUp.className = 'up'; cUp.textContent = r.up; cUp.setAttribute('data-label','UP');
 
-      // Ano
-      const cAno = document.createElement('div'); cAno.textContent = r.anoMod; cAno.setAttribute('data-label','Ano');
+        // Variante (entre UP e Ano)
+        const cVar = document.createElement('div'); cVar.textContent = r.variante || '-'; cVar.setAttribute('data-label','Var.');
 
-      // Valor
-      const cVal = document.createElement('div'); cVal.textContent = fmtBRL(r.valorTabela); cVal.className = 'right'; cVal.setAttribute('data-label','Valor Tabela');
+        // Ano
+        const cAno = document.createElement('div'); cAno.textContent = r.anoMod; cAno.setAttribute('data-label','Ano');
 
-      // Ação
-      const cAc = document.createElement('div');
-      const a = document.createElement('a'); a.className = 'btn btn-primary'; a.textContent = 'Calcular';
-      a.href = `index.html?calc=proprio&fz=${encodeURIComponent(r.fz)}`;
-      cAc.appendChild(a);
+        // Valor
+        const cVal = document.createElement('div'); cVal.textContent = fmtBRL(r.valorTabela); cVal.className = 'right'; cVal.setAttribute('data-label','Valor Tabela');
 
-      // Meta (apenas Pátio, FZ e Foto)
-      const cMeta = document.createElement('div'); cMeta.className = 'meta'; cMeta.setAttribute('data-label',''); cMeta.style.gridColumn = '1 / -1';
-      if (r.patio) cMeta.insertAdjacentHTML('beforeend', `<span class="chip"><b>Pátio</b> ${r.patio}</span>`);
-      if (r.fz)    cMeta.insertAdjacentHTML('beforeend', `<span class="chip"><b>FZ</b> ${r.fz}</span>`);
-      if (r.fotoUrl) {
-        const btnFoto = document.createElement('button');
-        btnFoto.className = 'chip chip-foto';
-        btnFoto.innerHTML = '📷 Foto';
-        btnFoto.addEventListener('click', () => abrirFoto(r.fotoUrl, r.modelo));
-        cMeta.appendChild(btnFoto);
+        // Ação
+        const cAc = document.createElement('div');
+        const a = document.createElement('a'); a.className = 'btn btn-primary'; a.textContent = 'Calcular';
+        a.href = `index.html?calc=proprio&fz=${encodeURIComponent(r.fz)}`;
+        cAc.appendChild(a);
+
+        // Meta (apenas Pátio, FZ e Foto)
+        const cMeta = document.createElement('div'); cMeta.className = 'meta'; cMeta.setAttribute('data-label',''); cMeta.style.gridColumn = '1 / -1';
+        if (r.patio) cMeta.insertAdjacentHTML('beforeend', `<span class="chip"><b>Pátio</b> ${r.patio}</span>`);
+        if (r.fz)    cMeta.insertAdjacentHTML('beforeend', `<span class="chip"><b>FZ</b> ${r.fz}</span>`);
+        if (r.fotoUrl) {
+          const btnFoto = document.createElement('button');
+          btnFoto.className = 'chip chip-foto';
+          btnFoto.innerHTML = '📷 Foto';
+          btnFoto.addEventListener('click', () => abrirFoto(r.fotoUrl, r.modelo));
+          cMeta.appendChild(btnFoto);
+        }
+
+        // Ordem: Modelo, Cor, UP, Var., Ano, Valor, Ação, Meta
+        row.append(cMod, cCor, cUp, cVar, cAno, cVal, cAc, cMeta);
+        rows.appendChild(row);
       }
-
-      // Ordem: Modelo, Cor, UP, Var., Ano, Valor, Ação, Meta
-      row.append(cMod, cCor, cUp, cVar, cAno, cVal, cAc, cMeta);
-      rows.appendChild(row);
     }
 
     c.appendChild(rows); acc.append(h, c); groupsEl.appendChild(acc);
@@ -209,7 +235,7 @@ async function carregar(){
         console.log('Total de colunas:', cols.length);
       }
       
-      const fotoUrl = converterUrlFoto(cols[15] || '');
+      const fotoUrl = converterUrlFoto(cols[8] || '');
       console.log(`Veículo: ${cols[1]} | Foto URL: ${fotoUrl}`);
       
       return {
@@ -218,10 +244,10 @@ async function carregar(){
         up: cols[2] || '',
         anoMod: cols[3] || '',
         valorTabela: parseFloat((cols[4] || '0').replace(/\./g,"").replace(/,/g,".")) || 0,
-        patio: cols[12] || '',   // 13ª
-        cor: cols[13] || '',     // 14ª
-        variante: cols[14] || '', // 15ª
-        fotoUrl: fotoUrl  // 16ª - CONVERTIDA
+        patio: cols[7] || '',   // 8ª
+        cor: cols[5] || '',     // 6ª
+        variante: cols[6] || '', // 7ª
+        fotoUrl: fotoUrl  // 9ª - CONVERTIDA
       };
     });
     render(itens);

@@ -1740,7 +1740,8 @@ function atualizarValores(){
       (vendedorAtual.retirada||0) +
       (vendedorAtual.programacao||0)+
       (vendedorAtual.comissao||0)+
-      (vendedorAtual.bonf||0) -
+      (vendedorAtual.bonificacao||0) +
+      (vendedorAtual.bonusExtra||0) -
       (vendedorAtual.frete||0) -
       (vendedorAtual.revisao||0) -
       (vendedorAtual.custosAdd||0);
@@ -1819,12 +1820,12 @@ async function carregarDados(){
         fundoEstrela: parseFloat((cols[10]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
         retirada: parseFloat((cols[11]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
         programacao: parseFloat((cols[12]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        frete: parseFloat((cols[13]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        revisao: parseFloat((cols[14]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        custosAdd: parseFloat((cols[15]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        infoCor: cols[18] || '',
-        infoVariante: cols[19] || '',
-        infoPatio: cols[20] || ''
+        comissao: parseFloat((cols[13]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        bonificacao: parseFloat((cols[14]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        bonusExtra: parseFloat((cols[15]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        frete: parseFloat((cols[16]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        revisao: parseFloat((cols[17]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        custosAdd: parseFloat((cols[18]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
       };
     });
     dadosCarregados = true;
@@ -2356,8 +2357,8 @@ async function fetchFotoByFz(fzRaw) {
       const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, "").trim());
       const rowFz = (cols[0] || '').padStart(6, '0');
       if (rowFz === fz) {
-        // coluna 16 = índice 15
-        const rawUrl = cols[15] || '';
+        // coluna 9 = índice 8
+        const rawUrl = cols[8] || '';
         return converterUrlFoto(rawUrl);
       }
     }

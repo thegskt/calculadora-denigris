@@ -50,6 +50,18 @@ h1{font-size:20px;margin:0}
   color:#2b3d64;
 }
 
+.subheader{
+  grid-column: 1 / -1;
+  font-weight: 600;
+  font-size: 14px;
+  color: #1e2f5c;
+  background: #f0f4ff;
+  padding: 8px 14px;
+  border-top: 1px solid #e3e9f3;
+  border-bottom: 1px solid #eef3fb;
+  margin-top: 5px;
+}
+
 .rows{display:flex;flex-direction:column}
 .row{
   display:grid;
