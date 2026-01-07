@@ -346,6 +346,21 @@
       border: 0.5px solid #555;
     }
 
+    .btn-photo, .btn-info {
+      background: #f0f0f0;
+      color: #333;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 16px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    .btn-photo:hover, .btn-info:hover {
+      background: #e0e0e0;
+    }
+
     #upFab {
     margin-right: -2px !important;
     margin-left: 0 !important;

@@ -60,6 +60,17 @@
               </div>
               <!-- NOVO: botão para ver foto do veículo (coluna 16 do Sheets) -->
               <button type="button" id="btnVerFoto" class="btn-photo" title="Ver foto do veículo">📷 Foto</button>
+              <!-- NOVO: botão para ver informações do veículo -->
+              <button type="button" id="btnVerInfo" class="btn-info" title="Ver informações do veículo">ℹ</button>
+            </div>
+          </div>
+
+          <!-- NOVO: Informações adicionais do veículo -->
+          <div id="infoVeiculo" class="hidden" style="background:#f9f9f9;border:1px solid #ddd;border-radius:8px;padding:1rem;margin-top:0.5rem;">
+            <div style="display:flex;flex-direction:column;gap:0.5rem;">
+              <div><strong>Cor:</strong> <span id="infoCor">–</span></div>
+              <div><strong>Variante:</strong> <span id="infoVariante">–</span></div>
+              <div><strong>Pátio:</strong> <span id="infoPatio">–</span></div>
             </div>
           </div>
 

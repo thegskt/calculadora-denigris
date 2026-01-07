@@ -1687,6 +1687,12 @@ const comissaoEl      = els("comissaoProtected");
 const dsrEl           = els("dsrProtected");
 const totalEl         = els("total");
 
+const btnVerInfoEl    = els("btnVerInfo");
+const infoVeiculoEl   = els("infoVeiculo");
+const infoCorEl       = els("infoCor");
+const infoVarianteEl  = els("infoVariante");
+const infoPatioEl     = els("infoPatio");
+
 const modeloFabEl     = els("modeloFab");
 const upFabEl         = els("upFab");
 const anoFabEl        = els("anoModeloFab");
@@ -1732,13 +1738,15 @@ function atualizarValores(){
       (receitaEfetiva - custoEfetivo) +
       (vendedorAtual.fundoEstrela||0) +
       (vendedorAtual.retirada||0) +
-      (vendedorAtual.programacao||0) -
+      (vendedorAtual.programacao||0)+
+      (vendedorAtual.comissao||0)+
+      (vendedorAtual.bonf||0) -
       (vendedorAtual.frete||0) -
       (vendedorAtual.revisao||0) -
       (vendedorAtual.custosAdd||0);
 
     comissao = +(lucroBruto * 0.09).toFixed(2);
-    dsr      = +(comissao * 0.15).toFixed(2);
+    dsr      = +((comissao / 27)*4).toFixed(2);
     total    = +(comissao + dsr).toFixed(2);
   }
 
@@ -1762,6 +1770,9 @@ function aplicarFZ(fzRaw){
     anoModEl && (anoModEl.innerText = vendedorAtual.anoMod || '–');
     valorTabela = vendedorAtual.valorTabela || 0;
     valorTabelaEl && (valorTabelaEl.innerText = formatar(valorTabela));
+    infoCorEl && (infoCorEl.innerText = vendedorAtual.cor || '–');
+    infoVarianteEl && (infoVarianteEl.innerText = vendedorAtual.variante || '–');
+    infoPatioEl && (infoPatioEl.innerText = vendedorAtual.patio || '–');
     fzErrorEl && (fzErrorEl.innerText = '');
   } else {
     vendedorAtual = null;
@@ -1770,11 +1781,20 @@ function aplicarFZ(fzRaw){
     anoModEl && (anoModEl.innerText = '–');
     valorTabela = 0;
     valorTabelaEl && (valorTabelaEl.innerText = "R$ 0,00");
+    infoCorEl && (infoCorEl.innerText = '–');
+    infoVarianteEl && (infoVarianteEl.innerText = '–');
+    infoPatioEl && (infoPatioEl.innerText = '–');
     fzErrorEl && (fzErrorEl.innerText = raw.length ? "FZ não encontrado" : "");
   }
   atualizarValores();
 }
 fzEl?.addEventListener('input', ()=> aplicarFZ(fzEl.value));
+
+btnVerInfoEl?.addEventListener('click', () => {
+  if (infoVeiculoEl) {
+    infoVeiculoEl.classList.toggle('hidden');
+  }
+});
 
 // ================== CARREGAR CSV ==================
 async function carregarDados(){
@@ -1791,13 +1811,20 @@ async function carregarDados(){
         up: cols[2],
         anoMod: cols[3],
         valorTabela: parseFloat((cols[4]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        valorCompra: parseFloat((cols[5]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        fundoEstrela: parseFloat((cols[6]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        retirada: parseFloat((cols[7]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        programacao: parseFloat((cols[8]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        frete: parseFloat((cols[9]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        revisao: parseFloat((cols[10]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        custosAdd: parseFloat((cols[11]||'0').replace(/\./g,'').replace(/,/g,'.'))||0
+        cor: cols[5] || '',
+        variante: cols[6] || '',
+        patio: cols[7] || '',
+        fotoUrl: cols[8] || '',
+        valorCompra: parseFloat((cols[9]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        fundoEstrela: parseFloat((cols[10]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        retirada: parseFloat((cols[11]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        programacao: parseFloat((cols[12]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        frete: parseFloat((cols[13]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        revisao: parseFloat((cols[14]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        custosAdd: parseFloat((cols[15]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        infoCor: cols[13] || '',
+        infoVariante: cols[14] || '',
+        infoPatio: cols[15] || ''
       };
     });
     dadosCarregados = true;
