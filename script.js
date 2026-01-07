@@ -1801,6 +1801,13 @@ btnVerInfoEl?.addEventListener('click', () => {
 async function carregarDados(){
   const loadingEl = document.getElementById('loading');
   if (loadingEl) loadingEl.classList.remove('hidden');
+  // fallback: se após X ms os dados não carregarem, esconda overlay e mostre aviso no console
+  let fallbackTimer = setTimeout(()=>{
+    if (!dadosCarregados) {
+      console.warn('carregarDados: fallback after timeout, hiding loading overlay');
+      if (loadingEl) loadingEl.classList.add('hidden');
+    }
+  }, 9000);
   try{
     const res = await fetch(sheetCsvUrl);
     const txt = await res.text();
@@ -1835,8 +1842,10 @@ async function carregarDados(){
       aplicarFZ(pendingFZ);
       pendingFZ = null;
     }
+    clearTimeout(fallbackTimer);
   }catch(e){
     console.error('Erro ao carregar CSV', e);
+    clearTimeout(fallbackTimer);
   } finally {
     if (loadingEl) loadingEl.classList.add('hidden');
   }
@@ -2183,6 +2192,39 @@ function init(){
     clearTimeout(window._adjustHeaderTimer);
     window._adjustHeaderTimer = setTimeout(adjustBodyPadding, 120);
   });
+
+  // NAV: centralizar comportamento do toggle para todas as páginas
+  const navToggle = document.querySelector('.nav-toggle');
+  const navMenu = document.getElementById('main-nav') || document.querySelector('.nav-menu');
+  const setNavState = (open)=>{
+    if (!navMenu || !navToggle) return;
+    if(open){
+      navMenu.classList.add('open');
+      navToggle.setAttribute('aria-expanded','true');
+    } else {
+      navMenu.classList.remove('open');
+      navToggle.setAttribute('aria-expanded','false');
+    }
+  };
+  if (navToggle && navMenu){
+    navToggle.addEventListener('click', (e)=>{
+      e.preventDefault();
+      setNavState(!navMenu.classList.contains('open'));
+    });
+    // close on link click inside nav
+    navMenu.addEventListener('click', (e)=>{
+      if (e.target && e.target.tagName === 'A') setNavState(false);
+    });
+    // close on outside click when open (mobile)
+    document.addEventListener('click', (e)=>{
+      if (!navMenu.classList.contains('open')) return;
+      if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) setNavState(false);
+    });
+    // close nav when resizing to desktop width
+    window.addEventListener('resize', ()=>{
+      if (window.innerWidth >= 769) setNavState(false);
+    });
+  }
 }
 
 const FAB_PRECO_URLS = {
