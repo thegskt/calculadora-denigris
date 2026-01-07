@@ -65,6 +65,7 @@ h1{font-size:20px;margin:0}
 .chev{transition:transform .2s ease}
 .acc.open .chev{transform:rotate(180deg)}
 .acc-c{display:none}
+.acc.open .acc-c{display:block}
   .row{
     display:flex;
     flex-direction:column;
