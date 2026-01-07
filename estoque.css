@@ -357,7 +357,7 @@ h1{font-size:20px;margin:0}
   }
   .tools input[type=search],
   .search-input {
-    width: 50%;
+    width: 100%;
     font-size: 12px;
     padding: 6px 8px;
     height: 12px;
