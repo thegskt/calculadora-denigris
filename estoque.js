@@ -112,11 +112,29 @@ function render(list){
 
     const subGroups = groupBySubModel(g.items);
     for (const sub of subGroups){
-      // Subheader
-      const subHeader = document.createElement('div');
-      subHeader.className = 'subheader';
-      subHeader.textContent = `${sub.name} (${sub.items.length})`;
-      rows.appendChild(subHeader);
+      // Sub-accordion
+      const subAcc = document.createElement('div');
+      subAcc.className = 'sub-acc';
+
+      const subH = document.createElement('div');
+      subH.className = 'sub-acc-h';
+      subH.setAttribute('role','button');
+      subH.setAttribute('tabindex','0');
+      subH.setAttribute('aria-expanded','false');
+
+      const subTitle = document.createElement('span');
+      subTitle.textContent = `${sub.name} (${sub.items.length})`;
+      const subChev = document.createElement('span');
+      subChev.className = 'chev';
+      subChev.textContent = '▾';
+
+      subH.append(subTitle, subChev);
+
+      const subC = document.createElement('div');
+      subC.className = 'sub-acc-c';
+
+      const subRows = document.createElement('div');
+      subRows.className = 'rows';
 
       for (const r of sub.items){
         const row = document.createElement('div');
@@ -168,8 +186,16 @@ function render(list){
 
         // Ordem: Modelo, Cor, UP, Var., Ano, Valor, Ação, Meta
         row.append(cMod, cCor, cUp, cVar, cAno, cVal, cAc, cMeta);
-        rows.appendChild(row);
+        subRows.appendChild(row);
       }
+
+      subC.appendChild(subRows);
+      subAcc.append(subH, subC);
+      rows.appendChild(subAcc);
+
+      const toggleSub = () => { const isOpen = subAcc.classList.toggle('open'); subH.setAttribute('aria-expanded', String(isOpen)); };
+      subH.addEventListener('click', toggleSub);
+      subH.addEventListener('keydown', (e)=> { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleSub(); } });
     }
 
     c.appendChild(rows); acc.append(h, c); groupsEl.appendChild(acc);
@@ -195,6 +221,9 @@ function filtrar(){
   render(f);
   document.querySelectorAll('.acc').forEach(sec => {
     sec.classList.add('open'); sec.querySelector('.acc-h')?.setAttribute('aria-expanded','true');
+  });
+  document.querySelectorAll('.sub-acc').forEach(sub => {
+    sub.classList.add('open'); sub.querySelector('.sub-acc-h')?.setAttribute('aria-expanded','true');
   });
 }
 
