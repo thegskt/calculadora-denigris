@@ -357,10 +357,9 @@ h1{font-size:20px;margin:0}
   .tools input[type=search],
   .search-input {
     width: 50%;
-    min-width: unset;
     font-size: 12px;
     padding: 4px 6px;
-    height: 32px;
+    height: 12px;
     border-radius: 6px;
   }
   .acc-h {
