@@ -214,7 +214,7 @@ h1{font-size:20px;margin:0}
     padding:2px 0 4px;
   }
 
-        .main-header {
+      .main-header {
         min-height: 44px;
         padding: 0 1vw;
       }
@@ -233,7 +233,7 @@ h1{font-size:20px;margin:0}
         gap: 0.5rem;
       }
       .main-header nav a {
-        font-size: 0.75rem;
+        font-size: 0.65rem;
         padding: 0.9px 0;
       }
       .header-space {
