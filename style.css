@@ -65,106 +65,60 @@
   font-weight: 500;
 }
 
-    /* HEADER FIXO */
-    .main-header {
-      width: 100vw;
-      background: linear-gradient(90deg, #111 60%, #444 100%);
-      color: #fff;
-      box-shadow: 0 2px 12px rgba(35,64,142,0.08);
-      position: fixed;
-      top: 0; left: 0; z-index: 100;
-      min-height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 2vw;
-      transition: var(--transition);
-    }
-    .main-header .logo-menu {
-      display: flex;
-      align-items: center;
-      gap: 1.1rem;
-    }
-    .main-header img {
-      height: 34px;
-      max-width: 90px;
-      object-fit: contain;
-      box-shadow: 0 2px 8px #0001;
-      padding: 0;
-      background: none;
-      border-radius: 0;
-      transition: var(--transition);
-    }
-    .main-header .logo-denigris {
-      height: 44px !important;
-      max-width: 120px !important;
-    }
-    .main-header nav {
-      display: flex;
-      gap: 1.1rem;
-    }
-    .main-header nav a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-      letter-spacing: 0.5px;
-      padding: 3px 10px;
-      border-bottom: 2px solid transparent;
-      border-radius: 6px;
-      transition: var(--transition);
-    }
-    .main-header nav a:hover,
-    .main-header nav a:focus,
-    .main-header nav a.active {
-      background: #fff2;
-      color: #ffe066;
-      border-bottom: 2px solid #ffe066;
-      outline: none;
-    }
+/* HEADER */
+.main-header {
+  background: #0b1c2d;
+  padding: 12px 24px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
 
-    /* Hamburger Menu */
-    .nav-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 1.5rem;
-      cursor: pointer;
-      padding: 5px;
-      border-radius: 4px;
-      transition: var(--transition);
-    }
-    .nav-toggle:hover {
-      background: #fff2;
-    }
-    .nav-menu {
-      display: flex;
-      flex-direction: column;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 100%;
-      background: linear-gradient(90deg, #111 60%, #444 100%);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px);
-      transition: var(--transition);
-    }
-    .nav-menu.open {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-    .nav-menu a {
-      padding: 12px 20px;
-      border-bottom: 1px solid #555;
-      text-align: center;
-    }
-    .nav-menu a:last-child {
-      border-bottom: none;
-    }
+.header-container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo-area img {
+  height: 38px;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 24px;
+}
+
+.nav-menu a {
+  color: #e5e7eb;
+  text-decoration: none;
+  font-size: 15px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-menu a.active,
+.nav-menu a:hover {
+  border-color: #3b82f6;
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
 
     /* Mobile Header */
     @media (max-width: 768px) {
@@ -185,27 +139,25 @@
 
     /* Desktop Nav */
     @media (min-width: 769px) {
-      .nav-menu {
-        display: flex !important;
-        flex-direction: row !important;
-        position: static !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        transform: none !important;
-        background: none !important;
-        box-shadow: none !important;
-        width: auto !important;
-        top: auto !important;
-        left: auto !important;
-      }
-      .nav-menu a {
-        padding: 3px 10px;
-        border-bottom: none;
-        text-align: left;
-      }
       .nav-toggle {
-        display: none !important;
+        display: block;
       }
+
+      .nav-menu {
+        position: absolute;
+        top: 64px;
+        right: 24px;
+        background: #0b1c2d;
+        flex-direction: column;
+        padding: 16px;
+        border-radius: 10px;
+        display: none;
+      }
+
+      .nav-menu.open {
+        display: flex;
+      }
+
     }
 
     /* LOGOS CENTRALIZADAS */
@@ -1191,3 +1143,4 @@
 .logo-link:hover {
   opacity: 0.85;
 }
+
