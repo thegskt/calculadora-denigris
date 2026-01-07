@@ -1822,9 +1822,9 @@ async function carregarDados(){
         frete: parseFloat((cols[13]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
         revisao: parseFloat((cols[14]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
         custosAdd: parseFloat((cols[15]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        infoCor: cols[13] || '',
-        infoVariante: cols[14] || '',
-        infoPatio: cols[15] || ''
+        infoCor: cols[18] || '',
+        infoVariante: cols[19] || '',
+        infoPatio: cols[20] || ''
       };
     });
     dadosCarregados = true;
