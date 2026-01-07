@@ -157,7 +157,7 @@ h1{font-size:20px;margin:0}
 
     /* Espaço para header fixo */
     .header-space {
-      height: 62px;
+      height: 72px;
       width: 100%;
     }
 
@@ -375,58 +375,65 @@ h1{font-size:20px;margin:0}
 /* Media Queries para Estoque */
 @media (max-width: 768px) {
   .wrap {
-    padding: 16px 8px;
+    padding: 8px 4px;
   }
   .wrap > header {
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+  .wrap > header .logo-menu {
+    justify-content: center;
   }
   .tools {
     width: 100%;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 8px;
   }
   .tools input[type=search] {
-    flex: 1;
-    min-width: 200px;
-  }
-  .acc-h {
-    padding: 10px 12px;
+    width: 100%;
+    min-width: unset;
     font-size: 14px;
   }
+  .acc-h {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
   .acc-title {
-    gap: 8px;
+    gap: 6px;
   }
   .badge {
-    font-size: 11px;
-    padding: 1px 6px;
+    font-size: 10px;
+    padding: 1px 4px;
   }
   .cols, .row {
-    grid-template-columns: minmax(120px, 1fr) minmax(50px, 0.5fr) minmax(40px, 0.4fr) minmax(70px, 0.6fr) minmax(40px, 0.4fr) minmax(80px, 0.6fr) minmax(60px, 0.4fr);
-    gap: 8px;
-    padding: 8px 12px;
+    grid-template-columns: minmax(100px, 1fr) minmax(40px, 0.4fr) minmax(35px, 0.35fr) minmax(60px, 0.6fr) minmax(35px, 0.35fr) minmax(70px, 0.7fr) minmax(50px, 0.5fr);
+    gap: 6px;
+    padding: 6px 8px;
   }
   .modelo {
-    font-size: 13px;
+    font-size: 12px;
   }
   .up {
-    font-size: 13px;
+    font-size: 12px;
   }
   .btn {
-    font-size: 12px;
-    padding: 4px 6px;
+    font-size: 11px;
+    padding: 3px 5px;
+    min-height: 28px;
   }
   .sub-acc-h {
-    padding: 6px 10px;
-    font-size: 12px;
+    padding: 5px 8px;
+    font-size: 11px;
   }
   .subheader {
-    padding: 6px 12px;
-    font-size: 13px;
+    padding: 5px 8px;
+    font-size: 12px;
   }
   .nav-menu {
     display: none;
   }
-
   .nav-toggle {
     display: block;
   }
