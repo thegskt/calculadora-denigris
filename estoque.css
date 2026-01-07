@@ -335,15 +335,17 @@ h1{font-size:20px;margin:0}
     justify-content: center;
   }
   .tools {
-    width: 100%;
+    flex: 1 1 auto;
     display:flex;
     gap: 8px;
     flex-direction: row;
     align-items: center;
+    min-width: 0;
   }
   .tools input[type=search],
   .search-input {
-    width: 100%;
+    flex: 1 1 auto;
+    width: auto;
     font-size: 14px;
     padding: 8px 10px;
     min-height: 40px;
@@ -361,6 +363,8 @@ h1{font-size:20px;margin:0}
     border-radius:6px;
     cursor:pointer;
     color: #223a86;
+    margin-left:6px;
+    flex: 0 0 auto;
   }
   .row{
     display:flex;
