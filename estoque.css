@@ -214,6 +214,32 @@ h1{font-size:20px;margin:0}
     padding:2px 0 4px;
   }
 
+        .main-header {
+        min-height: 44px;
+        padding: 0 1vw;
+      }
+      .main-header .logo-menu {
+        gap: 0.5rem;
+      }
+      .main-header img {
+        height: 22px;
+        max-width: 60px;
+      }
+      .main-header .logo-denigris {
+        height: 30px !important;
+        max-width: 80px !important;
+      }
+      .main-header nav {
+        gap: 0.5rem;
+      }
+      .main-header nav a {
+        font-size: 0.75rem;
+        padding: 0.9px 0;
+      }
+      .header-space {
+        height: 48px;
+      }
+
   /* NÃO aplicar display:flex na .meta */
   .row > div:not(.meta){
     min-width:0;
