@@ -9,7 +9,7 @@
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
-  
+
     <!-- CABEÇALHO FIXO -->
   <header class="main-header">
     <div class="logo-menu">
@@ -26,7 +26,16 @@
 
   <div class="wrap">
     <header>
-      <h1>Estoque De Nigris</h1>
+      <div class="logo-menu" style="display:flex;align-items:center;gap:1rem;">
+        <img src="Imagens/Mercedes-Logo.png" alt="Mercedes-Benz Logo" style="height:34px;">
+        <img src="Imagens/Logo_De Nigris Branco.png" alt="De Nigris Logo" class="logo-denigris" style="height:44px;">
+      </div>
+      <nav style="display:flex;gap:1rem;">
+        <a href="home.html">Home</a>
+        <a href="index.html">Calculadora</a>
+        <a href="estoque.html" class="active">Estoque</a>
+        <a href="login.html">Login</a>
+      </nav>
       <div class="tools">
         <input id="busca" type="search" placeholder="Buscar por FZ, modelo, UP ou ano...">
         <button id="logout" class="btn">Sair</button>
