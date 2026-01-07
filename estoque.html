@@ -23,7 +23,7 @@
       <button class="nav-toggle" aria-label="Menu">☰</button>
 
       <nav class="nav-menu">
-        <a class="active" href="home.html">Home</a>
+        <a class="active" href="estoque.html">Estoque</a>
         <a href="index.html">Calculadora</a>
         <a href="estoque.html">Estoque</a>
         <a href="login.html">Login</a>
@@ -44,7 +44,15 @@
 
   <script src="estoque.js" defer></script>
   <script src="script.js" defer></script>
+  
+  <script>
+  const toggle = document.querySelector('.nav-toggle');
+  const nav = document.querySelector('.nav-menu');
 
+  toggle.addEventListener('click', () => {
+    nav.classList.toggle('open');
+  });
+</script>
 
 </body>
 
