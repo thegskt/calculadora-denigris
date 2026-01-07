@@ -78,6 +78,62 @@ h1{font-size:20px;margin:0}
     background:#fbfcff;
     color:#23334d;
   }
+
+  /* HEADER */
+.main-header {
+  background: #0b1c2d;
+  padding: 12px 24px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo-area img {
+  height: 38px;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 24px;
+}
+
+.nav-menu a {
+  color: #e5e7eb;
+  text-decoration: none;
+  font-size: 15px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-menu a.active,
+.nav-menu a:hover {
+  border-color: #3b82f6;
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
     .main-header .logo-menu {
       display: flex;
       align-items: center;
