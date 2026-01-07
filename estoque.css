@@ -1,7 +1,8 @@
 *{box-sizing:border-box}
 body{font-family:system-ui,Segoe UI,Arial,sans-serif;margin:0;background:#f7f9fc;color:#0b1a2b}
 .wrap{max-width:1200px;margin:0 auto;padding:16px}
-header{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}
+/* Cabeçalho da página (interno ao .wrap) */
+.wrap > header{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}
 
     /* Hamburger Menu */
     .nav-toggle {
@@ -376,7 +377,7 @@ h1{font-size:20px;margin:0}
   .wrap {
     padding: 16px 8px;
   }
-  header {
+  .wrap > header {
     flex-direction: column;
     gap: 12px;
   }
