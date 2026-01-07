@@ -2148,6 +2148,9 @@ function applyQueryParams(){
 
 // ================== INIT ==================
 function init(){
+  // Garantir que o conteúdo principal esteja visível
+  els('mainContent')?.classList.remove('hidden');
+
   showCalcProprio();
   applyQueryParams();
   carregarDados();
@@ -2159,6 +2162,10 @@ function init(){
   }
   atualizarVarianteFab();
   preencherAcoes();
+
+  // Adicionar event listeners para os botões
+  els('btnEstoqueProprio')?.addEventListener('click', showCalcProprio);
+  els('btnEstoqueFabrica')?.addEventListener('click', showCalcFabrica);
 }
 
 const FAB_PRECO_URLS = {
@@ -2469,7 +2476,4 @@ document.addEventListener('DOMContentLoaded', ()=>{
 });
 
 document.addEventListener('DOMContentLoaded', init);
-
-els('btnEstoqueProprio')?.addEventListener('click', showCalcProprio);
-els('btnEstoqueFabrica')?.addEventListener('click', showCalcFabrica);
 
