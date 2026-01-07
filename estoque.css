@@ -409,27 +409,3 @@ h1{font-size:20px;margin:0}
     display: block;
   }
 }
-
-@media (min-width: 769px) {
-  .nav-menu {
-    display: flex !important;
-    flex-direction: row !important;
-    position: static !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: none !important;
-    background: none !important;
-    box-shadow: none !important;
-    width: auto !important;
-    top: auto !important;
-    left: auto !important;
-  }
-  .nav-menu a {
-    padding: 3px 10px;
-    border-bottom: none;
-    text-align: left;
-  }
-  .nav-toggle {
-    display: none !important;
-  }
-}
