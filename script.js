@@ -1591,15 +1591,6 @@ const RAW_ACOES = `
     '0869T25/26' : ['Estoque']
     `;
 
-    .logo-link {
-      display: flex;
-      align-items: center;
-    }
-
-    .logo-link:hover {
-      opacity: 0.85;
-    }
-
     // --- DETALHAMENTO ESTOQUE PRÓPRIO ---
   const btnMostrarProtegido = document.getElementById('btnMostrarProtegido');
   const passwordGroup       = document.getElementById('passwordGroup');

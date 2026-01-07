@@ -1173,3 +1173,12 @@
   opacity: 1 !important;
   visibility: visible !important;
 }
+
+.logo-link {
+  display: flex;
+  align-items: center;
+}
+
+.logo-link:hover {
+  opacity: 0.85;
+}
