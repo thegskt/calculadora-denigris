@@ -2,6 +2,50 @@
 body{font-family:system-ui,Segoe UI,Arial,sans-serif;margin:0;background:#f7f9fc;color:#0b1a2b}
 .wrap{max-width:1200px;margin:0 auto;padding:16px}
 header{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}
+
+    /* Hamburger Menu */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 4px;
+      transition: background 0.3s ease;
+    }
+    .nav-toggle:hover {
+      background: #fff2;
+    }
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(90deg, #111 60%, #444 100%);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    }
+    .nav-menu.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .nav-menu a {
+      padding: 12px 20px;
+      border-bottom: 1px solid #555;
+      text-align: center;
+    }
+    .nav-menu a:last-child {
+      border-bottom: none;
+    }
+
 h1{font-size:20px;margin:0}
 .tools{display:flex;gap:8px;flex:1 1 260px;justify-content:flex-end}
 .tools input[type=search]{flex:1 1 auto;padding:10px 12px;border:1px solid #d6deea;border-radius:10px;min-width:240px;background:#fff}
@@ -377,5 +421,36 @@ h1{font-size:20px;margin:0}
   .subheader {
     padding: 6px 12px;
     font-size: 13px;
+  }
+  .nav-menu {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: block;
+  }
+}
+
+@media (min-width: 769px) {
+  .nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    position: static !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    background: none !important;
+    box-shadow: none !important;
+    width: auto !important;
+    top: auto !important;
+    left: auto !important;
+  }
+  .nav-menu a {
+    padding: 3px 10px;
+    border-bottom: none;
+    text-align: left;
+  }
+  .nav-toggle {
+    display: none !important;
   }
 }

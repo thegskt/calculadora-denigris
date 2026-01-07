@@ -171,9 +171,6 @@
       .main-header {
         padding: 0 1rem;
       }
-      .main-header nav {
-        display: none;
-      }
       .nav-toggle {
         display: block;
       }
@@ -183,6 +180,31 @@
       .main-header .logo-denigris {
         height: 36px !important;
         max-width: 100px !important;
+      }
+    }
+
+    /* Desktop Nav */
+    @media (min-width: 769px) {
+      .nav-menu {
+        display: flex !important;
+        flex-direction: row !important;
+        position: static !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        background: none !important;
+        box-shadow: none !important;
+        width: auto !important;
+        top: auto !important;
+        left: auto !important;
+      }
+      .nav-menu a {
+        padding: 3px 10px;
+        border-bottom: none;
+        text-align: left;
+      }
+      .nav-toggle {
+        display: none !important;
       }
     }
 
