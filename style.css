@@ -655,13 +655,14 @@
         padding: 0.9px 0;
       }
       .header-space {
-        /* espaço reservado para header fixo — aumentar para evitar sobreposição */
-        height: 72px;
+        /* espaço reservado para header fixo */
+        height: 56px;
+        width: 100%;
       }
       /* Garantir que o conteúdo principal não fique embaixo do header fixo */
       /* fallback estático; JS também ajusta dinamicamente no `init()` */
       body {
-        padding-top: 72px;
+        padding-top: 56px;
       }
       /* Garantir que o conteúdo principal não fique embaixo do header fixo */
       #mainContent {

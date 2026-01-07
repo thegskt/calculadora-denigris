@@ -2180,7 +2180,7 @@ function init(){
   const adjustBodyPadding = () => {
     const hdr = document.querySelector('.main-header');
     if (hdr) {
-      const h = hdr.offsetHeight || 72;
+      const h = hdr.offsetHeight || 56;
       document.body.style.paddingTop = h + 'px';
       const headerSpace = document.querySelector('.header-space');
       if (headerSpace) headerSpace.style.height = h + 'px';
