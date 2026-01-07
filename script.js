@@ -1799,6 +1799,8 @@ btnVerInfoEl?.addEventListener('click', () => {
 
 // ================== CARREGAR CSV ==================
 async function carregarDados(){
+  const loadingEl = document.getElementById('loading');
+  if (loadingEl) loadingEl.classList.remove('hidden');
   try{
     const res = await fetch(sheetCsvUrl);
     const txt = await res.text();
@@ -1835,6 +1837,8 @@ async function carregarDados(){
     }
   }catch(e){
     console.error('Erro ao carregar CSV', e);
+  } finally {
+    if (loadingEl) loadingEl.classList.add('hidden');
   }
 }
 
