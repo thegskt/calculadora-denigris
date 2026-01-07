@@ -1182,3 +1182,12 @@
 .logo-link:hover {
   opacity: 0.85;
 }
+
+.logo-link {
+  display: flex;
+  align-items: center;
+}
+
+.logo-link:hover {
+  opacity: 0.85;
+}
