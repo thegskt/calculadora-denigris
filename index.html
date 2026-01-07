@@ -15,7 +15,8 @@
       <img src="Imagens/Mercedes-Logo.png" alt="Mercedes-Benz Logo">
       <img src="Imagens/Logo_De Nigris Branco.png" alt="De Nigris Logo" class="logo-denigris">
     </div>
-    <nav>
+    <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+    <nav class="nav-menu">
       <a href="home.html">Home</a>
       <a href="#" class="active">Calculadora</a>
       <a href="estoque.html">Estoque</a>
@@ -216,5 +217,20 @@
   </div><!-- #mainContent -->
 
   <script src="script.js"></script>
+  <script>
+    // Toggle mobile menu
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    navToggle?.addEventListener('click', () => {
+      navMenu.classList.toggle('open');
+    });
+
+    // Close menu on link click
+    navMenu?.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') {
+        navMenu.classList.remove('open');
+      }
+    });
+  </script>
 </body>
 </html>

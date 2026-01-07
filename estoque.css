@@ -326,3 +326,56 @@ h1{font-size:20px;margin:0}
   cursor: pointer;
   color: #333;
 }
+
+/* Media Queries para Estoque */
+@media (max-width: 768px) {
+  .wrap {
+    padding: 16px 8px;
+  }
+  header {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .tools {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .tools input[type=search] {
+    flex: 1;
+    min-width: 200px;
+  }
+  .acc-h {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+  .acc-title {
+    gap: 8px;
+  }
+  .badge {
+    font-size: 11px;
+    padding: 1px 6px;
+  }
+  .cols, .row {
+    grid-template-columns: minmax(120px, 1fr) minmax(50px, 0.5fr) minmax(40px, 0.4fr) minmax(70px, 0.6fr) minmax(40px, 0.4fr) minmax(80px, 0.6fr) minmax(60px, 0.4fr);
+    gap: 8px;
+    padding: 8px 12px;
+  }
+  .modelo {
+    font-size: 13px;
+  }
+  .up {
+    font-size: 13px;
+  }
+  .btn {
+    font-size: 12px;
+    padding: 4px 6px;
+  }
+  .sub-acc-h {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  .subheader {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}
