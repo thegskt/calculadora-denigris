@@ -245,19 +245,6 @@ function converterUrlFoto(url) {
   return url;
 }
 
-
-document.addEventListener('DOMContentLoaded', () => {
-  const toggleBtn = document.querySelector('.nav-toggle');
-  const navMenu = document.querySelector('.nav-menu');
-
-  if (!toggleBtn || !navMenu) return;
-
-  toggleBtn.addEventListener('click', () => {
-    navMenu.classList.toggle('open');
-  });
-});
-
-
 async function carregar(){
   try{
     const res = await fetch(sheetCsvUrl, { cache:'no-store' });
