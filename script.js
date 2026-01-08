@@ -2175,6 +2175,8 @@ function applyQueryParams(){
   // Adicionar event listeners para os botões
   els('btnEstoqueProprio')?.addEventListener('click', showCalcProprio);
   els('btnEstoqueFabrica')?.addEventListener('click', showCalcFabrica);
+  
+  }
 
   // Ajuste dinâmico do padding-top do body para evitar que o header fixe sobreponha o conteúdo
   const adjustBodyPadding = () => {
@@ -2405,29 +2407,27 @@ function applyQueryParams(){
   }
 
   // Busca foto no CSV pelo FZ (espera FZ com até 6 dígitos)
-  async function fetchFotoByFz(fzRaw) {
-    const fz = (fzRaw || '').replace(/\D/g, '').padStart(6, '0');
-    if (!fz || fz === '000000') return '';
-    try {
-      const res = await fetch(sheetCsvUrl, { cache: 'no-store' });
-      const txt = await res.text();
-      const rows = txt.trim().split('\n');
-      rows.shift(); // remove cabeçalho
-      for (const line of rows) {
-        const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, "").trim());
-        const rowFz = (cols[0] || '').padStart(6, '0');
-        if (rowFz === fz) {
-          // coluna 9 = índice 8
-          const rawUrl = cols[8] || '';
-          return converterUrlFoto(rawUrl);
-        }
-      }
-      return '';
-    } catch (e) {
-      console.error('Erro ao buscar foto:', e);
-      return '';
+async function fetchFotoByFz(fzRaw) {
+  const fz = (fzRaw || '').replace(/\D/g, '').padStart(6, '0');
+  
+  // 1. Tenta pegar direto da memória (muito mais rápido)
+  if (vendedores[fz] && vendedores[fz].fotoUrl) {
+    return converterUrlFoto(vendedores[fz].fotoUrl);
+  }
+
+  // 2. Se a memória estiver vazia (usuário chegou muito rápido), aguarda o carregamento
+  if (!dadosCarregados) {
+    console.log('Aguardando carregamento de dados...');
+    // Pequena espera se os dados ainda não chegaram
+    await new Promise(r => setTimeout(r, 1000)); 
+    if (vendedores[fz] && vendedores[fz].fotoUrl) {
+      return converterUrlFoto(vendedores[fz].fotoUrl);
     }
   }
+
+  // 3. Se não achou na memória, retorna vazio (não faz fetch duplicado)
+  return '';
+}
 
   // Modal simples para exibir a foto
   function abrirFoto(fotoUrl, titulo = '') {
@@ -2504,26 +2504,53 @@ function applyQueryParams(){
     const fzInput = document.getElementById('fz');
     const modeloEl = document.getElementById('modelo');
 
-    if (btnVerFoto && fzInput) {
-      btnVerFoto.addEventListener('click', async () => {
-        const fz = fzInput.value || '';
-        if (!fz.trim()) { alert('Informe o FZ antes de ver a foto.'); return; }
-        btnVerFoto.disabled = true;
-        btnVerFoto.textContent = 'Carregando...';
-        const fotoUrl = await fetchFotoByFz(fz);
-        btnVerFoto.disabled = false;
-        btnVerFoto.textContent = '📷 Foto';
-        abrirFoto(fotoUrl, modeloEl ? modeloEl.textContent.trim() : '');
-      });
+  if (btnVerFoto && fzInput) {
+        btnVerFoto.addEventListener('click', async () => {
+          const fz = fzInput.value || '';
+          
+          // Validação básica
+          if (!fz.trim()) { 
+            alert('Informe o FZ antes de ver a foto.'); 
+            return; 
+          }
+
+          // Estado de Carregamento
+          const textoOriginal = btnVerFoto.textContent;
+          btnVerFoto.disabled = true;
+          btnVerFoto.textContent = 'Carregando...';
+
+          try {
+            // Busca a foto (usando a versão otimizada abaixo)
+            const fotoUrl = await fetchFotoByFz(fz);
+            
+            if (!fotoUrl) {
+              throw new Error('Foto não encontrada ou sem link cadastrado.');
+            }
+
+            // Abre o Modal
+            const nomeModelo = modeloEl ? modeloEl.textContent.trim() : '';
+            abrirFoto(fotoUrl, nomeModelo);
+
+          } catch (error) {
+            console.warn('Aviso:', error.message);
+            alert('Não foi possível carregar a foto deste veículo.');
+          } finally {
+            // Restaura o botão sempre
+            btnVerFoto.disabled = false;
+            btnVerFoto.textContent = '📷 Foto'; 
+          }
+        });
+      }
+    }); // Fim do DOMContentLoaded
+
+    // Inicialização de fallback para preços de fábrica
+    if (typeof atualizarPrecoFab === 'function') {
+      setTimeout(() => atualizarPrecoFab(), 500);
     }
-  });
 
-  if (typeof atualizarPrecoFab === 'function') {
-    setTimeout(() => atualizarPrecoFab(), 300);
-  }
-
-  // Init principal
-  if (typeof init === 'function') {
-    init();
-  }
-}
+    // Init principal (se não foi chamado automaticamente)
+    if (typeof init === 'function' && document.readyState === 'complete') {
+      init();
+    } else if (typeof init === 'function') {
+      window.addEventListener('load', init);
+    }
