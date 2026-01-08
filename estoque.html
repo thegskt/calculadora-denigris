@@ -43,21 +43,6 @@
 
   <script src="estoque.js" defer></script>
   <script src="script.js" defer></script>
-  <script>
-    // Toggle mobile menu
-    const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-    navToggle?.addEventListener('click', () => {
-      navMenu.classList.toggle('open');
-    });
-
-    // Close menu on link click
-    navMenu?.addEventListener('click', (e) => {
-      if (e.target.tagName === 'A') {
-        navMenu.classList.remove('open');
-      }
-    });
-  </script>
   
   <script>
     const toggle = document.querySelector('.nav-toggle');
