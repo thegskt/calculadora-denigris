@@ -2194,20 +2194,7 @@ function applyQueryParams(){
     clearTimeout(window._adjustHeaderTimer);
     window._adjustHeaderTimer = setTimeout(adjustBodyPadding, 120);
   });
-
-    // Fecha ao clicar em um link do menu
-    nav.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        nav.classList.remove('open');
-      });
-    });
-
-    // Fecha ao clicar fora do menu (mobile)
-    document.addEventListener('click', (e) => {
-      if (!nav.contains(e.target) && !toggle.contains(e.target)) {
-        nav.classList.remove('open');
-      }
-    });
+  
   }
   const FAB_PRECO_URLS = {
     "25/25": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=320257334&single=true&output=csv",
@@ -2564,3 +2551,34 @@ async function fetchFotoByFz(fzRaw) {
     } else if (typeof init === 'function') {
       window.addEventListener('load', init);
     }
+
+    (function () {
+  const initMenu = () => {
+    const toggle = document.querySelector('.nav-toggle');
+    const nav = document.querySelector('.nav-menu');
+
+    if (!toggle || !nav) return;
+
+    toggle.onclick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      nav.classList.toggle('open');
+    };
+
+    nav.querySelectorAll('a').forEach(link => {
+      link.onclick = () => nav.classList.remove('open');
+    });
+
+    document.onclick = (e) => {
+      if (!nav.contains(e.target) && !toggle.contains(e.target)) {
+        nav.classList.remove('open');
+      }
+    };
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMenu);
+  } else {
+    initMenu();
+  }
+})();
