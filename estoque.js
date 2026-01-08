@@ -9,10 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
       + "/pub?gid=2122951741&single=true&output=csv";
 
     // Se não estiver na página de estoque, sai silenciosamente
-    if (!busca || !groupsEl) return;
+  
+  const busca = document.getElementById('busca');
+  const groupsEl = document.getElementById('groups');
 
-    const busca = document.getElementById('busca');
-    const groupsEl = document.getElementById('groups');
+  // proteção para outras páginas
+  if (!busca || !groupsEl) return;
 
     let itens = [];
     const FAM_ORDER = ['Accelo','Atego','Actros','Axor','Arocs','Outros'];
