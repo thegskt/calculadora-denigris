@@ -2155,7 +2155,7 @@ function applyQueryParams(){
 }
 
 // ================== INIT ==================
-function init(){
+  function init(){
   // Garantir que o conteúdo principal esteja visível
   els('mainContent')?.classList.remove('hidden');
 
@@ -2170,6 +2170,7 @@ function init(){
   }
   atualizarVarianteFab();
   preencherAcoes();
+  }
 
   // Adicionar event listeners para os botões
   els('btnEstoqueProprio')?.addEventListener('click', showCalcProprio);
@@ -2192,7 +2193,6 @@ function init(){
     window._adjustHeaderTimer = setTimeout(adjustBodyPadding, 120);
   });
 
-  document.addEventListener('DOMContentLoaded', () => {
     const toggle = document.querySelector('.nav-toggle');
     const nav = document.querySelector('.nav-menu');
 
@@ -2216,317 +2216,313 @@ function init(){
         nav.classList.remove('open');
       }
     });
-  });
 
-const FAB_PRECO_URLS = {
-  "25/25": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=320257334&single=true&output=csv",
-  "25/26": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=1188555781&single=true&output=csv"
-};
+  const FAB_PRECO_URLS = {
+    "25/25": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=320257334&single=true&output=csv",
+    "25/26": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=1188555781&single=true&output=csv"
+  };
 
-// MAPA (AÇÃO -> COLUNA) conforme especificado
-const FAB_ACTION_COLS = {
-  "Estoque":"I",
-  "Postos de Combustiveis":"K",
-  "Frigorificado":"M",
-  "C.E.ABAST":"O",
-  "Mais Alimentos":"Q"
-};
+  // MAPA (AÇÃO -> COLUNA) conforme especificado
+  const FAB_ACTION_COLS = {
+    "Estoque":"I",
+    "Postos de Combustiveis":"K",
+    "Frigorificado":"M",
+    "C.E.ABAST":"O",
+    "Mais Alimentos":"Q"
+  };
 
-function colLetterToIdx(letter){
-  letter = (letter||'').toUpperCase().trim();
-  let n=0;
-  for (const ch of letter){
-    if(ch<'A'||ch>'Z') return -1;
-    n = n*26 + (ch.charCodeAt(0)-64);
+  function colLetterToIdx(letter){
+    letter = (letter||'').toUpperCase().trim();
+    let n=0;
+    for (const ch of letter){
+      if(ch<'A'||ch>'Z') return -1;
+      n = n*26 + (ch.charCodeAt(0)-64);
+    }
+    return n-1;
   }
-  return n-1;
-}
 
-const fabPrecosPorAno = {}; // { "25/25": { CHAVE: { tabela: number, raw:{} } } }
+  const fabPrecosPorAno = {}; // { "25/25": { CHAVE: { tabela: number, raw:{} } } }
 
-function variantCodigoFab(){
-  return (varianteFabEl?.textContent||'').trim();
-}
-function getAcoesForCurrentVariant(){
-  const cod = (varianteFabEl?.textContent || '').trim().toUpperCase();
-  const ano = (anoFabEl?.value || '').trim().toUpperCase();
-  if(!cod || !ano) return ACOES_PADRAO;
-  const key = (cod + ano).toUpperCase(); // ex: 2284T25/25
-  return ACOES_MAP[key] || ACOES_PADRAO;
-}
-function preencherAcoes(){
-  if(!acaoFabEl) return;
-  const lista = getAcoesForCurrentVariant();
-  acaoFabEl.innerHTML = '';
-  lista.forEach(a=>{
-    const opt = document.createElement('option');
-    opt.value = a;
-    opt.textContent = a;
-    acaoFabEl.appendChild(opt);
+  function variantCodigoFab(){
+    return (varianteFabEl?.textContent||'').trim();
+  }
+  function getAcoesForCurrentVariant(){
+    const cod = (varianteFabEl?.textContent || '').trim().toUpperCase();
+    const ano = (anoFabEl?.value || '').trim().toUpperCase();
+    if(!cod || !ano) return ACOES_PADRAO;
+    const key = (cod + ano).toUpperCase(); // ex: 2284T25/25
+    return ACOES_MAP[key] || ACOES_PADRAO;
+  }
+  function preencherAcoes(){
+    if(!acaoFabEl) return;
+    const lista = getAcoesForCurrentVariant();
+    acaoFabEl.innerHTML = '';
+    lista.forEach(a=>{
+      const opt = document.createElement('option');
+      opt.value = a;
+      opt.textContent = a;
+      acaoFabEl.appendChild(opt);
   });
   // dispara para aplicar cores
   acaoFabEl.dispatchEvent(new Event('change'));
-}
-function anoSelecionadoFab(){
-  return anoFabEl?.value || "";
-}
-function chavePrecoFab(){
-  const cod = variantCodigoFab();
-  const ano = anoSelecionadoFab();
-  if(!cod || !ano) return null;
-  return cod + ano; // ex: 2284T25/25
-}
-
-function parseNumeroBR(str){
-  if(!str) return NaN;
-  // Remove R$, espaços, pontos milhar e troca vírgula por ponto
-  return parseFloat(str.replace(/R\$\s*/i,'').replace(/\./g,'').replace(/,/g,'.'));
-}
-
-async function garantirPrecosAno(ano){
-  if(!ano || fabPrecosPorAno[ano]) return;
-  const url = FAB_PRECO_URLS[ano];
-  if(!url) return;
-  try{
-    const res = await fetch(url,{cache:'no-store'});
-    const csv = await res.text();
-    fabPrecosPorAno[ano] = parseFabPrecoCSV(csv);
-  }catch(e){
-    console.warn("Falha ao carregar preços fábrica ano", ano, e);
-    fabPrecosPorAno[ano] = {};
   }
-}
-
-function parseFabPrecoCSV(csv){
-  const lines = csv.split(/\r?\n/).filter(l=>l.trim());
-  if(!lines.length) return {};
-  const splitSmart = line =>
-    line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c=>c.replace(/^"|"$/g,'').trim());
-  const header = splitSmart(lines.shift());
-  // índices dinâmicos por nome (fallback)
-  const hdrUpper = header.map(h=>h.toUpperCase());
-  const idxChave  = hdrUpper.indexOf("CHAVE");
-  const idxTabela = hdrUpper.indexOf("TABELA");
-
-  const map = {};
-  lines.forEach(l=>{
-    const cols = splitSmart(l);
-    const chave = (cols[idxChave]||'').trim();
-    if(!chave) return;
-    const tabelaNum = parseNumeroBR(cols[idxTabela]||'');
-    if(isNaN(tabelaNum)) return;
-    map[chave.toUpperCase()] = {
-      tabela: tabelaNum,
-      cols   : cols // guarda linha completa para pegar colunas I,K,M,O,Q
-    };
-  });
-  return map;
-}
-
-// Retorna valor de venda para a ação escolhida
-function valorVendaAcao(item, acao){
-  if(!item) return 0;
-  const colLetter = FAB_ACTION_COLS[acao];
-  if(!colLetter) return 0;
-  const idx = colLetterToIdx(colLetter);
-  if(idx<0 || idx >= item.cols.length) return 0;
-  const v = parseNumeroBR(item.cols[idx]);
-  return isNaN(v)?0:v;
-}
-
-async function atualizarPrecoFab(){
-  const ano = anoSelecionadoFab?.();
-  await garantirPrecosAno(ano);
-  const chave = chavePrecoFab();
-  const tabelaSpan = document.getElementById('faValorTabela');
-  const vendaSpan  = document.getElementById('faValorVenda');
-  const descValSpan = document.getElementById('faDesconto');
-  const descPercSpan = document.getElementById('faDescontoPerc');
-  if(!tabelaSpan || !vendaSpan){
-    return;
+  function anoSelecionadoFab(){
+    return anoFabEl?.value || "";
   }
-  if(!chave){
-    tabelaSpan.textContent = "R$ 0,00";
-    vendaSpan.textContent  = "R$ 0,00";
-    if(descValSpan)  descValSpan.textContent  = "R$ 0,00";
-    if(descPercSpan) descPercSpan.textContent = "0,00%";
-    return;
+  function chavePrecoFab(){
+    const cod = variantCodigoFab();
+    const ano = anoSelecionadoFab();
+    if(!cod || !ano) return null;
+    return cod + ano; // ex: 2284T25/25
   }
-  const dataAno = fabPrecosPorAno[ano] || {};
-  const item = dataAno[chave.toUpperCase()];
-  const tabelaNum = item ? item.tabela : 0;
-  tabelaSpan.textContent = item ? formatar(item.tabela) : "R$ 0,00";
-  const acaoAtual = acaoFabEl?.value || "Estoque";
-  const venda = valorVendaAcao(item, acaoAtual);
-  vendaSpan.textContent = formatar(venda);
 
-  // === Cálculo do desconto ===
-  const descontoValor = Math.max(0, tabelaNum - venda);
-  const descontoPerc  = (tabelaNum > 0 && venda <= tabelaNum)
-    ? (descontoValor / tabelaNum) * 100
-    : 0;
+  function parseNumeroBR(str){
+    if(!str) return NaN;
+    // Remove R$, espaços, pontos milhar e troca vírgula por ponto
+    return parseFloat(str.replace(/R\$\s*/i,'').replace(/\./g,'').replace(/,/g,'.'));
+  }
 
-  if(descValSpan)  descValSpan.textContent  = formatar(descontoValor);
-  if(descPercSpan) descPercSpan.textContent = descontoPerc.toFixed(2).replace('.',',') + '%';
-}
-
-// Ajusta listener para também recalcular venda
-acaoFabEl?.addEventListener('change', ()=>{
-  const val = acaoFabEl.value;
-  const map = {
-    "Estoque":               {bg:"#8dc2ff", fg:"#001c3b"},
-    "C.E.ABAST":             {bg:"#ffc35b", fg:"#301e01"},
-    "Frigorificado":         {bg:"#e1bee7", fg:"#25002c"},
-    "Postos de Combustiveis":{bg:"#a2f3a5", fg:"#002401"},
-    "Mais Alimentos":        {bg:"#fff48f", fg:"#383200"}
-  };
-  const cfg = map[val] || {bg:"",fg:""};
-  acaoFabEl.style.backgroundColor = cfg.bg;
-  acaoFabEl.style.color = cfg.fg;
-  acaoFabEl.style.fontWeight = cfg.bg? "900":"";
-  atualizarPrecoFab();
-});
-
-// Re-hook listener de ano (já existe; apenas garante chamada de preço se mudar ano)
-anoFabEl?.addEventListener('change', ()=> {
-  atualizarPrecoFab();
-});
-
-// Converte links comuns para formatos diretos (Drive / Google Fotos)
-function converterUrlFoto(url) {
-  if (!url) return '';
-  url = url.trim();
-  if (!url) return '';
-  if (url.includes('lh3.googleusercontent.com')) return url;
-  if (url.includes('drive.google.com/uc?export=view')) return url;
-  const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
-  if (match) return `https://drive.google.com/uc?export=view&id=${match[1]}`;
-  // fallback: retorna original
-  return url;
-}
-
-// Busca foto no CSV pelo FZ (espera FZ com até 6 dígitos)
-async function fetchFotoByFz(fzRaw) {
-  const fz = (fzRaw || '').replace(/\D/g, '').padStart(6, '0');
-  if (!fz || fz === '000000') return '';
-  try {
-    const res = await fetch(sheetCsvUrl, { cache: 'no-store' });
-    const txt = await res.text();
-    const rows = txt.trim().split('\n');
-    rows.shift(); // remove cabeçalho
-    for (const line of rows) {
-      const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, "").trim());
-      const rowFz = (cols[0] || '').padStart(6, '0');
-      if (rowFz === fz) {
-        // coluna 9 = índice 8
-        const rawUrl = cols[8] || '';
-        return converterUrlFoto(rawUrl);
-      }
+  async function garantirPrecosAno(ano){
+    if(!ano || fabPrecosPorAno[ano]) return;
+    const url = FAB_PRECO_URLS[ano];
+    if(!url) return;
+    try{
+      const res = await fetch(url,{cache:'no-store'});
+      const csv = await res.text();
+      fabPrecosPorAno[ano] = parseFabPrecoCSV(csv);
+    }catch(e){
+      console.warn("Falha ao carregar preços fábrica ano", ano, e);
+      fabPrecosPorAno[ano] = {};
     }
-    return '';
-  } catch (e) {
-    console.error('Erro ao buscar foto:', e);
-    return '';
   }
-}
 
-// Modal simples para exibir a foto
-function abrirFoto(fotoUrl, titulo = '') {
-  if (!fotoUrl) { alert('Foto não disponível.'); return; }
+  function parseFabPrecoCSV(csv){
+    const lines = csv.split(/\r?\n/).filter(l=>l.trim());
+    if(!lines.length) return {};
+    const splitSmart = line =>
+      line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c=>c.replace(/^"|"$/g,'').trim());
+    const header = splitSmart(lines.shift());
+    // índices dinâmicos por nome (fallback)
+    const hdrUpper = header.map(h=>h.toUpperCase());
+    const idxChave  = hdrUpper.indexOf("CHAVE");
+    const idxTabela = hdrUpper.indexOf("TABELA");
 
-  const modal = document.createElement('div');
-  modal.className = 'modal-foto';
-  modal.tabIndex = -1;
-  modal.innerHTML = `
-    <div class="modal-conteudo" role="dialog" aria-modal="true" aria-label="Foto do veículo">
-      <button class="modal-close" aria-label="Fechar">×</button>
-      <div class="photo-frame" title="${titulo || 'Foto'}">
-        <img class="photo-img" src="${fotoUrl}" alt="${titulo || 'Foto do veículo'}"
-             onerror="this.src='https://via.placeholder.com/800x600?text=Foto+não+disponível'">
-      </div>
-      <div class="photo-caption">${titulo || ''}</div>
-      <div class="photo-actions">
-        <button class="btn btn-open" title="Abrir em nova aba">Abrir</button>
-        <button class="btn btn-download" title="Baixar foto">Baixar</button>
-      </div>
-    </div>
-  `;
-
-  document.body.appendChild(modal);
-
-  // focar para acessibilidade
-  setTimeout(()=> modal.focus(), 50);
-
-  // fechar clicando fora
-  modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
-
-  // botão fechar
-  modal.querySelector('.modal-close').addEventListener('click', ()=> modal.remove());
-
-  // abrir em nova aba
-  modal.querySelector('.btn-open').addEventListener('click', ()=>{
-    window.open(fotoUrl, '_blank', 'noopener');
-  });
-
-  // baixar
-  modal.querySelector('.btn-download').addEventListener('click', ()=>{
-    // tentativa de download via link
-    const a = document.createElement('a');
-    a.href = fotoUrl;
-    a.download = (titulo || 'foto').replace(/\s+/g,'_') + '.jpg';
-    // algumas URLs (Google) bloqueiam download, então abrir em nova aba como fallback
-    try {
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    } catch (err) {
-      window.open(fotoUrl, '_blank', 'noopener');
-    }
-  });
-
-  // ESC para fechar
-  function onKey(e){
-    if (e.key === 'Escape') { modal.remove(); document.removeEventListener('keydown', onKey); }
-  }
-  document.addEventListener('keydown', onKey);
-
-  // cleanup ao remover do DOM
-  const obs = new MutationObserver(()=> {
-    if (!document.body.contains(modal)) {
-      document.removeEventListener('keydown', onKey);
-      obs.disconnect();
-    }
-  });
-  obs.observe(document.body, { childList:true });
-}
-// Listener do botão novo
-document.addEventListener('DOMContentLoaded', () => {
-  const btnVerFoto = document.getElementById('btnVerFoto');
-  const fzInput = document.getElementById('fz');
-  const modeloEl = document.getElementById('modelo');
-
-  if (btnVerFoto && fzInput) {
-    btnVerFoto.addEventListener('click', async () => {
-      const fz = fzInput.value || '';
-      if (!fz.trim()) { alert('Informe o FZ antes de ver a foto.'); return; }
-      btnVerFoto.disabled = true;
-      btnVerFoto.textContent = 'Carregando...';
-      const fotoUrl = await fetchFotoByFz(fz);
-      btnVerFoto.disabled = false;
-      btnVerFoto.textContent = '📷 Foto';
-      abrirFoto(fotoUrl, modeloEl ? modeloEl.textContent.trim() : '');
+    const map = {};
+    lines.forEach(l=>{
+      const cols = splitSmart(l);
+      const chave = (cols[idxChave]||'').trim();
+      if(!chave) return;
+      const tabelaNum = parseNumeroBR(cols[idxTabela]||'');
+      if(isNaN(tabelaNum)) return;
+      map[chave.toUpperCase()] = {
+        tabela: tabelaNum,
+        cols   : cols // guarda linha completa para pegar colunas I,K,M,O,Q
+      };
     });
+    return map;
   }
-});
 
-    // Atualiza preço se a função existir
-    if (typeof atualizarPrecoFab === 'function') {
-      setTimeout(() => atualizarPrecoFab(), 300);
+  // Retorna valor de venda para a ação escolhida
+  function valorVendaAcao(item, acao){
+    if(!item) return 0;
+    const colLetter = FAB_ACTION_COLS[acao];
+    if(!colLetter) return 0;
+    const idx = colLetterToIdx(colLetter);
+    if(idx<0 || idx >= item.cols.length) return 0;
+    const v = parseNumeroBR(item.cols[idx]);
+    return isNaN(v)?0:v;
+  }
+
+  async function atualizarPrecoFab(){
+    const ano = anoSelecionadoFab?.();
+    await garantirPrecosAno(ano);
+    const chave = chavePrecoFab();
+    const tabelaSpan = document.getElementById('faValorTabela');
+    const vendaSpan  = document.getElementById('faValorVenda');
+    const descValSpan = document.getElementById('faDesconto');
+    const descPercSpan = document.getElementById('faDescontoPerc');
+    if(!tabelaSpan || !vendaSpan){
+      return;
     }
-
-    // Init genérico se existir
-    if (typeof init === 'function') {
-      init();
+    if(!chave){
+      tabelaSpan.textContent = "R$ 0,00";
+      vendaSpan.textContent  = "R$ 0,00";
+      if(descValSpan)  descValSpan.textContent  = "R$ 0,00";
+      if(descPercSpan) descPercSpan.textContent = "0,00%";
+      return;
     }
+    const dataAno = fabPrecosPorAno[ano] || {};
+    const item = dataAno[chave.toUpperCase()];
+    const tabelaNum = item ? item.tabela : 0;
+    tabelaSpan.textContent = item ? formatar(item.tabela) : "R$ 0,00";
+    const acaoAtual = acaoFabEl?.value || "Estoque";
+    const venda = valorVendaAcao(item, acaoAtual);
+    vendaSpan.textContent = formatar(venda);
 
-}
+    // === Cálculo do desconto ===
+    const descontoValor = Math.max(0, tabelaNum - venda);
+    const descontoPerc  = (tabelaNum > 0 && venda <= tabelaNum)
+      ? (descontoValor / tabelaNum) * 100
+      : 0;
+
+    if(descValSpan)  descValSpan.textContent  = formatar(descontoValor);
+    if(descPercSpan) descPercSpan.textContent = descontoPerc.toFixed(2).replace('.',',') + '%';
+  }
+
+  // Ajusta listener para também recalcular venda
+  acaoFabEl?.addEventListener('change', ()=>{
+    const val = acaoFabEl.value;
+    const map = {
+      "Estoque":               {bg:"#8dc2ff", fg:"#001c3b"},
+      "C.E.ABAST":             {bg:"#ffc35b", fg:"#301e01"},
+      "Frigorificado":         {bg:"#e1bee7", fg:"#25002c"},
+      "Postos de Combustiveis":{bg:"#a2f3a5", fg:"#002401"},
+      "Mais Alimentos":        {bg:"#fff48f", fg:"#383200"}
+    };
+    const cfg = map[val] || {bg:"",fg:""};
+    acaoFabEl.style.backgroundColor = cfg.bg;
+    acaoFabEl.style.color = cfg.fg;
+    acaoFabEl.style.fontWeight = cfg.bg? "900":"";
+    atualizarPrecoFab();
+  });
+
+  // Re-hook listener de ano (já existe; apenas garante chamada de preço se mudar ano)
+  anoFabEl?.addEventListener('change', ()=> {
+    atualizarPrecoFab();
+  });
+
+  // Converte links comuns para formatos diretos (Drive / Google Fotos)
+  function converterUrlFoto(url) {
+    if (!url) return '';
+    url = url.trim();
+    if (!url) return '';
+    if (url.includes('lh3.googleusercontent.com')) return url;
+    if (url.includes('drive.google.com/uc?export=view')) return url;
+    const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+    if (match) return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+    // fallback: retorna original
+    return url;
+  }
+
+  // Busca foto no CSV pelo FZ (espera FZ com até 6 dígitos)
+  async function fetchFotoByFz(fzRaw) {
+    const fz = (fzRaw || '').replace(/\D/g, '').padStart(6, '0');
+    if (!fz || fz === '000000') return '';
+    try {
+      const res = await fetch(sheetCsvUrl, { cache: 'no-store' });
+      const txt = await res.text();
+      const rows = txt.trim().split('\n');
+      rows.shift(); // remove cabeçalho
+      for (const line of rows) {
+        const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, "").trim());
+        const rowFz = (cols[0] || '').padStart(6, '0');
+        if (rowFz === fz) {
+          // coluna 9 = índice 8
+          const rawUrl = cols[8] || '';
+          return converterUrlFoto(rawUrl);
+        }
+      }
+      return '';
+    } catch (e) {
+      console.error('Erro ao buscar foto:', e);
+      return '';
+    }
+  }
+
+  // Modal simples para exibir a foto
+  function abrirFoto(fotoUrl, titulo = '') {
+    if (!fotoUrl) { alert('Foto não disponível.'); return; }
+
+    const modal = document.createElement('div');
+    modal.className = 'modal-foto';
+    modal.tabIndex = -1;
+    modal.innerHTML = `
+      <div class="modal-conteudo" role="dialog" aria-modal="true" aria-label="Foto do veículo">
+        <button class="modal-close" aria-label="Fechar">×</button>
+        <div class="photo-frame" title="${titulo || 'Foto'}">
+          <img class="photo-img" src="${fotoUrl}" alt="${titulo || 'Foto do veículo'}"
+              onerror="this.src='https://via.placeholder.com/800x600?text=Foto+não+disponível'">
+        </div>
+        <div class="photo-caption">${titulo || ''}</div>
+        <div class="photo-actions">
+          <button class="btn btn-open" title="Abrir em nova aba">Abrir</button>
+          <button class="btn btn-download" title="Baixar foto">Baixar</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // focar para acessibilidade
+    setTimeout(()=> modal.focus(), 50);
+
+    // fechar clicando fora
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+
+    // botão fechar
+    modal.querySelector('.modal-close').addEventListener('click', ()=> modal.remove());
+
+    // abrir em nova aba
+    modal.querySelector('.btn-open').addEventListener('click', ()=>{
+      window.open(fotoUrl, '_blank', 'noopener');
+    });
+
+    // baixar
+    modal.querySelector('.btn-download').addEventListener('click', ()=>{
+      // tentativa de download via link
+      const a = document.createElement('a');
+      a.href = fotoUrl;
+      a.download = (titulo || 'foto').replace(/\s+/g,'_') + '.jpg';
+      // algumas URLs (Google) bloqueiam download, então abrir em nova aba como fallback
+      try {
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } catch (err) {
+        window.open(fotoUrl, '_blank', 'noopener');
+      }
+    });
+
+    // ESC para fechar
+    function onKey(e){
+      if (e.key === 'Escape') { modal.remove(); document.removeEventListener('keydown', onKey); }
+    }
+    document.addEventListener('keydown', onKey);
+
+    // cleanup ao remover do DOM
+    const obs = new MutationObserver(()=> {
+      if (!document.body.contains(modal)) {
+        document.removeEventListener('keydown', onKey);
+        obs.disconnect();
+      }
+    });
+    obs.observe(document.body, { childList:true });
+  }
+  // Listener do botão novo
+  document.addEventListener('DOMContentLoaded', () => {
+    const btnVerFoto = document.getElementById('btnVerFoto');
+    const fzInput = document.getElementById('fz');
+    const modeloEl = document.getElementById('modelo');
+
+    if (btnVerFoto && fzInput) {
+      btnVerFoto.addEventListener('click', async () => {
+        const fz = fzInput.value || '';
+        if (!fz.trim()) { alert('Informe o FZ antes de ver a foto.'); return; }
+        btnVerFoto.disabled = true;
+        btnVerFoto.textContent = 'Carregando...';
+        const fotoUrl = await fetchFotoByFz(fz);
+        btnVerFoto.disabled = false;
+        btnVerFoto.textContent = '📷 Foto';
+        abrirFoto(fotoUrl, modeloEl ? modeloEl.textContent.trim() : '');
+      });
+    }
+  });
+
+  if (typeof atualizarPrecoFab === 'function') {
+    setTimeout(() => atualizarPrecoFab(), 300);
+  }
+
+  // Init principal
+  if (typeof init === 'function') {
+    init();
+  }
