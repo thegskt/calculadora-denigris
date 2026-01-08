@@ -2192,11 +2192,30 @@ function init(){
     window._adjustHeaderTimer = setTimeout(adjustBodyPadding, 120);
   });
 
-  const toggle = document.querySelector('.nav-toggle');
-  const nav = document.querySelector('.nav-menu');
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.querySelector('.nav-toggle');
+    const nav = document.querySelector('.nav-menu');
 
-  toggle.addEventListener('click', () => {
-    nav.classList.toggle('open');
+    if (!toggle || !nav) return;
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      nav.classList.toggle('open');
+    });
+
+    // Fecha ao clicar em um link do menu
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('open');
+      });
+    });
+
+    // Fecha ao clicar fora do menu (mobile)
+    document.addEventListener('click', (e) => {
+      if (!nav.contains(e.target) && !toggle.contains(e.target)) {
+        nav.classList.remove('open');
+      }
+    });
   });
 
 const FAB_PRECO_URLS = {
@@ -2500,11 +2519,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Inicialização extra
-document.addEventListener('DOMContentLoaded', ()=>{
-  // se já tiver algo selecionado após init
-  setTimeout(()=> atualizarPrecoFab(), 300);
-});
+    // Atualiza preço se a função existir
+    if (typeof atualizarPrecoFab === 'function') {
+      setTimeout(() => atualizarPrecoFab(), 300);
+    }
 
-document.addEventListener('DOMContentLoaded', init);
+    // Init genérico se existir
+    if (typeof init === 'function') {
+      init();
+    }
 
+}
