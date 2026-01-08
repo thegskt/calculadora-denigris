@@ -1,4 +1,3 @@
-// Fonte de dados (CSV do Google Sheets)
 const sheetCsvUrl =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw"
   + "/pub?gid=2122951741&single=true&output=csv";
