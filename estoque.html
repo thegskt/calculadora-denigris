@@ -38,7 +38,14 @@
     </header>
     <div id="groups"></div>
   </div>
+  <script>
+    const toggle = document.querySelector('.nav-toggle');
+    const nav = document.querySelector('.nav-menu');
 
+    toggle.addEventListener('click', () => {
+      nav.classList.toggle('open');
+    });
+  </script>
   <script src="script.js"></script>
   <script src="estoque.js"></script>
   
