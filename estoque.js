@@ -17,23 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let itens = [];
   const FAM_ORDER = ['Accelo','Atego','Actros','Axor','Arocs','Outros'];
 
-  const toggle = document.querySelector('.nav-toggle');
-  const nav = document.querySelector('.nav-menu');
-
-  if (!toggle || !nav) return;
-
-  toggle.addEventListener('click', (e) => {
-    e.stopPropagation(); // 🔑 impede interferência
-    nav.classList.toggle('open');
-  });
-
-  // Fecha menu ao clicar fora
-  document.addEventListener('click', (e) => {
-    if (!nav.contains(e.target) && !toggle.contains(e.target)) {
-      nav.classList.remove('open');
-    }
-  });
-
   /* =========================
     HELPERS
   ========================= */
