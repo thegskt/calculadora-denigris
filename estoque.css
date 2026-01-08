@@ -22,15 +22,15 @@ h1{font-size:20px;margin:0}
 }
 .btn-primary{background:#23408e;color:#fff;border-color:#23408e}
 
-#groups{display:flex;flex-direction:column;gap:8px}
-.acc{background:#fff;border:1px solid #e6edf7;border-radius:10px;overflow:hidden;box-shadow:0 1px 6px rgba(20,40,80,.03);position:relative;z-index:1}
-.acc-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;cursor:pointer;background:#f8fbff;position:relative;z-index:2}
-.acc-title{display:flex;align-items:center;gap:10px;font-weight:700}
-.badge{background:#e8efff;color:#1e2f5c;border-radius:999px;padding:2px 8px;font-size:12px;font-weight:700}
-.chev{transition:transform .2s ease}
-.acc.open .chev{transform:rotate(180deg)}
-.acc-c{display:none}
-.acc.open .acc-c{display:block}
+  #groups{display:flex;flex-direction:column;gap:8px}
+  .acc{background:#fff;border:1px solid #e6edf7;border-radius:10px;overflow:hidden;box-shadow:0 1px 6px rgba(20,40,80,.03);position:relative;z-index:1}
+  .acc-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;cursor:pointer;background:#f8fbff;position:relative;z-index:2}
+  .acc-title{display:flex;align-items:center;gap:10px;font-weight:700}
+  .badge{background:#e8efff;color:#1e2f5c;border-radius:999px;padding:2px 8px;font-size:12px;font-weight:700}
+  .chev{transition:transform .2s ease}
+  .acc.open .chev{transform:rotate(180deg)}
+  .acc-c{display:none}
+  .acc.open .acc-c{display:block}
   .row{
     display:flex;
     flex-direction:column;
@@ -411,25 +411,23 @@ h1{font-size:20px;margin:0}
   .btn { font-size: 13px; padding: 8px 10px; min-height: 40px; border-radius:8px; }
   .sub-acc-h, .subheader { padding: 6px 8px; font-size: 13px; }
   
-  .nav-toggle {
-    display: block;
-    z-index: 2000;
-  }
+    .nav-toggle {
+      display: block;
+    }
 
-  .nav-menu {
-    display: none;
-    position: flex;
-    top: 64px;
-    right: 16px;
-    background: #0b1c2d;
-    flex-direction: column;
-    padding: 16px;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
-    min-width: 180px;
-  }
+    .nav-menu {
+      position: absolute;
+      top: 64px;
+      right: 24px;
+      background: #0b1c2d;
+      flex-direction: column;
+      padding: 16px;
+      border-radius: 10px;
+      display: none;
+    }
 
-  .nav-menu.open {
-    display: flex;
-  }
+    .nav-menu.open {
+      display: flex;
+    }
 }
+
