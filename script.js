@@ -2175,8 +2175,8 @@ function applyQueryParams(){
   // Adicionar event listeners para os botões
   els('btnEstoqueProprio')?.addEventListener('click', showCalcProprio);
   els('btnEstoqueFabrica')?.addEventListener('click', showCalcFabrica);
-  
-  }
+
+
 
   // Ajuste dinâmico do padding-top do body para evitar que o header fixe sobreponha o conteúdo
   const adjustBodyPadding = () => {
@@ -2218,7 +2218,7 @@ function applyQueryParams(){
         nav.classList.remove('open');
       }
     });
-
+  }
   const FAB_PRECO_URLS = {
     "25/25": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=320257334&single=true&output=csv",
     "25/26": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=1188555781&single=true&output=csv"
