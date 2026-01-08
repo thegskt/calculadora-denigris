@@ -226,7 +226,14 @@
       </div><!-- .container -->
     </div><!-- #calcEstoqueFabrica -->
   </div><!-- #mainContent -->
+  <script>
+    const toggle = document.querySelector('.nav-toggle');
+    const nav = document.querySelector('.nav-menu');
 
+    toggle.addEventListener('click', () => {
+      nav.classList.toggle('open');
+    });
+  </script>
   <script src="script.js"></script>
   <script>
     const toggle = document.querySelector('.nav-toggle');
