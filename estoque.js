@@ -246,11 +246,15 @@ function converterUrlFoto(url) {
 }
 
 
-const toggle = document.querySelector('.nav-toggle');
-  const nav = document.querySelector('.nav-menu');
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleBtn = document.querySelector('.nav-toggle');
+  const navMenu = document.querySelector('.nav-menu');
 
-  toggle.addEventListener('click', () => {
-    nav.classList.toggle('open');
+  if (!toggleBtn || !navMenu) return;
+
+  toggleBtn.addEventListener('click', () => {
+    navMenu.classList.toggle('open');
+  });
 });
 
 
@@ -301,23 +305,30 @@ async function carregar(){
 
 // Função para abrir modal com foto
 function abrirFoto(fotoUrl, modelo) {
-  console.log('Abrindo foto:', fotoUrl); // Debug
-  
   if (!fotoUrl || fotoUrl.trim() === '') {
     alert('URL da foto não disponível');
     return;
   }
-  
+
   const modal = document.createElement('div');
   modal.className = 'modal-foto';
   modal.innerHTML = `
     <div class="modal-conteudo">
       <button class="modal-fechar">&times;</button>
       <h3>${modelo}</h3>
-      <img src="${fotoUrl}" alt="${modelo}" style="max-width: 100%; height: auto;" onerror="this.src='https://via.placeholder.com/400?text=Foto+não+disponível'">
+      <img src="${fotoUrl}" alt="${modelo}">
     </div>
   `;
 
-  }
+  document.body.appendChild(modal);
+
+  modal.querySelector('.modal-fechar').addEventListener('click', () => {
+    modal.remove();
+  });
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.remove();
+  });
+}
 
 carregar();
