@@ -120,19 +120,6 @@
   cursor: pointer;
 }
 
-    /* Mobile Header */
-    @media (max-width: 768px) {
-      .main-header {
-        padding: 0 1rem;
-      }
-      .main-header .logo-menu img {
-        height: 28px;
-      }
-      .main-header .logo-denigris {
-        height: 36px !important;
-        max-width: 100px !important;
-      }
-    }
     /* MOBILE */
     @media (max-width: 768px) {
       .nav-toggle {
@@ -579,28 +566,6 @@
         flex: 1 1 0;       /* divide igualmente */
         min-width: 0;      /* permite encolher no iOS */
         width: auto !important; /* evita width:100% de outras regras */
-      }
-      .main-header {
-        min-height: 44px;
-        padding: 0 1vw;
-      }
-      .main-header .logo-menu {
-        gap: 0.5rem;
-      }
-      .main-header img {
-        height: 22px;
-        max-width: 60px;
-      }
-      .main-header .logo-denigris {
-        height: 30px !important;
-        max-width: 80px !important;
-      }
-      .main-header nav {
-        gap: 0.5rem;
-      }
-      .main-header nav a {
-        font-size: 0.75rem;
-        padding: 0.9px 0;
       }
       .header-space {
         /* espaço reservado para header fixo */
