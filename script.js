@@ -2500,4 +2500,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
 });
 
 document.addEventListener('DOMContentLoaded', init);
+}
 
+carregar();

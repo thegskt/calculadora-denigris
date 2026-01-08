@@ -43,21 +43,13 @@
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script src="login.js" defer></script>
   <script>
-    // Toggle mobile menu
-    const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-    navToggle?.addEventListener('click', () => {
-      navMenu.classList.toggle('open');
-    });
+    const toggle = document.querySelector('.nav-toggle');
+    const nav = document.querySelector('.nav-menu');
 
-    // Close menu on link click
-    navMenu?.addEventListener('click', (e) => {
-      if (e.target.tagName === 'A') {
-        navMenu.classList.remove('open');
-      }
+    toggle.addEventListener('click', () => {
+      nav.classList.toggle('open');
     });
   </script>
-
 
 </body>
 </html>
