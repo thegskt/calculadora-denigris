@@ -86,35 +86,6 @@ h1{font-size:20px;margin:0}
   height: 38px;
 }
 
-.nav-menu {
-  display: flex;
-  gap: 24px;
-}
-
-.nav-menu a {
-  color: #e5e7eb;
-  text-decoration: none;
-  font-size: 15px;
-  padding-bottom: 4px;
-  border-bottom: 2px solid transparent;
-}
-
-.nav-menu a.active,
-.nav-menu a:hover {
-  border-color: #3b82f6;
-}
-
-.nav-toggle {
-  display: block;
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 24px;
-  cursor: pointer;
-  position: relative;
-  z-index: 3000;
-}
-
     .main-header .logo-menu {
       display: flex;
       align-items: center;
@@ -411,23 +382,5 @@ h1{font-size:20px;margin:0}
   .btn { font-size: 13px; padding: 8px 10px; min-height: 40px; border-radius:8px; }
   .sub-acc-h, .subheader { padding: 6px 8px; font-size: 13px; }
   
-    .nav-toggle {
-      display: block;
-    }
-
-    .nav-menu {
-      position: absolute;
-      top: 64px;
-      right: 24px;
-      background: #0b1c2d;
-      flex-direction: column;
-      padding: 16px;
-      border-radius: 10px;
-      display: none;
-    }
-
-    .nav-menu.open {
-      display: flex;
-    }
 }
 
