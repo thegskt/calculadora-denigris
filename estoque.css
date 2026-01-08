@@ -418,7 +418,7 @@ h1{font-size:20px;margin:0}
 
   .nav-menu {
     display: none;
-    position: absolute;
+    position: flex;
     top: 64px;
     right: 16px;
     background: #0b1c2d;
