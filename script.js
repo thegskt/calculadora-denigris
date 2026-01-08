@@ -2192,46 +2192,12 @@ function init(){
     window._adjustHeaderTimer = setTimeout(adjustBodyPadding, 120);
   });
 
-  // NAV: centralizar comportamento do toggle para todas as páginas
-  const navToggle = document.querySelector('.nav-toggle');
-  const navMenu = document.getElementById('main-nav') || document.querySelector('.nav-menu');
-  const innerNavToggle = document.querySelector('.inner-nav-toggle');
-  const setNavState = (open)=>{
-    if (!navMenu || !navToggle) return;
-    if(open){
-      navMenu.classList.add('open');
-      navToggle.setAttribute('aria-expanded','true');
-    } else {
-      navMenu.classList.remove('open');
-      navToggle.setAttribute('aria-expanded','false');
-    }
-  };
-  if (navToggle && navMenu){
-    navToggle.addEventListener('click', (e)=>{
-      e.preventDefault();
-      setNavState(!navMenu.classList.contains('open'));
-    });
-    if (innerNavToggle){
-      innerNavToggle.addEventListener('click', (e)=>{
-        e.preventDefault();
-        setNavState(!navMenu.classList.contains('open'));
-      });
-    }
-    // close on link click inside nav
-    navMenu.addEventListener('click', (e)=>{
-      if (e.target && e.target.tagName === 'A') setNavState(false);
-    });
-    // close on outside click when open (mobile)
-    document.addEventListener('click', (e)=>{
-      if (!navMenu.classList.contains('open')) return;
-      if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) setNavState(false);
-    });
-    // close nav when resizing to desktop width
-    window.addEventListener('resize', ()=>{
-      if (window.innerWidth >= 769) setNavState(false);
-    });
-  }
-}
+  const toggle = document.querySelector('.nav-toggle');
+  const nav = document.querySelector('.nav-menu');
+
+  toggle.addEventListener('click', () => {
+    nav.classList.toggle('open');
+  });
 
 const FAB_PRECO_URLS = {
   "25/25": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=320257334&single=true&output=csv",
