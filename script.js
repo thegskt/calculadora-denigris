@@ -2170,7 +2170,7 @@ function applyQueryParams(){
   }
   atualizarVarianteFab();
   preencherAcoes();
-  }
+  
 
   // Adicionar event listeners para os botões
   els('btnEstoqueProprio')?.addEventListener('click', showCalcProprio);
@@ -2526,3 +2526,4 @@ function applyQueryParams(){
   if (typeof init === 'function') {
     init();
   }
+}
