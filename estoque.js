@@ -181,121 +181,46 @@ document.addEventListener('DOMContentLoaded', () => {
       h.onclick = ()=>acc.classList.toggle('open');
     });
   }
-  /* =========================
-    FILTRO
-    ========================= */
-
-  function filtrar(){
-  const q = (busca.value || '').trim().toLowerCase();
-  if (!q) { render(itens); return; }
-  const qNum = q.replace(/\D/g,'');
-  const f = itens.filter(r =>
-    r.fz.includes(qNum) ||
-    r.modelo.toLowerCase().includes(q) ||
-    r.up.toLowerCase().includes(q) ||
-    r.anoMod.toLowerCase().includes(q) ||
-    (r.cor||'').toLowerCase().includes(q) ||
-    (r.variante||'').toLowerCase().includes(q)
-  );
-  render(f);
-  document.querySelectorAll('.acc').forEach(sec => {
-    sec.classList.add('open'); sec.querySelector('.acc-h')?.setAttribute('aria-expanded','true');
+ /* =========================
+     FILTRO + LOAD
+  ========================= */
+  busca.addEventListener('input', () => {
+    const q = busca.value.toLowerCase();
+    render(!q ? itens : itens.filter(r =>
+      r.modelo.toLowerCase().includes(q) ||
+      r.up.toLowerCase().includes(q) ||
+      r.anoMod.toLowerCase().includes(q)
+    ));
   });
-  document.querySelectorAll('.sub-acc').forEach(sub => {
-    sub.classList.add('open'); sub.querySelector('.sub-acc-h')?.setAttribute('aria-expanded','true');
-  });
-  }
-
-  busca.addEventListener('input', filtrar);
-
-  // Função para converter URL do Google Drive em URL de imagem direta
-  function converterUrlFoto(url) {
-    if (!url || url.trim() === '') return '';
-    
-    // Se já é Google Drive direto, retorna como está
-    if (url.includes('drive.google.com/uc?export=view')) return url;
-    
-    // Se é compartilhado do Drive, extrai o ID
-    const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
-    if (match) {
-      return `https://drive.google.com/uc?export=view&id=${match[1]}`;
-    }
-  
-  return url;
-  }
 
   async function carregar(){
-  try{
-    const res = await fetch(sheetCsvUrl, { cache:'no-store' });
+    const res = await fetch(sheetCsvUrl,{cache:'no-store'});
     const txt = await res.text();
-    const rows = txt.trim().split('\n'); 
-    
-    // Debug: mostrar cabeçalho
-    console.log('Cabeçalho:', rows[0]);
-    console.log('Primeira linha de dados:', rows[1]);
-    
-    rows.shift(); // cabeçalho
-    itens = rows.map((line, idx) => {
-      const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, "").trim());
-      
-      // Debug: mostrar TODAS as colunas da primeira linha
-      if (idx === 0) {
-        console.log('=== PRIMEIRA LINHA ===');
-        cols.forEach((col, i) => {
-          console.log(`Coluna ${i}: ${col}`);
-        });
-        console.log('Total de colunas:', cols.length);
-      }
-      
-      const fotoUrl = converterUrlFoto(cols[8] || '');
-      console.log(`Veículo: ${cols[1]} | Foto URL: ${fotoUrl}`);
-      
+    const rows = txt.trim().split('\n');
+    rows.shift();
+
+    itens = rows.map(l=>{
+      const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v=>v.replace(/^"|"$/g,''));
       return {
-        fz: (cols[0] || '').padStart(6, "0"),
-        modelo: cols[1] || '',
-        up: cols[2] || '',
-        anoMod: cols[3] || '',
-        valorTabela: parseFloat((cols[4] || '0').replace(/\./g,"").replace(/,/g,".")) || 0,
-        patio: cols[7] || '',   // 8ª
-        cor: cols[5] || '',     // 6ª
-        variante: cols[6] || '', // 7ª
-        fotoUrl: fotoUrl  // 9ª - CONVERTIDA
+        fz:c[0], modelo:c[1], up:c[2], anoMod:c[3],
+        valorTabela:parseFloat(c[4].replace('.','').replace(',','.'))||0,
+        cor:c[5], variante:c[6], patio:c[7],
+        fotoUrl:c[8]
       };
     });
+
     render(itens);
-  }catch(e){
-    console.error('Erro ao carregar estoque:', e);
-    groupsEl.innerHTML = '<div class="acc"><div class="acc-h"><div class="acc-title"><span>Erro</span></div></div><div class="acc-c"><div class="rows"><div class="row"><div>Não foi possível carregar o estoque.</div></div></div></div></div>';
-  }
   }
 
-  // Função para abrir modal com foto
-  function abrirFoto(fotoUrl, modelo) {
-    if (!fotoUrl || fotoUrl.trim() === '') {
-      alert('URL da foto não disponível');
-      return;
-    }
-
-  const modal = document.createElement('div');
-  modal.className = 'modal-foto';
-  modal.innerHTML = `
-    <div class="modal-conteudo">
-      <button class="modal-fechar">&times;</button>
-      <h3>${modelo}</h3>
-      <img src="${fotoUrl}" alt="${modelo}">
-    </div>
-  `;
-
-  document.body.appendChild(modal);
-
-  modal.querySelector('.modal-fechar').addEventListener('click', () => {
-    modal.remove();
-  });
-
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) modal.remove();
-  });
+  function abrirFoto(url,modelo){
+    const m=document.createElement('div');
+    m.className='modal-foto';
+    m.innerHTML=`<div class="modal-conteudo"><button>&times;</button><h3>${modelo}</h3><img src="${url}"></div>`;
+    m.onclick=e=>e.target===m&&m.remove();
+    m.querySelector('button').onclick=()=>m.remove();
+    document.body.appendChild(m);
   }
+
   carregar();
 
 });
