@@ -245,6 +245,15 @@ function converterUrlFoto(url) {
   return url;
 }
 
+
+const toggle = document.querySelector('.nav-toggle');
+  const nav = document.querySelector('.nav-menu');
+
+  toggle.addEventListener('click', () => {
+    nav.classList.toggle('open');
+});
+
+
 async function carregar(){
   try{
     const res = await fetch(sheetCsvUrl, { cache:'no-store' });
