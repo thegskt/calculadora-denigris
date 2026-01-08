@@ -125,9 +125,6 @@
       .main-header {
         padding: 0 1rem;
       }
-      .nav-toggle {
-        display: block;
-      }
       .main-header .logo-menu img {
         height: 28px;
       }
@@ -136,9 +133,8 @@
         max-width: 100px !important;
       }
     }
-
-    /* Desktop Nav */
-    @media (min-width: 769px) {
+    /* MOBILE */
+    @media (max-width: 768px) {
       .nav-toggle {
         display: block;
       }
