@@ -2195,16 +2195,6 @@ function applyQueryParams(){
     window._adjustHeaderTimer = setTimeout(adjustBodyPadding, 120);
   });
 
-    const toggle = document.querySelector('.nav-toggle');
-    const nav = document.querySelector('.nav-menu');
-
-    if (!toggle || !nav) return;
-
-    toggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      nav.classList.toggle('open');
-    });
-
     // Fecha ao clicar em um link do menu
     nav.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
