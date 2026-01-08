@@ -62,7 +62,7 @@ h1{font-size:20px;margin:0}
 .main-header {
   background: #0b1c2d;
   padding: 12px 24px;
-  position: fixed;
+  position: relative;
   width: 100%;
   top: 0;
   z-index: 1000;
@@ -105,7 +105,7 @@ h1{font-size:20px;margin:0}
 }
 
 .nav-toggle {
-  display: none;
+  display: block;
   background: none;
   border: none;
   color: #fff;
