@@ -2544,20 +2544,3 @@ async function fetchFotoByFz(fzRaw) {
     } else if (typeof init === 'function') {
       window.addEventListener('load', init);
     }
-
-    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
-
-    const supabase = createClient(
-      "https://abqsyirmlskhzijsfzwi.supabase.co",
-      "SUA_ANON_PUBLIC_KEY_AQUI"
-    )
-
-    const { data } = await supabase.auth.getUser()
-
-    if (!data.user) {
-      window.location.href = "login.html"
-      
-    }
-
-    await supabase.auth.signOut()
-    window.location.href = "login.html"
