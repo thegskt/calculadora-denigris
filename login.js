@@ -1,23 +1,43 @@
-// AVISO: este login é apenas uma barreira simples no front-end (não é segurança real).
-const form = document.getElementById('loginForm');
-const msg = document.getElementById('msg');
-const btn = document.getElementById('btnGoogle');
-const params = new URLSearchParams(location.search);
-const next = params.get('next') || 'estoque.html';
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
 
-function goNext(){ location.replace(next); }
+// 🔹 CONFIG SUPABASE
+const supabase = createClient(
+  "https://abqsyirmlskhzijsfzwi.supabase.co",
+  "SUA_ANON_PUBLIC_KEY_AQUI"
+)
 
-// Força sair sempre que abrir o login (zera sessão/cookie)
-document.addEventListener('DOMContentLoaded', () => {
-  window.netlifyIdentity?.logout();
-});
+// 🔹 ELEMENTOS
+const msg = document.getElementById('msg')
+const btn = document.getElementById('btnGoogle')
 
-if (window.netlifyIdentity) {
-  netlifyIdentity.on('login', () => goNext());
-  netlifyIdentity.on('error', (e) => { msg.textContent = 'Falha ao autenticar. Tente novamente.'; console.error(e); });
-  netlifyIdentity.init();
+// 🔹 REDIRECIONAMENTO (?next=pagina.html)
+const params = new URLSearchParams(window.location.search)
+const next = params.get('next') || 'estoque.html'
+
+// 🔹 LOGIN GOOGLE
+btn?.addEventListener('click', async () => {
+  msg.textContent = 'Redirecionando para o Google...'
+
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: `${window.location.origin}/${next}`
+    }
+  })
+
+  if (error) {
+    msg.textContent = 'Falha ao autenticar. Tente novamente.'
+    console.error(error)
+  }
+})
+
+// 🔹 SE JÁ ESTIVER LOGADO, PULA O LOGIN
+const checkSession = async () => {
+  const { data } = await supabase.auth.getUser()
+
+  if (data.user) {
+    location.replace(next)
+  }
 }
 
-btn?.addEventListener('click', () => {
-  netlifyIdentity?.open('login');
-});
+checkSession()
