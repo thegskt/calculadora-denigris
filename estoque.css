@@ -142,6 +142,12 @@ h1{font-size:20px;margin:0}
   font-size: 14px;
 }
 
+.search-input:focus {
+  outline: none;
+  border-color: #23408e;
+  box-shadow: 0 0 0 3px rgba(35,64,142,.15);
+}
+
 /* ==== MOBILE BASE ==== */
 @media (max-width:720px){
   .wrap > header { margin-bottom: 6px; }
@@ -277,7 +283,7 @@ h1{font-size:20px;margin:0}
   .tools input[type=search],
   .search-input {
     flex: 1 1 auto;
-    width: auto;
+    width: 100%;
     font-size: 14px;
     padding: 8px 10px;
     min-height: 40px;
