@@ -1,84 +1,43 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Login - DN</title>
-  <link rel="icon" type="image/png" href="Imagens/icon.png"/>
-  <link rel="stylesheet" href="login.css">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Login | Sistema</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="login.css" />
 </head>
 <body>
-  <!-- CABEÇALHO -->
-  <header class="main-header">
-    <div class="header-container">
-      <div class="logo-area">
-        <a href="home.html" class="logo-link">
-        <img src="Imagens/Mercedes-Logo.png" alt="Mercedes-Benz Logo">
-        <img src="Imagens/Logo_De Nigris Branco.png" alt="De Nigris Logo" class="logo-denigris">
-        </a>
+
+  <div class="login-container">
+    <div class="login-card">
+
+      <h1 class="logo">📦 Sistema Estoque</h1>
+      <p class="subtitle">Acesse sua conta</p>
+
+      <button id="googleLogin" class="btn google">
+        Entrar com Google
+      </button>
+
+      <div class="divider">
+        <span>ou</span>
       </div>
 
-      <button class="nav-toggle" aria-label="Menu">☰</button>
+      <form id="emailForm">
+        <input type="email" id="email" placeholder="E-mail" required />
+        <input type="password" id="password" placeholder="Senha" required />
 
-      <nav class="nav-menu">
-        <a class="active" href="home.html">Home</a>
-        <a href="index.html">Calculadora</a>
-        <a href="estoque.html">Estoque</a>
-        <a href="login.html">Login</a>
-      </nav>
+        <button type="submit" class="btn primary">
+          Entrar
+        </button>
+      </form>
+
+      <button id="registerBtn" class="btn link">
+        Criar conta
+      </button>
+
     </div>
-  </header>
-  <div class="header-space"></div>
+  </div>
 
-<main class="login-wrap">
-  <section class="login-card">
-    <h1>Bem-vindo</h1>
-    <p class="subtitle">Acesse o sistema De Nigris</p>
-
-    <!-- LOGIN GOOGLE -->
-    <button id="btnGoogle" class="btn btn-google" type="button">
-      <span class="icon">G</span>
-      Entrar com Google
-    </button>
-
-    <div class="divider">
-      <span>ou</span>
-    </div>
-
-    <!-- LOGIN EMAIL -->
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" placeholder="seu@email.com" required>
-    </div>
-
-    <div class="form-group">
-      <label for="password">Senha</label>
-      <input type="password" id="password" placeholder="••••••••" required>
-    </div>
-
-    <button id="btnLoginEmail" class="btn btn-primary">
-      Entrar
-    </button>
-
-    <button id="btnRegisterEmail" class="btn btn-outline">
-      Criar conta
-    </button>
-
-    <div id="msg" class="msg" aria-live="polite"></div>
-  </section>
-</main>
-
-  <!-- Widget do Supabase -->
   <script type="module" src="login.js"></script>
-  <script>
-    const toggle = document.querySelector('.nav-toggle');
-    const nav = document.querySelector('.nav-menu');
-
-    toggle.addEventListener('click', () => {
-      nav.classList.toggle('open');
-    });
-  </script>
-
 </body>
 </html>
