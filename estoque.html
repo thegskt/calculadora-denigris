@@ -38,6 +38,12 @@
     </header>
     <div id="groups"></div>
   </div>
+
+  <script type="module">
+    import { requireAuth } from './auth.js'
+    await requireAuth('estoque.html')
+  </script>
+
   <script>
     const toggle = document.querySelector('.nav-toggle');
     const nav = document.querySelector('.nav-menu');

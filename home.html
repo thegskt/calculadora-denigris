@@ -62,6 +62,11 @@
   <p>© 2026 De Nigris • Sistema Interno</p>
 </footer>
 
+<script type="module">
+    import { requireAuth } from './auth.js'
+    await requireAuth('estoque.html')
+</script>
+
 <script>
   const toggle = document.querySelector('.nav-toggle');
   const nav = document.querySelector('.nav-menu');
