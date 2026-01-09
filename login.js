@@ -12,7 +12,7 @@ const btn = document.getElementById('btnGoogle')
 
 // 🔹 REDIRECIONAMENTO (?next=pagina.html)
 const params = new URLSearchParams(window.location.search)
-const next = params.get('next') || 'estoque.html'
+const next = params.get('next') || 'home.html'
 
 // 🔹 LOGIN GOOGLE
 btn?.addEventListener('click', async () => {
