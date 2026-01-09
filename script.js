@@ -1591,6 +1591,27 @@ const RAW_ACOES = `
     '0869T25/26' : ['Estoque']
     `;
 
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
+
+    const supabase = createClient(
+      "https://abqsyirmlskhzijsfzwi.supabase.co",
+      "SUA_ANON_PUBLIC_KEY_AQUI"
+    )
+
+    // 🔒 PROTEÇÃO DA PÁGINA
+    const checkAuth = async () => {
+      const { data } = await supabase.auth.getUser()
+
+      if (!data.user) {
+        window.location.href = "login.html?next=estoque.html"
+        return
+      }
+
+      // usuário logado → segue o código normal da página
+    }
+
+checkAuth()
+
     // --- DETALHAMENTO ESTOQUE PRÓPRIO ---
   const btnMostrarProtegido = document.getElementById('btnMostrarProtegido');
   const passwordGroup       = document.getElementById('passwordGroup');
