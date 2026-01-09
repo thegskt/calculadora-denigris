@@ -40,4 +40,41 @@ const checkSession = async () => {
   }
 }
 
+const emailInput = document.getElementById('email')
+const passwordInput = document.getElementById('password')
+const btnLoginEmail = document.getElementById('btnLoginEmail')
+const btnRegisterEmail = document.getElementById('btnRegisterEmail')
+
+// LOGIN COM EMAIL
+btnLoginEmail?.addEventListener('click', async () => {
+  msg.textContent = 'Entrando...'
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email: emailInput.value,
+    password: passwordInput.value
+  })
+
+  if (error) {
+    msg.textContent = error.message
+  } else {
+    location.replace(next)
+  }
+})
+
+// REGISTRO COM EMAIL
+btnRegisterEmail?.addEventListener('click', async () => {
+  msg.textContent = 'Criando conta...'
+
+  const { error } = await supabase.auth.signUp({
+    email: emailInput.value,
+    password: passwordInput.value
+  })
+
+  if (error) {
+    msg.textContent = error.message
+  } else {
+    msg.textContent = 'Conta criada! Verifique seu email.'
+  }
+})
+
 checkSession()
