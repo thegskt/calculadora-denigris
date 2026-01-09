@@ -52,10 +52,21 @@ body {
   opacity: 0.9;
 }
 
-.google {
+.btn.google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
   background: #ffffff;
   border: 1px solid #e5e7eb;
+  color: #111827;
   font-weight: 600;
+}
+
+.btn.google img {
+  width: 18px;
+  height: 18px;
 }
 
 .primary {
@@ -102,4 +113,9 @@ input:focus {
   margin: 0 10px;
   color: #64748b;
   font-size: 13px;
+}
+
+.btn.link {
+    font-weight: bold;
+    color: #012e72;
 }
