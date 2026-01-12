@@ -1817,26 +1817,25 @@ btnVerInfoEl?.addEventListener('click', () => {
 
     let valor = 0;
 
-    switch (tipo){
-      case 'vendedor':
-        valor = dados.precoVendedor;
-        inputEspecial.disabled = true;
-        break;
+    if (tipo === 'vendedor'){
+      inputEspecial.disabled = true;
+      valor = dados.precoVendedor;
 
-      case 'gerente':
-        valor = dados.precoGerente;
-        inputEspecial.disabled = true;
-        break;
+    } else if (tipo === 'gerente'){
+      inputEspecial.disabled = true;
+      valor = dados.precoGerente;
 
-      case 'oportunidade':
-        valor = dados.precoOportunidade;
-        inputEspecial.disabled = true;
-        break;
+    } else if (tipo === 'oportunidade'){
+      inputEspecial.disabled = true;
+      valor = dados.precoOportunidade;
 
-      case 'especial':
-        inputEspecial.disabled = false;
-        valor = parseFloat(inputEspecial.value.replace(',','.')) || 0;
-        break;
+    } else if (tipo === 'especial'){
+      inputEspecial.disabled = false;
+
+      const digitado = parseFloat(inputEspecial.value.replace(',','.')) || 0;
+
+      // 🔒 REGRA DE NEGÓCIO REAL
+      valor = Math.max(digitado, dados.precoOportunidade);
     }
 
     return valor;
@@ -1933,11 +1932,10 @@ btnVerInfoEl?.addEventListener('click', () => {
       if (document.getElementById('tipoPreco').value !== 'especial') return;
 
       const min = vendedorAtual.precoOportunidade;
-      let v = parseFloat(precoEspecialEl.value.replace(',','.')) || 0;
+      let v = parseFloat(precoEspecial.value.replace(',','.')) || 0;
 
       if (v < min){
-        v = min;
-        precoEspecialEl.value = min.toFixed(2);
+        precoEspecial.value = min.toFixed(2);
       }
 
       valorTabela = v;
@@ -1945,7 +1943,7 @@ btnVerInfoEl?.addEventListener('click', () => {
 
       atualizarValores();
     });
-    
+
 // ================== POPULAR SELECTS DINÂMICOS (FÁBRICA) ==================
 // NOVO FLUXO: 1) Ano -> 2) Família -> 3) UP -> Variante/Ações
 
