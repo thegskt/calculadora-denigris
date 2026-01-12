@@ -10,6 +10,13 @@ const supabase = createClient(
 const msg = document.getElementById('msg')
 const btn = document.getElementById('btnGoogle')
 
+const SESSION_HOURS = 12;
+
+function marcarLogin() {
+  const agora = Date.now();
+  localStorage.setItem('login_time', agora);
+}
+
 // 🔹 REDIRECIONAMENTO (?next=pagina.html)
 const params = new URLSearchParams(window.location.search)
 const next = params.get('next') || 'home.html'
