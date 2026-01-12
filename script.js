@@ -1763,34 +1763,45 @@ function atualizarValores(){
 function aplicarFZ(fzRaw){
   const raw = (fzRaw||'').replace(/\D/g,'').slice(0,6);
   if (fzEl) fzEl.value = raw;
+
   const key = raw.padStart(6,'0');
 
   if (vendedores[key]){
     vendedorAtual = vendedores[key];
+
     modeloEl && (modeloEl.innerText = vendedorAtual.modelo || '–');
     upEl     && (upEl.innerText     = vendedorAtual.up || '–');
     anoModEl && (anoModEl.innerText = vendedorAtual.anoMod || '–');
+
     valorTabela = calcularValorTabela(vendedorAtual);
     valorTabelaEl && (valorTabelaEl.innerText = formatar(valorTabela));
+
     infoCorEl && (infoCorEl.innerText = vendedorAtual.cor || '–');
     infoVarianteEl && (infoVarianteEl.innerText = vendedorAtual.variante || '–');
     infoPatioEl && (infoPatioEl.innerText = vendedorAtual.patio || '–');
+
     fzErrorEl && (fzErrorEl.innerText = '');
   } else {
     vendedorAtual = null;
+
     modeloEl && (modeloEl.innerText = '–');
     upEl     && (upEl.innerText     = '–');
     anoModEl && (anoModEl.innerText = '–');
-    valorTabela = calcularValorTabela(vendedorAtual);
-    valorTabelaEl && (valorTabelaEl.innerText = formatar(valorTabela));
+
+    valorTabela = 0;
+    valorTabelaEl && (valorTabelaEl.innerText = formatar(0));
+
     infoCorEl && (infoCorEl.innerText = '–');
     infoVarianteEl && (infoVarianteEl.innerText = '–');
     infoPatioEl && (infoPatioEl.innerText = '–');
-    fzErrorEl && (fzErrorEl.innerText = raw.length ? "FZ não encontrado" : "");
+
+    fzErrorEl && (fzErrorEl.innerText = raw.length ? 'FZ não encontrado' : '');
   }
+
   atualizarValores();
 }
-fzEl?.addEventListener('input', ()=> aplicarFZ(fzEl.value));
+
+fzEl?.addEventListener('input', () => aplicarFZ(fzEl.value));
 
 btnVerInfoEl?.addEventListener('click', () => {
   if (infoVeiculoEl) {
@@ -1798,126 +1809,143 @@ btnVerInfoEl?.addEventListener('click', () => {
   }
 });
 
-  function calcularValorTabela(dados) {
+  function calcularValorTabela(dados){
+    if (!dados) return 0;
+
     const tipo = document.getElementById('tipoPreco').value;
     const inputEspecial = document.getElementById('precoEspecial');
 
     let valor = 0;
 
-    if (tipo === 'vendedor') {
-      valor = dados.precoVendedor;
-      inputEspecial.disabled = true;
+    switch (tipo){
+      case 'vendedor':
+        valor = dados.precoVendedor;
+        inputEspecial.disabled = true;
+        break;
 
-    } else if (tipo === 'gerente') {
-      valor = dados.precoGerente;
-      inputEspecial.disabled = true;
+      case 'gerente':
+        valor = dados.precoGerente;
+        inputEspecial.disabled = true;
+        break;
 
-    } else if (tipo === 'oportunidade') {
-      valor = dados.precoOportunidade;
-      inputEspecial.disabled = true;
-
-    } else if (tipo === 'especial') {
-      inputEspecial.disabled = false;
-      const digitado = parseFloat(inputEspecial.value) || 0;
-
-      // 🚨 REGRA DE NEGÓCIO
-      if (digitado < dados.precoOportunidade) {
-        inputEspecial.value = dados.precoOportunidade.toFixed(2);
+      case 'oportunidade':
         valor = dados.precoOportunidade;
-      } else {
-        valor = digitado;
-      }
+        inputEspecial.disabled = true;
+        break;
+
+      case 'especial':
+        inputEspecial.disabled = false;
+        valor = parseFloat(inputEspecial.value.replace(',','.')) || 0;
+        break;
     }
 
     return valor;
   }
 
-async function carregarDados(){
-  const loadingEl = document.getElementById('loading');
-  if (loadingEl) loadingEl.classList.remove('hidden');
+  async function carregarDados(){
+    const loadingEl = document.getElementById('loading');
+    if (loadingEl) loadingEl.classList.remove('hidden');
 
-  let fallbackTimer = setTimeout(()=>{
-    if (!dadosCarregados) {
-      console.warn('carregarDados: fallback after timeout');
+    let fallbackTimer = setTimeout(()=>{
+      if (!dadosCarregados) {
+        console.warn('carregarDados: fallback after timeout');
+        if (loadingEl) loadingEl.classList.add('hidden');
+      }
+    }, 9000);
+
+    try{
+      const res = await fetch(sheetCsvUrl);
+      const txt = await res.text();
+
+      txt.trim().split('\n').slice(1).forEach(line=>{
+        const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+          .map(c=>c.replace(/^"|"$/g,'').trim());
+
+        if(!cols[0]) return;
+
+        const fzKey = cols[0].padStart(6,'0');
+
+        vendedores[fzKey] = {
+          modelo: cols[1],
+          up: cols[2],
+          anoMod: cols[3],
+
+          precoVendedor: parseFloat((cols[4]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          precoGerente: parseFloat((cols[5]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          precoOportunidade: parseFloat((cols[6]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+
+          cor: cols[7] || '',
+          variante: cols[8] || '',
+          patio: cols[9] || '',
+          fotoUrl: cols[10] || '',
+
+          valorCompra: parseFloat((cols[11]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          fundoEstrela: parseFloat((cols[12]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          retirada: parseFloat((cols[13]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          programacao: parseFloat((cols[14]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          comissao: parseFloat((cols[15]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          bonificacao: parseFloat((cols[16]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          bonusExtra: parseFloat((cols[17]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          frete: parseFloat((cols[18]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          revisao: parseFloat((cols[19]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          custosAdd: parseFloat((cols[20]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+        };
+      });
+
+      dadosCarregados = true;
+
+      if (pendingFZ){
+        aplicarFZ(pendingFZ);
+        pendingFZ = null;
+      }
+
+      clearTimeout(fallbackTimer);
+
+    } catch(e){
+      console.error('Erro ao carregar CSV', e);
+      clearTimeout(fallbackTimer);
+    } finally {
       if (loadingEl) loadingEl.classList.add('hidden');
     }
-  }, 9000);
+  }
 
-  try{
-    const res = await fetch(sheetCsvUrl);
-    const txt = await res.text();
+    document.getElementById('tipoPreco')?.addEventListener('change', () => {
+      if (!vendedorAtual) return;
 
-    txt.trim().split('\n').slice(1).forEach(line=>{
-      const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
-        .map(c=>c.replace(/^"|"$/g,'').trim());
+      valorTabela = calcularValorTabela(vendedorAtual);
+      valorTabelaEl.innerText = formatar(valorTabela);
 
-      if(!cols[0]) return;
-
-      const fzKey = cols[0].padStart(6,'0');
-
-      vendedores[fzKey] = {
-        modelo: cols[1],
-        up: cols[2],
-        anoMod: cols[3],
-
-        precoVendedor: parseFloat((cols[4]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        precoGerente: parseFloat((cols[5]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        precoOportunidade: parseFloat((cols[6]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-
-        cor: cols[7] || '',
-        variante: cols[8] || '',
-        patio: cols[9] || '',
-        fotoUrl: cols[10] || '',
-
-        valorCompra: parseFloat((cols[11]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        fundoEstrela: parseFloat((cols[12]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        retirada: parseFloat((cols[13]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        programacao: parseFloat((cols[14]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        comissao: parseFloat((cols[15]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        bonificacao: parseFloat((cols[16]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        bonusExtra: parseFloat((cols[17]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        frete: parseFloat((cols[18]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        revisao: parseFloat((cols[19]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        custosAdd: parseFloat((cols[20]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-      };
+      atualizarValores();
     });
 
-    dadosCarregados = true;
+    document.getElementById('precoEspecial')?.addEventListener('input', () => {
+      if (!vendedorAtual) return;
+      if (document.getElementById('tipoPreco').value !== 'especial') return;
 
-    if (pendingFZ){
-      aplicarFZ(pendingFZ);
-      pendingFZ = null;
-    }
+      valorTabela = calcularValorTabela(vendedorAtual);
+      valorTabelaEl.innerText = formatar(valorTabela);
 
-    clearTimeout(fallbackTimer);
+      atualizarValores();
+    });
 
-  } catch(e){
-    console.error('Erro ao carregar CSV', e);
-    clearTimeout(fallbackTimer);
-  } finally {
-    if (loadingEl) loadingEl.classList.add('hidden');
-  }
-}
+    document.getElementById('precoEspecial')?.addEventListener('blur', () => {
+      if (!vendedorAtual) return;
+      if (document.getElementById('tipoPreco').value !== 'especial') return;
 
-  document.getElementById('tipoPreco')?.addEventListener('change', () => {
-    if (!vendedorAtual) return;
+      const min = vendedorAtual.precoOportunidade;
+      let v = parseFloat(precoEspecialEl.value.replace(',','.')) || 0;
 
-    valorTabela = calcularValorTabela(vendedorAtual);
-    valorTabelaEl.innerText = formatar(valorTabela);
+      if (v < min){
+        v = min;
+        precoEspecialEl.value = min.toFixed(2);
+      }
 
-    atualizarValores();
-  });
+      valorTabela = v;
+      valorTabelaEl.innerText = formatar(valorTabela);
 
-  document.getElementById('precoEspecial')?.addEventListener('input', () => {
-  const tipo = document.getElementById('tipoPreco').value;
-  if (tipo !== 'especial' || !vendedorAtual) return;
-
-  valorTabela = calcularValorTabela(vendedorAtual);
-  valorTabelaEl.innerText = formatar(valorTabela);
-
-  atualizarValores();
-  });
-
+      atualizarValores();
+    });
+    
 // ================== POPULAR SELECTS DINÂMICOS (FÁBRICA) ==================
 // NOVO FLUXO: 1) Ano -> 2) Família -> 3) UP -> Variante/Ações
 
