@@ -1944,6 +1944,14 @@ btnVerInfoEl?.addEventListener('click', () => {
       atualizarValores();
     });
 
+    if (tipo === 'especial') {
+      minEspecialHint.classList.remove('hidden');
+      minEspecialValor.innerText = formatar(dados.precoOportunidade);
+    } 
+    else {
+      minEspecialHint.classList.add('hidden');
+    }
+
 // ================== POPULAR SELECTS DINÂMICOS (FÁBRICA) ==================
 // NOVO FLUXO: 1) Ano -> 2) Família -> 3) UP -> Variante/Ações
 

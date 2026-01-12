@@ -187,7 +187,7 @@
       text-align: center;
       font-size: 1.7rem;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 0.8px;
       border-bottom: 1px solid var(--border);
       box-shadow: 0 2px 12px rgba(35,64,142,0.08);
       border-radius: var(--radius) var(--radius) 0 0;
@@ -203,7 +203,7 @@
       color: #fff;
       border-radius: 10px;
       padding: 0.9rem;
-      text-align: justify;
+      text-align: center;
     }
     .grid-5 > div:last-child strong {
       font-size: 1.15rem;
@@ -265,8 +265,9 @@
     /* Base */
     .select-preco {
       transition: all 0.25s ease;
-      font-weight: 500;
+      font-weight: 600;
       font-weight: bold;
+      border-radius: 6px;
     }
 
     /* VENDEDOR – Amarelo */
@@ -309,11 +310,44 @@
     .form-group {
       margin-bottom: 1rem;
     }
-    .precoEspecial {
-      width: 50%;
-      align-items: right;
-      text-align: center;
-      margin-left: auto;
+
+    #precoEspecial {
+      margin-top: 0.4rem;
+      width: 100%;
+      padding: 0.65rem;
+      border-radius: 8px;
+      border: 1px solid #d0d6e2;
+      font-size: 1rem;
+      font-weight: 600;
+      text-align: right;
+    }
+
+    #precoEspecial:disabled {
+      background: #f2f4f8;
+      color: #999;
+    }
+
+    #minEspecialHint {
+      display: block;
+      margin-top: 0.3rem;
+      color: #666;
+      font-size: 0.75rem;
+    }
+
+    .results {
+      background: #f7f9fc;
+      border-radius: 12px;
+      padding: 1rem;
+      border: 1px solid #e2e6ef;
+    }
+
+    .results .row {
+      padding: 0.4rem 0;
+    }
+
+    .results .label {
+      font-weight: 600;
+      color: #555;
     }
     .form-group input {
       width: 100%;
@@ -368,11 +402,12 @@
     #btnMostrarProtegido {
       margin-top: 1rem;
       width: 80%;
+      max-width: 320px;
       padding: 0.7rem;
-      background-color: var(--accent);
+      background: linear-gradient(135deg, #2b4fa0, #3f6fd1);
       color: #fff;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       font-weight: 700;
       font-size: 1rem;
       cursor: pointer;
@@ -380,7 +415,7 @@
       box-shadow: 0 2px 8px #23408e11;
       letter-spacing: 0.5px;
       display: block;
-      margin: 1rem auto;
+      margin: 1.2rem auto 0;
     }
     #btnMostrarProtegido:hover {
       background: #205ab0;
