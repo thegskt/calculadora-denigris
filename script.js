@@ -1603,6 +1603,8 @@ const RAW_ACOES = `
   const rowComissaoProtected = document.getElementById('rowComissaoProtected');
   const rowDsrProtected      = document.getElementById('rowDsrProtected');
   const rowTotalProtected    = document.getElementById('rowTotalProtected');
+  const minEspecialHint  = document.getElementById('minEspecialHint');
+  const minEspecialValor = document.getElementById('minEspecialValor');
 
   function toggleHidden(el){ el.classList.toggle('hidden'); }
 
@@ -1926,12 +1928,12 @@ btnVerInfoEl?.addEventListener('click', () => {
 
       atualizarValores();
     });
-    
-    if (tipo === 'especial') {
-      minEspecialHint.classList.remove('hidden');
-      minEspecialValor.innerText = formatar(dados.precoOportunidade);
+
+    if (tipo === 'especial' && dados) {
+      minEspecialHint?.classList.remove('hidden');
+      minEspecialValor && (minEspecialValor.innerText = formatar(dados.precoOportunidade));
     } else {
-      minEspecialHint.classList.add('hidden');
+      minEspecialHint?.classList.add('hidden');
     }
 
     document.getElementById('precoEspecial')?.addEventListener('blur', () => {
