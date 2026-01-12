@@ -2493,6 +2493,24 @@ async function fetchFotoByFz(fzRaw) {
     const btnVerFoto = document.getElementById('btnVerFoto');
     const fzInput = document.getElementById('fz');
     const modeloEl = document.getElementById('modelo');
+    const tipoPrecoSelect = document.getElementById('tipoPreco');
+
+  function atualizarCorTipoPreco() {
+    tipoPrecoSelect.classList.remove(
+      'vendedor',
+      'gerente',
+      'oportunidade',
+      'especial'
+    );
+
+    tipoPrecoSelect.classList.add(tipoPrecoSelect.value);
+  }
+
+  // Inicializa ao carregar
+  atualizarCorTipoPreco();
+
+  // Atualiza ao mudar
+  tipoPrecoSelect.addEventListener('change', atualizarCorTipoPreco);
 
   if (btnVerFoto && fzInput) {
         btnVerFoto.addEventListener('click', async () => {

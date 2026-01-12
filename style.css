@@ -257,26 +257,44 @@
       margin-top: 0.12rem;
       min-height: 1.1em;
     }
+    /* Base */
     .select-preco {
-      width: 100%;
-      padding: 0.7rem 0.9rem;
-      font-size: 0.95rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      background-color: #fff;
-      color: #333;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
+      font-weight: 500;
     }
 
-    .select-preco:hover {
-      border-color: #999;
+    /* VENDEDOR – Amarelo */
+    .select-preco.vendedor {
+      border-color: #facc15;
+      background-color: #fefce8;
+      color: #854d0e;
     }
 
+    /* GERENTE – Azul */
+    .select-preco.gerente {
+      border-color: #3b82f6;
+      background-color: #eff6ff;
+      color: #1e3a8a;
+    }
+
+    /* OPORTUNIDADE – Verde */
+    .select-preco.oportunidade {
+      border-color: #22c55e;
+      background-color: #ecfdf5;
+      color: #065f46;
+    }
+
+    /* ESPECIAL – Roxo */
+    .select-preco.especial {
+      border-color: #8b5cf6;
+      background-color: #f5f3ff;
+      color: #4c1d95;
+    }
+
+    /* Foco mantém elegância */
     .select-preco:focus {
       outline: none;
-      border-color: #2563eb;
-      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+      box-shadow: 0 0 0 2px rgba(0,0,0,0.08);
     }
     .form-group {
       margin-bottom: 1rem;
