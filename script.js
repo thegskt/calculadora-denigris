@@ -1796,59 +1796,103 @@ btnVerInfoEl?.addEventListener('click', () => {
   }
 });
 
-// ================== CARREGAR CSV ==================
-async function carregarDados(){
-  const loadingEl = document.getElementById('loading');
-  if (loadingEl) loadingEl.classList.remove('hidden');
-  // fallback: se após X ms os dados não carregarem, esconda overlay e mostre aviso no console
-  let fallbackTimer = setTimeout(()=>{
-    if (!dadosCarregados) {
-      console.warn('carregarDados: fallback after timeout, hiding loading overlay');
+  function calcularValorTabela(dados) {
+    const tipo = document.getElementById('tipoPreco').value;
+    const inputEspecial = document.getElementById('precoEspecial');
+
+    let valor = 0;
+
+    if (tipo === 'vendedor') {
+      valor = dados.precoVendedor;
+      inputEspecial.disabled = true;
+
+    } else if (tipo === 'gerente') {
+      valor = dados.precoGerente;
+      inputEspecial.disabled = true;
+
+    } else if (tipo === 'oportunidade') {
+      valor = dados.precoOportunidade;
+      inputEspecial.disabled = true;
+
+    } else if (tipo === 'especial') {
+      inputEspecial.disabled = false;
+      const digitado = parseFloat(inputEspecial.value) || 0;
+
+      // 🚨 REGRA DE NEGÓCIO
+      if (digitado < dados.precoOportunidade) {
+        inputEspecial.value = dados.precoOportunidade.toFixed(2);
+        valor = dados.precoOportunidade;
+      } else {
+        valor = digitado;
+      }
+    }
+
+    return valor;
+  }
+
+  // ================== CARREGAR CSV ==================
+  async function carregarDados(){
+    const loadingEl = document.getElementById('loading');
+    if (loadingEl) loadingEl.classList.remove('hidden');
+    // fallback: se após X ms os dados não carregarem, esconda overlay e mostre aviso no console
+    let fallbackTimer = setTimeout(()=>{
+      if (!dadosCarregados) {
+        console.warn('carregarDados: fallback after timeout, hiding loading overlay');
+        if (loadingEl) loadingEl.classList.add('hidden');
+      }
+    }, 9000);
+    try{
+      const res = await fetch(sheetCsvUrl);
+      const txt = await res.text();
+      txt.trim().split('\n').slice(1).forEach(line=>{
+        const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+          .map(c=>c.replace(/^"|"$/g,'').trim());
+        if(!cols[0]) return;
+        const fzKey = cols[0].padStart(6,'0');
+        vendedores[fzKey] = {
+          modelo: cols[1],
+          up: cols[2],
+          anoMod: cols[3],
+          precoVendedor: parseFloat((cols[4] || '0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          precoGerente: parseFloat((cols[5] || '0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          precoOportunidade: parseFloat((cols[6] || '0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          cor: cols[7] || '',
+          variante: cols[8] || '',
+          patio: cols[9] || '',
+          fotoUrl: cols[10] || '',
+          valorCompra: parseFloat((cols[11]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+          fundoEstrela: parseFloat((cols[12]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+          retirada: parseFloat((cols[13]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+          programacao: parseFloat((cols[14]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+          comissao: parseFloat((cols[15]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+          bonificacao: parseFloat((cols[16]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+          bonusExtra: parseFloat((cols[17]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+          frete: parseFloat((cols[18]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+          revisao: parseFloat((cols[19]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+          custosAdd: parseFloat((cols[20]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        };
+      });
+      dadosCarregados = true;
+      if (pendingFZ){
+        aplicarFZ(pendingFZ);
+        pendingFZ = null;
+      }
+      clearTimeout(fallbackTimer);
+    }catch(e){
+      console.error('Erro ao carregar CSV', e);
+      clearTimeout(fallbackTimer);
+    } finally {
       if (loadingEl) loadingEl.classList.add('hidden');
     }
-  }, 9000);
-  try{
-    const res = await fetch(sheetCsvUrl);
-    const txt = await res.text();
-    txt.trim().split('\n').slice(1).forEach(line=>{
-      const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
-        .map(c=>c.replace(/^"|"$/g,'').trim());
-      if(!cols[0]) return;
-      const fzKey = cols[0].padStart(6,'0');
-      vendedores[fzKey] = {
-        modelo: cols[1],
-        up: cols[2],
-        anoMod: cols[3],
-        valorTabela: parseFloat((cols[4]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        cor: cols[5] || '',
-        variante: cols[6] || '',
-        patio: cols[7] || '',
-        fotoUrl: cols[8] || '',
-        valorCompra: parseFloat((cols[9]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        fundoEstrela: parseFloat((cols[10]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        retirada: parseFloat((cols[11]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        programacao: parseFloat((cols[12]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        comissao: parseFloat((cols[13]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        bonificacao: parseFloat((cols[14]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        bonusExtra: parseFloat((cols[15]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        frete: parseFloat((cols[16]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        revisao: parseFloat((cols[17]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        custosAdd: parseFloat((cols[18]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-      };
-    });
-    dadosCarregados = true;
-    if (pendingFZ){
-      aplicarFZ(pendingFZ);
-      pendingFZ = null;
-    }
-    clearTimeout(fallbackTimer);
-  }catch(e){
-    console.error('Erro ao carregar CSV', e);
-    clearTimeout(fallbackTimer);
-  } finally {
-    if (loadingEl) loadingEl.classList.add('hidden');
+
+    const valorTabela = calcularValorTabela(dados);
+
+    document.getElementById('valorTabela').value =
+      valorTabela.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+      });
   }
-}
 
 // ================== POPULAR SELECTS DINÂMICOS (FÁBRICA) ==================
 // NOVO FLUXO: 1) Ano -> 2) Família -> 3) UP -> Variante/Ações
