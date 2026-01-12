@@ -257,6 +257,27 @@
       margin-top: 0.12rem;
       min-height: 1.1em;
     }
+    .select-preco {
+      width: 100%;
+      padding: 0.7rem 0.9rem;
+      font-size: 0.95rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      color: #333;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .select-preco:hover {
+      border-color: #999;
+    }
+
+    .select-preco:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+    }
     .form-group {
       margin-bottom: 1rem;
     }

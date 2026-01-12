@@ -64,13 +64,13 @@
 
           <!-- Desconto -->
           <div class="form-group">
-            <label for="desconto">Desconto (%)</label>
-            <div style="display:flex;align-items:center;gap:0.5rem;">
-              <div class="desconto-wrapper">
-                <button type="button" id="btnDescontoDown" aria-label="Diminuir desconto">▼</button>
-                <input type="number" id="desconto" value="0" min="0" max="2" step="0.01" inputmode="decimal">
-                <button type="button" id="btnDescontoUp" aria-label="Aumentar desconto">▲</button>
-              </div>
+            <label for="tipoPreco">Tipo de Preço</label>
+            <select id="tipoPreco" class="select-preco">
+              <option value="vendedor">Preço Vendedor</option>
+              <option value="gerente">Preço Gerente</option>
+              <option value="oportunidade">Preço OPORTUNIDADE</option>
+              <option value="especial">Preço Especial</option>
+            </select>
               <!-- NOVO: botão para ver foto do veículo (coluna 16 do Sheets) -->
               <button type="button" id="btnVerFoto" class="btn-photo" title="Ver foto do veículo">📷 Foto</button>
               <!-- NOVO: botão para ver informações do veículo -->
