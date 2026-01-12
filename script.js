@@ -1929,13 +1929,6 @@ btnVerInfoEl?.addEventListener('click', () => {
       atualizarValores();
     });
 
-    if (tipo === 'especial' && dados) {
-      minEspecialHint?.classList.remove('hidden');
-      minEspecialValor && (minEspecialValor.innerText = formatar(dados.precoOportunidade));
-    } else {
-      minEspecialHint?.classList.add('hidden');
-    }
-
     document.getElementById('precoEspecial')?.addEventListener('blur', () => {
       if (!vendedorAtual) return;
       if (document.getElementById('tipoPreco').value !== 'especial') return;
