@@ -304,6 +304,12 @@
     .form-group {
       margin-bottom: 1rem;
     }
+    .precoEspecial {
+      width: 50%;
+      align-items: right;
+      text-align: center;
+      margin-left: auto;
+    }
     .form-group input {
       width: 100%;
       padding: 0.45rem 0.4rem;
