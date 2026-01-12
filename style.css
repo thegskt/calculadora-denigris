@@ -365,6 +365,8 @@
       transition: background 0.2s, color 0.2s, box-shadow 0.2s;
       box-shadow: 0 2px 8px #23408e11;
       letter-spacing: 0.5px;
+      align-items: center;
+      justify-content: center;
     }
     #btnMostrarProtegido:hover {
       background: #205ab0;
