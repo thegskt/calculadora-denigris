@@ -353,7 +353,7 @@
     }
     #btnMostrarProtegido {
       margin-top: 1rem;
-      width: 100%;
+      width: 80%;
       padding: 0.7rem;
       background-color: var(--accent);
       color: #fff;
