@@ -1770,7 +1770,7 @@ function aplicarFZ(fzRaw){
     modeloEl && (modeloEl.innerText = vendedorAtual.modelo || '–');
     upEl     && (upEl.innerText     = vendedorAtual.up || '–');
     anoModEl && (anoModEl.innerText = vendedorAtual.anoMod || '–');
-    valorTabela = vendedorAtual.valorTabela || 0;
+    valorTabela = calcularValorTabela(vendedorAtual);
     valorTabelaEl && (valorTabelaEl.innerText = formatar(valorTabela));
     infoCorEl && (infoCorEl.innerText = vendedorAtual.cor || '–');
     infoVarianteEl && (infoVarianteEl.innerText = vendedorAtual.variante || '–');
@@ -1781,8 +1781,8 @@ function aplicarFZ(fzRaw){
     modeloEl && (modeloEl.innerText = '–');
     upEl     && (upEl.innerText     = '–');
     anoModEl && (anoModEl.innerText = '–');
-    valorTabela = 0;
-    valorTabelaEl && (valorTabelaEl.innerText = "R$ 0,00");
+    valorTabela = calcularValorTabela(vendedorAtual);
+    valorTabelaEl && (valorTabelaEl.innerText = formatar(valorTabela));
     infoCorEl && (infoCorEl.innerText = '–');
     infoVarianteEl && (infoVarianteEl.innerText = '–');
     infoPatioEl && (infoPatioEl.innerText = '–');
@@ -1898,6 +1898,25 @@ async function carregarDados(){
     if (loadingEl) loadingEl.classList.add('hidden');
   }
 }
+
+  document.getElementById('tipoPreco')?.addEventListener('change', () => {
+    if (!vendedorAtual) return;
+
+    valorTabela = calcularValorTabela(vendedorAtual);
+    valorTabelaEl.innerText = formatar(valorTabela);
+
+    atualizarValores();
+  });
+
+  document.getElementById('precoEspecial')?.addEventListener('input', () => {
+  const tipo = document.getElementById('tipoPreco').value;
+  if (tipo !== 'especial' || !vendedorAtual) return;
+
+  valorTabela = calcularValorTabela(vendedorAtual);
+  valorTabelaEl.innerText = formatar(valorTabela);
+
+  atualizarValores();
+  });
 
 // ================== POPULAR SELECTS DINÂMICOS (FÁBRICA) ==================
 // NOVO FLUXO: 1) Ano -> 2) Família -> 3) UP -> Variante/Ações
