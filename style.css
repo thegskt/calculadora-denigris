@@ -327,6 +327,9 @@
       margin-top: 1rem;
       box-shadow: 0 2px 8px rgba(35,64,142,0.04);
       border: 1px solid var(--border);
+      display: block;
+      margin: 1rem auto;
+      width: 90%;
     }
     .results .row {
       display: flex;
