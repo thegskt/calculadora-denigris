@@ -261,6 +261,7 @@
     .select-preco {
       transition: all 0.25s ease;
       font-weight: 500;
+      font-weight: bold;
     }
 
     /* VENDEDOR – Amarelo */
@@ -268,6 +269,7 @@
       border-color: #facc15;
       background-color: #fefce8;
       color: #854d0e;
+      font-weight: bold;
     }
 
     /* GERENTE – Azul */
@@ -275,6 +277,7 @@
       border-color: #3b82f6;
       background-color: #eff6ff;
       color: #1e3a8a;
+      font-weight: bold;
     }
 
     /* OPORTUNIDADE – Verde */
@@ -282,6 +285,7 @@
       border-color: #22c55e;
       background-color: #ecfdf5;
       color: #065f46;
+      font-weight: bold;
     }
 
     /* ESPECIAL – Roxo */
@@ -289,6 +293,7 @@
       border-color: #8b5cf6;
       background-color: #f5f3ff;
       color: #4c1d95;
+      font-weight: bold;
     }
 
     /* Foco mantém elegância */
