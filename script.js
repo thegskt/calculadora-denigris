@@ -1940,31 +1940,29 @@ btnVerInfoEl?.addEventListener('click', () => {
   }
 
     document.getElementById('tipoPreco')?.addEventListener('change', () => {
-        const tipo = tipoPreco.value;
+      if (!vendedorAtual) return;
 
-        // Atualiza classes visuais do select
-        tipoPreco.className = `select-preco ${tipo}`;
+      const tipo = tipoPreco.value;
 
-        // Lógica para mostrar/esconder o campo de input
-        if (tipo === 'especial') {
-            // Agora especialWrapper estará definido
-            especialWrapper?.classList.remove('hidden');
-            
-            if (vendedorAtual) {
-                const min = vendedorAtual.precoOportunidade;
-                precoEspecial.value = min.toFixed(2).replace('.', ',');
-                minEspecialValor.innerText = formatar(min);
-            }
-        } else {
-            especialWrapper?.classList.add('hidden');
-            if (precoEspecial) precoEspecial.value = '';
-        }
+      // classes visuais
+      tipoPreco.className = `select-preco ${tipo}`;
 
-        if (vendedorAtual) {
-            valorTabela = calcularValorTabela(vendedorAtual);
-            valorTabelaEl.innerText = formatar(valorTabela);
-            atualizarValores();
-        }
+      if (tipo === 'especial') {
+        especialWrapper.classList.remove('hidden');
+
+        const min = vendedorAtual.precoOportunidade;
+        precoEspecial.value = min.toFixed(2).replace('.',',');
+        minEspecialValor.innerText = formatar(min);
+
+      } else {
+        especialWrapper.classList.add('hidden');
+        precoEspecial.value = '';
+      }
+
+      valorTabela = calcularValorTabela(vendedorAtual);
+      valorTabelaEl.innerText = formatar(valorTabela);
+
+      atualizarValores();
     });
 
     precoEspecial?.addEventListener('blur', () => {
