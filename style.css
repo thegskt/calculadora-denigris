@@ -960,7 +960,144 @@
       min-width: unset;
       padding-right: 0.1em; /* opcional: pequeno respiro */
     }
+    
+    /* =========================================
+      CORREÇÃO ESPECÍFICA: ESTOQUE FÁBRICA
+      ========================================= */
 
+    /* 1. Resetar o fundo do card para branco e garantir texto escuro */
+    #calcEstoqueFabrica .card {
+      background: white !important;
+      color: var(--text-main) !important;
+      border: 1px solid #ddd;
+    }
+
+    /* 2. Cabeçalho específico da Fábrica (Cinza Escuro/Preto) */
+    .card-header.factory {
+      background: #1f2937; /* Cinza chumbo escuro */
+      color: white;
+      border-bottom: 3px solid #374151;
+    }
+
+    .card-header.factory h2 {
+      color: white !important;
+    }
+
+    .card-header.factory .status-badge {
+      background: #374151;
+      color: #e5e7eb;
+      border: 1px solid #4b5563;
+    }
+
+    /* 3. Corrigir os botões de Família (estavam cortados na imagem) */
+    #familiaFab.radio-group-modern {
+      display: flex;
+      flex-wrap: wrap; /* Isso impede que cortem e cria linhas novas */
+      gap: 8px;
+      width: 100%;
+      margin-top: 5px;
+    }
+
+    #familiaFab .radio-btn {
+      flex: 1 1 auto; /* Distribui o espaço uniformemente */
+      min-width: 80px;
+      text-align: center;
+    }
+
+    #familiaFab .radio-btn span {
+      display: block;
+      width: 100%;
+      padding: 10px 4px;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      color: #4b5563;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    /* Estilo quando selecionado (Cinza Escuro da Fábrica) */
+    #familiaFab .radio-btn input:checked + span {
+      background: #1f2937;
+      color: white;
+      border-color: #000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    /* 4. Corrigir a caixa de Variante (estava pequena demais) */
+    .variant-display-box {
+      background: #fff;
+      border: 2px dashed #cbd5e1; /* Borda tracejada para indicar que é gerado */
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      margin-top: 5px;
+      border-radius: var(--radius-sm);
+    }
+
+    .variant-text {
+      font-family: 'Courier New', monospace; /* Fonte monoespaçada para códigos */
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #333;
+      letter-spacing: 1px;
+    }
+
+    /* 5. Inputs da Fábrica com estilo consistente */
+    #calcEstoqueFabrica label {
+      font-weight: 600;
+      color: #374151;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    /* 6. Card de Resultado da Fábrica (Fundo Cinza Claro) */
+    .result-card-factory {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-top: 4px solid #4b5563; /* Topo cinza para combinar com o tema */
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin-top: 2rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .result-card-factory .result-item {
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .result-card-factory .result-item:last-child {
+      border-bottom: none;
+    }
+
+    .result-card-factory .value {
+      font-size: 1.1rem;
+      color: #111;
+    }
+
+    /* Botão Detalhamento da Fábrica */
+    #btnDetalhamentoFab {
+      width: 100%;
+      padding: 12px;
+      background: white;
+      border: 1px solid #4b5563;
+      color: #1f2937;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 1rem;
+    }
+
+    #btnDetalhamentoFab:hover {
+      background: #4b5563;
+      color: white;
+    }
     .fabrica-theme .card .form-group.variant-group > label[for="upFab"] {
     min-width: 36px !important; /* antes 60px, reduz só para UP */
     margin-right: 0;            /* sem espaço extra */
