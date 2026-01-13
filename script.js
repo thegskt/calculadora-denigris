@@ -1964,9 +1964,9 @@ btnVerInfoEl?.addEventListener('click', () => {
       atualizarValores();
     });
 
-    document.getElementById('precoEspecial')?.addEventListener('blur', () => {
+    precoEspecial?.addEventListener('blur', () => {
       if (!vendedorAtual) return;
-      if (document.getElementById('tipoPreco').value !== 'especial') return;
+      if (tipoPreco.value !== 'especial') return;
 
       const min = vendedorAtual.precoOportunidade;
       let v = parseFloat(precoEspecial.value.replace(',','.'));
@@ -1978,7 +1978,6 @@ btnVerInfoEl?.addEventListener('click', () => {
 
       valorTabela = v;
       valorTabelaEl.innerText = formatar(valorTabela);
-
       atualizarValores();
     });
 
