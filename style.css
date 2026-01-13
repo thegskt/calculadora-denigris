@@ -517,7 +517,7 @@
 
   /* Resultado Fábrica Card */
   .result-card-factory {
-    background: #000000;
+    background: #f8fafc;
     border-top: 2px solid var(--accent-blue);
     border-radius: var(--radius-sm);
     padding: 1.5rem;
@@ -967,7 +967,7 @@
 
     /* 1. Resetar o fundo do card para branco e garantir texto escuro */
     #calcEstoqueFabrica .card {
-      background: white !important;
+      background: rgba(34, 34, 34, 0.952) !important;
       color: var(--text-main) !important;
       border: 1px solid #ddd;
     }
