@@ -1633,7 +1633,6 @@ const RAW_ACOES = `
 
   const tipoPreco = document.getElementById('tipoPreco');
   const precoEspecial = document.getElementById('precoEspecial');
-  const especialWrapper = els('especialWrapper'); // <--- ADICIONE ESTA LINHA
 
   function toggleHidden(el){ el.classList.toggle('hidden'); }
 
