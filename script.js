@@ -1626,6 +1626,11 @@ const RAW_ACOES = `
   const minEspecialHint  = document.getElementById('minEspecialHint');
   const minEspecialValor = document.getElementById('minEspecialValor');
 
+  const btnProprio = document.getElementById('btnEstoqueProprio');
+  const btnFabrica = document.getElementById('btnEstoqueFabrica');
+  const calcProprio = document.getElementById('calcEstoqueProprio');
+  const calcFabrica = document.getElementById('calcEstoqueFabrica');
+
   function toggleHidden(el){ el.classList.toggle('hidden'); }
 
   if (btnMostrarProtegido) {
@@ -2289,8 +2294,23 @@ function applyQueryParams(){
   
 
   // Adicionar event listeners para os botões
-  els('btnEstoqueProprio')?.addEventListener('click', showCalcProprio);
-  els('btnEstoqueFabrica')?.addEventListener('click', showCalcFabrica);
+  btnProprio.onclick = () => {
+    calcProprio.classList.remove('hidden');
+    calcFabrica.classList.add('hidden');
+    btnProprio.classList.add('btn-primary');
+    btnProprio.classList.remove('btn-secondary');
+    btnFabrica.classList.add('btn-secondary');
+    btnFabrica.classList.remove('btn-primary');
+  };
+
+  btnFabrica.onclick = () => {
+    calcFabrica.classList.remove('hidden');
+    calcProprio.classList.add('hidden');
+    btnFabrica.classList.add('btn-primary');
+    btnFabrica.classList.remove('btn-secondary');
+    btnProprio.classList.add('btn-secondary');
+    btnProprio.classList.remove('btn-primary');
+  };
 
 
 
