@@ -7,6 +7,7 @@
   <link rel="icon" type="image/png" href="Imagens/icon.png"/>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <!-- LOADING -->
@@ -34,26 +35,29 @@
     </nav>
   </div>
 </header>
-
 <div class="header-space"></div>
 
 <!-- CONTEÚDO -->
 <div id="mainContent">
 
-  <!-- SWITCH -->
+  <!-- 🔹 BOTÕES DE TROCA (RESTAURADOS) -->
   <div class="calc-switch">
-    <button id="btnEstoqueProprio" class="btn-primary">Estoque De Nigris</button>
-    <button id="btnEstoqueFabrica" class="btn-secondary">Estoque Fábrica</button>
+    <button id="btnEstoqueProprio" class="btn-primary active">
+      Estoque De Nigris
+    </button>
+    <button id="btnEstoqueFabrica" class="btn-secondary">
+      Estoque Fábrica
+    </button>
   </div>
 
-  <!-- CALCULADORA -->
+  <!-- 🔹 CALCULADORA ESTOQUE PRÓPRIO -->
   <div id="calcEstoqueProprio">
     <div class="container">
       <div class="header">Calculadora De Nigris</div>
 
       <div class="card">
 
-        <!-- GRID SUPERIOR -->
+        <!-- TOPO -->
         <div class="grid-top">
           <div>
             <span class="label">Modelo</span>
@@ -66,8 +70,8 @@
           </div>
 
           <div class="fz-box">
-            <label for="fz">FZ</label>
-            <input id="fz" type="text" maxlength="6" placeholder="123456">
+            <label>FZ</label>
+            <input id="fz" maxlength="6">
             <div id="fzError"></div>
           </div>
 
@@ -84,8 +88,8 @@
 
         <!-- PREÇO -->
         <div class="form-group">
-          <label for="tipoPreco">Preço</label>
-          <select id="tipoPreco" class="select-preco">
+          <label>Preço:</label>
+          <select id="tipoPreco">
             <option value="vendedor">Vendedor</option>
             <option value="gerente">Gerente</option>
             <option value="oportunidade">Oportunidade</option>
@@ -93,34 +97,21 @@
           </select>
         </div>
 
-        <!-- ESPECIAL -->
+        <!-- 🔹 PREÇO ESPECIAL (ALINHADO) -->
         <div id="especialWrapper" class="especial-wrapper hidden">
-          <label class="especial-label">
-            Preço Especial
+          <div class="especial-header">
+            <span>Preço Especial</span>
             <span class="especial-min">
               mínimo: <strong id="minEspecialValor">R$ 0,00</strong>
             </span>
-          </label>
+          </div>
 
-          <input
-            id="precoEspecial"
-            type="text"
-            inputmode="decimal"
-            placeholder="R$ 0,00"
-          />
-        </div>
+          <input id="precoEspecial" type="text" inputmode="decimal">
 
-        <!-- AÇÕES AUX -->
-        <div class="aux-actions">
-          <button id="btnVerFoto" class="btn-photo">📷 Foto</button>
-          <button id="btnVerInfo" class="btn-info">ℹ</button>
-        </div>
-
-        <!-- INFO VEÍCULO -->
-        <div id="infoVeiculo" class="hidden info-box">
-          <div><strong>Cor:</strong> <span id="infoCor">–</span></div>
-          <div><strong>Variante:</strong> <span id="infoVariante">–</span></div>
-          <div><strong>Pátio:</strong> <span id="infoPatio">–</span></div>
+          <div class="especial-actions">
+            <button id="btnVerFoto">📷 Foto</button>
+            <button id="btnVerInfo">ℹ</button>
+          </div>
         </div>
 
         <!-- RESULTADOS -->
@@ -133,44 +124,35 @@
             <span>Valor de Venda</span>
             <span id="valorVenda">R$ 0,00</span>
           </div>
-
-          <div class="row hidden" id="rowComissaoProtected">
-            <span>Comissão</span>
-            <span id="comissaoProtected">R$ 0,00</span>
-          </div>
-          <div class="row hidden" id="rowDsrProtected">
-            <span>DSR</span>
-            <span id="dsrProtected">R$ 0,00</span>
-          </div>
-          <div class="row hidden" id="rowTotalProtected">
-            <span>Total</span>
-            <span id="total">R$ 0,00</span>
-          </div>
         </div>
 
-        <!-- DETALHAMENTO -->
         <button id="btnMostrarProtegido">Detalhamento</button>
 
-        <div id="passwordGroup" class="hidden">
-          <input type="password" id="senhaInput" placeholder="Digite a senha">
-          <button id="btnVerificarSenha">Confirmar</button>
-          <div id="senhaError"></div>
-        </div>
-
-        <!-- AÇÕES -->
         <div class="actions">
-          <a id="linkEmitirPedido" class="btn-primary" target="_blank"
-             href="https://gd.cimbb.com.br/p/crm/atividades/agenda/">Emitir Pedido</a>
-
-          <a class="btn-secondary" target="_blank"
-             href="https://wa.me/5511950583053">Solicitar Reserva</a>
+          <a id="linkEmitirPedido" target="_blank" class="btn-primary">
+            Emitir Pedido
+          </a>
+          <a href="https://wa.me/5511950583053" target="_blank" class="btn-secondary">
+            Solicitar Reserva
+          </a>
         </div>
 
       </div>
     </div>
   </div>
+
+  <!-- 🔹 ESTOQUE FÁBRICA (NÃO REMOVIDO) -->
+  <div id="calcEstoqueFabrica" class="hidden fabrica-theme"></div>
+
 </div>
 
+<!-- AUTH -->
+<script type="module">
+  import { requireAuth } from './auth.js'
+  await requireAuth('estoque.html')
+</script>
+
 <script src="script.js"></script>
+
 </body>
 </html>
