@@ -1865,8 +1865,8 @@ btnVerInfoEl?.addEventListener('click', () => {
       const digitado = parseFloat(inputEspecial.value.replace(',','.')) || 0;
 
       // 🔒 REGRA DE NEGÓCIO REAL
-      valor = Math.max(digitado, dados.precoOportunidade);
-    }
+      valor = digitado;
+    }0
 
     return valor;
   }
@@ -1951,7 +1951,9 @@ btnVerInfoEl?.addEventListener('click', () => {
       if (!vendedorAtual) return;
       if (document.getElementById('tipoPreco').value !== 'especial') return;
 
-      valorTabela = calcularValorTabela(vendedorAtual);
+      const v = parseFloat(precoEspecial.value.replace(',','.')) || 0;
+
+      valorTabela = v;
       valorTabelaEl.innerText = formatar(valorTabela);
 
       atualizarValores();
@@ -1962,10 +1964,11 @@ btnVerInfoEl?.addEventListener('click', () => {
       if (document.getElementById('tipoPreco').value !== 'especial') return;
 
       const min = vendedorAtual.precoOportunidade;
-      let v = parseFloat(precoEspecial.value.replace(',','.')) || 0;
+      let v = parseFloat(precoEspecial.value.replace(',','.'));
 
-      if (v < min){
-        precoEspecial.value = min.toFixed(2);
+      if (isNaN(v) || v < min) {
+        v = min;
+        precoEspecial.value = min.toFixed(2).replace('.',',');
       }
 
       valorTabela = v;
