@@ -1633,6 +1633,7 @@ const RAW_ACOES = `
 
   const tipoPreco = document.getElementById('tipoPreco');
   const precoEspecial = document.getElementById('precoEspecial');
+  const especialWrapper = els('especialWrapper'); // <--- ADICIONE ESTA LINHA
 
   function toggleHidden(el){ el.classList.toggle('hidden'); }
 
@@ -1939,29 +1940,36 @@ btnVerInfoEl?.addEventListener('click', () => {
   }
 
     document.getElementById('tipoPreco')?.addEventListener('change', () => {
-      if (!vendedorAtual) return;
+        const tipo = tipoPreco.value;
 
-      const tipo = document.getElementById('tipoPreco').value;
+        // Atualiza classes visuais do select
+        tipoPreco.className = `select-preco ${tipo}`;
 
-      if (tipo === 'especial') {
-        precoEspecial.disabled = false;
-        precoEspecial.value = vendedorAtual.precoOportunidade
-          .toFixed(2)
-          .replace('.',',');
-      } else {
-        precoEspecial.disabled = true;
-        precoEspecial.value = '';
-      }
+        // Lógica para mostrar/esconder o campo de input
+        if (tipo === 'especial') {
+            // Agora especialWrapper estará definido
+            especialWrapper?.classList.remove('hidden');
+            
+            if (vendedorAtual) {
+                const min = vendedorAtual.precoOportunidade;
+                precoEspecial.value = min.toFixed(2).replace('.', ',');
+                minEspecialValor.innerText = formatar(min);
+            }
+        } else {
+            especialWrapper?.classList.add('hidden');
+            if (precoEspecial) precoEspecial.value = '';
+        }
 
-      valorTabela = calcularValorTabela(vendedorAtual);
-      valorTabelaEl.innerText = formatar(valorTabela);
-
-      atualizarValores();
+        if (vendedorAtual) {
+            valorTabela = calcularValorTabela(vendedorAtual);
+            valorTabelaEl.innerText = formatar(valorTabela);
+            atualizarValores();
+        }
     });
 
-    document.getElementById('precoEspecial')?.addEventListener('blur', () => {
+    precoEspecial?.addEventListener('blur', () => {
       if (!vendedorAtual) return;
-      if (document.getElementById('tipoPreco').value !== 'especial') return;
+      if (tipoPreco.value !== 'especial') return;
 
       const min = vendedorAtual.precoOportunidade;
       let v = parseFloat(precoEspecial.value.replace(',','.'));
@@ -1973,7 +1981,6 @@ btnVerInfoEl?.addEventListener('click', () => {
 
       valorTabela = v;
       valorTabelaEl.innerText = formatar(valorTabela);
-
       atualizarValores();
     });
 
