@@ -517,7 +517,7 @@
 
   /* Resultado Fábrica Card */
   .result-card-factory {
-    background: #f8fafc;
+    background: #000000;
     border-top: 2px solid var(--accent-blue);
     border-radius: var(--radius-sm);
     padding: 1.5rem;
