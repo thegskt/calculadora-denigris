@@ -331,7 +331,7 @@
     display: inline-block;
     padding: 8px 16px;
     background: #f3f4f6;
-    border-radius: 99px;
+    border-radius: 20px;
     font-size: 0.85rem;
     font-weight: 500;
     color: var(--text-muted);
@@ -960,7 +960,7 @@
       min-width: unset;
       padding-right: 0.1em; /* opcional: pequeno respiro */
     }
-    
+
     /* =========================================
       CORREÇÃO ESPECÍFICA: ESTOQUE FÁBRICA
       ========================================= */
