@@ -1631,6 +1631,9 @@ const RAW_ACOES = `
   const calcProprio = document.getElementById('calcEstoqueProprio');
   const calcFabrica = document.getElementById('calcEstoqueFabrica');
 
+  const tipoPreco = document.getElementById('tipoPreco');
+  const precoEspecial = document.getElementById('precoEspecial');
+
   function toggleHidden(el){ el.classList.toggle('hidden'); }
 
   if (btnMostrarProtegido) {

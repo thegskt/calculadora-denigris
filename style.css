@@ -270,11 +270,6 @@
       border-radius: 6px;
     }
 
-    .vendedor { border-color: #facc15; background: #fef9c3; }
-    .gerente { border-color: #3b82f6; background: #eff6ff; }
-    .oportunidade { border-color: #22c55e; background: #ecfdf5; }
-    .especial { border-color: #a855f7; background: #faf5ff; }
-    
     /* VENDEDOR – Amarelo */
     .select-preco.vendedor {
       border-color: #facc15;
