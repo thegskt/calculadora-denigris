@@ -993,14 +993,14 @@
     #familiaFab.radio-group-modern {
       display: flex;
       flex-wrap: wrap; /* Isso impede que cortem e cria linhas novas */
-      gap: 8px;
+      gap: 6px;
       width: 100%;
       margin-top: 5px;
     }
 
     #familiaFab .radio-btn {
       flex: 1 1 auto; /* Distribui o espaço uniformemente */
-      min-width: 80px;
+      min-width: 60px;
       text-align: center;
     }
 
@@ -1008,9 +1008,9 @@
       display: block;
       width: 100%;
       padding: 10px 4px;
-      background: #f3f4f6;
-      border: 1px solid #e5e7eb;
-      color: #4b5563;
+      background: #252b36;
+      border: 1px solid #404858;
+      color: #dae9ff;
       border-radius: var(--radius-sm);
       font-size: 0.9rem;
       transition: all 0.2s;
@@ -1018,10 +1018,10 @@
 
     /* Estilo quando selecionado (Cinza Escuro da Fábrica) */
     #familiaFab .radio-btn input:checked + span {
-      background: #1f2937;
-      color: white;
-      border-color: #000;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      background: #d3e3fa;
+      color: rgb(27, 31, 54);
+      border-color: #9ac5ff;
+      box-shadow: 0 2px 5px rgba(221, 221, 221, 0.2);
     }
 
     /* 4. Corrigir a caixa de Variante (estava pequena demais) */
@@ -1033,7 +1033,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 12px;
-      margin-top: 5px;
+      margin-top: 2px;
       border-radius: var(--radius-sm);
     }
 
