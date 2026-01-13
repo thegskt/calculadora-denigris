@@ -1941,15 +1941,20 @@ btnVerInfoEl?.addEventListener('click', () => {
     document.getElementById('tipoPreco')?.addEventListener('change', () => {
       if (!vendedorAtual) return;
 
-      const tipo = document.getElementById('tipoPreco').value;
+      const tipo = tipoPreco.value;
+
+      // classes visuais
+      tipoPreco.className = `select-preco ${tipo}`;
 
       if (tipo === 'especial') {
-        precoEspecial.disabled = false;
-        precoEspecial.value = vendedorAtual.precoOportunidade
-          .toFixed(2)
-          .replace('.',',');
+        especialWrapper.classList.remove('hidden');
+
+        const min = vendedorAtual.precoOportunidade;
+        precoEspecial.value = min.toFixed(2).replace('.',',');
+        minEspecialValor.innerText = formatar(min);
+
       } else {
-        precoEspecial.disabled = true;
+        especialWrapper.classList.add('hidden');
         precoEspecial.value = '';
       }
 
