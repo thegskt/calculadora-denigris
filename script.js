@@ -1598,6 +1598,21 @@ const RAW_ACOES = `
     select.className = "base-classes " + tipo;
   }
 
+  function buscarEstoquePorFZ(fz) {
+    const item = ESTOQUE.find(e => e.FZ === fz);
+
+    if (!item) return;
+
+    document.getElementById("modelo").innerText = item.MODELO;
+    document.getElementById("ano").innerText = item.ANO_MODELO;
+    document.getElementById("valor").innerText = formatar(item.VALOR_COMPRA);
+  }
+
+  function toggleInfo() {
+  const info = document.getElementById("infoVeiculo");
+  info.classList.toggle("hidden");
+}
+
     // --- DETALHAMENTO ESTOQUE PRÓPRIO ---
   const btnMostrarProtegido = document.getElementById('btnMostrarProtegido');
   const passwordGroup       = document.getElementById('passwordGroup');
