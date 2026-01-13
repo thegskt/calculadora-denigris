@@ -762,7 +762,7 @@
       font-size: 1rem;
       background: #f9fafb;
       transition: border 0.2s;
-      color: var(--text);
+      color: #fff ;
     }
     .form-group input:focus {
       border: 1.5px solid var(--primary);
