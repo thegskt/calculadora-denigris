@@ -1593,6 +1593,11 @@ const RAW_ACOES = `
 
   let veiculoAtual = null;
 
+  function atualizarClassePreco(tipo) {
+    const select = document.getElementById("tipoPreco");
+    select.className = "base-classes " + tipo;
+  }
+
     // --- DETALHAMENTO ESTOQUE PRÓPRIO ---
   const btnMostrarProtegido = document.getElementById('btnMostrarProtegido');
   const passwordGroup       = document.getElementById('passwordGroup');
