@@ -974,7 +974,7 @@
 
     /* 2. Cabeçalho específico da Fábrica (Cinza Escuro/Preto) */
     .card-header.factory {
-      background: #1f2937; /* Cinza chumbo escuro */
+      background: rgba(68, 68, 68, 0.952); /* Cinza chumbo escuro */
       color: white;
       border-bottom: 3px solid #374151;
     }
