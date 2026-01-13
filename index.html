@@ -69,9 +69,20 @@
               <option value="vendedor">Vendedor</option>
               <option value="gerente">Gerente</option>
               <option value="oportunidade">OPORTUNIDADE</option>
-              <option value="especial">Especial</option>
-            </select>
-            <input type="number" id="precoEspecial" disabled class="precoEspecial"/>
+              <div id="especialWrapper" class="especial-wrapper hidden">
+                <label class="especial-label">
+                  Especial
+                  <span class="especial-min">
+                    mínimo: <strong id="minEspecialValor">R$ 0,00</strong>
+                  </span>
+                </label>
+
+                <input
+                  id="precoEspecial"
+                  type="text"
+                  inputmode="decimal"
+                  placeholder="Digite o valor especial"
+                />
             <small id="minEspecialHint" class="hidden">
               Preço mínimo: <strong id="minEspecialValor"></strong>
             </small>
