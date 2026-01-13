@@ -385,9 +385,6 @@
   .action-buttons-mini { display: flex; gap: 4px; }
   .btn-icon {
     background: white;
-    border: 1px solid #e879f9;
-    color: #86198f;
-    border-radius: var(--radius-sm);
     width: 40px;
     display: flex;
     align-items: center;
