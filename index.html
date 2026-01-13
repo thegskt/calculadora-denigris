@@ -81,31 +81,28 @@
           </div>
         </div>
 
-          <!-- Desconto -->
-          <div class="form-group">
-            <label for="tipoPreco">Preço:</label>
-            <select id="tipoPreco" class="select-preco">
-              <option value="vendedor">Vendedor</option>
-              <option value="gerente">Gerente</option>
-              <option value="oportunidade">OPORTUNIDADE</option>
-              <option value="especial">Especial</option>
-              <div id="especialWrapper" class="especial-wrapper hidden">
-                <label class="especial-label">
-                  Especial
-                  <span class="especial-min">
-                    mínimo: <strong id="minEspecialValor">R$ 0,00</strong>
-                  </span>
-                </label>
+        <!-- PREÇO -->
+        <div class="form-group">
+          <label>Preço:</label>
+          <select id="tipoPreco">
+            <option value="vendedor">Vendedor</option>
+            <option value="gerente">Gerente</option>
+            <option value="oportunidade">Oportunidade</option>
+            <option value="especial">Especial</option>
+          </select>
+        </div>
 
-                <input
-                  id="precoEspecial"
-                  type="text"
-                  inputmode="decimal"
-                  placeholder="Digite o valor desejado"
-                />
-            <small id="minEspecialHint" class="hidden">
-              Preço mínimo: <strong id="minEspecialValor"></strong>
-            </small>
+        <!-- 🔹 PREÇO ESPECIAL (ALINHADO) -->
+        <div id="especialWrapper" class="especial-wrapper hidden">
+          <div class="especial-header">
+            <span>Preço Especial</span>
+            <span class="especial-min">
+              mínimo: <strong id="minEspecialValor">R$ 0,00</strong>
+            </span>
+          </div>
+
+          <input id="precoEspecial" type="text" inputmode="decimal">
+          
               <!-- NOVO: botão para ver foto do veículo (coluna 16 do Sheets) -->
               <button type="button" id="btnVerFoto" class="btn-photo" title="Ver foto do veículo">📷 Foto</button>
               <!-- NOVO: botão para ver informações do veículo -->
@@ -133,7 +130,7 @@
               <span id="valorVenda">R$ 0,00</span>
             </div>
 
-            
+
             <!-- Protegidos -->
             <div class="row hidden" id="rowComissaoProtected">
               <span class="label">Comissão</span>
