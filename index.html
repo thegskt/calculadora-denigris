@@ -8,254 +8,169 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- LOADING OVERLAY -->
-  <div id="loading" class="loading-overlay">
-    <div class="loading-spinner"></div>
-    <p>Carregando dados...</p>
+
+<!-- LOADING -->
+<div id="loading" class="loading-overlay">
+  <div class="loading-spinner"></div>
+  <p>Carregando dados...</p>
+</div>
+
+<!-- HEADER -->
+<header class="main-header">
+  <div class="header-container">
+    <div class="logo-area">
+      <a href="home.html" class="logo-link">
+        <img src="Imagens/Mercedes-Logo.png">
+        <img src="Imagens/Logo_De Nigris Branco.png" class="logo-denigris">
+      </a>
+    </div>
+
+    <button class="nav-toggle">☰</button>
+
+    <nav class="nav-menu">
+      <a href="home.html">Home</a>
+      <a class="active" href="index.html">Calculadora</a>
+      <a href="estoque.html">Estoque</a>
+    </nav>
+  </div>
+</header>
+
+<div class="header-space"></div>
+
+<!-- CONTEÚDO -->
+<div id="mainContent">
+
+  <!-- SWITCH -->
+  <div class="calc-switch">
+    <button id="btnEstoqueProprio" class="btn-primary">Estoque De Nigris</button>
+    <button id="btnEstoqueFabrica" class="btn-secondary">Estoque Fábrica</button>
   </div>
 
-  <!-- CABEÇALHO FIXO -->
-  <header class="main-header">
-    <div class="header-container">
-      <div class="logo-area">
-        <a href="home.html" class="logo-link">
-        <img src="Imagens/Mercedes-Logo.png" alt="Mercedes-Benz Logo">
-        <img src="Imagens/Logo_De Nigris Branco.png" alt="De Nigris Logo" class="logo-denigris">
-        </a>
-      </div>
+  <!-- CALCULADORA -->
+  <div id="calcEstoqueProprio">
+    <div class="container">
+      <div class="header">Calculadora De Nigris</div>
 
-      <button class="nav-toggle" aria-label="Menu">☰</button>
+      <div class="card">
 
-      <nav class="nav-menu">
-        <a href="home.html">Home</a>
-        <a class="active" href="index.html">Calculadora</a>
-        <a href="estoque.html">Estoque</a>
-      </nav>
-    </div>
-  </header>
-  <div class="header-space"></div>
-
-  <!-- Conteúdo principal (agora sem 'hidden') -->
-  <div id="mainContent">
-    <!-- Alternância de calculadoras -->
-    <div class="calc-switch" style="display:flex;justify-content:center;gap:1rem;margin-bottom:1.2rem;">
-      <button id="btnEstoqueProprio" class="btn-primary">Estoque De Nigris</button>
-      <button id="btnEstoqueFabrica" class="btn-secondary">Estoque Fábrica</button>
-    </div>
-
-    <!-- Calculadora Estoque Próprio -->
-    <div id="calcEstoqueProprio">
-      <div class="container">
-        <div class="header">Calculadora De Nigris</div>
-        <div class="card">
-
-          <!-- Campos iniciais -->
-          <div class="grid-5">
-            <div>Modelo<br><strong id="modelo">–</strong></div>
-            <div>UP<br><strong id="up">–</strong></div>
-            <div>
-              <label for="fz">FZ</label>
-              <input type="text" id="fz" maxlength="6" placeholder="123456"/>
-              <div id="fzError"></div>
-            </div>
-            <div>Ano/Mod<br><strong id="anoMod">–</strong></div>
-            <div>Valor<br><strong id="valorTabela">R$ 0,00</strong></div>
+        <!-- GRID SUPERIOR -->
+        <div class="grid-top">
+          <div>
+            <span class="label">Modelo</span>
+            <strong id="modelo">–</strong>
           </div>
 
-          <!-- Desconto -->
-          <div class="form-group">
-            <label for="tipoPreco">Preço:</label>
-            <select id="tipoPreco" class="select-preco">
-              <option value="vendedor">Vendedor</option>
-              <option value="gerente">Gerente</option>
-              <option value="oportunidade">OPORTUNIDADE</option>
-              <option value="especial">Especial</option>
-              <div id="especialWrapper" class="especial-wrapper hidden">
-                <label class="especial-label">
-                  Especial
-                  <span class="especial-min">
-                    mínimo: <strong id="minEspecialValor">R$ 0,00</strong>
-                  </span>
-                </label>
-
-                <input
-                  id="precoEspecial"
-                  type="text"
-                  inputmode="decimal"
-                  placeholder="Digite o valor desejado"
-                />
-            <small id="minEspecialHint" class="hidden">
-              Preço mínimo: <strong id="minEspecialValor"></strong>
-            </small>
-              <!-- NOVO: botão para ver foto do veículo (coluna 16 do Sheets) -->
-              <button type="button" id="btnVerFoto" class="btn-photo" title="Ver foto do veículo">📷 Foto</button>
-              <!-- NOVO: botão para ver informações do veículo -->
-              <button type="button" id="btnVerInfo" class="btn-info" title="Ver informações do veículo">ℹ</button>
-            </div>
+          <div>
+            <span class="label">UP</span>
+            <strong id="up">–</strong>
           </div>
 
-          <!-- NOVO: Informações adicionais do veículo -->
-          <div id="infoVeiculo" class="hidden" style="background:#f9f9f9;border:1px solid #ddd;border-radius:8px;padding:1rem;margin-top:0.5rem;">
-            <div style="display:flex;flex-direction:column;gap:0.5rem;">
-              <div><strong>Cor:</strong> <span id="infoCor">–</span></div>
-              <div><strong>Variante:</strong> <span id="infoVariante">–</span></div>
-              <div><strong>Pátio:</strong> <span id="infoPatio">–</span></div>
-            </div>
+          <div class="fz-box">
+            <label for="fz">FZ</label>
+            <input id="fz" type="text" maxlength="6" placeholder="123456">
+            <div id="fzError"></div>
           </div>
 
-          <!-- Resultados -->
-          <div class="results">
-            <div class="row">
-              <span class="label">Desconto (R$)</span>
-              <span id="descontoReais">R$ 0,00</span>
-            </div>
-            <div class="row">
-              <span class="label">Valor de Venda</span>
-              <span id="valorVenda">R$ 0,00</span>
-            </div>
-            <!-- Protegidos -->
-            <div class="row hidden" id="rowComissaoProtected">
-              <span class="label">Comissão</span>
-              <span id="comissaoProtected">R$ 0,00</span>
-            </div>
-            <div class="row hidden" id="rowDsrProtected">
-              <span class="label">DSR</span>
-              <span id="dsrProtected">R$ 0,00</span>
-            </div>
-            <div class="row hidden" id="rowTotalProtected">
-              <span class="label">Total</span>
-              <span id="total">R$ 0,00</span>
-            </div>
+          <div>
+            <span class="label">Ano/Mod</span>
+            <strong id="anoMod">–</strong>
           </div>
 
-          <!-- Detalhamento protegido -->
-          <button id="btnMostrarProtegido">Detalhamento</button>
-
-          <!-- Grupo de senha -->
-          <div id="passwordGroup" class="hidden">
-            <input type="password" id="senhaInput" placeholder="Digite a senha"/>
-            <button id="btnVerificarSenha">Confirmar</button>
-            <div id="senhaError" style="color:var(--error);font-size:0.85rem;"></div>
-          </div>
-
-          <!-- Ações finais -->
-          <div class="actions">
-            <a id="linkEmitirPedido" href="https://gd.cimbb.com.br/p/crm/atividades/agenda/" target="_blank" class="btn-primary">
-              Emitir Pedido
-            </a>
-            <a href="https://wa.me/5511950583053" target="_blank" class="btn-secondary">
-              Solicitar Reserva
-            </a>
+          <div class="valor-principal">
+            <span class="label">Valor</span>
+            <strong id="valorTabela">R$ 0,00</strong>
           </div>
         </div>
+
+        <!-- PREÇO -->
+        <div class="form-group">
+          <label for="tipoPreco">Preço</label>
+          <select id="tipoPreco" class="select-preco">
+            <option value="vendedor">Vendedor</option>
+            <option value="gerente">Gerente</option>
+            <option value="oportunidade">Oportunidade</option>
+            <option value="especial">Especial</option>
+          </select>
+        </div>
+
+        <!-- ESPECIAL -->
+        <div id="especialWrapper" class="especial-wrapper hidden">
+          <label class="especial-label">
+            Preço Especial
+            <span class="especial-min">
+              mínimo: <strong id="minEspecialValor">R$ 0,00</strong>
+            </span>
+          </label>
+
+          <input
+            id="precoEspecial"
+            type="text"
+            inputmode="decimal"
+            placeholder="R$ 0,00"
+          />
+        </div>
+
+        <!-- AÇÕES AUX -->
+        <div class="aux-actions">
+          <button id="btnVerFoto" class="btn-photo">📷 Foto</button>
+          <button id="btnVerInfo" class="btn-info">ℹ</button>
+        </div>
+
+        <!-- INFO VEÍCULO -->
+        <div id="infoVeiculo" class="hidden info-box">
+          <div><strong>Cor:</strong> <span id="infoCor">–</span></div>
+          <div><strong>Variante:</strong> <span id="infoVariante">–</span></div>
+          <div><strong>Pátio:</strong> <span id="infoPatio">–</span></div>
+        </div>
+
+        <!-- RESULTADOS -->
+        <div class="results">
+          <div class="row">
+            <span>Desconto (R$)</span>
+            <span id="descontoReais">R$ 0,00</span>
+          </div>
+          <div class="row">
+            <span>Valor de Venda</span>
+            <span id="valorVenda">R$ 0,00</span>
+          </div>
+
+          <div class="row hidden" id="rowComissaoProtected">
+            <span>Comissão</span>
+            <span id="comissaoProtected">R$ 0,00</span>
+          </div>
+          <div class="row hidden" id="rowDsrProtected">
+            <span>DSR</span>
+            <span id="dsrProtected">R$ 0,00</span>
+          </div>
+          <div class="row hidden" id="rowTotalProtected">
+            <span>Total</span>
+            <span id="total">R$ 0,00</span>
+          </div>
+        </div>
+
+        <!-- DETALHAMENTO -->
+        <button id="btnMostrarProtegido">Detalhamento</button>
+
+        <div id="passwordGroup" class="hidden">
+          <input type="password" id="senhaInput" placeholder="Digite a senha">
+          <button id="btnVerificarSenha">Confirmar</button>
+          <div id="senhaError"></div>
+        </div>
+
+        <!-- AÇÕES -->
+        <div class="actions">
+          <a id="linkEmitirPedido" class="btn-primary" target="_blank"
+             href="https://gd.cimbb.com.br/p/crm/atividades/agenda/">Emitir Pedido</a>
+
+          <a class="btn-secondary" target="_blank"
+             href="https://wa.me/5511950583053">Solicitar Reserva</a>
+        </div>
+
       </div>
     </div>
+  </div>
+</div>
 
-    <!-- Calculadora Estoque Fábrica -->
-    <div id="calcEstoqueFabrica" class="hidden fabrica-theme">
-      <div class="container">
-        <div class="header">Calculadora Estoque Fábrica</div>
-        <div class="card" style="display:flex;flex-direction:column;gap:1.2rem;align-items:flex-start;">
-
-          <div class="form-group">
-            <label for="anoModeloFab">Ano/Modelo:</label>
-            <select id="anoModeloFab">
-              <option value="">Selecione</option>
-              <option value="25/25">25/25</option>
-              <option value="25/26">25/26</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>Família:</label>
-            <div id="familiaFab" style="display:flex;gap:1.2rem;flex-wrap:wrap;">
-              <label><input type="radio" name="familiaFab" value="Accelo"><span>Accelo</span></label>
-              <label><input type="radio" name="familiaFab" value="Atego"><span>Atego</span></label>
-              <label><input type="radio" name="familiaFab" value="Actros"><span>Actros</span></label>
-              <label><input type="radio" name="familiaFab" value="Axor"><span>Axor</span></label>
-              <label><input type="radio" name="familiaFab" value="Arocs"><span>Arocs</span></label>
-            </div>
-          </div>
-
-          <!-- UP + Variante (corrigido: wrapper var-right) -->
-          <div class="form-group variant-group">
-            <label for="upFab">UP:</label>
-            <select id="upFab"></select>
-
-            <div class="var-right">
-              <span class="var-label">Variante:</span>
-              <div id="varianteFab" class="var-box"></div>
-              <button id="btnCopiarVariante" class="copy-variant" title="Copiar variante">
-                <svg id="iconCopiarVariante" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M10 1.5A1.5 1.5 0 0 1 11.5 3v1h-1V3a.5.5 0 0 0-.5-.5h-7A.5.5 0 0 0 2 3v10a.5.5 0 0 0 .5.5H6v1H2.5A1.5 1.5 0 0 1 1 13.5v-10A1.5 1.5 0 0 1 2.5 2h7zm1 3A1.5 1.5 0 0 1 12.5 6v7A1.5 1.5 0 0 1 11 14.5h-5A1.5 1.5 0 0 1 4.5 13V6A1.5 1.5 0 0 1 6 4.5h5zm-5 1A.5.5 0 0 0 6 6v7a.5.5 0 0 0 .5.5h5a.5.5 0 0 0 .5-.5V6a.5.5 0 0 0-.5-.5h-5z"/>
-                </svg>
-                <svg id="iconCheckVariante" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="display:none;">
-                  <path d="M13.485 1.929a1 1 0 0 1 1.415 1.414l-8 8a1 1 0 0 1-1.415 0l-4-4A1 1 0 1 1 2.9 5.929l3.293 3.293 7.293-7.293z"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <div class="form-group model-group">
-            <label for="modeloFab">Modelo:</label>
-            <select id="modeloFab"></select>
-            <a href="https://truckinfomb.com.br/variantes" target="_blank" class="truckinfo-link">
-              <img src="Imagens/truckinfo.png" alt="Truck Info">
-            </a>
-          </div>
-
-          <div class="form-group">
-            <label for="acaoFab">Ação:</label>
-            <select id="acaoFab">
-              <option value="">Selecione</option>
-              <option value="Estoque">Estoque</option>
-              <option value="C.E.ABAST">C.E.ABAST</option>
-              <option value="Frigorificado">Frigorificado</option>
-              <option value="Postos de Combustiveis">Postos de Combustiveis</option>
-              <option value="Mais Alimentos">Mais Alimentos</option>
-            </select>
-          </div>
-
-          <!-- Card de preços -->
-          <div class="precos-fabrica-card" style="background:#f6f7fa;border-radius:10px;box-shadow:0 1px 4px rgba(40,40,40,0.06);padding:1.1rem 1.3rem 1rem 1.3rem;margin:2rem 0 1.2rem 0;width:100%;border:1px solid #ececec;">
-            <div style="display:flex;flex-direction:column;gap:0.7rem;">
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="color:#888;font-weight:500;font-size:0.98rem;">VALOR TABELA</span>
-                <span id="faValorTabela" style="color:#222;font-size:1.13rem;font-weight:600;">R$ 0,00</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="color:#888;font-weight:500;font-size:0.98rem;">VALOR VENDA</span>
-                <span id="faValorVenda" style="color:#222;font-size:1.13rem;font-weight:600;">R$ 0,00</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="color:#888;font-weight:500;font-size:0.98rem;">DESCONTO</span>
-                <span id="faDescontoPerc" style="color:#666;font-size:1.05rem;font-weight:500;">0%</span>
-              </div>
-            </div>
-            <button id="btnDetalhamentoFab" style="margin-top:1.1rem;width:100%;background:#f2f4f8;color:#23408e;border:1px solid #e0e3e8;border-radius:6px;padding:0.65rem 0;font-size:1.03rem;font-weight:600;cursor:pointer;transition:background .18s,color .18s;">
-              Detalhamento
-            </button>
-          </div>
-
-        </div><!-- .card -->
-      </div><!-- .container -->
-    </div><!-- #calcEstoqueFabrica -->
-  </div><!-- #mainContent -->
-
-  <script type="module">
-    import { requireAuth } from './auth.js'
-    await requireAuth('estoque.html')
-  </script>
-  
-  <script>
-    const toggle = document.querySelector('.nav-toggle');
-    const nav = document.querySelector('.nav-menu');
-
-    toggle.addEventListener('click', () => {
-      nav.classList.toggle('open');
-    });
-  </script>
-  <script src="script.js"></script>
-
+<script src="script.js"></script>
 </body>
 </html>

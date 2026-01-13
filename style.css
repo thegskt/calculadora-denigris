@@ -198,22 +198,6 @@
       background: #fafdff;
       border-radius: 0 0 var(--radius) var(--radius);
     }
-    .grid-5 > div:last-child {
-      background: linear-gradient(135deg, #23408e, #3f6fd1);
-      color: #fff;
-      border-radius: 10px;
-      padding: 0.9rem;
-      text-align: center;
-    }
-    .grid-5 > div:last-child strong {
-      font-size: 1.15rem;
-      font-weight: 700;
-    }
-    .grid-5 label,
-    .form-group label {
-      color: var(--primary);
-      font-weight: 700;
-    }
 
     #anoModeloFab {
       flex: 0 0 auto;
@@ -223,44 +207,62 @@
       min-height: 32px;     /* melhora o toque no mobile */
       margin-left: 0 !important;
     }
+    .grid-top {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.8rem;
+      align-items: end;
+    }
 
-    .grid-5 div {
-      color: var(--primary); /* Títulos em azul */
-      font-weight: 700;
-      text-align: center;
-      font-size: 1rem;
-      margin-bottom: 0.15rem;
-    }
-    .grid-5 div strong {
-      color: var(--text);    /* Valores em preto */
+    .grid-top .label {
+      font-size: 0.75rem;
+      color: #666;
       font-weight: 600;
-      font-size: 0.8rem;
-      letter-spacing: 0.2px;
-      display: block;
-      margin-top: 0.12rem;
     }
-    .grid-5 input {
+
+    .grid-top strong {
+      font-size: 0.95rem;
+      color: #111;
+    }
+
+    .fz-box input {
       width: 100%;
-      padding: 0.4rem 0.3rem;
-      border-radius: 8px;
-      border: 1.5px solid var(--border);
-      font-size: 0.98rem;
+      padding: 0.45rem;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+    }
+
+    .valor-principal {
+      background: linear-gradient(135deg,#23408e,#3f6fd8);
+      color: #fff;
+      padding: 0.6rem;
+      border-radius: 10px;
       text-align: center;
-      background: #f9fafb;
-      transition: border 0.2s;
-      color: var(--text);
-      font-weight: 600;
     }
-    .grid-5 input:focus {
-      border: 1.5px solid var(--primary);
-      outline: none;
-      background: #fff;
+
+    .valor-principal .label {
+      color: #e5e7eb;
     }
+
+    .valor-principal strong {
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    
     #fzError {
       color: var(--error);
       font-size: 0.85rem;
       margin-top: 0.12rem;
       min-height: 1.1em;
+    }
+
+    .results {
+      margin-top: 1rem;
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 0.8rem 1rem;
+      border: 1px solid #e5e7eb;
     }
     /* Base */
     .select-preco {
