@@ -311,22 +311,6 @@
       margin-bottom: 1rem;
     }
 
-    #precoEspecial {
-      margin-top: 0.4rem;
-      width: 100%;
-      padding: 0.65rem;
-      border-radius: 8px;
-      border: 1px solid #d0d6e2;
-      font-size: 1rem;
-      font-weight: 600;
-      text-align: right;
-    }
-
-    #precoEspecial:disabled {
-      background: #f2f4f8;
-      color: #999;
-    }
-
     #minEspecialHint {
       display: block;
       margin-top: 0.3rem;
@@ -1200,3 +1184,55 @@
   opacity: 0.85;
 }
 
+.especial-wrapper {
+  margin-top: 0.6rem;
+  padding: 0.7rem;
+  border-radius: 12px;
+  border: 1.5px dashed #c4b5fd;
+  background: linear-gradient(135deg, #f5f3ff, #fafaff);
+  animation: especialIn 0.25s ease;
+}
+
+@keyframes especialIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.especial-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #4c1d95;
+  margin-bottom: 0.4rem;
+}
+
+.especial-min {
+  font-size: 0.7rem;
+  color: #6d28d9;
+  font-weight: 600;
+}
+
+#precoEspecial {
+  width: 100%;
+  padding: 0.65rem;
+  border-radius: 10px;
+  border: 2px solid #8b5cf6;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-align: right;
+  color: #4c1d95;
+  background: #fff;
+}
+
+#precoEspecial:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(139,92,246,0.18);
+}
