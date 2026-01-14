@@ -1897,17 +1897,6 @@
       gap: 12px;
     }
 
-    /* Agrupa UP + Variante lado a lado */
-    .form-grid .form-group:has(#upFab),
-    .form-grid .form-group:has(#varianteFab) {
-      margin-bottom: 0;
-    }
-
-    .form-grid .form-group:has(#upFab),
-    .form-grid .form-group:has(#varianteFab) {
-      flex-direction: column;
-    }
-
     /* UP mais compacto */
     #upFab {
       text-align: center;
