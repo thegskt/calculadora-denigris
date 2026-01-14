@@ -1830,20 +1830,20 @@
   /* Garante grid base do formulário */
   .form-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1.4fr 1fr; /* UP maior | Variante menor */
     gap: 16px;
   }
 
   /* UP ocupa menos espaço */
   .form-group:has(#upFab) {
     grid-column: span 1;
-    max-width: 110px;
+    max-width: none;
   }
 
   
-  /* Variante ocupa mais espaço */
+  /* Variante */
   .form-group:has(.variant-display-box) {
-    grid-column: span 1;
+    max-width: none;
   }
 
   
@@ -1858,7 +1858,7 @@
     /* Wrapper dos dois campos */
     .form-grid {
       display: grid;
-      grid-template-columns: 0.9fr 2.1fr;
+      grid-template-columns: 1.3fr 1fr;
       gap: 12px;
     }
 
