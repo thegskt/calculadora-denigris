@@ -1831,7 +1831,7 @@
   /* Garante grid base do formulário */
   .form-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr; /* UP maior | Variante menor */
+    grid-template-columns: 1.5fr 1fr; /* UP maior | Variante menor */
     gap: 6px;
   }
   
