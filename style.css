@@ -698,6 +698,32 @@
       padding: 0.8rem 1rem;
       border: 1px solid #e5e7eb;
     }
+
+    /* Wrapper do campo Descrição Comercial */
+    .model-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    /* Linha do select + imagem */
+    .model-wrapper .select-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Select ocupa o máximo possível */
+    .model-wrapper .form-select {
+      flex: 1;
+    }
+
+    /* Link / imagem TruckInfo */
+    .model-wrapper .link-small img {
+      height: 34px;
+      width: auto;
+      display: block;
+    }
     /* Base */
     .select-preco {
       transition: all 0.25s ease;
