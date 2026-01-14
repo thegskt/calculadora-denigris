@@ -1483,11 +1483,10 @@
     @media (max-width: 600px) {
 
       #familiaFab.radio-group-modern {
-        flex-wrap: wrap;           /* Permite quebrar linha */
-        gap: 10px;                 /* Um pouco mais de espaço */
+        flex-wrap: nowrap;           /* Permite quebrar linha */
+        gap: 6px;                 /* Um pouco mais de espaço */
       }
       #familiaFab .radio-btn {
-        flex: 1 1 calc(50% - 5px); /* 2 botões por linha */
         height: 48px;              /* Mais confortável no toque */
       }
 
