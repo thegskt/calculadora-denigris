@@ -1824,3 +1824,49 @@
   outline: none;
   box-shadow: 0 0 0 3px rgba(139,92,246,0.18);
 }
+
+/* ===== MOBILE: UP + VARIANTE NA MESMA LINHA ===== */
+@media (max-width: 768px) {
+
+  /* Wrapper dos dois campos */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Agrupa UP + Variante lado a lado */
+  .form-grid .form-group:has(#upFab),
+  .form-grid .form-group:has(#varianteFab) {
+    margin-bottom: 0;
+  }
+
+  .form-grid .form-group:has(#upFab),
+  .form-grid .form-group:has(#varianteFab) {
+    display: inline-flex;
+    flex-direction: column;
+  }
+
+  /* Linha única */
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 0.8fr 2.2fr; /* UP menor / Variante maior */
+    gap: 10px;
+  }
+
+  /* UP mais compacto */
+  #upFab {
+    text-align: center;
+    font-weight: 600;
+  }
+
+  /* Caixa da variante ocupa bem */
+  .variant-display-box {
+    min-height: 44px;
+  }
+
+}
