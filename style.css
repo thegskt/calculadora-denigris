@@ -1055,7 +1055,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px; /* Espaço entre os botões */
-      width: 100%;
+      width: 80%;
       margin-top: 5px;
     }
 
