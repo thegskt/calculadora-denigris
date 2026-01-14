@@ -498,12 +498,19 @@
     7. ESTILOS ESPECÍFICOS: FÁBRICA
     ========================================= */
   .variant-display-box {
+    background-color: #f8fafc !important;
+    border: 2px dashed #94a3b8 !important;
+    color: #334155 !important;
+    padding: 12px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    min-height: 48px;
     display: flex;
     align-items: center;
-    background: #f3f4f6;
-    border: 1px solid #d1d5db;
-    border-radius: var(--radius-sm);
-    padding: 0.5rem;
     justify-content: space-between;
   }
   .variant-text { font-family: monospace; font-weight: 600; color: #374151; }
@@ -513,14 +520,6 @@
   .label-with-link { display: flex; justify-content: space-between; margin-bottom: 0.4rem; }
   .link-small { font-size: 0.75rem; color: var(--accent-blue); text-decoration: none; display: flex; align-items: center; gap: 4px; }
 
-  /* Resultado Fábrica Card */
-  .result-card-factory {
-    background: #f8fafc;
-    border-top: 2px solid var(--accent-blue);
-    border-radius: var(--radius-sm);
-    padding: 1.5rem;
-    margin-top: 1.5rem;
-  }
   .result-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
   .result-item { display: flex; justify-content: space-between; align-items: center; }
   .result-item .label { color: var(--text-muted); font-size: 0.9rem; }
@@ -963,17 +962,45 @@
       CORREÇÃO ESPECÍFICA: ESTOQUE FÁBRICA
       ========================================= */
 
-    /* 1. Resetar o fundo do card para branco e garantir texto escuro */
-    #calcEstoqueFabrica .card {
-      background: white !important;
-      color: var(--text-main) !important;
-      border: 1px solid #ddd;
+    /* 1. Forçar o container principal a ser branco e limpo */
+    #calcEstoqueFabrica {
+      background-color: #ffffff !important;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-top: 1rem;
+      overflow: hidden; /* Garante que nada saia do card */
+      border: 1px solid #e5e7eb;
     }
-    /* 2. Cabeçalho específico da Fábrica (Cinza Escuro/Preto) */
-    .card-header.factory {
-      background: #1f2937; /* Cinza chumbo escuro */
-      color: white;
+    /* 2. Cabeçalho Específico da Fábrica (Cinza Escuro para diferenciar) */
+    #calcEstoqueFabrica .card-header {
+      background-color: #1f2937 !important; /* Cinza Chumbo */
+      color: #ffffff !important;
+      padding: 1.5rem;
       border-bottom: 3px solid #374151;
+    }
+
+    #calcEstoqueFabrica .card-header h2 {
+      color: #ffffff !important;
+      margin: 0;
+      font-size: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #calcEstoqueFabrica .card-body {
+      padding: 1.5rem;
+      background-color: #fff !important; /* Garante fundo branco no form */
+      color: #1f2937;
+    }
+
+    /* 3. Labels (Textos acima dos campos) */
+    #calcEstoqueFabrica label {
+      color: #374151 !important; /* Cinza escuro legível */
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+      display: block;
     }
 
     .card-header.factory h2 {
@@ -988,37 +1015,40 @@
 
     /* 3. Corrigir os botões de Família (estavam cortados na imagem) */
     #familiaFab.radio-group-modern {
-      display: flex;
-      flex-wrap: wrap; /* Isso impede que cortem e cria linhas novas */
-      gap: 8px;
+      display: flex !important;
+      flex-wrap: wrap !important; /* Isso quebra a linha em vez de criar rolagem */
+      gap: 10px !important;
       width: 100%;
-      margin-top: 5px;
+      margin-bottom: 15px;
+      overflow: visible !important; /* Remove barra de rolagem */
     }
 
     #familiaFab .radio-btn {
-      flex: 1 1 auto; /* Distribui o espaço uniformemente */
-      min-width: 80px;
-      text-align: center;
+      flex: 1 1 auto; /* Cresce para ocupar espaço */
+      min-width: 80px; /* Tamanho mínimo */
     }
 
     #familiaFab .radio-btn span {
-      display: block;
-      width: 100%;
-      padding: 10px 4px;
-      background: #f3f4f6;
-      border: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f3f4f6;
+      border: 1px solid #d1d5db;
       color: #4b5563;
-      border-radius: var(--radius-sm);
-      font-size: 0.9rem;
+      padding: 10px 15px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
       transition: all 0.2s;
+      text-align: center;
     }
 
     /* Estilo quando selecionado (Cinza Escuro da Fábrica) */
     #familiaFab .radio-btn input:checked + span {
-      background: #1f2937;
-      color: white;
+      background-color: #1f2937 !important; /* Preto Fábrica */
+      color: #ffffff !important;
       border-color: #000;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     }
 
     /* 4. Corrigir a caixa de Variante (estava pequena demais) */
@@ -1030,7 +1060,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 12px;
-      margin-top: 5px;
+      margin-top: 2px;
       border-radius: var(--radius-sm);
     }
 
@@ -1050,21 +1080,42 @@
       margin-bottom: 4px;
       display: block;
     }
+
+    #calcEstoqueFabrica select, 
+    #calcEstoqueFabrica input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #ffffff;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      color: #1f2937;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    #calcEstoqueFabrica select:focus, 
+    #calcEstoqueFabrica input:focus {
+      border-color: #1f2937;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(31, 41, 55, 0.1);
+    }
+
     /* 6. Card de Resultado da Fábrica (Fundo Cinza Claro) */
     .result-card-factory {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-top: 4px solid #4b5563; /* Topo cinza para combinar com o tema */
-      border-radius: var(--radius-md);
+      background-color: #f9fafb !important;
+      border: 1px solid #e5e7eb;
+      border-top: 4px solid #4b5563; /* Detalhe cinza no topo */
+      border-radius: 8px;
       padding: 1.5rem;
-      margin-top: 2rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      margin-top: 1.5rem;
     }
 
     .result-card-factory .result-item {
-      margin-bottom: 10px;
-      padding-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
       border-bottom: 1px solid #e5e7eb;
+      padding: 8px 0;
+      color: #374151;
     }
 
     .result-card-factory .result-item:last-child {
@@ -1072,26 +1123,26 @@
     }
 
     .result-card-factory .value {
-      font-size: 1.1rem;
-      color: #111;
+      font-weight: 700;
+      color: #111827;
     }
 
-    /* Botão Detalhamento da Fábrica */
+    /* Botão Detalhamento */
     #btnDetalhamentoFab {
       width: 100%;
-      padding: 12px;
+      margin-top: 15px;
+      padding: 10px;
       background: white;
-      border: 1px solid #4b5563;
-      color: #1f2937;
+      border: 1px solid #374151;
+      color: #374151;
       font-weight: 600;
-      border-radius: var(--radius-sm);
+      border-radius: 6px;
       cursor: pointer;
-      transition: all 0.2s;
-      margin-top: 1rem;
+      transition: 0.2s;
     }
 
     #btnDetalhamentoFab:hover {
-      background: #4b5563;
+      background: #374151;
       color: white;
     }
     
