@@ -1160,7 +1160,7 @@
     #calcEstoqueFabrica .familia-group {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 4px;
+      gap: 30px;
       margin-top: 8px;
     }
 
