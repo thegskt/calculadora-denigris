@@ -948,8 +948,9 @@
     #upFab {
     text-align: center;
     font-weight: 600;
+    width: 100%;
     min-width: 120px;
-    max-width: 220px;
+    max-width: none; /* LIBERA o crescimento */
     }
 
     .variant-group {
@@ -1837,6 +1838,11 @@
   /* Variante */
   .form-group:has(.variant-display-box) {
     max-width: none;
+  }
+  
+  /* ===== CAMPOS GRANDES ===== */
+  .form-group.full-width {
+    grid-column: 1 / -1;
   }
 
   /* ===== MOBILE: UP + VARIANTE NA MESMA LINHA ===== */
