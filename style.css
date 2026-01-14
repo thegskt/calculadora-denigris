@@ -1083,7 +1083,7 @@
       background-color: #f3f4f6; /* Fundo cinza claro */
       color: #6b7280;
       font-weight: 600;
-      border-radius: 8px;
+      border-radius: 16px;
       transition: all 0.2s ease-in-out;
       user-select: none;
     }
