@@ -1905,7 +1905,6 @@
 
     .form-grid .form-group:has(#upFab),
     .form-grid .form-group:has(#varianteFab) {
-      display: inline-flex;
       flex-direction: column;
     }
 
