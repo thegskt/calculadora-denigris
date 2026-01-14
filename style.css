@@ -701,16 +701,19 @@
 
     /* Wrapper do campo Descrição Comercial */
     .model-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
     }
 
-    /* Linha do select + imagem */
+    /* Label ocupa a linha inteira */
+    .model-wrapper .label-with-link {
+      grid-column: 1 / -1;
+    }
+    /* Select ocupa a coluna grande */
     .model-wrapper .select-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      grid-column: 1;
     }
 
     /* Select ocupa o máximo possível */
@@ -729,6 +732,9 @@
       padding: 4px;
       border-radius: 6px;
       transition: background 0.2s;
+      grid-column: 2;
+      display: flex;
+      align-items: center;
     }
 
     .model-wrapper .link-small:hover {
