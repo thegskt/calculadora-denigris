@@ -741,15 +741,33 @@
       background: #f3f4f6;
     }
 
-    @media (max-width: 768px) {
-      .model-wrapper .link-small img {
-        height: 28px;
+    @media (max-width: 480px) {
+      .model-wrapper {
+        grid-template-columns: 1fr;
       }
 
-      .model-wrapper .select-wrapper {
-        gap: 6px;
+      .model-wrapper .link-small {
+        justify-content: flex-start;
       }
     }
+
+    /* SOBRESCREVE o full-width APENAS na Descrição Comercial */
+    .form-group.full-width.model-wrapper {
+      display: grid !important;
+      grid-template-columns: 1fr auto !important;
+      align-items: center !important;
+    }
+
+    /* Garante que o select e imagem fiquem na mesma linha */
+    .form-group.full-width.model-wrapper .select-wrapper {
+      grid-column: 1 !important;
+    }
+
+    .form-group.full-width.model-wrapper .link-small {
+      grid-column: 2 !important;
+      align-self: center;
+    }
+    
     /* Base */
     .select-preco {
       transition: all 0.25s ease;
