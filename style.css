@@ -946,6 +946,8 @@
     }
 
     #upFab {
+    text-align: center;
+    font-weight: 600;
     min-width: 120px;
     max-width: 220px;
     }
@@ -1097,7 +1099,7 @@
     .variant-display-box {
       background: #fff;
       border: 2px dashed #cbd5e1; /* Borda tracejada para indicar que é gerado */
-      min-height: 50px;
+      height: 44px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -1825,48 +1827,77 @@
   box-shadow: 0 0 0 3px rgba(139,92,246,0.18);
 }
 
-/* ===== MOBILE: UP + VARIANTE NA MESMA LINHA ===== */
-@media (max-width: 768px) {
-
-  /* Wrapper dos dois campos */
+  /* Garante grid base do formulário */
   .form-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
 
-  /* Agrupa UP + Variante lado a lado */
-  .form-grid .form-group:has(#upFab),
-  .form-grid .form-group:has(#varianteFab) {
-    margin-bottom: 0;
+  /* UP ocupa menos espaço */
+  .form-group:has(#upFab) {
+    grid-column: span 1;
+    max-width: 110px;
   }
 
-  .form-grid .form-group:has(#upFab),
-  .form-grid .form-group:has(#varianteFab) {
-    display: inline-flex;
-    flex-direction: column;
+  
+  /* Variante ocupa mais espaço */
+  .form-group:has(.variant-display-box) {
+    grid-column: span 1;
   }
 
-  /* Linha única */
-  .form-grid {
-    grid-template-columns: 1fr;
+  
+  /* ===== CAMPOS GRANDES ===== */
+  .form-group.full-width {
+    grid-column: 1 / -1;
   }
 
-  .form-grid {
-    display: grid;
-    grid-template-columns: 0.8fr 2.2fr; /* UP menor / Variante maior */
-    gap: 10px;
-  }
+  /* ===== MOBILE: UP + VARIANTE NA MESMA LINHA ===== */
+  @media (max-width: 768px) {
 
-  /* UP mais compacto */
-  #upFab {
-    text-align: center;
-    font-weight: 600;
-  }
+    /* Wrapper dos dois campos */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 2.1fr;
+      gap: 12px;
+    }
 
-  /* Caixa da variante ocupa bem */
-  .variant-display-box {
-    min-height: 44px;
-  }
+    /* Agrupa UP + Variante lado a lado */
+    .form-grid .form-group:has(#upFab),
+    .form-grid .form-group:has(#varianteFab) {
+      margin-bottom: 0;
+    }
 
-}
+    .form-grid .form-group:has(#upFab),
+      max-width: 100%;
+    }
+
+    .form-grid .form-group:has(#upFab),
+    .form-grid .form-group:has(#varianteFab) {
+      display: inline-flex;
+      flex-direction: column;
+    }
+
+    /* Linha única */
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 0.8fr 2.2fr; /* UP menor / Variante maior */
+      gap: 10px;
+    }
+
+    /* UP mais compacto */
+    #upFab {
+      text-align: center;
+      font-weight: 600;
+    }
+
+    /* Caixa da variante ocupa bem */
+    .variant-display-box {
+      min-height: 44px;
+    }
+
+  }
