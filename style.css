@@ -1872,6 +1872,9 @@
     grid-template-columns: 1.5fr 1fr; /* UP maior | Variante menor */
     gap: 6px;
   }
+  .form-grid .full-width {
+    grid-column: 1 / -1;
+  }
   
   /* Variante */
   .form-group:has(.variant-display-box) {
