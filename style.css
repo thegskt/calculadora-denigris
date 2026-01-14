@@ -1837,7 +1837,7 @@
   /* UP ocupa menos espaço */
   .form-group:has(#upFab) {
     grid-column: span 1;
-    max-width: none;
+    max-width: 60%;
   }
 
   
