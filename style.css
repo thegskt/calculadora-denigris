@@ -1422,42 +1422,6 @@
       max-width: 340px;
     }    
 
-    .fabrica-theme .header {
-      background: linear-gradient(90deg, #222 60%, #555 100%);
-      color: #fff;
-      border-radius: 12px 12px 0 0;
-    }
-
-    .fabrica-theme .card {
-      background: #232323;
-      color: #fff;
-      border: 1.5px solid #444;
-    }
-
-    .fabrica-theme label,
-    .fabrica-theme select,
-    .fabrica-theme .results {
-      color: #fff;
-    }
-
-    .fabrica-theme select,
-    .fabrica-theme input {
-      background: #181818;
-      color: #fff;
-      border: 1px solid #444;
-    }
-
-    .fabrica-theme .results {
-      background: #181818;
-      border-radius: 8px;
-    }
-
-    .fabrica-theme .btn-primary,
-    .fabrica-theme .btn-secondary {
-      background: #111;
-      color: #fff;
-      border: 1px solid #555;
-    }
     #familiaFab {
       display: flex;
       align-items: center;
