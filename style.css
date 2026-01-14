@@ -954,11 +954,10 @@
     }
 
     .variant-group {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
       align-items: center;
-      gap: 0;
-      flex-wrap: nowrap;
-      width: 100%;
     }
 
     .variant-group label[for="upFab"],
@@ -1059,11 +1058,10 @@
       width: 100%;
       margin-top: 5px;
     }
+
     #familiaFab .radio-btn {
-      position: relative;
-      flex: 1 1 auto; /* Faz os botões crescerem igualmente */
-      min-width: 85px; /* Largura mínima para não esmagar o texto */
-      height: 48px;   /* Mesma altura dos selects */
+      flex: 1 1 100px;
+      height: 44px;
     }
 
     /* ESCONDE O INPUT RADIO PADRÃO FEIO (O quadrado preto das imagens) */
@@ -1149,7 +1147,14 @@
       box-shadow: 0 0 0 3px rgba(31, 41, 55, 0.1);
     }
 
-    /* 6. Card de Resultado da Fábrica (Fundo Cinza Claro) */
+    #calcEstoqueFabrica .form-group {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 12px;
+      align-items: center;
+      width: 100%;
+    }    
+      /* 6. Card de Resultado da Fábrica (Fundo Cinza Claro) */
     .result-card-factory {
       background-color: #f9fafb;
       border: 1px solid #e5e7eb;
@@ -1290,12 +1295,17 @@
 
     @media (max-width: 600px) {
 
-      .fabrica-theme .card .form-group label { min-width: 62px; }
+    .fabrica-theme .card .form-group label { min-width: 62px; }
       .fabrica-theme .card .form-group select {
         flex: 1 1 auto;           /* select cresce/encolhe */
         min-width: 0;             /* iOS permite encolher */
-      }
-      .actions {
+    }
+
+    #calcEstoqueFabrica .form-group {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+    .actions {
         display: flex !important;
         flex-direction: row !important;   /* não empilhar */
         justify-content: center;
@@ -1303,16 +1313,16 @@
         width: 100%;
         flex-wrap: nowrap;
         margin-top: 16px;
-      }
-      .actions a.btn-primary,
-      .actions a.btn-secondary {
+    }
+    .actions a.btn-primary,
+    .actions a.btn-secondary {
         display: inline-flex;
         justify-content: center;
         align-items: center;
         flex: 1 1 0;       /* divide igualmente */
         min-width: 0;      /* permite encolher no iOS */
         width: auto !important; /* evita width:100% de outras regras */
-      }
+    }
       .header-space {
         /* espaço reservado para header fixo */
         height: 56px;
@@ -1352,8 +1362,7 @@
       .btn-primary, .btn-secondary { width: 100%; font-size: 0.95rem; padding: 0.5rem 0; }
 
       .variant-group {
-        flex-wrap: nowrap;           /* não quebra linha */
-        gap: 4px;                 /* espaço menor para caber */
+        grid-template-columns: 1fr;
       }
       #upFab {
         flex: 0 1 auto;
@@ -1362,8 +1371,7 @@
         max-width: 120px;
       }
       .var-right {
-        margin-left: auto !important; 
-        margin-right: 0 !important;   /* substitui a regra anterior */
+        justify-content: flex-start;
       }
       .variant-group .var-label {
         margin-left: 0;
@@ -1420,13 +1428,13 @@
     .fabrica-theme .card .form-group select {
       min-width: 200px;          /* evita “triângulo” minúsculo */
       max-width: 340px;
-    }    
+    }
 
     #familiaFab {
       display: flex;
       align-items: center;
-      gap: clamp(0.35rem, 0.9vw, 0.6rem); /* menos espaço entre opções */
-      flex-wrap: nowrap;       /* não quebra */
+      gap: 8px;
+      flex-wrap: wrap;
       white-space: nowrap;     /* impede quebra dentro dos labels */
       overflow-x: auto;        /* se não couber, rola para o lado */
       scrollbar-width: thin;   /* Firefox */
