@@ -965,14 +965,13 @@
 
     /* 1. Resetar o fundo do card para branco e garantir texto escuro */
     #calcEstoqueFabrica .card {
-      background: rgba(34, 34, 34, 0.952) !important;
+      background: white !important;
       color: var(--text-main) !important;
       border: 1px solid #ddd;
     }
-
     /* 2. Cabeçalho específico da Fábrica (Cinza Escuro/Preto) */
     .card-header.factory {
-      background: rgba(68, 68, 68, 0.952); /* Cinza chumbo escuro */
+      background: #1f2937; /* Cinza chumbo escuro */
       color: white;
       border-bottom: 3px solid #374151;
     }
@@ -991,14 +990,14 @@
     #familiaFab.radio-group-modern {
       display: flex;
       flex-wrap: wrap; /* Isso impede que cortem e cria linhas novas */
-      gap: 6px;
+      gap: 8px;
       width: 100%;
       margin-top: 5px;
     }
 
     #familiaFab .radio-btn {
       flex: 1 1 auto; /* Distribui o espaço uniformemente */
-      min-width: 60px;
+      min-width: 80px;
       text-align: center;
     }
 
@@ -1006,9 +1005,9 @@
       display: block;
       width: 100%;
       padding: 10px 4px;
-      background: #252b36;
-      border: 1px solid #404858;
-      color: #dae9ff;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      color: #4b5563;
       border-radius: var(--radius-sm);
       font-size: 0.9rem;
       transition: all 0.2s;
@@ -1016,10 +1015,10 @@
 
     /* Estilo quando selecionado (Cinza Escuro da Fábrica) */
     #familiaFab .radio-btn input:checked + span {
-      background: #d3e3fa;
-      color: rgb(27, 31, 54);
-      border-color: #9ac5ff;
-      box-shadow: 0 2px 5px rgba(221, 221, 221, 0.2);
+      background: #1f2937;
+      color: white;
+      border-color: #000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
 
     /* 4. Corrigir a caixa de Variante (estava pequena demais) */
@@ -1031,7 +1030,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 12px;
-      margin-top: 2px;
+      margin-top: 5px;
       border-radius: var(--radius-sm);
     }
 
@@ -1051,7 +1050,6 @@
       margin-bottom: 4px;
       display: block;
     }
-
     /* 6. Card de Resultado da Fábrica (Fundo Cinza Claro) */
     .result-card-factory {
       background: #f8fafc;
@@ -1096,6 +1094,7 @@
       background: #4b5563;
       color: white;
     }
+    
     .fabrica-theme .card .form-group.variant-group > label[for="upFab"] {
     min-width: 36px !important; /* antes 60px, reduz só para UP */
     margin-right: 0;            /* sem espaço extra */
