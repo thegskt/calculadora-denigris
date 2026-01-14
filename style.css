@@ -1076,14 +1076,13 @@
 
     #familiaFab .radio-btn span {
       position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
+      top: 0; left: 0; width: 100%; height: 80%;
       display: flex;
       justify-content: center;
       align-items: center;
       background-color: #f3f4f6; /* Fundo cinza claro */
       color: #6b7280;
       font-weight: 600;
-      border-radius: 16px;
       transition: all 0.2s ease-in-out;
       user-select: none;
     }
