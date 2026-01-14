@@ -325,26 +325,45 @@
     flex-wrap: wrap;
     gap: 0.5rem;
   }
-  .radio-btn { position: relative; cursor: pointer; }
-  .radio-btn input { position: absolute; opacity: 0; cursor: pointer; }
+  .radio-btn {
+    position: relative;
+    flex: 1 1 auto; /* Faz os botões crescerem igualmente */
+    min-width: 85px; /* Largura mínima para não esmagar o texto */
+    height: 48px;   /* Mesma altura dos selects */
+  }
+  .radio-btn input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 2;
+  }
   .radio-btn span {
-    display: inline-block;
-    padding: 8px 16px;
-    background: #f3f4f6;
-    border-radius: 99px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--text-muted);
-    border: 1px solid transparent;
-    transition: var(--transition);
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f3f4f6; /* Fundo cinza claro */
+    border: 2px solid #e5e7eb; /* Borda mais grossa */
+    color: #6b7280;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+    user-select: none;
+  }
+  .radio-btn:hover span {
+    background-color: #e5e7eb;
+    border-color: #d1d5db;
   }
   .radio-btn input:checked + span {
-    background: var(--primary-blue);
-    color: white;
-    border-color: var(--primary-blue);
-    box-shadow: 0 2px 4px rgba(0,44,95,0.3);
+    background-color: #1f2937 !important; /* Fundo Grafite */
+    color: #ffffff !important;             /* Texto Branco */
+    border-color: #1f2937 !important;      /* Borda Grafite */
+    box-shadow: 0 4px 6px rgba(31, 41, 55, 0.25); /* Sombra suave */
+    transform: translateY(-1px); /* Leve elevação */
   }
-
   /* Wrapper de Preço Especial */
   .special-price-card {
     background: #fdf4ff; /* Fundo roxo bem clarinho */
@@ -498,28 +517,28 @@
     7. ESTILOS ESPECÍFICOS: FÁBRICA
     ========================================= */
   .variant-display-box {
-    background-color: #f8fafc !important;
-    border: 2px dashed #94a3b8 !important;
-    color: #334155 !important;
-    padding: 12px;
-    border-radius: 6px;
-    font-family: 'Courier New', monospace;
+    background-color: #f8fafc;
+    border: 2px dashed #94a3b8; /* Borda tracejada estilo "código gerado" */
+    color: #1e293b;
+    font-family: 'Courier New', Courier, monospace; /* Fonte monoespaçada */
     font-weight: 700;
-    font-size: 1.1rem;
-    text-align: center;
-    margin-bottom: 1rem;
-    min-height: 48px;
+    font-size: 1.2rem;
+    min-height: 52px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 0 16px;
+    border-radius: 8px;
+    margin-top: 5px;
   }
   .variant-text { font-family: monospace; font-weight: 600; color: #374151; }
   .btn-copy { background: none; border: none; cursor: pointer; color: var(--accent-blue); padding: 4px; }
   .btn-copy:hover { color: var(--primary-blue); }
 
-  .label-with-link { display: flex; justify-content: space-between; margin-bottom: 0.4rem; }
-  .link-small { font-size: 0.75rem; color: var(--accent-blue); text-decoration: none; display: flex; align-items: center; gap: 4px; }
-
+  .label-with-link .link-small {
+    color: #374151; /* Link discreto */
+    font-weight: 500;
+  }
   .result-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
   .result-item { display: flex; justify-content: space-between; align-items: center; }
   .result-item .label { color: var(--text-muted); font-size: 0.9rem; }
@@ -963,13 +982,11 @@
       ========================================= */
 
     /* 1. Forçar o container principal a ser branco e limpo */
-    #calcEstoqueFabrica {
-      background-color: #ffffff !important;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      margin-top: 1rem;
-      overflow: hidden; /* Garante que nada saia do card */
+    #calcEstoqueFabrica .card {
+      background-color: #ffffff !important; /* Fundo branco para legibilidade */
       border: 1px solid #e5e7eb;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      overflow: hidden; /* Impede que elementos vazem pelas bordas arredondadas */
     }
     /* 2. Cabeçalho Específico da Fábrica (Cinza Escuro para diferenciar) */
     #calcEstoqueFabrica .card-header {
@@ -987,42 +1004,61 @@
       justify-content: space-between;
       align-items: center;
     }
-
+    /* 3. Corpo do Formulário - Limpo e Organizado */
     #calcEstoqueFabrica .card-body {
       padding: 1.5rem;
-      background-color: #fff !important; /* Garante fundo branco no form */
-      color: #1f2937;
+      background-color: #fff;
     }
-
     /* 3. Labels (Textos acima dos campos) */
     #calcEstoqueFabrica label {
-      color: #374151 !important; /* Cinza escuro legível */
+      color: #374151 !important; /* Cinza escuro profissional */
       font-weight: 600;
-      font-size: 0.9rem;
-      margin-bottom: 6px;
+      font-size: 0.92rem;
+      margin-bottom: 8px;
       display: block;
     }
 
-    .card-header.factory h2 {
-      color: white !important;
+    #calcEstoqueFabrica .form-select,
+    #calcEstoqueFabrica .form-input {
+      height: 48px; /* Altura fixa para alinhar com os botões */
+      border-color: #d1d5db;
+      padding-left: 12px;
+      font-size: 1rem;
+      color: #1f2937;
+      border-radius: 8px;
     }
 
+    #calcEstoqueFabrica .form-select:focus {
+      border-color: #374151; /* Foco cinza escuro */
+      box-shadow: 0 0 0 3px rgba(55, 65, 81, 0.15);
+    }
+    .card-header.factory {
+      background: linear-gradient(to right, #1f2937, #374151) !important; /* Degradê grafite moderno */
+      padding: 1.25rem 1.5rem;
+      border-bottom: none;
+    }
+    .card-header.factory h2 {
+      color: #ffffff !important; /* Texto branco */
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    /* Badge de "Simulação" no cabeçalho */
     .card-header.factory .status-badge {
-      background: #374151;
-      color: #e5e7eb;
-      border: 1px solid #4b5563;
+      background-color: rgba(255, 255, 255, 0.15) !important;
+      color: #ffffff !important;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 6px 12px;
     }
 
     /* 3. Corrigir os botões de Família (estavam cortados na imagem) */
     #familiaFab.radio-group-modern {
-      display: flex !important;
-      flex-wrap: wrap !important; /* Isso quebra a linha em vez de criar rolagem */
-      gap: 10px !important;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px; /* Espaço entre os botões */
       width: 100%;
-      margin-bottom: 15px;
-      overflow: visible !important; /* Remove barra de rolagem */
+      margin-top: 5px;
     }
-
     #familiaFab .radio-btn {
       flex: 1 1 auto; /* Cresce para ocupar espaço */
       min-width: 80px; /* Tamanho mínimo */
@@ -1102,50 +1138,63 @@
 
     /* 6. Card de Resultado da Fábrica (Fundo Cinza Claro) */
     .result-card-factory {
-      background-color: #f9fafb !important;
+      background-color: #f9fafb;
       border: 1px solid #e5e7eb;
-      border-top: 4px solid #4b5563; /* Detalhe cinza no topo */
-      border-radius: 8px;
+      border-top: 4px solid #1f2937; /* Topo grosso na cor tema */
+      border-radius: 10px;
       padding: 1.5rem;
-      margin-top: 1.5rem;
+      margin-top: 2rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
     }
 
     .result-card-factory .result-item {
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
       border-bottom: 1px solid #e5e7eb;
-      padding: 8px 0;
-      color: #374151;
+      color: #4b5563;
+      font-size: 1.05rem;
     }
 
-    .result-card-factory .result-item:last-child {
-      border-bottom: none;
+    .result-card-factory .result-item:last-child { 
+      border-bottom: none; margin-bottom: 0; 
     }
 
     .result-card-factory .value {
       font-weight: 700;
       color: #111827;
+      font-size: 1.1rem;
+    }
+
+    .result-card-factory .result-item.highlight .value {
+      color: #1f2937; /* Destaque na cor tema */
+      font-size: 1.35rem;
+      font-weight: 800;
     }
 
     /* Botão Detalhamento */
     #btnDetalhamentoFab {
       width: 100%;
-      margin-top: 15px;
-      padding: 10px;
-      background: white;
-      border: 1px solid #374151;
-      color: #374151;
-      font-weight: 600;
-      border-radius: 6px;
+      margin-top: 20px;
+      padding: 14px;
+      background-color: transparent;
+      border: 2px solid #1f2937;
+      color: #1f2937;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 8px;
       cursor: pointer;
-      transition: 0.2s;
+      transition: all 0.2s;
     }
 
     #btnDetalhamentoFab:hover {
-      background: #374151;
+      background-color: #1f2937;
       color: white;
+      box-shadow: 0 4px 6px rgba(31, 41, 55, 0.2);
     }
-    
+
     .fabrica-theme .card .form-group.variant-group > label[for="upFab"] {
     min-width: 36px !important; /* antes 60px, reduz só para UP */
     margin-right: 0;            /* sem espaço extra */
