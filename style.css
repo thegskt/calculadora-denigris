@@ -1839,12 +1839,6 @@
     max-width: none;
   }
 
-  
-  /* ===== CAMPOS GRANDES ===== */
-  .form-group.full-width {
-    grid-column: 1 / -1;
-  }
-
   /* ===== MOBILE: UP + VARIANTE NA MESMA LINHA ===== */
   @media (max-width: 768px) {
 
