@@ -1830,7 +1830,7 @@
   /* Garante grid base do formulário */
   .form-grid {
     display: grid;
-    grid-template-columns: 1.4fr 1fr; /* UP maior | Variante menor */
+    grid-template-columns: 2.4fr 1fr; /* UP maior | Variante menor */
     gap: 16px;
   }
 
