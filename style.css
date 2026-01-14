@@ -1124,13 +1124,14 @@
       font-weight: 600;
       color: #374151;
       font-size: 0.9rem;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
       display: block;
     }
 
     #calcEstoqueFabrica select, 
     #calcEstoqueFabrica input[type="text"] {
       width: 100%;
+      height: 42px;
       padding: 10px;
       background-color: #ffffff;
       border: 1px solid #d1d5db;
@@ -1148,12 +1149,26 @@
     }
 
     #calcEstoqueFabrica .form-group {
-      display: grid;
+      display: block !important;
       grid-template-columns: 120px 1fr;
       gap: 12px;
       align-items: center;
       width: 100%;
+      margin-bottom: 14px;
     }    
+
+    #calcEstoqueFabrica .familia-group {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    #calcEstoqueFabrica .familia-btn {
+      height: 42px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
       /* 6. Card de Resultado da Fábrica (Fundo Cinza Claro) */
     .result-card-factory {
       background-color: #f9fafb;
@@ -1304,6 +1319,9 @@
     #calcEstoqueFabrica .form-group {
       grid-template-columns: 1fr;
       gap: 6px;
+    }
+    #calcEstoqueFabrica .familia-group {
+      grid-template-columns: 1fr;
     }
     .actions {
         display: flex !important;
