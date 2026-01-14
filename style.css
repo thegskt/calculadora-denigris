@@ -1060,31 +1060,44 @@
       margin-top: 5px;
     }
     #familiaFab .radio-btn {
-      flex: 1 1 auto; /* Cresce para ocupar espaço */
-      min-width: 80px; /* Tamanho mínimo */
+      position: relative;
+      flex: 1 1 auto; /* Faz os botões crescerem igualmente */
+      min-width: 85px; /* Largura mínima para não esmagar o texto */
+      height: 48px;   /* Mesma altura dos selects */
+    }
+
+    /* ESCONDE O INPUT RADIO PADRÃO FEIO (O quadrado preto das imagens) */
+    #familiaFab .radio-btn input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      z-index: 2;
     }
 
     #familiaFab .radio-btn span {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #f3f4f6;
-      border: 1px solid #d1d5db;
-      color: #4b5563;
-      padding: 10px 15px;
-      border-radius: 6px;
+      background-color: #f3f4f6; /* Fundo cinza claro */
+      border: 2px solid #e5e7eb; /* Borda mais grossa */
+      color: #6b7280;
       font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-align: center;
+      border-radius: 8px;
+      transition: all 0.2s ease-in-out;
+      user-select: none;
     }
 
     /* Estilo quando selecionado (Cinza Escuro da Fábrica) */
     #familiaFab .radio-btn input:checked + span {
-      background-color: #1f2937 !important; /* Preto Fábrica */
-      color: #ffffff !important;
-      border-color: #000;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      background-color: #1f2937 !important; /* Fundo Grafite */
+      color: #ffffff !important;             /* Texto Branco */
+      border-color: #1f2937 !important;      /* Borda Grafite */
+      box-shadow: 0 4px 6px rgba(31, 41, 55, 0.25); /* Sombra suave */
+      transform: translateY(-1px); /* Leve elevação */
     }
 
     /* 4. Corrigir a caixa de Variante (estava pequena demais) */
