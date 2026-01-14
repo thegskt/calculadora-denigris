@@ -699,75 +699,43 @@
       border: 1px solid #e5e7eb;
     }
 
-    /* Wrapper do campo Descrição Comercial */
-    .model-wrapper {
+    /* Descrição Comercial ocupa linha inteira do form-grid */
+    .form-group.full-width.model-wrapper {
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 8px;
       align-items: center;
     }
 
-    /* Label ocupa a linha inteira */
-    .model-wrapper .label-with-link {
+    /* Label em cima */
+    .form-group.full-width.model-wrapper .label-with-link {
       grid-column: 1 / -1;
     }
-    /* Select ocupa a coluna grande */
-    .model-wrapper .select-wrapper {
+
+    /* Select ocupa a coluna principal */
+    .form-group.full-width.model-wrapper .select-wrapper {
       grid-column: 1;
     }
 
-    /* Select ocupa o máximo possível */
-    .model-wrapper .form-select {
-      flex: 1;
-    }
-
-    /* Link / imagem TruckInfo */
-    .model-wrapper .link-small img {
-      height: 34px;
-      width: auto;
-      display: block;
-    }
-
-    .model-wrapper .link-small {
-      padding: 4px;
-      border-radius: 6px;
-      transition: background 0.2s;
+    /* Link TruckInfo à direita */
+    .form-group.full-width.model-wrapper .link-small {
       grid-column: 2;
       display: flex;
       align-items: center;
     }
 
-    .model-wrapper .link-small:hover {
-      background: #f3f4f6;
-    }
-
+    /* Mobile: quebra para baixo */
     @media (max-width: 480px) {
-      .model-wrapper {
+      .form-group.full-width.model-wrapper {
         grid-template-columns: 1fr;
       }
 
-      .model-wrapper .link-small {
-        justify-content: flex-start;
+      .form-group.full-width.model-wrapper .link-small {
+        grid-column: 1;
+        margin-top: 6px;
       }
     }
 
-    /* SOBRESCREVE o full-width APENAS na Descrição Comercial */
-    .form-group.full-width.model-wrapper {
-      display: grid !important;
-      grid-template-columns: 1fr auto !important;
-      align-items: center !important;
-    }
-
-    /* Garante que o select e imagem fiquem na mesma linha */
-    .form-group.full-width.model-wrapper .select-wrapper {
-      grid-column: 1 !important;
-    }
-
-    .form-group.full-width.model-wrapper .link-small {
-      grid-column: 2 !important;
-      align-self: center;
-    }
-    
     /* Base */
     .select-preco {
       transition: all 0.25s ease;
