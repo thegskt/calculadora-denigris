@@ -1833,13 +1833,6 @@
     grid-template-columns: 2fr 1fr; /* UP maior | Variante menor */
     gap: 6px;
   }
-
-  /* UP ocupa menos espaço */
-  .form-group:has(#upFab) {
-    grid-column: span 0;
-    max-width: 100%;
-  }
-
   
   /* Variante */
   .form-group:has(.variant-display-box) {
