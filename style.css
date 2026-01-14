@@ -1868,7 +1868,7 @@
       margin-bottom: 0;
     }
 
-    .form-grid .form-group:has(#upFab),
+    .form-grid .form-group:has(#upFab),{
       max-width: 100%;
     }
 
