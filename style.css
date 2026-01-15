@@ -965,60 +965,51 @@
     }
     .actions {
       display: flex;
-      align-items: center;
-      justify-content: center;  /* centraliza no desktop */
-      gap: 12px;
-      margin-top: 18px;         /* afasta do Detalhamento */
-    }
-    .actions a.btn-primary,
-    .actions a.btn-secondary {
-      display: inline-flex;
       justify-content: center;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    /* Base comum */
+    .btn-primary,
+    .btn-secondary {
+      display: inline-flex;
       align-items: center;
-      min-height: 42px;         /* mesma altura */
-      padding: 10px 16px;       /* padding consistente */
+      justify-content: center;
+
+      height: 44px;
+      padding: 0 18px;
+
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+
+      border-radius: 10px;
+      text-decoration: none;
+      cursor: pointer;
+
+      transition: all 0.2s ease;
       white-space: nowrap;
     }
-    .btn-primary, .btn-secondary {
-      padding: 0.6rem 1.1rem;
-      border-radius: var(--radius);
-      border: none;
-      font-size: 1rem;
-      font-family: inherit;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      text-align: center;
-      transition: var(--transition);
-    }
+    /* Azul De Nigris */
     .btn-primary {
-      background: var(--primary);
-      color: #fff;
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: #ffffff;
+      border: none;
     }
     .btn-primary:hover {
-      background: #16306b;
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-hover);
+      filter: brightness(1.08);
+      transform: translateY(-1px);
     }
-    .btn-primary:focus {
-      outline: 2px solid #fff;
-      outline-offset: 2px;
-    }
+    /* Grafite elegante */
     .btn-secondary {
-      background: linear-gradient(90deg, #111 0%, #444 100%);
-      color: #fff;
-      border: 1px solid #222;
+      background: linear-gradient(135deg, #111827, #1f2937);
+      color: #ffffff;
+      border: none;
     }
+
     .btn-secondary:hover {
-      background: linear-gradient(90deg, #686868 0%, #b8b8b8 100%);
-      color: #000000;
-      border: 0.5px solid #555;
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-hover);
-    }
-    .btn-secondary:focus {
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
+      filter: brightness(1.12);
+      transform: translateY(-1px);
     }
 
     .btn-photo, .btn-info {
@@ -1413,22 +1404,7 @@
       grid-template-columns: 1fr;
     }
     .actions {
-        display: flex !important;
-        flex-direction: row !important;   /* não empilhar */
-        justify-content: center;
-        gap: 10px;
-        width: 100%;
-        flex-wrap: nowrap;
-        margin-top: 16px;
-    }
-    .actions a.btn-primary,
-    .actions a.btn-secondary {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        flex: 1 1 0;       /* divide igualmente */
-        min-width: 0;      /* permite encolher no iOS */
-        width: auto !important; /* evita width:100% de outras regras */
+      gap: 10px;
     }
       .header-space {
         /* espaço reservado para header fixo */
@@ -1465,9 +1441,6 @@
       .form-group label { font-size: 0.9rem; }
       .form-group input { font-size: 0.9rem; padding: 0.15rem; }
       .results { padding: 0.3rem; font-size: 0.9rem; }
-      .actions { flex-direction: column; }
-      .btn-primary, .btn-secondary { width: 100%; font-size: 0.95rem; padding: 0.5rem 0; }
-
       .variant-group {
         grid-template-columns: 1fr;
       }
@@ -1594,9 +1567,7 @@
         gap: 0.5rem;
         margin-bottom: 0.7rem;
       }
-      .calc-switch button,
-      .btn-primary,
-      .btn-secondary {
+      .calc-switch button {
         font-size: 0.7rem;
         padding: 0.25rem 0.3rem;
         border-radius: 6px;
@@ -1604,11 +1575,13 @@
         max-width: 140px;  
         width: auto;     
       }
+      .btn-primary,
       .btn-secondary {
-      background: linear-gradient(90deg, #111 0%, #444 100%);
-      color: #fff;
-      border: 1px solid #222;
-    }
+        flex: 1;
+        height: 40px;
+        font-size: 0.85rem;
+        padding: 0;
+      }
       #btnCopiarVariante svg {
       color: #444;
     }
