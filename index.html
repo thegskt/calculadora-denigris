@@ -231,56 +231,73 @@
                  </div>
               </div>
 
-              <div class="form-group full-width model-wrapper">
-                <div class="label-with-link">
+                <div class="form-group full-width model-wrapper">
                   <label for="modeloFab">Descrição Comercial</label>
+                  
+                  <div class="input-with-action">
+                    <div class="select-wrapper">
+                      <select id="modeloFab" class="form-select">
+                        </select>
+                    </div>
+                    
+                    <a href="https://truckinfomb.com.br/variantes" target="_blank" class="truck-link" title="Ver no TruckInfo">
+                      <img src="Imagens/truckinfo.png" alt="Truck Info">
+                    </a>
+                  </div>
                 </div>
-                <div class="select-wrapper">
-                  <select id="modeloFab" class="form-select"></select>
-                </div>
-                  <a href="https://truckinfomb.com.br/variantes" target="_blank" class="link-small">
-                     <img src="Imagens/truckinfo.png" alt="Truck Info" style="height:34px; vertical-align:middle;">
-                  </a>
-              </div>
+                    <div class="form-group full-width">
+                      <label>Condição Comercial</label>
+                      <div id="acaoFabContainer" class="radio-group-grid">
+                        
+                        <label class="radio-btn-action">
+                          <input type="radio" name="acaoFab" value="Estoque" checked>
+                          <span>Estoque</span>
+                        </label>
+                        
+                        <label class="radio-btn-action">
+                          <input type="radio" name="acaoFab" value="C.E.ABAST">
+                          <span>C.E.ABAST</span>
+                        </label>
+                        
+                        <label class="radio-btn-action">
+                          <input type="radio" name="acaoFab" value="Frigorificado">
+                          <span>Frigorificado</span>
+                        </label>
+                        
+                        <label class="radio-btn-action">
+                          <input type="radio" name="acaoFab" value="Postos de Combustiveis">
+                          <span>Postos Comb.</span>
+                        </label>
+                        
+                        <label class="radio-btn-action">
+                          <input type="radio" name="acaoFab" value="Mais Alimentos">
+                          <span>Mais Alimentos</span>
+                        </label>
 
-              <div class="form-group full-width">
-                <label for="acaoFab">Condição Comercial</label>
-                <div class="select-wrapper">
-                   <select id="acaoFab" class="form-select">
-                    <option value="">Selecione a Campanha</option>
-                    <option value="Estoque">Estoque</option>
-                    <option value="C.E.ABAST">C.E.ABAST</option>
-                    <option value="Frigorificado">Frigorificado</option>
-                    <option value="Postos de Combustiveis">Postos de Combustiveis</option>
-                    <option value="Mais Alimentos">Mais Alimentos</option>
-                  </select>
-                </div>
-              </div>
-
+                      </div>
+                    </div>
             </div>
-
-            <div class="result-card-factory">
-              <div class="result-grid">
-                <div class="result-item">
-                  <span class="label">Valor Tabela</span>
-                  <span id="faValorTabela" class="value">R$ 0,00</span>
+              <div class="result-card-factory">
+                <div class="result-grid">
+                  <div class="result-item">
+                    <span class="label">Valor Tabela</span>
+                    <span id="faValorTabela" class="value">R$ 0,00</span>
+                  </div>
+                  <div class="result-item highlight">
+                    <span class="label">Valor Venda</span>
+                    <span id="faValorVenda" class="value">R$ 0,00</span>
+                  </div>
+                  <div class="result-item">
+                    <span class="label">Desconto</span>
+                    <span id="faDescontoPerc" class="value discount">0%</span>
+                  </div>
                 </div>
-                <div class="result-item highlight">
-                  <span class="label">Valor Venda</span>
-                  <span id="faValorVenda" class="value">R$ 0,00</span>
-                </div>
-                <div class="result-item">
-                  <span class="label">Desconto</span>
-                  <span id="faDescontoPerc" class="value discount">0%</span>
-                </div>
+                <button id="btnDetalhamentoFab" class="btn-outline-secondary full-width mt-3">
+                  Ver Detalhamento Completo
+                </button>
               </div>
-              
-              <button id="btnDetalhamentoFab" class="btn-outline-secondary full-width mt-3">
-                Ver Detalhamento Completo
-              </button>
-            </div>
 
-          </div></div></div>
+            </div></div></div>
     </section>
 
   </main>

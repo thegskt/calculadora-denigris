@@ -182,22 +182,18 @@
 
   .tabs-container {
     display: flex;
-    background: #e5e7eb;
-    padding: 4px;
-    border-radius: var(--radius-md);
-    margin-bottom: 1.5rem;
+    width: 100%;
+    gap: 10px; /* Espaço entre os botões */
+    margin-bottom: 20px;
   }
 
   .tab-btn {
-    flex: 1;
-    border: none;
-    background: transparent;
-    padding: 10px;
-    border-radius: var(--radius-sm);
-    font-weight: 600;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: var(--transition);
+    flex: 1; /* Faz os botões ocuparem 50% cada um */
+    padding: 12px 5px; /* Ajuste para não quebrar texto */
+    text-align: center;
+    white-space: nowrap;
+    font-size: 0.9rem; /* Levemente menor no mobile se precisar */
+    /* Mantenha suas cores e bordas atuais aqui */
   }
 
   .tab-btn.active {
@@ -206,6 +202,62 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   }
 
+  /* --- CORREÇÃO TRUCK INFO (ALINHAMENTO) --- */
+  .input-with-action {
+    display: flex;
+    align-items: center; /* Centraliza verticalmente */
+    gap: 10px; /* Espaço entre o select e a imagem */
+  }
+
+  .input-with-action .select-wrapper {
+    flex-grow: 1; /* O select ocupa todo o espaço possível */
+    width: auto; /* Reseta largura fixa se houver */
+  }
+
+  .truck-link img {
+    height: 42px; /* Altura para bater com o input */
+    width: auto;
+    border-radius: 4px;
+    transition: transform 0.2s;
+  }
+
+  .truck-link:active img {
+    transform: scale(0.95);
+  }
+
+  /* --- CORREÇÃO CONDIÇÃO COMERCIAL (GRID DE BOTÕES) --- */
+  /* Reutilizando ou criando estilo para os botões de ação */
+  .radio-group-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Responsivo */
+    gap: 10px;
+    margin-top: 5px;
+  }
+
+  /* Estilo visual dos botões (radio escondido + label estilizada) */
+  .radio-btn-action input {
+    display: none;
+  }
+  
+  .radio-btn-action span {
+    display: block;
+    padding: 10px;
+    text-align: center;
+    background: #f0f2f5;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #374151;
+    transition: all 0.2s;
+  }
+
+  .radio-btn-action input:checked + span {
+    background: #003366; /* Cor da Mercedes/De Nigris */
+    color: white;
+    border-color: #003366;
+    box-shadow: 0 4px 6px -1px rgba(0, 51, 102, 0.2);
+  }
   /* =========================================
    4. CARDS E CONTEÚDO
    ========================================= */
