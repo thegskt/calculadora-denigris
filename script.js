@@ -1849,37 +1849,6 @@ function aplicarFZ(fzRaw){
     }
   });
 
-  function calcularValorTabela(dados) {
-      if (!dados) return 0;
-
-      const tipo = document.getElementById('tipoPreco').value;
-      const inputEspecial = document.getElementById('precoEspecial');
-      let valor = 0;
-
-      // Regras de cada nível
-      if (tipo === 'vendedor') {
-          inputEspecial.disabled = true; 
-          valor = dados.valorTabela;
-      } 
-      else if (tipo === 'gerente') {
-          inputEspecial.disabled = true;
-          valor = dados.precoGerente;
-      } 
-      else if (tipo === 'oportunidade') {
-          inputEspecial.disabled = true;
-          valor = dados.precoOportunidade;
-      } 
-      else if (tipo === 'especial') {
-          inputEspecial.disabled = false;
-          const inputVal = document.getElementById('precoEspecial').value;
-          const valorNumerico = parseFloat(inputVal.replace(/\./g, '').replace(',', '.')) || 0;
-          valor = parseMoeda(inputEspecial.value);
-          valor = valorNumerico;
-      }
-
-      return valor;
-  }
-
   async function carregarDados(){
     const loadingEl = document.getElementById('loading');
     if (loadingEl) loadingEl.classList.remove('hidden');
