@@ -1939,24 +1939,26 @@ btnVerInfoEl?.addEventListener('click', () => {
     }
   }
 
-    document.getElementById('tipoPreco')?.addEventListener('change', () => {
+    tipoPreco?.addEventListener('change', () => {
       if (!vendedorAtual) return;
 
       const tipo = tipoPreco.value;
 
       // classes visuais
-      tipoPreco.className = `select-preco ${tipo}`;
+      tipoPreco.className = `form-select ${tipo}`;
 
       if (tipo === 'especial') {
         especialWrapper.classList.remove('hidden');
 
         const min = vendedorAtual.precoOportunidade;
-        precoEspecial.value = min.toFixed(2).replace('.',',');
+        precoEspecial.disabled = false;
+        precoEspecial.value = min.toFixed(2).replace('.', ',');
         minEspecialValor.innerText = formatar(min);
 
       } else {
         especialWrapper.classList.add('hidden');
         precoEspecial.value = '';
+        precoEspecial.disabled = true;
       }
 
       valorTabela = calcularValorTabela(vendedorAtual);
