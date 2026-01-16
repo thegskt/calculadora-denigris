@@ -75,6 +75,7 @@
     font-weight: 600;
     outline: none;
     background: white;
+    display: flex;
   }
 
   #especialWrapper input:focus {
