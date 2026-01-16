@@ -1757,64 +1757,78 @@ const RAW_ACOES = `
 
   // ================== CÁLCULO ==================
     function atualizarValores() {
-        if (!vendedorAtual) return;
+      // 1. Verificações de segurança para evitar o erro de "null"
+      if (!vendedorAtual) return;
 
-        // 1. VALOR DE TABELA: Sempre fixo na Coluna 4
-        const vTabela = vendedorAtual.valorTabela; 
-        if (valorTabelaEl) {
-            valorTabelaEl.innerText = formatar(vTabela);
-        }
+      // Captura os elementos novamente ou usa os globais, garantindo que existem
+      const elTipoPreco = document.getElementById('tipoPreco');
+      const elDescontoInput = document.getElementById('desconto'); // O campo de %
+      const elPrecoEspecial = document.getElementById('precoEspecial');
 
-        // 2. DETERMINAR O PREÇO DE VENDA (Conforme a seleção)
-        const tipo = document.getElementById('tipoPreco').value;
-        let valorVendaBase = 0;
+      if (!elTipoPreco) return;
 
-        if (tipo === 'vendedor') {
-            valorVendaBase = vendedorAtual.precoVendedor; // Coluna 5
-        } 
-        else if (tipo === 'gerente') {
-            valorVendaBase = vendedorAtual.precoGerente; // Coluna 6
-        } 
-        else if (tipo === 'oportunidade') {
-            valorVendaBase = vendedorAtual.precoOportunidade; // Coluna 7
-        } 
-        else if (tipo === 'especial') {
-            valorVendaBase = limparMoeda(precoEspecial.value); // Digitação manual
-        }
+      // 2. VALOR DE TABELA: Fixo na Coluna 4
+      const vTabela = vendedorAtual.valorTabela;
+      if (valorTabelaEl) {
+          valorTabelaEl.innerText = formatar(vTabela);
+      }
 
-        // 3. DESCONTO ADICIONAL (%)
-        let porcentagem = parseFloat((descontoEl.value || '').replace(',', '.'));
-        if (isNaN(porcentagem)) porcentagem = 0;
+      // 3. DETERMINAR A BASE DE VENDA (Colunas 5, 6 ou 7)
+      const tipo = elTipoPreco.value;
+      let baseCalculo = 0;
 
-        // Calcula o valor final após o desconto em %
-        const valorDescontoPerc = arredondaCentenaBaixo(valorVendaBase * (porcentagem / 100));
-        const valorVendaFinal = valorVendaBase - valorDescontoPerc;
+      if (tipo === 'vendedor') {
+          baseCalculo = vendedorAtual.precoVendedor;     // Coluna 5
+      } 
+      else if (tipo === 'gerente') {
+          baseCalculo = vendedorAtual.precoGerente;      // Coluna 6
+      } 
+      else if (tipo === 'oportunidade') {
+          baseCalculo = vendedorAtual.precoOportunidade; // Coluna 7
+      } 
+      else if (tipo === 'especial' && elPrecoEspecial) {
+          baseCalculo = limparMoeda(elPrecoEspecial.value);
+      }
 
-        // 4. ATUALIZAR INTERFACE
-        if (valorVendaEl) valorVendaEl.innerText = formatar(valorVendaFinal);
-        
-        if (descontoReaisEl) {
-            // Mostra a diferença total entre a Tabela (Col 4) e o Preço Final
-            descontoReaisEl.innerText = formatar(vTabela - valorVendaFinal);
-        }
+      // 4. TRATAMENTO DO DESCONTO EM % (Evita o erro TypeError)
+      let porcentagem = 0;
+      if (elDescontoInput && elDescontoInput.value) {
+          porcentagem = parseFloat(elDescontoInput.value.replace(',', '.'));
+      }
+      if (isNaN(porcentagem)) porcentagem = 0;
 
-        // 5. CÁLCULO DE COMISSÃO (Usando o valor de venda final)
-        const receitaEfetiva = +(valorVendaFinal - valorVendaFinal * 0.12).toFixed(2);
-        const custoEfetivo = +((vendedorAtual.valorCompra || 0) - (vendedorAtual.valorCompra || 0) * 0.12).toFixed(2);
-        
-        const lucroBruto = (receitaEfetiva - custoEfetivo) +
-            (vendedorAtual.fundoEstrela || 0) + (vendedorAtual.retirada || 0) +
-            (vendedorAtual.programacao || 0) + (vendedorAtual.comissao || 0) +
-            (vendedorAtual.bonificacao || 0) + (vendedorAtual.bonusExtra || 0) -
-            (vendedorAtual.frete || 0) - (vendedorAtual.revisao || 0) -
-            (vendedorAtual.custosAdd || 0);
+      // Calcula o valor final com desconto de porcentagem sobre a base escolhida
+      const valorDescontoPerc = arredondaCentenaBaixo(baseCalculo * (porcentagem / 100));
+      const valorVendaFinal = baseCalculo - valorDescontoPerc;
 
-        const comissao = +(lucroBruto * 0.09).toFixed(2);
-        const dsr = +((comissao / 27) * 4).toFixed(2);
+      // 5. ATUALIZAR INTERFACE (Campos que você postou no HTML)
+      if (valorVendaEl) {
+          valorVendaEl.innerText = formatar(valorVendaFinal);
+      }
 
-        if (comissaoEl) comissaoEl.innerText = formatar(comissao);
-        if (dsrEl) dsrEl.innerText = formatar(dsr);
-        if (totalEl) totalEl.innerText = formatar(comissao + dsr);
+      if (descontoReaisEl) {
+          // Diferença total entre Tabela Oficial e Venda Praticada
+          const diffTotal = vTabela - valorVendaFinal;
+          descontoReaisEl.innerText = formatar(diffTotal);
+      }
+
+      // 6. CÁLCULO DE COMISSÃO
+      const receitaEfetiva = +(valorVendaFinal - valorVendaFinal * 0.12).toFixed(2);
+      const custoEfetivo = +((vendedorAtual.valorCompra || 0) - (vendedorAtual.valorCompra || 0) * 0.12).toFixed(2);
+      
+      const lucroBruto = (receitaEfetiva - custoEfetivo) +
+          (vendedorAtual.fundoEstrela || 0) + (vendedorAtual.retirada || 0) +
+          (vendedorAtual.programacao || 0) + (vendedorAtual.comissao || 0) +
+          (vendedorAtual.bonificacao || 0) + (vendedorAtual.bonusExtra || 0) -
+          (vendedorAtual.frete || 0) - (vendedorAtual.revisao || 0) -
+          (vendedorAtual.custosAdd || 0);
+
+      const comissao = +(lucroBruto * 0.09).toFixed(2);
+      const dsr = +((comissao / 27) * 4).toFixed(2);
+
+      if (comissaoEl) comissaoEl.innerText = formatar(comissao);
+      if (dsrEl) dsrEl.innerText = formatar(dsr);
+      if (totalEl) totalEl.innerText = formatar(comissao + dsr);
     }
 
   function parseMoeda(valorTexto) {
