@@ -28,6 +28,10 @@
     --transition: all 0.2s ease-in-out;
   }
 
+  .rowTotalProtected {
+    font-weight: bold;
+  }
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -39,7 +43,6 @@
     background-color: --bg-page;
     background: linear-gradient(to bottom, #eef2f6, #f8fafc);
     color: var(--text-main);
-    line-height: 1.5;
     padding-bottom: 2rem;
     min-height: 100vh;
   }
