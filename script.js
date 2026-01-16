@@ -1679,6 +1679,12 @@ const RAW_ACOES = `
     });
   }
 
+  function limparMoeda(valorTexto) {
+      if (!valorTexto) return 0;
+      // Remove todos os pontos e depois troca a vírgula por ponto decimal
+      return parseFloat(valorTexto.replace(/\./g, '').replace(',', '.')) || 0;
+  }
+
   // ================== ESTADO ==================
   const vendedores = {}; // FZ -> dados
   let vendedorAtual = null;
@@ -1982,20 +1988,30 @@ function aplicarFZ(fzRaw){
     });
 
     precoEspecial?.addEventListener('blur', () => {
-      if (!vendedorAtual) return;
-      if (tipoPreco.value !== 'especial') return;
+        if (!vendedorAtual) return;
+        if (tipoPreco.value !== 'especial') return;
 
-      const min = vendedorAtual.precoOportunidade;
-      let v = parseFloat(precoEspecial.value.replace(',','.'));
+        const min = vendedorAtual.precoOportunidade;
+        
+        // USANDO A FUNÇÃO DE LIMPEZA CORRETA
+        let v = limparMoeda(precoEspecial.value);
 
-      if (isNaN(v) || v < min) {
-        v = min;
-        precoEspecial.value = min.toFixed(2).replace('.',',');
-      }
+        // Validação de preço mínimo
+        if (isNaN(v) || v < min) {
+            alert("O valor não pode ser inferior ao preço de Oportunidade.");
+            v = min;
+            // Formata o valor de volta para o campo de digitação (ex: 325.000,00)
+            precoEspecial.value = v.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+        }
 
-      valorTabela = v;
-      valorTabelaEl.innerText = formatar(valorTabela);
-      atualizarValores();
+        // --- AQUI ESTÁ O QUE FAZ IR PARA O "VALOR TABELA" ---
+        valorTabela = v; // Atualiza a variável global de cálculo
+        if (typeof valorTabelaEl !== 'undefined') {
+            valorTabelaEl.innerText = formatar(valorTabela); // Atualiza o texto na tela (aquele box azul)
+        }
+
+        // Recalcula o restante da planilha (impostos, parcelas, etc)
+        atualizarValores();
     });
 
 // ================== POPULAR SELECTS DINÂMICOS (FÁBRICA) ==================
