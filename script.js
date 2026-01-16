@@ -1981,26 +1981,21 @@ function aplicarFZ(fzRaw){
         }
     });
 
-    precoEspecialInput.addEventListener('blur', function() {
-        if (!vendedorAtual) return;
-        if (document.getElementById('tipoPreco').value !== 'especial') return;
+    precoEspecial?.addEventListener('blur', () => {
+      if (!vendedorAtual) return;
+      if (tipoPreco.value !== 'especial') return;
 
-        const min = vendedorAtual.precoOportunidade;
-        let valorDigitado = parseMoeda(this.value); // Usa a limpeza correta
+      const min = vendedorAtual.precoOportunidade;
+      let v = parseFloat(precoEspecial.value.replace(',','.'));
 
-        // Se o valor for menor que o mínimo ou inválido, reseta para o mínimo
-        if (isNaN(valorDigitado) || valorDigitado < min) {
-            alert("O valor não pode ser menor que o preço de Oportunidade.");
-            
-            // Formata o valor mínimo de volta para o campo
-            this.value = min.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-            valorDigitado = min;
-        }
+      if (isNaN(v) || v < min) {
+        v = min;
+        precoEspecial.value = min.toFixed(2).replace('.',',');
+      }
 
-        // Atualiza a tela com o valor final
-        if (typeof atualizarValores === 'function') {
-            atualizarValores();
-        }
+      valorTabela = v;
+      valorTabelaEl.innerText = formatar(valorTabela);
+      atualizarValores();
     });
 
 // ================== POPULAR SELECTS DINÂMICOS (FÁBRICA) ==================
