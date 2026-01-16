@@ -1819,9 +1819,6 @@ function aplicarFZ(fzRaw){
     upEl     && (upEl.innerText     = vendedorAtual.up || '–');
     anoModEl && (anoModEl.innerText = vendedorAtual.anoMod || '–');
 
-    valorTabela = calcularValorTabela(vendedorAtual);
-    valorTabelaEl && (valorTabelaEl.innerText = formatar(valorTabela));
-
     infoCorEl && (infoCorEl.innerText = vendedorAtual.cor || '–');
     infoVarianteEl && (infoVarianteEl.innerText = vendedorAtual.variante || '–');
     infoPatioEl && (infoPatioEl.innerText = vendedorAtual.patio || '–');
@@ -1833,9 +1830,6 @@ function aplicarFZ(fzRaw){
     modeloEl && (modeloEl.innerText = '–');
     upEl     && (upEl.innerText     = '–');
     anoModEl && (anoModEl.innerText = '–');
-
-    valorTabela = 0;
-    valorTabelaEl && (valorTabelaEl.innerText = formatar(0));
 
     infoCorEl && (infoCorEl.innerText = '–');
     infoVarianteEl && (infoVarianteEl.innerText = '–');
