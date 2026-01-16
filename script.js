@@ -1593,27 +1593,7 @@ const RAW_ACOES = `
 
   let veiculoAtual = null;
 
-  function atualizarClassePreco(tipo) {
-    const select = document.getElementById("tipoPreco");
-    select.className = "base-classes " + tipo;
-  }
-
-  function buscarEstoquePorFZ(fz) {
-    const item = ESTOQUE.find(e => e.FZ === fz);
-
-    if (!item) return;
-
-    document.getElementById("modelo").innerText = item.MODELO;
-    document.getElementById("ano").innerText = item.ANO_MODELO;
-    document.getElementById("valor").innerText = formatar(item.VALOR_COMPRA);
-  }
-
-  function toggleInfo() {
-  const info = document.getElementById("infoVeiculo");
-  info.classList.toggle("hidden");
-}
-
-    // --- DETALHAMENTO ESTOQUE PRÓPRIO ---
+      // --- DETALHAMENTO ESTOQUE PRÓPRIO ---
   const btnMostrarProtegido = document.getElementById('btnMostrarProtegido');
   const passwordGroup       = document.getElementById('passwordGroup');
   const senhaInput          = document.getElementById('senhaInput');
@@ -1635,6 +1615,26 @@ const RAW_ACOES = `
   const precoEspecial = document.getElementById('precoEspecial');
   const especialWrapper = document.getElementById('especialWrapper');
 
+
+  function atualizarClassePreco(tipo) {
+    const select = document.getElementById("tipoPreco");
+    select.className = "base-classes " + tipo;
+  }
+
+  function buscarEstoquePorFZ(fz) {
+    const item = ESTOQUE.find(e => e.FZ === fz);
+
+    if (!item) return;
+
+    document.getElementById("modelo").innerText = item.MODELO;
+    document.getElementById("ano").innerText = item.ANO_MODELO;
+    document.getElementById("valor").innerText = formatar(item.VALOR_COMPRA);
+  }
+
+  function toggleInfo() {
+  const info = document.getElementById("infoVeiculo");
+  info.classList.toggle("hidden");
+}
   function toggleHidden(el){ el.classList.toggle('hidden'); }
 
   if (btnMostrarProtegido) {
@@ -1939,26 +1939,23 @@ btnVerInfoEl?.addEventListener('click', () => {
     }
   }
 
-    tipoPreco?.addEventListener('change', () => {
+    tipoPreco.addEventListener('change', () => {
       if (!vendedorAtual) return;
 
       const tipo = tipoPreco.value;
 
-      // classes visuais
+      // Classe visual
       tipoPreco.className = `form-select ${tipo}`;
 
       if (tipo === 'especial') {
         especialWrapper.classList.remove('hidden');
 
         const min = vendedorAtual.precoOportunidade;
-        precoEspecial.disabled = false;
         precoEspecial.value = min.toFixed(2).replace('.', ',');
         minEspecialValor.innerText = formatar(min);
-
       } else {
         especialWrapper.classList.add('hidden');
         precoEspecial.value = '';
-        precoEspecial.disabled = true;
       }
 
       valorTabela = calcularValorTabela(vendedorAtual);
