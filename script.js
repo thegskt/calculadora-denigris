@@ -1914,7 +1914,7 @@ function aplicarFZ(fzRaw){
           up: cols[2],
           anoMod: cols[3],
 
-          precoVendedor: parseFloat((cols[4]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          valorTabela: parseFloat((cols[4]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
           precoGerente: parseFloat((cols[5]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
           precoOportunidade: parseFloat((cols[6]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
 
