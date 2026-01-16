@@ -1792,6 +1792,13 @@ function atualizarValores(){
   totalEl         && (totalEl.innerText         = formatar(total));
 }
 
+  function parseMoeda(valorTexto) {
+    if (!valorTexto) return 0;
+    // Remove todos os pontos e troca a vírgula por ponto
+    let limpo = valorTexto.replace(/\./g, '').replace(',', '.');
+    return parseFloat(limpo) || 0;
+  }
+
 // ================== FZ LOOKUP ==================
 function aplicarFZ(fzRaw){
   const raw = (fzRaw||'').replace(/\D/g,'').slice(0,6);
@@ -1866,6 +1873,7 @@ function aplicarFZ(fzRaw){
           inputEspecial.disabled = false;
           const inputVal = document.getElementById('precoEspecial').value;
           const valorNumerico = parseFloat(inputVal.replace(/\./g, '').replace(',', '.')) || 0;
+          valor = parseMoeda(inputEspecial.value);
           valor = valorNumerico;
       }
 
@@ -1973,21 +1981,26 @@ function aplicarFZ(fzRaw){
         }
     });
 
-    precoEspecial?.addEventListener('blur', () => {
-      if (!vendedorAtual) return;
-      if (tipoPreco.value !== 'especial') return;
+    precoEspecialInput.addEventListener('blur', function() {
+        if (!vendedorAtual) return;
+        if (document.getElementById('tipoPreco').value !== 'especial') return;
 
-      const min = vendedorAtual.precoOportunidade;
-      let v = parseFloat(precoEspecial.value.replace(',','.'));
+        const min = vendedorAtual.precoOportunidade;
+        let valorDigitado = parseMoeda(this.value); // Usa a limpeza correta
 
-      if (isNaN(v) || v < min) {
-        v = min;
-        precoEspecial.value = min.toFixed(2).replace('.',',');
-      }
+        // Se o valor for menor que o mínimo ou inválido, reseta para o mínimo
+        if (isNaN(valorDigitado) || valorDigitado < min) {
+            alert("O valor não pode ser menor que o preço de Oportunidade.");
+            
+            // Formata o valor mínimo de volta para o campo
+            this.value = min.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+            valorDigitado = min;
+        }
 
-      valorTabela = v;
-      valorTabelaEl.innerText = formatar(valorTabela);
-      atualizarValores();
+        // Atualiza a tela com o valor final
+        if (typeof atualizarValores === 'function') {
+            atualizarValores();
+        }
     });
 
 // ================== POPULAR SELECTS DINÂMICOS (FÁBRICA) ==================
@@ -2294,25 +2307,30 @@ acaoFabEl?.addEventListener('change',()=>{
     }
   }
 
-  precoEspecialInput.addEventListener('input', function (e) {
-      // 1. Remove tudo que não é número
-      let value = e.target.value.replace(/\D/g, '');
+    precoEspecialInput.addEventListener('input', function (e) {
+        // 1. Remove tudo que não é número
+        let value = e.target.value.replace(/\D/g, '');
 
-      // 2. Transforma em centavos (divide por 100)
-      value = (parseInt(value) / 100).toFixed(2);
+        // 2. Se o campo estiver vazio, não faz nada (evita "0,00" fixo se o usuário apagar tudo)
+        if (value === "") {
+            e.target.value = "";
+            return;
+        }
 
-      // 3. Substitui ponto por vírgula e adiciona separador de milhar
-      let partes = value.split(".");
-      partes[0] = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        // 3. Converte para decimal (centavos)
+        value = (parseInt(value) / 100).toFixed(2);
 
-      // 4. Aplica o valor formatado de volta no campo
-      e.target.value = partes[0] + "," + partes[1];
-      
-      // 5. Opcional: Chama sua função de cálculo para atualizar o total na hora
-      if (typeof atualizarValores === 'function') {
-          atualizarValores();
-      }
-  });
+        // 4. Formata para o padrão brasileiro (Ponto no milhar e Vírgula no decimal)
+        let partes = value.split(".");
+        partes[0] = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        
+        e.target.value = partes[0] + "," + partes[1];
+
+        // 5. Atualiza os cálculos automaticamente
+        if (typeof atualizarValores === 'function') {
+            atualizarValores();
+        }
+    });
 
 // ================== INIT ==================
   function init(){
