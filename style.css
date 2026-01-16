@@ -472,43 +472,6 @@
     box-shadow: 0 4px 6px rgba(31, 41, 55, 0.25); /* Sombra suave */
     transform: translateY(-1px); /* Leve elevação */
   }
-  /* Wrapper de Preço Especial */
-  .special-price-card {
-    background: #fdf4ff; /* Fundo roxo bem clarinho */
-    border: 1px solid #f0abfc;
-    border-radius: var(--radius-md);
-    padding: 1rem;
-    margin-top: 0.5rem;
-  }
-  .special-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.85rem; }
-  .special-title { color: #86198f; font-weight: 600; }
-  .special-min { color: #a21caf; }
-
-  .special-input-row { display: flex; gap: 0.5rem; align-items: stretch; }
-  .currency-input {
-    position: relative;
-    flex: 1;
-  }
-  .currency-symbol {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #a21caf;
-    font-weight: 600;
-    font-size: 0.9rem;
-  }
-  .special-input {
-    width: 100%;
-    padding: 8px 8px 8px 35px; /* espaço para o R$ */
-    border: 1px solid #e879f9;
-    border-radius: var(--radius-sm);
-    color: #86198f;
-    font-weight: 700;
-    font-size: 1.1rem;
-  }
-  .special-input:focus { outline: none; box-shadow: 0 0 0 3px rgba(232, 121, 249, 0.2); }
-
   .action-buttons-mini { display: flex; gap: 4px; }
   .btn-icon {
     padding: 4px 8px;
