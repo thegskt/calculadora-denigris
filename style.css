@@ -28,7 +28,7 @@
     --transition: all 0.2s ease-in-out;
   }
 
-  .rowTotalProtected {
+  #rowTotalProtected {
     font-weight: bold;
   }
 
