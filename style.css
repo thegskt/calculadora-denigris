@@ -254,12 +254,6 @@
     /* Mantenha suas cores e bordas atuais aqui */
   }
 
-  .tab-btn.active {
-    background-color:rgb(76 112 181);
-    color: white;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  }
-
   /* --- CORREÇÃO TRUCK INFO (ALINHAMENTO) --- */
   .input-with-action {
     display: flex;
