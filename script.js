@@ -1603,14 +1603,14 @@ const RAW_ACOES = `
   const rowComissaoProtected = document.getElementById('rowComissaoProtected');
   const rowDsrProtected      = document.getElementById('rowDsrProtected');
   const rowTotalProtected    = document.getElementById('rowTotalProtected');
-  const minEspecialHint  = document.getElementById('minEspecialHint');
-  const minEspecialValor = document.getElementById('minEspecialValor');
 
   const btnProprio = document.getElementById('btnEstoqueProprio');
   const btnFabrica = document.getElementById('btnEstoqueFabrica');
   const calcProprio = document.getElementById('calcEstoqueProprio');
   const calcFabrica = document.getElementById('calcEstoqueFabrica');
 
+  const minEspecialHint  = document.getElementById('minEspecialHint');
+  const minEspecialValor = document.getElementById('minEspecialValor');
   const tipoPreco = document.getElementById('tipoPreco');
   const precoEspecial = document.getElementById('precoEspecial');
   const especialWrapper = document.getElementById('especialWrapper');
@@ -1832,13 +1832,13 @@ function aplicarFZ(fzRaw){
   atualizarValores();
 }
 
-fzEl?.addEventListener('input', () => aplicarFZ(fzEl.value));
+  fzEl?.addEventListener('input', () => aplicarFZ(fzEl.value));
 
-btnVerInfoEl?.addEventListener('click', () => {
-  if (infoVeiculoEl) {
-    infoVeiculoEl.classList.toggle('hidden');
-  }
-});
+  btnVerInfoEl?.addEventListener('click', () => {
+    if (infoVeiculoEl) {
+      infoVeiculoEl.classList.toggle('hidden');
+    }
+  });
 
   function calcularValorTabela(dados){
     if (!dados) return 0;
@@ -2707,5 +2707,4 @@ async function fetchFotoByFz(fzRaw) {
       init();
     } else if (typeof init === 'function') {
       window.addEventListener('load', init);
-    // Init principal (se não foi chamado automaticamente)
     }
