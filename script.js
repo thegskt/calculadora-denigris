@@ -1759,44 +1759,58 @@ const RAW_ACOES = `
   function atualizarValores() {
       if (!vendedorAtual) return;
 
-      // 1. O Valor de Tabela é SEMPRE a Coluna 4 (fixo)
-      valorTabela = vendedorAtual.valorTabela;
+      // 1. VALOR DE TABELA: Sempre fixo na Coluna 4
+      const valorTabelaFixo = vendedorAtual.valorTabela; 
       if (valorTabelaEl) {
-          valorTabelaEl.innerText = formatar(valorTabela);
+          valorTabelaEl.innerText = formatar(valorTabelaFixo);
       }
 
-      if (!descontoEl) return;
-
-      // 2. Pegamos o tipo de preço selecionado
+      // 2. DETERMINAR O PREÇO DE VENDA (Baseado na sua regra de colunas)
       const tipo = document.getElementById('tipoPreco').value;
-      let baseCalculo = valorTabela; // Padrão é a coluna 4
+      let valorVendaFinal = 0;
 
-      // Se o tipo for Gerente ou Oportunidade, a base do cálculo muda para as outras colunas
-      // MAS o valor de tabela lá em cima continua o mesmo.
-      if (tipo === 'gerente') {
-          baseCalculo = vendedorAtual.precoGerente;
-      } else if (tipo === 'oportunidade') {
-          baseCalculo = vendedorAtual.precoOportunidade;
-      } else if (tipo === 'especial') {
-          baseCalculo = limparMoeda(document.getElementById('precoEspecial').value);
+      if (tipo === 'vendedor') {
+          // Selecionou Vendedor -> Busca Coluna 5
+          valorVendaFinal = vendedorAtual.precoVendedor; 
+      } 
+      else if (tipo === 'gerente') {
+          // Selecionou Gerente -> Busca Coluna 6
+          valorVendaFinal = vendedorAtual.precoGerente;
+      } 
+      else if (tipo === 'oportunidade') {
+          // Selecionou Oportunidade -> Busca Coluna 7
+          valorVendaFinal = vendedorAtual.precoOportunidade;
+      } 
+      else if (tipo === 'especial') {
+          // Selecionou Especial -> Valor digitado manualmente na barra
+          const inputEspecial = document.getElementById('precoEspecial');
+          valorVendaFinal = limparMoeda(inputEspecial.value);
       }
 
-      // 3. Cálculo do Desconto (se houver % de desconto no campo)
-      let d = parseFloat((descontoEl.value || '').replace(',', '.'));
-      if (isNaN(d)) d = 0;
+      // 3. SE HOUVER DESCONTO ADICIONAL (%)
+      // Se você ainda quiser aplicar uma porcentagem sobre o valor da coluna selecionada:
+      let porcentagemDesconto = parseFloat((descontoEl.value || '').replace(',', '.'));
+      if (isNaN(porcentagemDesconto)) porcentagemDesconto = 0;
 
-      // Se for "Especial", geralmente o desconto é zero porque o preço já é manual
-      const valorDesc = tipo === 'especial' ? 0 : arredondaCentenaBaixo(baseCalculo * (d / 100));
-      
-      // 4. Valor de Venda Final
-      const valorVenda = +(baseCalculo - valorDesc).toFixed(2);
+      if (porcentagemDesconto > 0) {
+          const valorDoDescontoAdicional = arredondaCentenaBaixo(valorVendaFinal * (porcentagemDesconto / 100));
+          valorVendaFinal = valorVendaFinal - valorDoDescontoAdicional;
+      }
 
-      // 5. Atualiza a tela
-      if (valorVendaEl) valorVendaEl.innerText = formatar(valorVenda);
-      if (descontoReaisEl) descontoReaisEl.innerText = formatar(valorDesc);
+      // 4. ATUALIZAR EXIBIÇÃO DE VENDA E DESCONTO TOTAL
+      if (valorVendaEl) {
+          valorVendaEl.innerText = formatar(valorVendaFinal);
+      }
 
-      // Cálculos de Comissão (Lucro Bruto)
-      const receitaEfetiva = +(valorVenda - valorVenda * 0.12).toFixed(2);
+      if (descontoReaisEl) {
+          // O desconto que aparece na tela é a diferença entre a Tabela(4) e a Venda Final
+          const diferencaTotal = valorTabelaFixo - valorVendaFinal;
+          descontoReaisEl.innerText = formatar(diferencaTotal);
+      }
+
+      // 5. CÁLCULO DE COMISSÃO (Mantendo sua lógica de lucro bruto)
+      // A receita para o cálculo da comissão é sempre baseada no Valor de Venda Final
+      const receitaEfetiva = +(valorVendaFinal - valorVendaFinal * 0.12).toFixed(2);
       const custoEfetivo = +((vendedorAtual.valorCompra || 0) - (vendedorAtual.valorCompra || 0) * 0.12).toFixed(2);
       
       const lucroBruto = (receitaEfetiva - custoEfetivo) +
@@ -1808,13 +1822,14 @@ const RAW_ACOES = `
 
       const comissao = +(lucroBruto * 0.09).toFixed(2);
       const dsr = +((comissao / 27) * 4).toFixed(2);
-      const total = +(comissao + dsr).toFixed(2);
+      const totalComissao = +(comissao + dsr).toFixed(2);
 
+      // Atualiza os campos de comissão na UI
       if (comissaoEl) comissaoEl.innerText = formatar(comissao);
       if (dsrEl) dsrEl.innerText = formatar(dsr);
-      if (totalEl) totalEl.innerText = formatar(total);
+      if (totalEl) totalEl.innerText = formatar(totalComissao);
   }
-
+  
   function parseMoeda(valorTexto) {
     if (!valorTexto) return 0;
     // Remove todos os pontos e troca a vírgula por ponto
