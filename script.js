@@ -2302,17 +2302,22 @@ acaoFabEl?.addEventListener('change',()=>{
       // 1. Remove tudo que não é número
       let value = e.target.value.replace(/\D/g, '');
 
-      // 2. Transforma em centavos (divide por 100)
-      value = (value / 100).toFixed(2) + '';
+      // 2. Se o campo estiver vazio, não faz nada (evita "0,00" fixo se o usuário apagar tudo)
+      if (value === "") {
+          e.target.value = "";
+          return;
+      }
 
-      // 3. Substitui ponto por vírgula e adiciona separador de milhar
-      value = value.replace(".", ",");
-      value = value.replace(/(\d)(\?=(\d{3})+(?!\d))/g, "$1.");
+      // 3. Converte para decimal (centavos)
+      value = (parseInt(value) / 100).toFixed(2);
 
-      // 4. Aplica o valor formatado de volta no campo
-      e.target.value = value;
+      // 4. Formata para o padrão brasileiro (Ponto no milhar e Vírgula no decimal)
+      let partes = value.split(".");
+      partes[0] = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
       
-      // 5. Opcional: Chama sua função de cálculo para atualizar o total na hora
+      e.target.value = partes[0] + "," + partes[1];
+
+      // 5. Atualiza os cálculos automaticamente
       if (typeof atualizarValores === 'function') {
           atualizarValores();
       }
