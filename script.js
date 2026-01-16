@@ -1915,30 +1915,30 @@ const RAW_ACOES = `
       vendedores[fzKey] = {
           modelo: cols[1],
           up: cols[2],
-          anoMod: cols[3],
+          anoMod: cols[4],
 
           // MAPA DE PREÇOS (Colunas 4, 5, 6 e 7)
-          valorTabela: parseFloat((cols[4]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,       // Coluna 4 (Fixo)
-          precoVendedor: parseFloat((cols[5]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,     // Coluna 5
-          precoGerente: parseFloat((cols[6]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,      // Coluna 6
-          precoOportunidade: parseFloat((cols[7]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0, // Coluna 7
+          valorTabela: parseFloat((cols[5]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,       // Coluna 4 (Fixo)
+          precoVendedor: parseFloat((cols[6]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,     // Coluna 5
+          precoGerente: parseFloat((cols[7]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,      // Coluna 6
+          precoOportunidade: parseFloat((cols[8]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0, // Coluna 7
 
-          cor: cols[8] || '',
-          variante: cols[9] || '',
-          patio: cols[10] || '',
-          fotoUrl: cols[11] || '',
+          cor: cols[9] || '',
+          variante: cols[10] || '',
+          patio: cols[11] || '',
+          fotoUrl: cols[12] || '',
 
           // Atenção: como adicionamos uma coluna de preço (vendedor), as de custo descem 1 índice:
-          valorCompra: parseFloat((cols[12]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          fundoEstrela: parseFloat((cols[13]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          retirada: parseFloat((cols[14]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          programacao: parseFloat((cols[15]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          comissao: parseFloat((cols[16]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          bonificacao: parseFloat((cols[17]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          bonusExtra: parseFloat((cols[18]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          frete: parseFloat((cols[19]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          revisao: parseFloat((cols[20]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          custosAdd: parseFloat((cols[21]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          valorCompra: parseFloat((cols[13]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          fundoEstrela: parseFloat((cols[14]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          retirada: parseFloat((cols[15]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          programacao: parseFloat((cols[16]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          comissao: parseFloat((cols[17]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          bonificacao: parseFloat((cols[18]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          bonusExtra: parseFloat((cols[19]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          frete: parseFloat((cols[20]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          revisao: parseFloat((cols[21]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          custosAdd: parseFloat((cols[22]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
       };
       });
 
