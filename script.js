@@ -1633,6 +1633,7 @@ const RAW_ACOES = `
 
   const tipoPreco = document.getElementById('tipoPreco');
   const precoEspecial = document.getElementById('precoEspecial');
+  const especialWrapper = document.getElementById('especialWrapper');
 
   function toggleHidden(el){ el.classList.toggle('hidden'); }
 
@@ -1866,7 +1867,7 @@ btnVerInfoEl?.addEventListener('click', () => {
 
       // 🔒 REGRA DE NEGÓCIO REAL
       valor = digitado;
-    }0
+    }
 
     return valor;
   }
@@ -2707,4 +2708,5 @@ async function fetchFotoByFz(fzRaw) {
       init();
     } else if (typeof init === 'function') {
       window.addEventListener('load', init);
+    // Init principal (se não foi chamado automaticamente)
     }

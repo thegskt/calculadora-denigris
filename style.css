@@ -45,7 +45,9 @@
   }
 
   /* Utilitários */
-  .hidden { display: none !important; }
+  .hidden { 
+    display: none !important; 
+  }
   .full-width { width: 100%; }
 
   /* Loading Overlay */
