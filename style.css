@@ -859,13 +859,6 @@
       margin-bottom: 1rem;
     }
 
-    #minEspecialHint {
-      display: block;
-      margin-top: 0.3rem;
-      color: #666;
-      font-size: 0.75rem;
-    }
-
     .results {
       background: #f7f9fc;
       border-radius: 12px;
