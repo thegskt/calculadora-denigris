@@ -30,6 +30,11 @@
 
   #rowTotalProtected {
     font-weight: bold;
+    margin-top: 10px;
+  }
+
+    #rowComissaoProtected {
+    margin-top: 6px;
   }
 
 * {
