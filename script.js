@@ -1899,32 +1899,32 @@ const RAW_ACOES = `
 
       // Procure este trecho dentro do seu carregarDados e substitua:
       vendedores[fzKey] = {
-        modelo: cols[1],
-        up: cols[2],
-        anoMod: cols[3],
+          modelo: cols[1],
+          up: cols[2],
+          anoMod: cols[3],
 
-        // VALORES DE PREÇO CONFORME SUA REGRA:
-        valorTabela: parseFloat((cols[4]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,       // Coluna 4 (FIXA)
-        precoVendedor: parseFloat((cols[5]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,     // Coluna 5
-        precoGerente: parseFloat((cols[6]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,      // Coluna 6
-        precoOportunidade: parseFloat((cols[7]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0, // Coluna 7
+          // MAPA DE PREÇOS (Colunas 4, 5, 6 e 7)
+          valorTabela: parseFloat((cols[4]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,       // Coluna 4 (Fixo)
+          precoVendedor: parseFloat((cols[5]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,     // Coluna 5
+          precoGerente: parseFloat((cols[6]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,      // Coluna 6
+          precoOportunidade: parseFloat((cols[7]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0, // Coluna 7
 
-        // O restante das colunas sobe uma posição (já que a 7 agora é preço)
-        cor: cols[8] || '',
-        variante: cols[9] || '',
-        patio: cols[10] || '',
-        fotoUrl: cols[11] || '',
+          cor: cols[8] || '',
+          variante: cols[9] || '',
+          patio: cols[10] || '',
+          fotoUrl: cols[11] || '',
 
-        valorCompra: parseFloat((cols[12]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        fundoEstrela: parseFloat((cols[13]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        retirada: parseFloat((cols[14]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        programacao: parseFloat((cols[15]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        comissao: parseFloat((cols[16]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        bonificacao: parseFloat((cols[17]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        bonusExtra: parseFloat((cols[18]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        frete: parseFloat((cols[19]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        revisao: parseFloat((cols[20]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        custosAdd: parseFloat((cols[21]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          // Atenção: como adicionamos uma coluna de preço (vendedor), as de custo descem 1 índice:
+          valorCompra: parseFloat((cols[12]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          fundoEstrela: parseFloat((cols[13]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          retirada: parseFloat((cols[14]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          programacao: parseFloat((cols[15]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          comissao: parseFloat((cols[16]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          bonificacao: parseFloat((cols[17]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          bonusExtra: parseFloat((cols[18]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          frete: parseFloat((cols[19]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          revisao: parseFloat((cols[20]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          custosAdd: parseFloat((cols[21]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
       };
       });
 
@@ -1981,32 +1981,19 @@ const RAW_ACOES = `
     });
 
     precoEspecial?.addEventListener('blur', () => {
-        if (!vendedorAtual) return;
-        if (tipoPreco.value !== 'especial') return;
+        if (!vendedorAtual || tipoPreco.value !== 'especial') return;
 
         const min = vendedorAtual.precoOportunidade;
-        
-        // USANDO A FUNÇÃO DE LIMPEZA CORRETA
         let v = limparMoeda(precoEspecial.value);
 
-        // Validação de preço mínimo
         if (isNaN(v) || v < min) {
             alert("O valor não pode ser inferior ao preço de Oportunidade.");
             v = min;
-            // Formata o valor de volta para o campo de digitação (ex: 325.000,00)
             precoEspecial.value = v.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
         }
 
-        // --- AQUI ESTÁ O QUE FAZ IR PARA O "VALOR TABELA" ---
-        valorTabela = v; // Atualiza a variável global de cálculo
-        if (typeof valorTabelaEl !== 'undefined') {
-            valorTabelaEl.innerText = formatar(valorTabela); // Atualiza o texto na tela (aquele box azul)
-        }
-
-        // Recalcula o restante da planilha (impostos, parcelas, etc)
-        atualizarValores();
+        atualizarValores(); // Apenas chama a atualização
     });
-
 // ================== POPULAR SELECTS DINÂMICOS (FÁBRICA) ==================
 // NOVO FLUXO: 1) Ano -> 2) Família -> 3) UP -> Variante/Ações
 
