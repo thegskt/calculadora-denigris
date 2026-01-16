@@ -106,23 +106,28 @@
             <hr class="divider">
 
             <div class="form-section">
-              <div class="form-group full-width">
-                <label for="tipoPreco">Tabela de Preço</label>
-                <div class="select-wrapper">
-                  <select id="tipoPreco" class="form-select">
-                    <option value="vendedor">Vendedor</option>
-                    <option value="gerente">Gerente</option>
-                    <option value="oportunidade">Oportunidade</option>
-                    <option value="especial">Especial (Manual)</option>
-                  </select>
+              <div class="form-section"> <div class="form-group full-width">
+                  <label for="tipoPreco">Tabela de Preço</label>
+                  <div class="select-wrapper">
+                    <select id="tipoPreco" class="form-select">
+                      <option value="vendedor">Vendedor</option>
+                      <option value="gerente">Gerente</option>
+                      <option value="oportunidade">Oportunidade</option>
+                      <option value="especial">Especial (Manual)</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
+
                 <div id="especialWrapper" class="hidden">
-                    <label>Preço Especial:</label>
-                    <input type="number" inputmode="decimal" id="precoEspecial" placeholder="0,00">
-                    <span id="minEspecialValor"></span>
-                </div>            
-              </div>
+                  <label for="precoEspecial">✨ Valor Especial Autorizado</label>
+                  <div class="input-money-group">
+                    <span class="currency-symbol">R$</span>
+                    <input type="text" inputmode="decimal" id="precoEspecial" placeholder="0,00" />
+                  </div>
+                  <span id="minEspecialValor">Mínimo sugerido: R$ --</span>
+                </div>
+
+              </div> ```
 
               <div id="infoVeiculo" class="vehicle-details hidden">
                 <ul class="details-list">
