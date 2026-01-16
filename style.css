@@ -201,7 +201,8 @@
 }
 .nav-item:hover, .nav-item.active {
   color: rgb(50, 100, 156);
-  outline: underline;
+  text-decoration: underline;
+  text-decoration-color: rgb(50, 100, 156); /* Cor roxa */
 }
 .nav-toggle { display: none; background: none; border: none; color: white; cursor: pointer; }
 
