@@ -1611,9 +1611,9 @@ const RAW_ACOES = `
 
   const minEspecialHint  = document.getElementById('minEspecialHint');
   const minEspecialValor = document.getElementById('minEspecialValor');
+  const especialWrapper = document.getElementById('especialWrapper'); 
   const tipoPreco = document.getElementById('tipoPreco');
   const precoEspecial = document.getElementById('precoEspecial');
-  const especialWrapper = document.getElementById('especialWrapper');
 
 
   function atualizarClassePreco(tipo) {
@@ -1840,36 +1840,35 @@ function aplicarFZ(fzRaw){
     }
   });
 
-  function calcularValorTabela(dados){
-    if (!dados) return 0;
+  function calcularValorTabela(dados) {
+      if (!dados) return 0;
 
-    const tipo = document.getElementById('tipoPreco').value;
-    const inputEspecial = document.getElementById('precoEspecial');
+      const tipo = document.getElementById('tipoPreco').value;
+      const inputEspecial = document.getElementById('precoEspecial');
+      let valor = 0;
 
-    let valor = 0;
+      // Regras de cada nível
+      if (tipo === 'vendedor') {
+          inputEspecial.disabled = true; 
+          valor = dados.precoVendedor;
+      } 
+      else if (tipo === 'gerente') {
+          inputEspecial.disabled = true;
+          valor = dados.precoGerente;
+      } 
+      else if (tipo === 'oportunidade') {
+          inputEspecial.disabled = true;
+          valor = dados.precoOportunidade;
+      } 
+      else if (tipo === 'especial') {
+          inputEspecial.disabled = false; // Destrava o campo para digitar
+          
+          // Pega o número digitado (troca vírgula por ponto)
+          let valorDigitado = inputEspecial.value.replace(/\./g, '').replace(',', '.');
+          valor = parseFloat(valorDigitado) || 0;
+      }
 
-    if (tipo === 'vendedor'){
-      inputEspecial.disabled = true;
-      valor = dados.precoVendedor;
-
-    } else if (tipo === 'gerente'){
-      inputEspecial.disabled = true;
-      valor = dados.precoGerente;
-
-    } else if (tipo === 'oportunidade'){
-      inputEspecial.disabled = true;
-      valor = dados.precoOportunidade;
-
-    } else if (tipo === 'especial'){
-      inputEspecial.disabled = false;
-
-      const digitado = parseFloat(inputEspecial.value.replace(',','.')) || 0;
-
-      // 🔒 REGRA DE NEGÓCIO REAL
-      valor = digitado;
-    }
-
-    return valor;
+      return valor;
   }
 
   async function carregarDados(){
@@ -1940,28 +1939,32 @@ function aplicarFZ(fzRaw){
   }
 
     tipoPreco.addEventListener('change', () => {
-      if (!vendedorAtual) return;
+        const tipo = tipoPreco.value;
 
-      const tipo = tipoPreco.value;
+        // 1. Muda a cor do Select (Visual)
+        tipoPreco.className = 'form-select ' + tipo;
 
-      // Classe visual
-      tipoPreco.className = `form-select ${tipo}`;
+        // 2. Lógica de Mostrar/Esconder o Box Roxo
+        if (tipo === 'especial') {
+            especialWrapper.classList.remove('hidden'); // REMOVE "hidden" para aparecer
+            
+            // (Opcional) Sugere o preço mínimo se tiver dados carregados
+            if (typeof vendedorAtual !== 'undefined' && vendedorAtual) {
+                const min = vendedorAtual.precoOportunidade;
+                document.getElementById('minEspecialValor').innerText = 
+                    'Mínimo: R$ ' + min.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+            }
+            
+            precoEspecial.focus(); // Já deixa o cursor piscando lá dentro
+        } else {
+            especialWrapper.classList.add('hidden'); // ADICIONA "hidden" para esconder
+            precoEspecial.value = ''; // Limpa o campo
+        }
 
-      if (tipo === 'especial') {
-        especialWrapper.classList.remove('hidden');
-
-        const min = vendedorAtual.precoOportunidade;
-        precoEspecial.value = min.toFixed(2).replace('.', ',');
-        minEspecialValor.innerText = formatar(min);
-      } else {
-        especialWrapper.classList.add('hidden');
-        precoEspecial.value = '';
-      }
-
-      valorTabela = calcularValorTabela(vendedorAtual);
-      valorTabelaEl.innerText = formatar(valorTabela);
-
-      atualizarValores();
+        // 3. Atualiza os cálculos da tela
+        if (typeof atualizarValores === 'function') {
+            atualizarValores();
+        }
     });
 
     precoEspecial?.addEventListener('blur', () => {
