@@ -1859,7 +1859,7 @@ function aplicarFZ(fzRaw){
       // Regras de cada nível
       if (tipo === 'vendedor') {
           inputEspecial.disabled = true; 
-          valor = dados.precoVendedor;
+          valor = dados.valorTabela;
       } 
       else if (tipo === 'gerente') {
           inputEspecial.disabled = true;
