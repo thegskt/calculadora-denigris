@@ -1593,7 +1593,7 @@ const RAW_ACOES = `
 
   let veiculoAtual = null;
 
-      // --- DETALHAMENTO ESTOQUE PRÓPRIO ---
+  // --- DETALHAMENTO ESTOQUE PRÓPRIO ---
   const btnMostrarProtegido = document.getElementById('btnMostrarProtegido');
   const passwordGroup       = document.getElementById('passwordGroup');
   const senhaInput          = document.getElementById('senhaInput');
@@ -1756,80 +1756,67 @@ const RAW_ACOES = `
   }
 
   // ================== CÁLCULO ==================
-  function atualizarValores() {
-      if (!vendedorAtual) return;
+    function atualizarValores() {
+        if (!vendedorAtual) return;
 
-      // 1. VALOR DE TABELA: Sempre fixo na Coluna 4
-      const valorTabelaFixo = vendedorAtual.valorTabela; 
-      if (valorTabelaEl) {
-          valorTabelaEl.innerText = formatar(valorTabelaFixo);
-      }
+        // 1. VALOR DE TABELA: Sempre fixo na Coluna 4
+        const vTabela = vendedorAtual.valorTabela; 
+        if (valorTabelaEl) {
+            valorTabelaEl.innerText = formatar(vTabela);
+        }
 
-      // 2. DETERMINAR O PREÇO DE VENDA (Baseado na sua regra de colunas)
-      const tipo = document.getElementById('tipoPreco').value;
-      let valorVendaFinal = 0;
+        // 2. DETERMINAR O PREÇO DE VENDA (Conforme a seleção)
+        const tipo = document.getElementById('tipoPreco').value;
+        let valorVendaBase = 0;
 
-      if (tipo === 'vendedor') {
-          // Selecionou Vendedor -> Busca Coluna 5
-          valorVendaFinal = vendedorAtual.precoVendedor; 
-      } 
-      else if (tipo === 'gerente') {
-          // Selecionou Gerente -> Busca Coluna 6
-          valorVendaFinal = vendedorAtual.precoGerente;
-      } 
-      else if (tipo === 'oportunidade') {
-          // Selecionou Oportunidade -> Busca Coluna 7
-          valorVendaFinal = vendedorAtual.precoOportunidade;
-      } 
-      else if (tipo === 'especial') {
-          // Selecionou Especial -> Valor digitado manualmente na barra
-          const inputEspecial = document.getElementById('precoEspecial');
-          valorVendaFinal = limparMoeda(inputEspecial.value);
-      }
+        if (tipo === 'vendedor') {
+            valorVendaBase = vendedorAtual.precoVendedor; // Coluna 5
+        } 
+        else if (tipo === 'gerente') {
+            valorVendaBase = vendedorAtual.precoGerente; // Coluna 6
+        } 
+        else if (tipo === 'oportunidade') {
+            valorVendaBase = vendedorAtual.precoOportunidade; // Coluna 7
+        } 
+        else if (tipo === 'especial') {
+            valorVendaBase = limparMoeda(precoEspecial.value); // Digitação manual
+        }
 
-      // 3. SE HOUVER DESCONTO ADICIONAL (%)
-      // Se você ainda quiser aplicar uma porcentagem sobre o valor da coluna selecionada:
-      let porcentagemDesconto = parseFloat((descontoEl.value || '').replace(',', '.'));
-      if (isNaN(porcentagemDesconto)) porcentagemDesconto = 0;
+        // 3. DESCONTO ADICIONAL (%)
+        let porcentagem = parseFloat((descontoEl.value || '').replace(',', '.'));
+        if (isNaN(porcentagem)) porcentagem = 0;
 
-      if (porcentagemDesconto > 0) {
-          const valorDoDescontoAdicional = arredondaCentenaBaixo(valorVendaFinal * (porcentagemDesconto / 100));
-          valorVendaFinal = valorVendaFinal - valorDoDescontoAdicional;
-      }
+        // Calcula o valor final após o desconto em %
+        const valorDescontoPerc = arredondaCentenaBaixo(valorVendaBase * (porcentagem / 100));
+        const valorVendaFinal = valorVendaBase - valorDescontoPerc;
 
-      // 4. ATUALIZAR EXIBIÇÃO DE VENDA E DESCONTO TOTAL
-      if (valorVendaEl) {
-          valorVendaEl.innerText = formatar(valorVendaFinal);
-      }
+        // 4. ATUALIZAR INTERFACE
+        if (valorVendaEl) valorVendaEl.innerText = formatar(valorVendaFinal);
+        
+        if (descontoReaisEl) {
+            // Mostra a diferença total entre a Tabela (Col 4) e o Preço Final
+            descontoReaisEl.innerText = formatar(vTabela - valorVendaFinal);
+        }
 
-      if (descontoReaisEl) {
-          // O desconto que aparece na tela é a diferença entre a Tabela(4) e a Venda Final
-          const diferencaTotal = valorTabelaFixo - valorVendaFinal;
-          descontoReaisEl.innerText = formatar(diferencaTotal);
-      }
+        // 5. CÁLCULO DE COMISSÃO (Usando o valor de venda final)
+        const receitaEfetiva = +(valorVendaFinal - valorVendaFinal * 0.12).toFixed(2);
+        const custoEfetivo = +((vendedorAtual.valorCompra || 0) - (vendedorAtual.valorCompra || 0) * 0.12).toFixed(2);
+        
+        const lucroBruto = (receitaEfetiva - custoEfetivo) +
+            (vendedorAtual.fundoEstrela || 0) + (vendedorAtual.retirada || 0) +
+            (vendedorAtual.programacao || 0) + (vendedorAtual.comissao || 0) +
+            (vendedorAtual.bonificacao || 0) + (vendedorAtual.bonusExtra || 0) -
+            (vendedorAtual.frete || 0) - (vendedorAtual.revisao || 0) -
+            (vendedorAtual.custosAdd || 0);
 
-      // 5. CÁLCULO DE COMISSÃO (Mantendo sua lógica de lucro bruto)
-      // A receita para o cálculo da comissão é sempre baseada no Valor de Venda Final
-      const receitaEfetiva = +(valorVendaFinal - valorVendaFinal * 0.12).toFixed(2);
-      const custoEfetivo = +((vendedorAtual.valorCompra || 0) - (vendedorAtual.valorCompra || 0) * 0.12).toFixed(2);
-      
-      const lucroBruto = (receitaEfetiva - custoEfetivo) +
-          (vendedorAtual.fundoEstrela || 0) + (vendedorAtual.retirada || 0) +
-          (vendedorAtual.programacao || 0) + (vendedorAtual.comissao || 0) +
-          (vendedorAtual.bonificacao || 0) + (vendedorAtual.bonusExtra || 0) -
-          (vendedorAtual.frete || 0) - (vendedorAtual.revisao || 0) -
-          (vendedorAtual.custosAdd || 0);
+        const comissao = +(lucroBruto * 0.09).toFixed(2);
+        const dsr = +((comissao / 27) * 4).toFixed(2);
 
-      const comissao = +(lucroBruto * 0.09).toFixed(2);
-      const dsr = +((comissao / 27) * 4).toFixed(2);
-      const totalComissao = +(comissao + dsr).toFixed(2);
+        if (comissaoEl) comissaoEl.innerText = formatar(comissao);
+        if (dsrEl) dsrEl.innerText = formatar(dsr);
+        if (totalEl) totalEl.innerText = formatar(comissao + dsr);
+    }
 
-      // Atualiza os campos de comissão na UI
-      if (comissaoEl) comissaoEl.innerText = formatar(comissao);
-      if (dsrEl) dsrEl.innerText = formatar(dsr);
-      if (totalEl) totalEl.innerText = formatar(totalComissao);
-  }
-  
   function parseMoeda(valorTexto) {
     if (!valorTexto) return 0;
     // Remove todos os pontos e troca a vírgula por ponto
@@ -1910,31 +1897,35 @@ const RAW_ACOES = `
 
         const fzKey = cols[0].padStart(6,'0');
 
-        vendedores[fzKey] = {
-          modelo: cols[1],
-          up: cols[2],
-          anoMod: cols[3],
+      // Procure este trecho dentro do seu carregarDados e substitua:
+      vendedores[fzKey] = {
+        modelo: cols[1],
+        up: cols[2],
+        anoMod: cols[3],
 
-          valorTabela: parseFloat((cols[4]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          precoGerente: parseFloat((cols[5]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          precoOportunidade: parseFloat((cols[6]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+        // VALORES DE PREÇO CONFORME SUA REGRA:
+        valorTabela: parseFloat((cols[4]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,       // Coluna 4 (FIXA)
+        precoVendedor: parseFloat((cols[5]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,     // Coluna 5
+        precoGerente: parseFloat((cols[6]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,      // Coluna 6
+        precoOportunidade: parseFloat((cols[7]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0, // Coluna 7
 
-          cor: cols[7] || '',
-          variante: cols[8] || '',
-          patio: cols[9] || '',
-          fotoUrl: cols[10] || '',
+        // O restante das colunas sobe uma posição (já que a 7 agora é preço)
+        cor: cols[8] || '',
+        variante: cols[9] || '',
+        patio: cols[10] || '',
+        fotoUrl: cols[11] || '',
 
-          valorCompra: parseFloat((cols[11]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          fundoEstrela: parseFloat((cols[12]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          retirada: parseFloat((cols[13]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          programacao: parseFloat((cols[14]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          comissao: parseFloat((cols[15]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          bonificacao: parseFloat((cols[16]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          bonusExtra: parseFloat((cols[17]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          frete: parseFloat((cols[18]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          revisao: parseFloat((cols[19]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          custosAdd: parseFloat((cols[20]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-        };
+        valorCompra: parseFloat((cols[12]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+        fundoEstrela: parseFloat((cols[13]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+        retirada: parseFloat((cols[14]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+        programacao: parseFloat((cols[15]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+        comissao: parseFloat((cols[16]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+        bonificacao: parseFloat((cols[17]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+        bonusExtra: parseFloat((cols[18]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+        frete: parseFloat((cols[19]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+        revisao: parseFloat((cols[20]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+        custosAdd: parseFloat((cols[21]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+      };
       });
 
       dadosCarregados = true;
