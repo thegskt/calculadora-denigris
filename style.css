@@ -200,7 +200,8 @@
   transition: var(--transition);
 }
 .nav-item:hover, .nav-item.active {
-  color: white;
+  color: rgb(50, 100, 156);
+  outline: underline;
 }
 .nav-toggle { display: none; background: none; border: none; color: white; cursor: pointer; }
 
@@ -628,9 +629,8 @@
       position: fixed;
       top: 64px;
       right: -100%;
-      width: 250px;
-      height: calc(100vh - 64px);
-      background: white;
+      background: #fffffff5;
+      margin-right: 6px;
       flex-direction: column;
       padding: 2rem;
       box-shadow: -2px 0 10px rgba(0,0,0,0.1);
