@@ -2304,13 +2304,13 @@ acaoFabEl?.addEventListener('change',()=>{
 
       // 2. Transforma em centavos (divide por 100)
       value = (parseInt(value) / 100).toFixed(2);
-      
+
       // 3. Substitui ponto por vírgula e adiciona separador de milhar
       let partes = value.split(".");
       partes[0] = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
       // 4. Aplica o valor formatado de volta no campo
-      e.target.value = value;
+      e.target.value = partes[0] + "," + partes[1];
       
       // 5. Opcional: Chama sua função de cálculo para atualizar o total na hora
       if (typeof atualizarValores === 'function') {
