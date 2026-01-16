@@ -1615,6 +1615,8 @@ const RAW_ACOES = `
   const tipoPreco = document.getElementById('tipoPreco');
   const precoEspecial = document.getElementById('precoEspecial');
 
+  const precoEspecialInput = document.getElementById('precoEspecial');
+
 
   function atualizarClassePreco(tipo) {
     const select = document.getElementById("tipoPreco");
@@ -1861,11 +1863,14 @@ function aplicarFZ(fzRaw){
           valor = dados.precoOportunidade;
       } 
       else if (tipo === 'especial') {
-          inputEspecial.disabled = false; // Destrava o campo para digitar
-          
-          // Pega o número digitado (troca vírgula por ponto)
-          let valorDigitado = inputEspecial.value.replace(/\./g, '').replace(',', '.');
-          valor = parseFloat(valorDigitado) || 0;
+              inputEspecial.disabled = false;
+              
+              // Remove os pontos de milhar e troca a vírgula decimal por ponto
+              let valorLimpo = inputEspecial.value
+                  .replace(/\./g, '')  // Remove o ponto do milhar
+                  .replace(',', '.');  // Troca a vírgula pelo ponto decimal
+                  
+              valor = parseFloat(valorLimpo) || 0;
       }
 
       return valor;
@@ -2214,84 +2219,104 @@ acaoFabEl?.addEventListener('change',()=>{
   acaoFabEl.style.fontWeight = cfg.bg? "900":"";
 });
 
-// ================== CONTROLE DESCONTO (BOTÕES) ==================
-(function initDesconto(){
-  if(!descontoEl) return;
-  const upBtn = els('btnDescontoUp');
-  const dnBtn = els('btnDescontoDown');
-  const MIN=0, MAX=3, STEP=0.5;
+  // ================== CONTROLE DESCONTO (BOTÕES) ==================
+  (function initDesconto(){
+    if(!descontoEl) return;
+    const upBtn = els('btnDescontoUp');
+    const dnBtn = els('btnDescontoDown');
+    const MIN=0, MAX=3, STEP=0.5;
 
-  function clamp(v){ if(isNaN(v)) v=0; return Math.min(MAX, Math.max(MIN,v)); }
-  function fmt(v){ return Number.isInteger(v)? v.toString(): v.toFixed(2).replace(/0$/,'').replace(/0$/,''); }
-  function setVal(v){ v=clamp(v); descontoEl.value=fmt(v); atualizarValores(); }
-  function alter(d){
-    let v=parseFloat((descontoEl.value||'').replace(',','.'));
-    if(isNaN(v)) v=0;
-    v = Math.round((v+d)*100)/100;
-    setVal(v);
+    function clamp(v){ if(isNaN(v)) v=0; return Math.min(MAX, Math.max(MIN,v)); }
+    function fmt(v){ return Number.isInteger(v)? v.toString(): v.toFixed(2).replace(/0$/,'').replace(/0$/,''); }
+    function setVal(v){ v=clamp(v); descontoEl.value=fmt(v); atualizarValores(); }
+    function alter(d){
+      let v=parseFloat((descontoEl.value||'').replace(',','.'));
+      if(isNaN(v)) v=0;
+      v = Math.round((v+d)*100)/100;
+      setVal(v);
+    }
+    function addHold(btn,delta){
+      if(!btn) return;
+      let t1,t2,hold=false, touchStarted=false;
+      // Desktop: click rápido, hold = mouse
+      btn.addEventListener('mousedown',e=>{
+        e.preventDefault();
+        hold = false;
+        t1=setTimeout(()=>{
+          hold = true;
+          alter(delta);
+          t2=setInterval(()=>alter(delta),140);
+        },450);
+      },{passive:false});
+      btn.addEventListener('mouseup',()=>{
+        clearTimeout(t1); clearInterval(t2);
+      });
+      btn.addEventListener('mouseleave',()=>{
+        clearTimeout(t1); clearInterval(t2);
+      });
+      btn.addEventListener('click',e=>{
+        if (!hold && !touchStarted) alter(delta);
+      });
+
+      // Mobile: touchstart já incrementa, se segurar faz hold
+      btn.addEventListener('touchstart',e=>{
+        e.preventDefault();
+        hold = false;
+        touchStarted = true;
+        alter(delta); // tap já incrementa
+        t1=setTimeout(()=>{
+          hold = true;
+          t2=setInterval(()=>alter(delta),140);
+        },450);
+      },{passive:false});
+      btn.addEventListener('touchend',()=>{
+        clearTimeout(t1); clearInterval(t2);
+        setTimeout(()=>{touchStarted=false;},50); // libera para próximo tap
+      });
+      btn.addEventListener('touchcancel',()=>{
+        clearTimeout(t1); clearInterval(t2);
+        setTimeout(()=>{touchStarted=false;},50);
+      });
+    }
+    addHold(upBtn,+STEP);
+    addHold(dnBtn,-STEP);
+    descontoEl.addEventListener('change',()=> setVal(parseFloat((descontoEl.value||'').replace(',','.'))||0));
+    descontoEl.addEventListener('blur',  ()=> setVal(parseFloat((descontoEl.value||'').replace(',','.'))||0));
+  })();
+
+  // ================== QUERY PARAMS ==================
+  function applyQueryParams(){
+    const params = new URLSearchParams(location.search);
+    const calc = (params.get('calc')||'').toLowerCase();
+    const fz   = (params.get('fz')||'').replace(/\D/g,'').slice(0,6);
+
+    if (calc === 'fabrica') showCalcFabrica(); else showCalcProprio();
+
+    if (fz){
+      if (dadosCarregados) aplicarFZ(fz);
+      else pendingFZ = fz;
+    }
   }
-  function addHold(btn,delta){
-    if(!btn) return;
-    let t1,t2,hold=false, touchStarted=false;
-    // Desktop: click rápido, hold = mouse
-    btn.addEventListener('mousedown',e=>{
-      e.preventDefault();
-      hold = false;
-      t1=setTimeout(()=>{
-        hold = true;
-        alter(delta);
-        t2=setInterval(()=>alter(delta),140);
-      },450);
-    },{passive:false});
-    btn.addEventListener('mouseup',()=>{
-      clearTimeout(t1); clearInterval(t2);
-    });
-    btn.addEventListener('mouseleave',()=>{
-      clearTimeout(t1); clearInterval(t2);
-    });
-    btn.addEventListener('click',e=>{
-      if (!hold && !touchStarted) alter(delta);
-    });
 
-    // Mobile: touchstart já incrementa, se segurar faz hold
-    btn.addEventListener('touchstart',e=>{
-      e.preventDefault();
-      hold = false;
-      touchStarted = true;
-      alter(delta); // tap já incrementa
-      t1=setTimeout(()=>{
-        hold = true;
-        t2=setInterval(()=>alter(delta),140);
-      },450);
-    },{passive:false});
-    btn.addEventListener('touchend',()=>{
-      clearTimeout(t1); clearInterval(t2);
-      setTimeout(()=>{touchStarted=false;},50); // libera para próximo tap
-    });
-    btn.addEventListener('touchcancel',()=>{
-      clearTimeout(t1); clearInterval(t2);
-      setTimeout(()=>{touchStarted=false;},50);
-    });
-  }
-  addHold(upBtn,+STEP);
-  addHold(dnBtn,-STEP);
-  descontoEl.addEventListener('change',()=> setVal(parseFloat((descontoEl.value||'').replace(',','.'))||0));
-  descontoEl.addEventListener('blur',  ()=> setVal(parseFloat((descontoEl.value||'').replace(',','.'))||0));
-})();
+  precoEspecialInput.addEventListener('input', function (e) {
+      // 1. Remove tudo que não é número
+      let value = e.target.value.replace(/\D/g, '');
 
-// ================== QUERY PARAMS ==================
-function applyQueryParams(){
-  const params = new URLSearchParams(location.search);
-  const calc = (params.get('calc')||'').toLowerCase();
-  const fz   = (params.get('fz')||'').replace(/\D/g,'').slice(0,6);
+      // 2. Transforma em centavos (divide por 100)
+      value = (value / 100).toFixed(2) + '';
 
-  if (calc === 'fabrica') showCalcFabrica(); else showCalcProprio();
+      // 3. Substitui ponto por vírgula e adiciona separador de milhar
+      value = value.replace(".", ",");
+      value = value.replace(/(\d)(\?=(\d{3})+(?!\d))/g, "$1.");
 
-  if (fz){
-    if (dadosCarregados) aplicarFZ(fz);
-    else pendingFZ = fz;
-  }
-}
+      // 4. Aplica o valor formatado de volta no campo
+      e.target.value = value;
+      
+      // 5. Opcional: Chama sua função de cálculo para atualizar o total na hora
+      if (typeof atualizarValores === 'function') {
+          atualizarValores();
+      }
+  });
 
 // ================== INIT ==================
   function init(){
