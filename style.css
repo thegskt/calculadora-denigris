@@ -197,7 +197,7 @@
   }
 
   .tab-btn.active {
-    background-color: white;
+    background-color:rgb(76 112 181);
     color: white;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   }
@@ -455,6 +455,8 @@
 
   .action-buttons-mini { display: flex; gap: 4px; }
   .btn-icon {
+    padding: 4px 8px;
+    margin: 4px;
     background: white;
     border-radius: var(--radius-sm);
     width: 60px;
