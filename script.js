@@ -1864,6 +1864,9 @@ function aplicarFZ(fzRaw){
       } 
       else if (tipo === 'especial') {
               inputEspecial.disabled = false;
+              const inputVal = document.getElementById('precoEspecial').value;
+              const valorNumerico = parseFloat(inputVal.replace(/\./g, '').replace(',', '.')) || 0;
+              valor = valorNumerico;
               
               // Remove os pontos de milhar e troca a vírgula decimal por ponto
               let valorLimpo = inputEspecial.value
