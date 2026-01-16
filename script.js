@@ -1863,17 +1863,10 @@ function aplicarFZ(fzRaw){
           valor = dados.precoOportunidade;
       } 
       else if (tipo === 'especial') {
-              inputEspecial.disabled = false;
-              const inputVal = document.getElementById('precoEspecial').value;
-              const valorNumerico = parseFloat(inputVal.replace(/\./g, '').replace(',', '.')) || 0;
-              valor = valorNumerico;
-              
-              // Remove os pontos de milhar e troca a vírgula decimal por ponto
-              let valorLimpo = inputEspecial.value
-                  .replace(/\./g, '')  // Remove o ponto do milhar
-                  .replace(',', '.');  // Troca a vírgula pelo ponto decimal
-                  
-              valor = parseFloat(valorLimpo) || 0;
+          inputEspecial.disabled = false;
+          const inputVal = document.getElementById('precoEspecial').value;
+          const valorNumerico = parseFloat(inputVal.replace(/\./g, '').replace(',', '.')) || 0;
+          valor = valorNumerico;
       }
 
       return valor;
