@@ -1947,6 +1947,11 @@ function aplicarFZ(fzRaw){
         // 2. Lógica de Mostrar/Esconder o Box Roxo
         if (tipo === 'especial') {
             especialWrapper.classList.remove('hidden'); // REMOVE "hidden" para aparecer
+
+            // --- ADICIONE ESTAS DUAS LINHAS ABAIXO ---
+            precoEspecial.disabled = false; 
+            precoEspecial.readOnly = false;
+            // ----------------------------------------
             
             // (Opcional) Sugere o preço mínimo se tiver dados carregados
             if (typeof vendedorAtual !== 'undefined' && vendedorAtual) {
