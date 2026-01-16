@@ -1963,20 +1963,21 @@ function aplicarFZ(fzRaw){
         if (tipo === 'especial') {
             especialWrapper.classList.remove('hidden'); // REMOVE "hidden" para aparecer
 
-            // --- ADICIONE ESTAS DUAS LINHAS ABAIXO ---
+        // --- ADICIONE ESTAS DUAS LINHAS ABAIXO ---
             precoEspecial.disabled = false; 
             precoEspecial.readOnly = false;
-            // ----------------------------------------
+        // ----------------------------------------
             
-            // (Opcional) Sugere o preço mínimo se tiver dados carregados
-            if (typeof vendedorAtual !== 'undefined' && vendedorAtual) {
-                const min = vendedorAtual.precoOportunidade;
-                document.getElementById('minEspecialValor').innerText = 
-                    'Mínimo: R$ ' + min.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-            }
+        // (Opcional) Sugere o preço mínimo se tiver dados carregados
+        if (typeof vendedorAtual !== 'undefined' && vendedorAtual) {
+            const min = vendedorAtual.precoOportunidade;
+            document.getElementById('minEspecialValor').innerText = 
+            'Mínimo: R$ ' + min.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        }
             
             precoEspecial.focus(); // Já deixa o cursor piscando lá dentro
-        } else {
+        } 
+        else {
             especialWrapper.classList.add('hidden'); // ADICIONA "hidden" para esconder
             precoEspecial.value = ''; // Limpa o campo
         }
