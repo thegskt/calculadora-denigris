@@ -1708,95 +1708,112 @@ const RAW_ACOES = `
     });
     return map;
   }
-const ACOES_MAP = buildAcoesMap(RAW_ACOES);
-const ACOES_PADRAO = ['Estoque'];
+  const ACOES_MAP = buildAcoesMap(RAW_ACOES);
+  const ACOES_PADRAO = ['Estoque'];
 
-// ================== ELEMENTOS ==================
-const els = id => document.getElementById(id);
+  // ================== ELEMENTOS ==================
+  const els = id => document.getElementById(id);
 
-const fzEl            = els("fz");
-const fzErrorEl       = els("fzError");
-const modeloEl        = els("modelo");
-const upEl            = els("up");
-const anoModEl        = els("anoMod");
-const valorTabelaEl   = els("valorTabela");
-const descontoEl      = els("desconto");
-const descontoReaisEl = els("descontoReais");
-const valorVendaEl    = els("valorVenda");
-const comissaoEl      = els("comissaoProtected");
-const dsrEl           = els("dsrProtected");
-const totalEl         = els("total");
+  const fzEl            = els("fz");
+  const fzErrorEl       = els("fzError");
+  const modeloEl        = els("modelo");
+  const upEl            = els("up");
+  const anoModEl        = els("anoMod");
+  const valorTabelaEl   = els("valorTabela");
+  const descontoEl      = els("desconto");
+  const descontoReaisEl = els("descontoReais");
+  const valorVendaEl    = els("valorVenda");
+  const comissaoEl      = els("comissaoProtected");
+  const dsrEl           = els("dsrProtected");
+  const totalEl         = els("total");
 
-const btnVerInfoEl    = els("btnVerInfo");
-const infoVeiculoEl   = els("infoVeiculo");
-const infoCorEl       = els("infoCor");
-const infoVarianteEl  = els("infoVariante");
-const infoPatioEl     = els("infoPatio");
+  const btnVerInfoEl    = els("btnVerInfo");
+  const infoVeiculoEl   = els("infoVeiculo");
+  const infoCorEl       = els("infoCor");
+  const infoVarianteEl  = els("infoVariante");
+  const infoPatioEl     = els("infoPatio");
 
-const modeloFabEl     = els("modeloFab");
-const upFabEl         = els("upFab");
-const anoFabEl        = els("anoModeloFab");
-const varianteFabEl   = els("varianteFab");
-const acaoFabEl       = els("acaoFab");
+  const modeloFabEl     = els("modeloFab");
+  const upFabEl         = els("upFab");
+  const anoFabEl        = els("anoModeloFab");
+  const varianteFabEl   = els("varianteFab");
+  const acaoFabEl       = els("acaoFab");
 
-// ================== UTIL ==================
-function formatar(v){
-  return (v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
-}
-function arredondaCentenaBaixo(v){ return Math.floor(v/100)*100; }
+  // ================== UTIL ==================
+  function formatar(v){
+    return (v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+  }
+  function arredondaCentenaBaixo(v){ return Math.floor(v/100)*100; }
 
-// ================== MOSTRAR CALCULADORAS ==================
-function showCalcProprio(){
-  els('calcEstoqueProprio')?.classList.remove('hidden');
-  els('calcEstoqueFabrica')?.classList.add('hidden');
-}
-function showCalcFabrica(){
-  els('calcEstoqueProprio')?.classList.add('hidden');
-  els('calcEstoqueFabrica')?.classList.remove('hidden');
-}
-
-// ================== CÁLCULO ==================
-function atualizarValores(){
-  if(!descontoEl) return;
-  let d = parseFloat((descontoEl.value||'').replace(',','.'));
-  if(isNaN(d)) d=0;
-  if(d<0) d=0;
-  if(d>3) d=3;
-
-  const frac = ((descontoEl.value||'').split(/[.,]/)[1]||'').length;
-  const txt = Number.isInteger(d)? d.toFixed(0): d.toFixed(Math.min(2, Math.max(1, frac)));
-  if (descontoEl.value !== txt) descontoEl.value = txt;
-
-  const valorDesc  = arredondaCentenaBaixo(valorTabela * (d/100));
-  const valorVenda = +(valorTabela - valorDesc).toFixed(2);
-
-  let comissao=0, dsr=0, total=0;
-  if (vendedorAtual){
-    const receitaEfetiva = +(valorVenda - valorVenda*0.12).toFixed(2);
-    const custoEfetivo   = +((vendedorAtual.valorCompra||0) - (vendedorAtual.valorCompra||0)*0.12).toFixed(2);
-    const lucroBruto =
-      (receitaEfetiva - custoEfetivo) +
-      (vendedorAtual.fundoEstrela||0) +
-      (vendedorAtual.retirada||0) +
-      (vendedorAtual.programacao||0)+
-      (vendedorAtual.comissao||0)+
-      (vendedorAtual.bonificacao||0) +
-      (vendedorAtual.bonusExtra||0) -
-      (vendedorAtual.frete||0) -
-      (vendedorAtual.revisao||0) -
-      (vendedorAtual.custosAdd||0);
-
-    comissao = +(lucroBruto * 0.09).toFixed(2);
-    dsr      = +((comissao / 27)*4).toFixed(2);
-    total    = +(comissao + dsr).toFixed(2);
+  // ================== MOSTRAR CALCULADORAS ==================
+  function showCalcProprio(){
+    els('calcEstoqueProprio')?.classList.remove('hidden');
+    els('calcEstoqueFabrica')?.classList.add('hidden');
+  }
+  function showCalcFabrica(){
+    els('calcEstoqueProprio')?.classList.add('hidden');
+    els('calcEstoqueFabrica')?.classList.remove('hidden');
   }
 
-  descontoReaisEl && (descontoReaisEl.innerText = formatar(valorDesc));
-  valorVendaEl    && (valorVendaEl.innerText    = formatar(valorVenda));
-  comissaoEl      && (comissaoEl.innerText      = formatar(comissao));
-  dsrEl           && (dsrEl.innerText           = formatar(dsr));
-  totalEl         && (totalEl.innerText         = formatar(total));
-}
+  // ================== CÁLCULO ==================
+  function atualizarValores() {
+      if (!vendedorAtual) return;
+
+      // 1. O Valor de Tabela é SEMPRE a Coluna 4 (fixo)
+      valorTabela = vendedorAtual.valorTabela;
+      if (valorTabelaEl) {
+          valorTabelaEl.innerText = formatar(valorTabela);
+      }
+
+      if (!descontoEl) return;
+
+      // 2. Pegamos o tipo de preço selecionado
+      const tipo = document.getElementById('tipoPreco').value;
+      let baseCalculo = valorTabela; // Padrão é a coluna 4
+
+      // Se o tipo for Gerente ou Oportunidade, a base do cálculo muda para as outras colunas
+      // MAS o valor de tabela lá em cima continua o mesmo.
+      if (tipo === 'gerente') {
+          baseCalculo = vendedorAtual.precoGerente;
+      } else if (tipo === 'oportunidade') {
+          baseCalculo = vendedorAtual.precoOportunidade;
+      } else if (tipo === 'especial') {
+          baseCalculo = limparMoeda(document.getElementById('precoEspecial').value);
+      }
+
+      // 3. Cálculo do Desconto (se houver % de desconto no campo)
+      let d = parseFloat((descontoEl.value || '').replace(',', '.'));
+      if (isNaN(d)) d = 0;
+
+      // Se for "Especial", geralmente o desconto é zero porque o preço já é manual
+      const valorDesc = tipo === 'especial' ? 0 : arredondaCentenaBaixo(baseCalculo * (d / 100));
+      
+      // 4. Valor de Venda Final
+      const valorVenda = +(baseCalculo - valorDesc).toFixed(2);
+
+      // 5. Atualiza a tela
+      if (valorVendaEl) valorVendaEl.innerText = formatar(valorVenda);
+      if (descontoReaisEl) descontoReaisEl.innerText = formatar(valorDesc);
+
+      // Cálculos de Comissão (Lucro Bruto)
+      const receitaEfetiva = +(valorVenda - valorVenda * 0.12).toFixed(2);
+      const custoEfetivo = +((vendedorAtual.valorCompra || 0) - (vendedorAtual.valorCompra || 0) * 0.12).toFixed(2);
+      
+      const lucroBruto = (receitaEfetiva - custoEfetivo) +
+          (vendedorAtual.fundoEstrela || 0) + (vendedorAtual.retirada || 0) +
+          (vendedorAtual.programacao || 0) + (vendedorAtual.comissao || 0) +
+          (vendedorAtual.bonificacao || 0) + (vendedorAtual.bonusExtra || 0) -
+          (vendedorAtual.frete || 0) - (vendedorAtual.revisao || 0) -
+          (vendedorAtual.custosAdd || 0);
+
+      const comissao = +(lucroBruto * 0.09).toFixed(2);
+      const dsr = +((comissao / 27) * 4).toFixed(2);
+      const total = +(comissao + dsr).toFixed(2);
+
+      if (comissaoEl) comissaoEl.innerText = formatar(comissao);
+      if (dsrEl) dsrEl.innerText = formatar(dsr);
+      if (totalEl) totalEl.innerText = formatar(total);
+  }
 
   function parseMoeda(valorTexto) {
     if (!valorTexto) return 0;
@@ -1804,42 +1821,48 @@ function atualizarValores(){
     let limpo = valorTexto.replace(/\./g, '').replace(',', '.');
     return parseFloat(limpo) || 0;
   }
-
-// ================== FZ LOOKUP ==================
-function aplicarFZ(fzRaw){
-  const raw = (fzRaw||'').replace(/\D/g,'').slice(0,6);
-  if (fzEl) fzEl.value = raw;
-
-  const key = raw.padStart(6,'0');
-
-  if (vendedores[key]){
-    vendedorAtual = vendedores[key];
-
-    modeloEl && (modeloEl.innerText = vendedorAtual.modelo || '–');
-    upEl     && (upEl.innerText     = vendedorAtual.up || '–');
-    anoModEl && (anoModEl.innerText = vendedorAtual.anoMod || '–');
-
-    infoCorEl && (infoCorEl.innerText = vendedorAtual.cor || '–');
-    infoVarianteEl && (infoVarianteEl.innerText = vendedorAtual.variante || '–');
-    infoPatioEl && (infoPatioEl.innerText = vendedorAtual.patio || '–');
-
-    fzErrorEl && (fzErrorEl.innerText = '');
-  } else {
-    vendedorAtual = null;
-
-    modeloEl && (modeloEl.innerText = '–');
-    upEl     && (upEl.innerText     = '–');
-    anoModEl && (anoModEl.innerText = '–');
-
-    infoCorEl && (infoCorEl.innerText = '–');
-    infoVarianteEl && (infoVarianteEl.innerText = '–');
-    infoPatioEl && (infoPatioEl.innerText = '–');
-
-    fzErrorEl && (fzErrorEl.innerText = raw.length ? 'FZ não encontrado' : '');
+  function calcularValorTabela(dados) {
+    if (!dados) return 0;
+    
+    // Agora, independente do tipoPreco, o Valor de Tabela é sempre a Coluna 4
+    return dados.valorTabela; 
   }
 
-  atualizarValores();
-}
+  // ================== FZ LOOKUP ==================
+  function aplicarFZ(fzRaw){
+    const raw = (fzRaw||'').replace(/\D/g,'').slice(0,6);
+    if (fzEl) fzEl.value = raw;
+
+    const key = raw.padStart(6,'0');
+
+    if (vendedores[key]){
+      vendedorAtual = vendedores[key];
+
+      modeloEl && (modeloEl.innerText = vendedorAtual.modelo || '–');
+      upEl     && (upEl.innerText     = vendedorAtual.up || '–');
+      anoModEl && (anoModEl.innerText = vendedorAtual.anoMod || '–');
+
+      infoCorEl && (infoCorEl.innerText = vendedorAtual.cor || '–');
+      infoVarianteEl && (infoVarianteEl.innerText = vendedorAtual.variante || '–');
+      infoPatioEl && (infoPatioEl.innerText = vendedorAtual.patio || '–');
+
+      fzErrorEl && (fzErrorEl.innerText = '');
+    } else {
+      vendedorAtual = null;
+
+      modeloEl && (modeloEl.innerText = '–');
+      upEl     && (upEl.innerText     = '–');
+      anoModEl && (anoModEl.innerText = '–');
+
+      infoCorEl && (infoCorEl.innerText = '–');
+      infoVarianteEl && (infoVarianteEl.innerText = '–');
+      infoPatioEl && (infoPatioEl.innerText = '–');
+
+      fzErrorEl && (fzErrorEl.innerText = raw.length ? 'FZ não encontrado' : '');
+    }
+
+    atualizarValores();
+  }
 
   fzEl?.addEventListener('input', () => aplicarFZ(fzEl.value));
 
