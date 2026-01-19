@@ -8,21 +8,18 @@ const supabase = createClient(
 
 // 🔹 ELEMENTOS
 const msg = document.getElementById('msg')
-const btn = document.getElementById('btnGoogle')
+const btnGoogle = document.getElementById('googleLogin')
+const emailForm = document.getElementById('emailForm')
+const emailInput = document.getElementById('email')
+const passwordInput = document.getElementById('password')
+const btnRegisterEmail = document.getElementById('registerBtn')
 
-const SESSION_HOURS = 12;
-
-function marcarLogin() {
-  const agora = Date.now();
-  localStorage.setItem('login_time', agora);
-}
-
-// 🔹 REDIRECIONAMENTO (?next=pagina.html)
+// 🔹 REDIRECIONAMENTO
 const params = new URLSearchParams(window.location.search)
 const next = params.get('next') || 'home.html'
 
 // 🔹 LOGIN GOOGLE
-btn?.addEventListener('click', async () => {
+btnGoogle?.addEventListener('click', async () => {
   msg.textContent = 'Redirecionando para o Google...'
 
   const { error } = await supabase.auth.signInWithOAuth({
@@ -33,27 +30,14 @@ btn?.addEventListener('click', async () => {
   })
 
   if (error) {
-    msg.textContent = 'Falha ao autenticar. Tente novamente.'
+    msg.textContent = 'Falha ao autenticar com Google.'
     console.error(error)
   }
 })
 
-// 🔹 SE JÁ ESTIVER LOGADO, PULA O LOGIN
-const checkSession = async () => {
-  const { data } = await supabase.auth.getUser()
-
-  if (data.user) {
-    location.replace(next)
-  }
-}
-
-const emailInput = document.getElementById('email')
-const passwordInput = document.getElementById('password')
-const btnLoginEmail = document.getElementById('btnLoginEmail')
-const btnRegisterEmail = document.getElementById('btnRegisterEmail')
-
-// LOGIN COM EMAIL
-btnLoginEmail?.addEventListener('click', async () => {
+// 🔹 LOGIN COM EMAIL (Tratando o Submit do Form)
+emailForm?.addEventListener('submit', async (e) => {
+  e.preventDefault(); // Impede o recarregamento da página
   msg.textContent = 'Entrando...'
 
   const { error } = await supabase.auth.signInWithPassword({
@@ -62,14 +46,19 @@ btnLoginEmail?.addEventListener('click', async () => {
   })
 
   if (error) {
-    msg.textContent = error.message
+    msg.textContent = "Erro: " + error.message
   } else {
     location.replace(next)
   }
 })
 
-// REGISTRO COM EMAIL
+// 🔹 REGISTRO COM EMAIL
 btnRegisterEmail?.addEventListener('click', async () => {
+  if (!emailInput.value || !passwordInput.value) {
+    msg.textContent = 'Preencha email e senha para criar conta.'
+    return
+  }
+
   msg.textContent = 'Criando conta...'
 
   const { error } = await supabase.auth.signUp({
@@ -80,8 +69,16 @@ btnRegisterEmail?.addEventListener('click', async () => {
   if (error) {
     msg.textContent = error.message
   } else {
-    msg.textContent = 'Conta criada! Verifique seu email.'
+    msg.textContent = 'Conta criada! Verifique seu email para confirmar.'
   }
 })
+
+// 🔹 VERIFICAR SESSÃO ATUAL
+const checkSession = async () => {
+  const { data } = await supabase.auth.getUser()
+  if (data?.user) {
+    location.replace(next)
+  }
+}
 
 checkSession()

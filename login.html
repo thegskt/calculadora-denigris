@@ -9,18 +9,15 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- CABEÇALHO -->
   <header class="main-header">
     <div class="header-container">
       <div class="logo-area">
         <a href="home.html" class="logo-link">
-        <img src="Imagens/Mercedes-Logo.png" alt="Mercedes-Benz Logo">
-        <img src="Imagens/Logo_De Nigris Branco.png" alt="De Nigris Logo" class="logo-denigris">
+          <img src="Imagens/Mercedes-Logo.png" alt="Mercedes-Benz Logo">
+          <img src="Imagens/Logo_De Nigris Branco.png" alt="De Nigris Logo" class="logo-denigris">
         </a>
       </div>
-
       <button class="nav-toggle" aria-label="Menu">☰</button>
-
       <nav class="nav-menu">
         <a class="active" href="home.html">Home</a>
         <a href="index.html">Calculadora</a>
@@ -28,11 +25,13 @@
       </nav>
     </div>
   </header>
-   <div class="login-container">
-    <div class="login-card">
 
+  <div class="login-container">
+    <div class="login-card">
       <h1 class="logo">Sistema Estoque</h1>
       <p class="subtitle">Acesse sua conta</p>
+      
+      <p id="msg" style="color: #ff4d4d; font-size: 0.9em; text-align: center; min-height: 1.2em; margin-bottom: 10px;"></p>
 
       <button id="googleLogin" class="btn google">
         <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google">
@@ -46,16 +45,10 @@
       <form id="emailForm">
         <input type="email" id="email" placeholder="E-mail" required />
         <input type="password" id="password" placeholder="Senha" required />
-
-        <button type="submit" class="btn primary">
-          Entrar
-        </button>
+        <button type="submit" class="btn primary">Entrar</button>
       </form>
 
-      <button id="registerBtn" class="btn link">
-        Criar conta
-      </button>
-
+      <button id="registerBtn" class="btn link">Criar conta</button>
     </div>
   </div>
 
