@@ -202,10 +202,10 @@ document.addEventListener('DOMContentLoaded', () => {
     itens = rows.map(l=>{
       const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v=>v.replace(/^"|"$/g,''));
       return {
-        fz:c[0], modelo:c[1], up:c[2], anoMod:c[3],
-        valorTabela:parseFloat(c[4].replace('.','').replace(',','.'))||0,
-        cor:c[5], variante:c[6], patio:c[7],
-        fotoUrl:c[8]
+        fz:c[0], modelo:c[1], up:c[2], anoMod:c[4],
+        valorTabela:parseFloat(c[6].replace('.','').replace(',','.'))||0,
+        cor:c[9], variante:c[10], patio:c[11],
+        fotoUrl:c[22]
       };
     });
 
