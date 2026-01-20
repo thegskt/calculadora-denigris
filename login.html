@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Login - SalesDN</title>
+  <title>Acesso - SalesDN</title>
   <link rel="icon" type="image/png" href="Imagens/icon.png"/>
   <link rel="stylesheet" href="login.css">
   <link rel="stylesheet" href="style.css">
@@ -28,27 +28,63 @@
 
   <div class="login-container">
     <div class="login-card">
-      <h1 class="logo">Sistema Estoque</h1>
-      <p class="subtitle">Acesse sua conta</p>
       
-      <p id="msg" style="color: #ff4d4d; font-size: 0.9em; text-align: center; min-height: 1.2em; margin-bottom: 10px;"></p>
+      <h1 class="logo">Sistema Estoque</h1>
+      
+      <p id="msg" class="message-box"></p>
 
-      <button id="googleLogin" class="btn google">
-        <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google">
-        Entrar com Google
-      </button>
+      <div id="view-login">
+        <p class="subtitle">Acesse sua conta</p>
 
-      <div class="divider">
-        <span>ou</span>
+        <button id="googleLogin" class="btn google">
+          <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google">
+          Entrar com Google
+        </button>
+
+        <div class="divider">
+          <span>ou</span>
+        </div>
+
+        <form id="formLogin">
+          <div class="input-group">
+            <input type="email" id="loginEmail" placeholder="E-mail" required />
+          </div>
+          <div class="input-group">
+            <input type="password" id="loginPassword" placeholder="Senha" required />
+          </div>
+          <button type="submit" class="btn primary">Entrar</button>
+        </form>
+
+        <p class="footer-text">
+          Não tem uma conta? <a href="#" id="linkToRegister">Cadastre-se</a>
+        </p>
       </div>
 
-      <form id="emailForm">
-        <input type="email" id="email" placeholder="E-mail" required />
-        <input type="password" id="password" placeholder="Senha" required />
-        <button type="submit" class="btn primary">Entrar</button>
-      </form>
+      <div id="view-register" class="hidden">
+        <p class="subtitle">Crie sua conta</p>
 
-      <button id="registerBtn" class="btn link">Criar conta</button>
+        <form id="formRegister">
+          <div class="input-group">
+            <input type="text" id="regName" placeholder="Nome Completo" required />
+          </div>
+          <div class="input-group">
+            <input type="email" id="regEmail" placeholder="Seu melhor e-mail" required />
+          </div>
+          <div class="input-group">
+            <input type="password" id="regPassword" placeholder="Crie uma senha" required />
+          </div>
+          <div class="input-group">
+            <input type="password" id="regConfirmPassword" placeholder="Confirme a senha" required />
+          </div>
+          
+          <button type="submit" class="btn primary">Cadastrar</button>
+        </form>
+
+        <p class="footer-text">
+          Já possui conta? <a href="#" id="linkToLogin">Faça Login</a>
+        </p>
+      </div>
+
     </div>
   </div>
 

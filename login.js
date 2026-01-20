@@ -7,115 +7,164 @@ const supabase = createClient(
 )
 
 // 🔹 ELEMENTOS DOM
-const msg = document.getElementById('msg')
-const btnGoogle = document.getElementById('googleLogin')
-const emailForm = document.getElementById('emailForm')
-const emailInput = document.getElementById('email')
-const passwordInput = document.getElementById('password')
-const btnRegisterEmail = document.getElementById('registerBtn')
+const msg = document.getElementById('msg');
+const viewLogin = document.getElementById('view-login');
+const viewRegister = document.getElementById('view-register');
 
-// 🔹 DEFINE PARA ONDE VAI APÓS LOGIN
-// Se houver ?next= no link, usa ele. Se não, vai para home.html
-const params = new URLSearchParams(window.location.search)
-const nextPage = params.get('next') || 'home.html'
+// Links de alternância
+const linkToRegister = document.getElementById('linkToRegister');
+const linkToLogin = document.getElementById('linkToLogin');
+
+// Forms
+const formLogin = document.getElementById('formLogin');
+const formRegister = document.getElementById('formRegister');
+const btnGoogle = document.getElementById('googleLogin');
+
+// URL de destino
+const params = new URLSearchParams(window.location.search);
+const nextPage = params.get('next') || 'home.html';
 
 // =========================================
-// 1. LOGIN COM GOOGLE
+// 1. LÓGICA DE ALTERNAR TELAS (LOGIN <-> CADASTRO)
+// =========================================
+function switchView(view) {
+  msg.textContent = ''; // Limpa mensagens
+  msg.className = 'message-box';
+  
+  if (view === 'register') {
+    viewLogin.classList.add('hidden');
+    viewRegister.classList.remove('hidden');
+  } else {
+    viewRegister.classList.add('hidden');
+    viewLogin.classList.remove('hidden');
+  }
+}
+
+linkToRegister?.addEventListener('click', (e) => {
+  e.preventDefault();
+  switchView('register');
+});
+
+linkToLogin?.addEventListener('click', (e) => {
+  e.preventDefault();
+  switchView('login');
+});
+
+// =========================================
+// 2. LOGIN GOOGLE
 // =========================================
 btnGoogle?.addEventListener('click', async () => {
-  msg.textContent = 'Aguarde, redirecionando para o Google...'
+  msg.textContent = 'Aguarde, indo para o Google...';
   
-  // Pega a URL base atual (ex: http://127.0.0.1:5500)
   const currentUrl = window.location.origin + window.location.pathname;
-
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
-    options: {
-      // Importante: O Supabase redireciona para cá DEPOIS do Google
-      redirectTo: currentUrl 
-    }
-  })
+    options: { redirectTo: currentUrl }
+  });
 
   if (error) {
-    msg.textContent = 'Erro Google: ' + error.message
-    console.error(error)
+    showMessage(error.message, true);
   }
-})
+});
 
 // =========================================
-// 2. LOGIN COM EMAIL
+// 3. LOGIN COM EMAIL
 // =========================================
-emailForm?.addEventListener('submit', async (e) => {
-  e.preventDefault(); 
-  msg.textContent = 'Verificando credenciais...'
+formLogin?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+
+  showMessage('Entrando...', false);
 
   const { data, error } = await supabase.auth.signInWithPassword({
-    email: emailInput.value,
-    password: passwordInput.value
-  })
+    email,
+    password
+  });
 
   if (error) {
-    msg.textContent = "Erro: " + error.message;
+    showMessage("Erro: " + error.message, true);
   } else if (data.user) {
-    msg.textContent = "Login com sucesso! Entrando...";
+    showMessage("Sucesso! Redirecionando...", false);
     window.location.href = nextPage;
   }
-})
+});
 
 // =========================================
-// 3. REGISTRO (CRIAR CONTA)
+// 4. CADASTRO (NOVA LÓGICA PROFISSIONAL)
 // =========================================
-btnRegisterEmail?.addEventListener('click', async () => {
-  if (!emailInput.value || !passwordInput.value) {
-    msg.textContent = 'Preencha e-mail e senha.'
-    return
+formRegister?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById('regName').value;
+  const email = document.getElementById('regEmail').value;
+  const password = document.getElementById('regPassword').value;
+  const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+  // Validação básica local
+  if (password !== confirmPassword) {
+    showMessage('As senhas não coincidem.', true);
+    return;
   }
-  
-  msg.textContent = 'Criando conta...'
+  if (password.length < 6) {
+    showMessage('A senha deve ter pelo menos 6 caracteres.', true);
+    return;
+  }
+
+  showMessage('Criando sua conta...', false);
 
   const { data, error } = await supabase.auth.signUp({
-    email: emailInput.value,
-    password: passwordInput.value
-  })
-
-  if (error) {
-    msg.textContent = "Erro ao criar: " + error.message
-  } else {
-    // Se a confirmação de e-mail estiver DESLIGADA no painel, ele loga direto
-    if (data.session) {
-        msg.textContent = "Conta criada! Entrando...";
-        window.location.href = nextPage;
-    } else {
-        // Se a confirmação estiver LIGADA
-        msg.textContent = "Verifique seu e-mail para confirmar o cadastro.";
-    }
-  }
-})
-
-// =========================================
-// 4. VERIFICAÇÃO DE SESSÃO (IMPORTANTE)
-// =========================================
-async function checkUser() {
-  // Escuta mudanças no estado da autenticação (Login, Logout, Token Refreshed)
-  supabase.auth.onAuthStateChange(async (event, session) => {
-    console.log("Evento Auth:", event);
-    
-    if (session) {
-      // Se existe sessão, redireciona
-      console.log("Usuário logado:", session.user.email);
-      // Pequeno delay para garantir que o cookie foi gravado
-      setTimeout(() => {
-        window.location.href = nextPage;
-      }, 500);
+    email,
+    password,
+    options: {
+      data: {
+        full_name: name // Salva o nome do usuário no Supabase!
+      }
     }
   });
 
-  // Verifica se JÁ está logado ao abrir a página
+  if (error) {
+    showMessage(error.message, true);
+  } else {
+    // Verifica se logou direto (Confirmação de email desligada)
+    if (data.session) {
+      showMessage("Conta criada! Entrando...", false);
+      setTimeout(() => { window.location.href = nextPage; }, 1000);
+    } else {
+      showMessage("Conta criada! Verifique seu e-mail.", false);
+      formRegister.reset(); // Limpa o formulário
+      setTimeout(() => switchView('login'), 3000); // Volta para login após 3s
+    }
+  }
+});
+
+// Função auxiliar para mensagens coloridas
+function showMessage(text, isError) {
+  msg.textContent = text;
+  if (isError) {
+    msg.classList.add('error');
+    msg.classList.remove('success');
+    msg.style.color = '#ff4d4d';
+  } else {
+    msg.classList.add('success');
+    msg.classList.remove('error');
+    msg.style.color = '#10b981';
+  }
+}
+
+// =========================================
+// 5. CHECAR SESSÃO
+// =========================================
+async function checkUser() {
   const { data } = await supabase.auth.getSession();
   if (data.session) {
      window.location.href = nextPage;
   }
+  
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (session) window.location.href = nextPage;
+  });
 }
 
-// Inicia a verificação
 checkUser();

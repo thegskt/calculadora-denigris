@@ -12,32 +12,55 @@ body {
   align-items: center;
 }
 
+/* Ajuste para o Header fixo não cobrir o login em telas pequenas */
 .login-container {
   width: 100%;
   max-width: 420px;
   padding: 20px;
+  margin-top: 60px; /* Espaço para o header */
 }
 
 .login-card {
   background: #ffffff;
-  border-radius: 14px;
-  padding: 35px 30px;
-  box-shadow: 0 20px 50px rgba(0,0,0,.3);
+  border-radius: 16px; /* Mais arredondado */
+  padding: 40px 30px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .logo {
-  margin: 0;
+  margin: 0 0 10px 0;
   text-align: center;
-  font-size: 26px;
+  font-size: 24px;
   color: #020617;
+  font-weight: 700;
 }
 
 .subtitle {
   text-align: center;
   margin-bottom: 25px;
-  color: #475569;
+  color: #64748b;
+  font-size: 15px;
 }
 
+/* Mensagens de erro/aviso */
+.message-box {
+  min-height: 20px;
+  font-size: 0.9em;
+  text-align: center;
+  margin-bottom: 15px;
+  color: #ef4444; /* Vermelho padrão */
+}
+.message-box.success {
+  color: #10b981; /* Verde */
+}
+
+/* Botões */
 .btn {
   width: 100%;
   padding: 12px;
@@ -45,77 +68,81 @@ body {
   border: none;
   cursor: pointer;
   font-size: 15px;
-  transition: 0.2s;
+  font-weight: 500;
+  transition: all 0.2s;
 }
-
-.btn:hover {
-  opacity: 0.9;
-}
+.btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
 
 .btn.google {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-
   background: #ffffff;
-  border: 1px solid #e5e7eb;
-  color: #111827;
-  font-weight: 600;
-}
-
-.btn.google img {
-  width: 18px;
-  height: 18px;
+  border: 1px solid #e2e8f0;
+  color: #1e293b;
 }
 
 .primary {
   background: #020617;
   color: white;
   margin-top: 10px;
+  font-weight: 600;
 }
 
-.link {
-  background: none;
-  color: #2563eb;
-  margin-top: 15px;
-}
+/* Inputs */
+.input-group { margin-bottom: 12px; }
 
 input {
   width: 100%;
-  padding: 12px;
-  margin-bottom: 12px;
+  padding: 12px 15px;
   border-radius: 8px;
-  border: 1px solid #cbd5f5;
+  border: 1px solid #cbd5e1;
   font-size: 14px;
+  transition: border-color 0.2s;
 }
 
 input:focus {
   outline: none;
   border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
+/* Divisor */
 .divider {
   display: flex;
   align-items: center;
   margin: 20px 0;
 }
-
-.divider::before,
-.divider::after {
+.divider::before, .divider::after {
   content: "";
   flex: 1;
   height: 1px;
-  background: #e5e7eb;
+  background: #e2e8f0;
 }
-
 .divider span {
   margin: 0 10px;
-  color: #64748b;
-  font-size: 13px;
+  color: #94a3b8;
+  font-size: 12px;
+  text-transform: uppercase;
 }
 
-.btn.link {
-    font-weight: bold;
-    color: #012e72;
+/* Links de rodapé (Alternar telas) */
+.footer-text {
+  text-align: center;
+  font-size: 14px;
+  color: #64748b;
+  margin-top: 20px;
 }
+.footer-text a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+.footer-text a:hover {
+  text-decoration: underline;
+}
+
+/* Utilitário para esconder telas */
+.hidden { display: none; }
