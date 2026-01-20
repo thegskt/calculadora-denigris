@@ -205,7 +205,7 @@
   transition: var(--transition);
 }
 .nav-item:hover, .nav-item.active {
-  color: rgb(218 244 250);
+  color: rgb(0, 19, 59);
   text-decoration: underline;
   text-decoration-color: rgb(50, 100, 156); /* Cor roxa */
 }
@@ -1993,3 +1993,137 @@
     background: transparent;
     height: 100%;
   }
+
+  /* --- Estilos Gerais dos Botões Premium --- */
+.btn-premium {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 12px; /* Bordas mais arredondadas = mais moderno */
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Animação suave */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 12px; /* Espaço entre botões */
+}
+
+/* Efeito de "levitação" ao passar o mouse */
+.btn-premium:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.btn-premium:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* --- 1. Botão Detalhamento (Azul Royal Suave) --- */
+#btnMostrarProtegido.btn-detail {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #fff;
+  width: 90%; /* Um pouco menor que os de baixo para hierarquia */
+  margin: 1.5rem auto 1rem; /* Centralizado */
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+}
+
+/* --- 2. Botão Emitir Pedido (Dark Navy - Corporativo Premium) --- */
+.btn-order {
+  background: linear-gradient(135deg, #0f172a, #1e293b); /* Quase preto/azul noite */
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.btn-order:hover {
+  background: linear-gradient(135deg, #1e293b, #334155);
+}
+
+/* --- 3. Botão WhatsApp (Verde Vibrante mas elegante) --- */
+.btn-whatsapp {
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  color: #fff;
+}
+.btn-whatsapp:hover {
+  background: linear-gradient(135deg, #2cf276, #15a593);
+}
+
+/* --- Container dos Botões de Ação --- */
+.action-footer {
+  width: 100%;
+  padding: 10px 20px 20px; /* Espaçamento interno */
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* --- Área de Senha (Password Group) --- */
+.password-wrapper {
+  background: #f8fafc;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  margin: 10px 20px 20px; /* Margem lateral para alinhar */
+  animation: slideDown 0.3s ease-out;
+}
+
+.password-box {
+  display: flex;
+  gap: 10px;
+}
+
+#passwordGroup input {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+#passwordGroup input:focus {
+  border-color: #3b82f6;
+}
+
+#passwordGroup button {
+  background: #0f172a;
+  color: #fff;
+  border: none;
+  padding: 0 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#passwordGroup button:hover {
+  background: #334155;
+}
+
+.error-msg {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Utilitário */
+.hidden {
+  display: none !important;
+}
+
+/* Animação suave para abrir a senha */
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

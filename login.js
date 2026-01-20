@@ -149,7 +149,7 @@ function showMessage(text, isError) {
   } else {
     msg.classList.add('success');
     msg.classList.remove('error');
-    msg.style.color = '#10b981';
+    msg.style.color = '#b9b610';
   }
 }
 
