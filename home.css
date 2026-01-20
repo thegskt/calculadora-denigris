@@ -110,8 +110,13 @@ body {
 }
 
 .menu-card .icon {
-  font-size: 32px;
-  margin-bottom: 16px;
+  color: #1e3a8a; /* azul corporativo */
+  margin-bottom: 12px;
+  display: inline-flex;
+}
+
+.menu-card:hover .icon {
+  color: #0f172a;
 }
 
 .menu-card h3 {
