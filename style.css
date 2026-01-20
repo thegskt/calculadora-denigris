@@ -2068,10 +2068,10 @@
 /* --- Área de Senha (Password Group) --- */
 .password-wrapper {
   background: #f8fafc;
-  padding: 15px;
+  padding: 10px;
   border-radius: 12px;
   border: 1px solid #e2e8f0;
-  margin: 10px 20px 20px; /* Margem lateral para alinhar */
+  margin: auto; 
   animation: slideDown 0.3s ease-out;
 }
 
