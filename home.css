@@ -103,7 +103,7 @@ body {
   color: #0f172a;
   box-shadow: 0 10px 30px rgba(0,0,0,0.06);
   transition: all 0.25s ease;
-  border-left: 4px solid #1e3b8abd; /* identidade forte */
+  border-left: 4px solid #1e3a8a; /* identidade forte */
 }
 
 .menu-card:hover {
@@ -112,7 +112,7 @@ body {
 }
 
 .menu-card .icon {
-  color: #1e3b8abb; /* azul corporativo */
+  color: #1e3a8a; /* azul corporativo */
   margin-bottom: 12px;
   display: inline-flex;
 }
@@ -138,7 +138,7 @@ body {
   display: block;
   height: 4px;
   width: 40px;
-  background: #12265cdc;
+  background: #1e3a8a;
   margin-bottom: 16px;
   border-radius: 2px;
 }
