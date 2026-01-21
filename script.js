@@ -610,19 +610,34 @@ function parseMoeda(valorTexto) {
 }
 
 function buildAcoesMap(raw){
-    const map = {};
-    raw.split(/\r?\n/).forEach(line=>{
-      const m = line.match(/'([^']+)'\s*:\s*\[(.*?)\]/);
-      if(!m) return;
-      const key = m[1].trim().toUpperCase();
-      const inside = m[2].trim();
-      if(!inside){ map[key]=[]; return; }
-      const parts = inside.split(/\s*,\s*/)
-        .map(p=>p.replace(/^['"]|['"]$/g,'').trim())
-        .filter(Boolean);
-      map[key] = Array.from(new Set(parts));
-    });
-    return map;
+  const map = {};
+  raw.split(/\r?\n/).forEach(line=>{
+    // 1. Regex mais flexível: Pega a chave e tudo que vier depois do '['
+    const m = line.match(/'([^']+)'\s*:\s*\[(.*)/);
+    if(!m) return;
+    
+    const key = m[1].trim().toUpperCase();
+    const inside = m[2]; // Conteúdo bruto após o '['
+
+    // 2. Extrai apenas o texto que está entre aspas simples '...'
+    // Isso ignora a falta de vírgulas ou colchetes
+    const parts = [];
+    // Regex global para pegar todas as ocorrências de 'Texto'
+    const regexItens = /'([^']+)'/g; 
+    let match;
+    
+    while ((match = regexItens.exec(inside)) !== null) {
+      parts.push(match[1].trim());
+    }
+
+    // Se achou itens, salva. Se não, array vazio.
+    if(parts.length > 0) {
+        map[key] = Array.from(new Set(parts));
+    } else {
+        map[key] = []; 
+    }
+  });
+  return map;
 }
 
 const ACOES_MAP = buildAcoesMap(RAW_ACOES);
