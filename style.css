@@ -521,6 +521,22 @@
     fill: #1e40af;
   }
 
+  .btn-icon.photo {
+    border-color: #bbf7d0;
+    background: #f0fdf4;
+  }
+  .btn-icon.photo svg {
+    fill: #15803d;
+  }
+
+  .btn-icon.info {
+    border-color: #bae6fd;
+    background: #f0f9ff;
+  }
+  .btn-icon.info svg {
+    fill: #0369a1;
+  }
+
   /* Info Veículo */
   .vehicle-details {
     background: #f8fafc;
