@@ -1739,6 +1739,9 @@ const RAW_ACOES = `
   const varianteFabEl   = els("varianteFab");
   const acaoFabEl       = els("acaoFab");
 
+  const obsContainerEl  = els("obs-container");
+  const obsTextoEl      = els("obs-texto");
+
   // ================== UTIL ==================
   function formatar(v){
     return (v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
@@ -1845,12 +1848,13 @@ const RAW_ACOES = `
   }
 
   // ================== FZ LOOKUP ==================
-  function aplicarFZ(fzRaw){
+function aplicarFZ(fzRaw){
     const raw = (fzRaw||'').replace(/\D/g,'').slice(0,6);
     if (fzEl) fzEl.value = raw;
 
     const key = raw.padStart(6,'0');
 
+    // Se encontrou o veículo
     if (vendedores[key]){
       vendedorAtual = vendedores[key];
 
@@ -1863,7 +1867,21 @@ const RAW_ACOES = `
       infoPatioEl && (infoPatioEl.innerText = vendedorAtual.patio || '–');
 
       fzErrorEl && (fzErrorEl.innerText = '');
+
+      // --- NOVA LÓGICA DA OBSERVAÇÃO (ADICIONAR ISSO) ---
+      if (obsContainerEl && obsTextoEl) {
+        // Verifica se existe UP e se tem asterisco
+        if (vendedorAtual.up && vendedorAtual.up.includes('*')) {
+            obsTextoEl.innerText = vendedorAtual.observacao || ''; // Pega o texto
+            obsContainerEl.style.display = 'block'; // Mostra a div
+        } else {
+            obsContainerEl.style.display = 'none'; // Esconde se não tiver *
+        }
+      }
+      // --------------------------------------------------
+
     } else {
+      // Se NÃO encontrou o veículo
       vendedorAtual = null;
 
       modeloEl && (modeloEl.innerText = '–');
@@ -1875,6 +1893,12 @@ const RAW_ACOES = `
       infoPatioEl && (infoPatioEl.innerText = '–');
 
       fzErrorEl && (fzErrorEl.innerText = raw.length ? 'FZ não encontrado' : '');
+
+      // --- GARANTIR QUE ESCONDE A OBSERVAÇÃO ---
+      if (obsContainerEl) {
+        obsContainerEl.style.display = 'none';
+      }
+      // -----------------------------------------
     }
 
     atualizarValores();
@@ -1915,6 +1939,7 @@ const RAW_ACOES = `
       vendedores[fzKey] = {
           modelo: cols[1],
           up: cols[2],
+          observacao: cols[3], // <--- ADICIONE ESTA LINHA (Puxa a coluna 3)
           anoMod: cols[4],
 
           // MAPA DE PREÇOS (Colunas 4, 5, 6 e 7)
