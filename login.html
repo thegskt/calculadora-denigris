@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Acesso - SalesDN</title>
+  <title>Acesso - Sales DN</title>
   <link rel="icon" type="image/png" href="Imagens/icon.png"/>
   <link rel="stylesheet" href="login.css">
   <link rel="stylesheet" href="style.css">
@@ -17,19 +17,26 @@
           <img src="Imagens/Logo_De Nigris Branco.png" alt="De Nigris Logo" class="logo-denigris">
         </a>
       </div>
-      <button class="nav-toggle" aria-label="Menu">☰</button>
+
+      <button class="nav-toggle" aria-label="Menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
       <nav class="nav-menu">
-        <a class="active" href="home.html">Home</a>
-        <a href="index.html">Calculadora</a>
-        <a href="estoque.html">Estoque</a>
+        <a href="home.html" class="nav-item">Home</a>
+        <a href="index.html" class="nav-item">Calculadora</a>
+        <a href="estoque.html" class="nav-item active">Estoque</a>
       </nav>
+      
     </div>
   </header>
 
   <div class="login-container">
     <div class="login-card">
       
-      <h1 class="logo">Sistema Estoque</h1>
+      <h1 class="logo">De Nigris | Sales</h1>
       
       <p id="msg" class="message-box"></p>
 
