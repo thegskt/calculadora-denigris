@@ -1367,7 +1367,7 @@ acaoFabEl?.addEventListener('change',()=>{
       }
     });
   }
-  
+
   const FAB_PRECO_URLS = {
     "25/25": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=320257334&single=true&output=csv",
     "25/26": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=1188555781&single=true&output=csv",
@@ -1503,23 +1503,69 @@ acaoFabEl?.addEventListener('change',()=>{
       if(descPercSpan) descPercSpan.textContent = "0,00%";
       return;
     }
-    const dataAno = fabPrecosPorAno[ano] || {};
-    const item = dataAno[chave.toUpperCase()];
-    const tabelaNum = item ? item.tabela : 0;
-    tabelaSpan.textContent = item ? formatar(item.tabela) : "R$ 0,00";
-    const acaoAtual = acaoFabEl?.value || "Estoque";
-    const venda = valorVendaAcao(item, acaoAtual);
-    vendaSpan.textContent = formatar(venda);
+    const dadosAno = fabPrecosPorAno[ano] || {};
+        // Procura o item usando a CHAVE (Variante + Ano, ex: "2284T25/25")
+        const item = dadosAno[chave.toUpperCase()];
 
-    // === Cálculo do desconto ===
-    const descontoValor = Math.max(0, tabelaNum - venda);
-    const descontoPerc  = (tabelaNum > 0 && venda <= tabelaNum)
-      ? (descontoValor / tabelaNum) * 100
-      : 0;
+        if(!item){
+          // Se não achou o carro na planilha, zera tudo
+          tabelaSpan.textContent = "R$ 0,00";
+          vendaSpan.textContent  = "R$ 0,00";
+          if(descValSpan)  descValSpan.textContent  = "R$ 0,00";
+          if(descPercSpan) descPercSpan.textContent = "0,00%";
+          return;
+        }
 
-    if(descValSpan)  descValSpan.textContent  = formatar(descontoValor);
-    if(descPercSpan) descPercSpan.textContent = descontoPerc.toFixed(2).replace('.',',') + '%';
-  }
+        // 1. Pega Valor de Tabela
+        const valTabela = item.tabela || 0;
+
+        // 2. Pega Valor de Venda baseado na Ação (Estoque, C.E.Abast, etc)
+        const acao = acaoFabEl.value; 
+        const valVenda = valorVendaAcao(item, acao);
+
+        // 3. Cálculos de Desconto
+        const descontoReais = valTabela - valVenda;
+        let descontoPorc = 0;
+        
+        if (valTabela > 0) {
+          descontoPorc = (descontoReais / valTabela) * 100;
+        }
+
+        // 4. Exibir na Tela (Formatação BRL)
+        const fmtMoney = v => v.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
+        
+        tabelaSpan.textContent = fmtMoney(valTabela);
+        vendaSpan.textContent  = fmtMoney(valVenda);
+
+        if (descPercSpan) {
+          // Formata porcentagem (ex: 12,50%)
+          descPercSpan.textContent = descontoPorc.toFixed(2).replace('.', ',') + "%";
+          
+          // Muda a cor se o desconto for negativo (ágio) ou positivo
+          if(descontoPorc < 0) {
+            descPercSpan.style.color = "#d9534f"; // Vermelho se for ágio
+          } else {
+            descPercSpan.style.color = "#28a745"; // Verde se for desconto
+          }
+        }
+      }
+
+      // ================== GATILHO DA AÇÃO (IMPORTANTE) ==================
+      // Você já tem um listener no 'acaoFabEl' para mudar a cor. 
+      // Precisamos adicionar este para atualizar o preço quando troca a campanha.
+      
+      acaoFabEl?.addEventListener('change', () => {
+        atualizarPrecoFab();
+      });
+
+      // ================== INICIALIZAÇÃO EXTRA ==================
+      // Garante que se a página carregar com algo preenchido, ele calcule
+      document.addEventListener('DOMContentLoaded', () => {
+        if(typeof atualizarPrecoFab === 'function') {
+            // Um pequeno delay para garantir que os CSVs carreguem se já tiver dados
+            setTimeout(atualizarPrecoFab, 1000);
+        }
+      });
 
   // Ajusta listener para também recalcular venda
   acaoFabEl?.addEventListener('change', ()=>{
