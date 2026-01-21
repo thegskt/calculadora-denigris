@@ -40,9 +40,9 @@ const infoPatioEl     = els("infoPatio");
 const modeloFabEl     = els("modeloFab");
 const upFabEl         = els("upFab");
 const anoFabEl        = els("anoModeloFab");
-const familiaFabEl    = els("familiaFab"); // Corrigido
+const familiaFabEl    = els("familiaFab"); 
 const varianteFabEl   = els("varianteFab");
-const acaoFabEl       = els("acaoFab");    // Corrigido (Global)
+const acaoFabEl       = els("acaoFab");    
 
 // Elementos de Observação
 const obsContainerEl  = els("obs-container");
@@ -58,7 +58,7 @@ const calcFabrica     = els('calcEstoqueFabrica');
 const tipoPreco          = els('tipoPreco');
 const especialWrapper    = els('especialWrapper'); 
 const precoEspecial      = els('precoEspecial');
-const precoEspecialInput = els('precoEspecial'); // redundante mas mantido por segurança
+const precoEspecialInput = els('precoEspecial'); 
 const btnMostrarProtegido = els('btnMostrarProtegido');
 const passwordGroup       = els('passwordGroup');
 const senhaInput          = els('senhaInput');
@@ -73,7 +73,6 @@ const rowTotalProtected    = els('rowTotalProtected');
 // 3. DADOS ESTÁTICOS (VARIANTES E AÇÕES)
 // =============================================================================
 
-// SEU MAPA DE VARIANTES (COPIADO DO SEU CÓDIGO)
 const variantesFab = {
 'ACCELO 1317/39UPF25/25': '1035T',
 'ACCELO 1317/39UPG25/25': '1038T',
@@ -317,6 +316,7 @@ const RAW_ACOES = `
   '10138T25/26' : ['Estoque', 'Frigorificado''C.E.ABAST''ABAD'
   '10136T25/26' : ['Estoque', 'Frigorificado''C.E.ABAST''ABAD'
   '10342T25/26' : ['Estoque', 'Frigorificado''C.E.ABAST''ABAD'
+  '10327T26/26' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'
   '10135T25/26' : ['Estoque', 'Frigorificado''C.E.ABAST''ABAD'
   '10140T25/26' : ['Estoque', 'Frigorificado''C.E.ABAST''ABAD'
   '9532T25/26' : ['Estoque', 'Frigorificado''C.E.ABAST''ABAD'
@@ -903,7 +903,7 @@ function preencherAnos(){
   preencherAcoes();
 }
 
-function actualizarRadiosFamilia(){
+function atualizarRadiosFamilia(){
   const ano = anoFabEl.value;
   const permitidas = new Set(getFamilias(ano));
   const radios = document.querySelectorAll('#familiaFab input[name="familiaFab"]');
