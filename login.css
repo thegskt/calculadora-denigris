@@ -99,6 +99,11 @@ body {
   height: 18px;
 }
 
+.btn.google:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
 .primary {
   background: #020617;
   color: white;
