@@ -1,8 +1,79 @@
-// ================== CONFIG / PLACEHOLDERS ==================
-// 1) Substitua pelo CSV correto se mudar a planilha:
+// =============================================================================
+// 1. CONFIGURAÇÕES E DADOS GLOBAIS
+// =============================================================================
+
 const sheetCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=2122951741&single=true&output=csv";
 
-// 2) COLE SUA LISTA COMPLETA DE VARIANTES (SEM DUPLICAR) AQUI:
+// Variáveis de Estado
+const vendedores = {}; 
+let vendedorAtual = null;
+let dadosCarregados = false;
+let pendingFZ = null;
+const fabPrecosPorAno = {};
+
+// =============================================================================
+// 2. ELEMENTOS DO DOM (DEFINIDOS NO TOPO PARA EVITAR ERROS)
+// =============================================================================
+const els = id => document.getElementById(id);
+
+// Elementos Globais
+const fzEl            = els("fz");
+const fzErrorEl       = els("fzError");
+const modeloEl        = els("modelo");
+const upEl            = els("up");
+const anoModEl        = els("anoMod");
+const valorTabelaEl   = els("valorTabela");
+const descontoEl      = els("desconto");
+const descontoReaisEl = els("descontoReais");
+const valorVendaEl    = els("valorVenda");
+const comissaoEl      = els("comissaoProtected");
+const dsrEl           = els("dsrProtected");
+const totalEl         = els("total");
+
+const btnVerInfoEl    = els("btnVerInfo");
+const infoVeiculoEl   = els("infoVeiculo");
+const infoCorEl       = els("infoCor");
+const infoVarianteEl  = els("infoVariante");
+const infoPatioEl     = els("infoPatio");
+
+// Elementos de Fábrica
+const modeloFabEl     = els("modeloFab");
+const upFabEl         = els("upFab");
+const anoFabEl        = els("anoModeloFab");
+const familiaFabEl    = els("familiaFab"); // Corrigido
+const varianteFabEl   = els("varianteFab");
+const acaoFabEl       = els("acaoFab");    // Corrigido (Global)
+
+// Elementos de Observação
+const obsContainerEl  = els("obs-container");
+const obsTextoEl      = els("obs-texto");
+
+// Elementos de Navegação/Abas
+const btnProprio      = els('btnEstoqueProprio');
+const btnFabrica      = els('btnEstoqueFabrica');
+const calcProprio     = els('calcEstoqueProprio');
+const calcFabrica     = els('calcEstoqueFabrica');
+
+// Elementos Especiais/Senha
+const tipoPreco          = els('tipoPreco');
+const especialWrapper    = els('especialWrapper'); 
+const precoEspecial      = els('precoEspecial');
+const precoEspecialInput = els('precoEspecial'); // redundante mas mantido por segurança
+const btnMostrarProtegido = els('btnMostrarProtegido');
+const passwordGroup       = els('passwordGroup');
+const senhaInput          = els('senhaInput');
+const btnVerificarSenha   = els('btnVerificarSenha');
+const senhaError          = els('senhaError');
+const rowComissaoProtected = els('rowComissaoProtected');
+const rowDsrProtected      = els('rowDsrProtected');
+const rowTotalProtected    = els('rowTotalProtected');
+
+
+// =============================================================================
+// 3. DADOS ESTÁTICOS (VARIANTES E AÇÕES)
+// =============================================================================
+
+// SEU MAPA DE VARIANTES (COPIADO DO SEU CÓDIGO)
 const variantesFab = {
 'ACCELO 1317/39UPF25/25': '1035T',
 'ACCELO 1317/39UPG25/25': '1038T',
@@ -137,13 +208,10 @@ const variantesFab = {
 'ATEGO 1933 LS/36UPF26/26': '2649T',
 'ATEGO 1933 LS/36UPH26/26': '2635T',
 'ATEGO 1933 LS/36UPI26/26': '2772T',
-'AXOR 2038 S/36UPG26/26': '',
 'AXOR 2038 S/36UPH26/26': '0160T',
 'AXOR 2038 S/36UPI26/26': '0211T',
-'AXOR 2538 S/36UPG26/26': '',
 'AXOR 2538 S/36UPH26/26': '0050T',
 'AXOR 2538 S/36UPI26/26': '0044T',
-'AXOR 2545 S/36UPG26/26': '',
 'AXOR 2545 S/36UPH26/26': '0682T',
 'AXOR 2545 S/36UPI26/26': '0679T',
 'AXOR 2545LS/36 6X2E6UPH26/26': '0640C',
@@ -195,11 +263,8 @@ const variantesFab = {
 'AROCS 3353 S/33 6X4UPH26/26': '0563T',
 'AROCS 4151 K/36 6X4UPE26/26': '0279T',
 'AROCS 4151 K/36 6X4UPF26/26': '0276T'
+};
 
-  };
-
-// 3) COLE SUA LISTA RAW_ACOES COMPLETA (UMA VEZ) AQUI:
-// Cada linha: 'CODIGOANO' : ['Acao1','Acao2']
 const RAW_ACOES = `
   '1035T25/25' : ['Estoque', 'Frigorificado''ABAD''Mais Alimentos'
   '1038T25/25' : ['Estoque', 'Frigorificado''ABAD'
@@ -215,7 +280,6 @@ const RAW_ACOES = `
   '7207T25/25' : ['Estoque', 'Postos de Combustiveis''ABAD'
   '2631T25/25' : ['Estoque', 
   '2632T25/25' : ['Estoque', 
-
   '00132T25/26' : ['Estoque', 'Frigorificado''C.E.ABAST''ABAD'
   '00197T25/26' : ['Estoque', 'Frigorificado''C.E.ABAST''ABAD'
   '00194T25/26' : ['Estoque', 'Frigorificado''C.E.ABAST''ABAD'
@@ -307,9 +371,9 @@ const RAW_ACOES = `
   '0580T25/26' : ['Estoque', 'Frigorificado'
   '0587T25/26' : ['Estoque', 'Frigorificado'
   '0586T25/26' : ['Estoque', 'Frigorificado'
-  '2649T25/26' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST''ABAD'
-  '2547T25/26' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST''ABAD'
-  '2628T25/26' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST''ABAD'
+  '2649T25/26' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'
+  '2547T25/26' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'
+  '2628T25/26' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'
   '25/26' : ['Estoque', 
   '0160T25/26' : ['Estoque', 
   '0159T25/26' : ['Estoque', 
@@ -367,7 +431,6 @@ const RAW_ACOES = `
   '0225T25/26' : ['Estoque', 
   '0240T25/26' : ['Estoque', 
   '0869T25/26' : ['Estoque', 
-
   '02171T26/26' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'
   '02170T26/26' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'
   '00132T26/26' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST'
@@ -523,112 +586,30 @@ const RAW_ACOES = `
   '0563T26/26' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST''ABAD'
   '0279T26/26' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST''ABAD'
   '0276T26/26' : ['Estoque', 'Postos de Combustiveis''Frigorificado''C.E.ABAST''ABAD'
+`;
 
-  `;
+// =============================================================================
+// 4. FUNÇÕES DE UTILIDADE E PARSING
+// =============================================================================
 
-  let veiculoAtual = null;
-
-  // --- DETALHAMENTO ESTOQUE PRÓPRIO ---
-  const btnMostrarProtegido = document.getElementById('btnMostrarProtegido');
-  const passwordGroup       = document.getElementById('passwordGroup');
-  const senhaInput          = document.getElementById('senhaInput');
-  const btnVerificarSenha   = document.getElementById('btnVerificarSenha');
-  const senhaError          = document.getElementById('senhaError');
-
-  const rowComissaoProtected = document.getElementById('rowComissaoProtected');
-  const rowDsrProtected      = document.getElementById('rowDsrProtected');
-  const rowTotalProtected    = document.getElementById('rowTotalProtected');
-
-  const btnProprio = document.getElementById('btnEstoqueProprio');
-  const btnFabrica = document.getElementById('btnEstoqueFabrica');
-  const calcProprio = document.getElementById('calcEstoqueProprio');
-  const calcFabrica = document.getElementById('calcEstoqueFabrica');
-
-  const minEspecialHint  = document.getElementById('minEspecialHint');
-  const minEspecialValor = document.getElementById('minEspecialValor');
-  const especialWrapper = document.getElementById('especialWrapper'); 
-  const tipoPreco = document.getElementById('tipoPreco');
-  const precoEspecial = document.getElementById('precoEspecial');
-
-  const precoEspecialInput = document.getElementById('precoEspecial');
-
-
-  function atualizarClassePreco(tipo) {
-    const select = document.getElementById("tipoPreco");
-    select.className = "base-classes " + tipo;
-  }
-
-  function buscarEstoquePorFZ(fz) {
-    const item = ESTOQUE.find(e => e.FZ === fz);
-
-    if (!item) return;
-
-    document.getElementById("modelo").innerText = item.MODELO;
-    document.getElementById("ano").innerText = item.ANO_MODELO;
-    document.getElementById("valor").innerText = formatar(item.VALOR_COMPRA);
-  }
-
-  function toggleInfo() {
-  const info = document.getElementById("infoVeiculo");
-  info.classList.toggle("hidden");
+function formatar(v){
+  return (v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 }
-  function toggleHidden(el){ el.classList.toggle('hidden'); }
 
-  if (btnMostrarProtegido) {
-    btnMostrarProtegido.addEventListener('click', () => {
-      toggleHidden(passwordGroup);
-      senhaError.textContent = "";
-      if (!passwordGroup.classList.contains('hidden')) {
-        senhaInput.focus();
-      }
-    });
-  }
+function arredondaCentenaBaixo(v){ return Math.floor(v/100)*100; }
 
-  if (btnVerificarSenha) {
-    btnVerificarSenha.addEventListener('click', () => {
-      const senha = senhaInput.value.trim();
-      // Ajuste a senha real aqui
-      if (senha === 'Vendas123') {
-        [rowComissaoProtected, rowDsrProtected, rowTotalProtected].forEach(r => r.classList.remove('hidden'));
-        passwordGroup.classList.add('hidden');
-        senhaInput.value = '';
-        senhaError.textContent = "";
-      } else {
-        senhaError.textContent = "Senha incorreta.";
-      }
-    });
-  }
+function limparMoeda(valorTexto) {
+    if (!valorTexto) return 0;
+    return parseFloat(valorTexto.replace(/\./g, '').replace(',', '.')) || 0;
+}
 
-  // (Opcional) Enter para confirmar senha
-  if (senhaInput) {
-    senhaInput.addEventListener('keyup', e => {
-      if (e.key === 'Enter') btnVerificarSenha.click();
-    });
-  }
+function parseMoeda(valorTexto) {
+    if (!valorTexto) return 0;
+    let limpo = valorTexto.replace(/\./g, '').replace(',', '.');
+    return parseFloat(limpo) || 0;
+}
 
-  // --- DETALHAMENTO FABRICA (apenas exemplo de toggle) ---
-  const btnDetalhamentoFab = document.getElementById('btnDetalhamentoFab');
-  if (btnDetalhamentoFab) {
-    btnDetalhamentoFab.addEventListener('click', () => {
-      alert('Aqui você pode abrir um modal ou mostrar valores detalhados.');
-    });
-  }
-
-  function limparMoeda(valorTexto) {
-      if (!valorTexto) return 0;
-      // Remove todos os pontos e depois troca a vírgula por ponto decimal
-      return parseFloat(valorTexto.replace(/\./g, '').replace(',', '.')) || 0;
-  }
-
-  // ================== ESTADO ==================
-  const vendedores = {}; // FZ -> dados
-  let vendedorAtual = null;
-  let valorTabela = 0;
-  let dadosCarregados = false;
-  let pendingFZ = null;
-
-// ================== MAP DE AÇÕES ==================
-  function buildAcoesMap(raw){
+function buildAcoesMap(raw){
     const map = {};
     raw.split(/\r?\n/).forEach(line=>{
       const m = line.match(/'([^']+)'\s*:\s*\[(.*?)\]/);
@@ -642,153 +623,76 @@ const RAW_ACOES = `
       map[key] = Array.from(new Set(parts));
     });
     return map;
-  }
-  const ACOES_MAP = buildAcoesMap(RAW_ACOES);
-  const ACOES_PADRAO = ['Estoque'];
+}
 
-  // ================== ELEMENTOS ==================
-  const els = id => document.getElementById(id);
+const ACOES_MAP = buildAcoesMap(RAW_ACOES);
+const ACOES_PADRAO = ['Estoque'];
 
-  const fzEl            = els("fz");
-  const fzErrorEl       = els("fzError");
-  const modeloEl        = els("modelo");
-  const upEl            = els("up");
-  const anoModEl        = els("anoMod");
-  const valorTabelaEl   = els("valorTabela");
-  const descontoEl      = els("desconto");
-  const descontoReaisEl = els("descontoReais");
-  const valorVendaEl    = els("valorVenda");
-  const comissaoEl      = els("comissaoProtected");
-  const dsrEl           = els("dsrProtected");
-  const totalEl         = els("total");
+// =============================================================================
+// 5. LÓGICA DO ESTOQUE PRÓPRIO (CALCULADORA DE NIGRIS)
+// =============================================================================
 
-  const btnVerInfoEl    = els("btnVerInfo");
-  const infoVeiculoEl   = els("infoVeiculo");
-  const infoCorEl       = els("infoCor");
-  const infoVarianteEl  = els("infoVariante");
-  const infoPatioEl     = els("infoPatio");
+function atualizarValores() {
+    if (!vendedorAtual) return;
 
-  const modeloFabEl     = els("modeloFab");
-  const upFabEl         = els("upFab");
-  const anoFabEl        = els("anoModeloFab");
-  const varianteFabEl   = els("varianteFab");
-
-  const obsContainerEl  = els("obs-container");
-  const obsTextoEl      = els("obs-texto");
-
-  // ================== UTIL ==================
-  function formatar(v){
-    return (v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
-  }
-  function arredondaCentenaBaixo(v){ return Math.floor(v/100)*100; }
-
-  // ================== MOSTRAR CALCULADORAS ==================
-  function showCalcProprio(){
-    els('calcEstoqueProprio')?.classList.remove('hidden');
-    els('calcEstoqueFabrica')?.classList.add('hidden');
-  }
-  function showCalcFabrica(){
-    els('calcEstoqueProprio')?.classList.add('hidden');
-    els('calcEstoqueFabrica')?.classList.remove('hidden');
-  }
-
-  // ================== CÁLCULO ==================
-    function atualizarValores() {
-      // 1. Verificações de segurança para evitar o erro de "null"
-      if (!vendedorAtual) return;
-
-      // Captura os elementos novamente ou usa os globais, garantindo que existem
-      const elTipoPreco = document.getElementById('tipoPreco');
-      const elDescontoInput = document.getElementById('desconto'); // O campo de %
-      const elPrecoEspecial = document.getElementById('precoEspecial');
-
-      if (!elTipoPreco) return;
-
-      // 2. VALOR DE TABELA: Fixo na Coluna 4
-      const vTabela = vendedorAtual.valorTabela;
-      if (valorTabelaEl) {
-          valorTabelaEl.innerText = formatar(vTabela);
-      }
-
-      // 3. DETERMINAR A BASE DE VENDA (Colunas 5, 6 ou 7)
-      const tipo = elTipoPreco.value;
-      let baseCalculo = 0;
-
-      if (tipo === 'vendedor') {
-          baseCalculo = vendedorAtual.precoVendedor;     // Coluna 5
-      } 
-      else if (tipo === 'gerente') {
-          baseCalculo = vendedorAtual.precoGerente;      // Coluna 6
-      } 
-      else if (tipo === 'oportunidade') {
-          baseCalculo = vendedorAtual.precoOportunidade; // Coluna 7
-      } 
-      else if (tipo === 'especial' && elPrecoEspecial) {
-          baseCalculo = limparMoeda(elPrecoEspecial.value);
-      }
-
-      // 4. TRATAMENTO DO DESCONTO EM % (Evita o erro TypeError)
-      let porcentagem = 0;
-      if (elDescontoInput && elDescontoInput.value) {
-          porcentagem = parseFloat(elDescontoInput.value.replace(',', '.'));
-      }
-      if (isNaN(porcentagem)) porcentagem = 0;
-
-      // Calcula o valor final com desconto de porcentagem sobre a base escolhida
-      const valorDescontoPerc = arredondaCentenaBaixo(baseCalculo * (porcentagem / 100));
-      const valorVendaFinal = baseCalculo - valorDescontoPerc;
-
-      // 5. ATUALIZAR INTERFACE (Campos que você postou no HTML)
-      if (valorVendaEl) {
-          valorVendaEl.innerText = formatar(valorVendaFinal);
-      }
-
-      if (descontoReaisEl) {
-          // Diferença total entre Tabela Oficial e Venda Praticada
-          const diffTotal = vTabela - valorVendaFinal;
-          descontoReaisEl.innerText = formatar(diffTotal);
-      }
-
-      // 6. CÁLCULO DE COMISSÃO
-      const receitaEfetiva = +(valorVendaFinal - valorVendaFinal * 0.12).toFixed(2);
-      const custoEfetivo = +((vendedorAtual.valorCompra || 0) - (vendedorAtual.valorCompra || 0) * 0.12).toFixed(2);
-      
-      const lucroBruto = (receitaEfetiva - custoEfetivo) +
-          (vendedorAtual.fundoEstrela || 0) + (vendedorAtual.retirada || 0) +
-          (vendedorAtual.programacao || 0) + (vendedorAtual.comissao || 0) +
-          (vendedorAtual.bonificacao || 0) + (vendedorAtual.bonusExtra || 0) -
-          (vendedorAtual.frete || 0) - (vendedorAtual.revisao || 0) -
-          (vendedorAtual.custosAdd || 0);
-
-      const comissao = +(lucroBruto * 0.09).toFixed(2);
-      const dsr = +((comissao / 27) * 4).toFixed(2);
-
-      if (comissaoEl) comissaoEl.innerText = formatar(comissao);
-      if (dsrEl) dsrEl.innerText = formatar(dsr);
-      if (totalEl) totalEl.innerText = formatar(comissao + dsr);
+    // 2. VALOR DE TABELA
+    const vTabela = vendedorAtual.valorTabela;
+    if (valorTabelaEl) {
+        valorTabelaEl.innerText = formatar(vTabela);
     }
 
-  function parseMoeda(valorTexto) {
-    if (!valorTexto) return 0;
-    // Remove todos os pontos e troca a vírgula por ponto
-    let limpo = valorTexto.replace(/\./g, '').replace(',', '.');
-    return parseFloat(limpo) || 0;
-  }
-  function calcularValorTabela(dados) {
-    if (!dados) return 0;
-    
-    // Agora, independente do tipoPreco, o Valor de Tabela é sempre a Coluna 4
-    return dados.valorTabela; 
-  }
+    // 3. BASE DE VENDA
+    const tipo = tipoPreco ? tipoPreco.value : 'vendedor';
+    let baseCalculo = 0;
 
-  // ================== FZ LOOKUP ==================
+    if (tipo === 'vendedor') baseCalculo = vendedorAtual.precoVendedor;
+    else if (tipo === 'gerente') baseCalculo = vendedorAtual.precoGerente;
+    else if (tipo === 'oportunidade') baseCalculo = vendedorAtual.precoOportunidade;
+    else if (tipo === 'especial' && precoEspecial) baseCalculo = limparMoeda(precoEspecial.value);
+
+    // 4. DESCONTO
+    let porcentagem = 0;
+    if (descontoEl && descontoEl.value) {
+        porcentagem = parseFloat(descontoEl.value.replace(',', '.'));
+    }
+    if (isNaN(porcentagem)) porcentagem = 0;
+
+    const valorDescontoPerc = arredondaCentenaBaixo(baseCalculo * (porcentagem / 100));
+    const valorVendaFinal = baseCalculo - valorDescontoPerc;
+
+    // 5. ATUALIZAR INTERFACE
+    if (valorVendaEl) valorVendaEl.innerText = formatar(valorVendaFinal);
+
+    if (descontoReaisEl) {
+        const diffTotal = vTabela - valorVendaFinal;
+        descontoReaisEl.innerText = formatar(diffTotal);
+    }
+
+    // 6. COMISSÃO
+    const receitaEfetiva = +(valorVendaFinal - valorVendaFinal * 0.12).toFixed(2);
+    const custoEfetivo = +((vendedorAtual.valorCompra || 0) - (vendedorAtual.valorCompra || 0) * 0.12).toFixed(2);
+    
+    const lucroBruto = (receitaEfetiva - custoEfetivo) +
+        (vendedorAtual.fundoEstrela || 0) + (vendedorAtual.retirada || 0) +
+        (vendedorAtual.programacao || 0) + (vendedorAtual.comissao || 0) +
+        (vendedorAtual.bonificacao || 0) + (vendedorAtual.bonusExtra || 0) -
+        (vendedorAtual.frete || 0) - (vendedorAtual.revisao || 0) -
+        (vendedorAtual.custosAdd || 0);
+
+    const comissao = +(lucroBruto * 0.09).toFixed(2);
+    const dsr = +((comissao / 27) * 4).toFixed(2);
+
+    if (comissaoEl) comissaoEl.innerText = formatar(comissao);
+    if (dsrEl) dsrEl.innerText = formatar(dsr);
+    if (totalEl) totalEl.innerText = formatar(comissao + dsr);
+}
+
 function aplicarFZ(fzRaw){
     const raw = (fzRaw||'').replace(/\D/g,'').slice(0,6);
     if (fzEl) fzEl.value = raw;
 
     const key = raw.padStart(6,'0');
 
-    // Se encontrou o veículo
     if (vendedores[key]){
       vendedorAtual = vendedores[key];
 
@@ -802,51 +706,31 @@ function aplicarFZ(fzRaw){
 
       fzErrorEl && (fzErrorEl.innerText = '');
 
-      // --- NOVA LÓGICA DA OBSERVAÇÃO (ADICIONAR ISSO) ---
+      // --- OBSERVAÇÃO ---
       if (obsContainerEl && obsTextoEl) {
-        // Verifica se existe UP e se tem asterisco
         if (vendedorAtual.up && vendedorAtual.up.includes('*')) {
-            obsTextoEl.innerText = vendedorAtual.observacao || ''; // Pega o texto
-            obsContainerEl.style.display = 'block'; // Mostra a div
+            obsTextoEl.innerText = vendedorAtual.observacao || ''; 
+            obsContainerEl.style.display = 'block'; 
         } else {
-            obsContainerEl.style.display = 'none'; // Esconde se não tiver *
+            obsContainerEl.style.display = 'none'; 
         }
       }
-      // --------------------------------------------------
 
     } else {
-      // Se NÃO encontrou o veículo
       vendedorAtual = null;
-
       modeloEl && (modeloEl.innerText = '–');
       upEl     && (upEl.innerText     = '–');
       anoModEl && (anoModEl.innerText = '–');
-
       infoCorEl && (infoCorEl.innerText = '–');
       infoVarianteEl && (infoVarianteEl.innerText = '–');
       infoPatioEl && (infoPatioEl.innerText = '–');
-
       fzErrorEl && (fzErrorEl.innerText = raw.length ? 'FZ não encontrado' : '');
-
-      // --- GARANTIR QUE ESCONDE A OBSERVAÇÃO ---
-      if (obsContainerEl) {
-        obsContainerEl.style.display = 'none';
-      }
-      // -----------------------------------------
+      if (obsContainerEl) obsContainerEl.style.display = 'none';
     }
-
     atualizarValores();
-  }
+}
 
-  fzEl?.addEventListener('input', () => aplicarFZ(fzEl.value));
-
-  btnVerInfoEl?.addEventListener('click', () => {
-    if (infoVeiculoEl) {
-      infoVeiculoEl.classList.toggle('hidden');
-    }
-  });
-
-  async function carregarDados(){
+async function carregarDados(){
     const loadingEl = document.getElementById('loading');
     if (loadingEl) loadingEl.classList.remove('hidden');
 
@@ -866,569 +750,617 @@ function aplicarFZ(fzRaw){
           .map(c=>c.replace(/^"|"$/g,'').trim());
 
         if(!cols[0]) return;
-
         const fzKey = cols[0].padStart(6,'0');
 
-      // Procure este trecho dentro do seu carregarDados e substitua:
-      vendedores[fzKey] = {
-          modelo: cols[1],
-          up: cols[2],
-          observacao: cols[3], // <--- ADICIONE ESTA LINHA (Puxa a coluna 3)
-          anoMod: cols[4],
-
-          // MAPA DE PREÇOS (Colunas 4, 5, 6 e 7)
-          valorTabela: parseFloat((cols[5]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,       // Coluna 4 (Fixo)
-          precoVendedor: parseFloat((cols[6]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,     // Coluna 5
-          precoGerente: parseFloat((cols[7]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,      // Coluna 6
-          precoOportunidade: parseFloat((cols[8]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0, // Coluna 7
-
-          cor: cols[9] || '',
-          variante: cols[10] || '',
-          patio: cols[11] || '',
-          fotoUrl: cols[22] || '',
-
-          // Atenção: como adicionamos uma coluna de preço (vendedor), as de custo descem 1 índice:
-          valorCompra: parseFloat((cols[12]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          fundoEstrela: parseFloat((cols[13]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          retirada: parseFloat((cols[14]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          programacao: parseFloat((cols[15]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          comissao: parseFloat((cols[16]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          bonificacao: parseFloat((cols[17]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          bonusExtra: parseFloat((cols[18]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          frete: parseFloat((cols[19]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          revisao: parseFloat((cols[20]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          custosAdd: parseFloat((cols[21]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
-      };
+        vendedores[fzKey] = {
+            modelo: cols[1],
+            up: cols[2],
+            observacao: cols[3], 
+            anoMod: cols[4],
+            valorTabela: parseFloat((cols[5]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+            precoVendedor: parseFloat((cols[6]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+            precoGerente: parseFloat((cols[7]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+            precoOportunidade: parseFloat((cols[8]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+            cor: cols[9] || '',
+            variante: cols[10] || '',
+            patio: cols[11] || '',
+            fotoUrl: cols[22] || '',
+            valorCompra: parseFloat((cols[12]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+            fundoEstrela: parseFloat((cols[13]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+            retirada: parseFloat((cols[14]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+            programacao: parseFloat((cols[15]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+            comissao: parseFloat((cols[16]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+            bonificacao: parseFloat((cols[17]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+            bonusExtra: parseFloat((cols[18]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+            frete: parseFloat((cols[19]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+            revisao: parseFloat((cols[20]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+            custosAdd: parseFloat((cols[21]||'0').replace(/\./g,'').replace(/,/g,'.')) || 0,
+        };
       });
 
       dadosCarregados = true;
-
       if (pendingFZ){
         aplicarFZ(pendingFZ);
         pendingFZ = null;
       }
-
       clearTimeout(fallbackTimer);
-
     } catch(e){
       console.error('Erro ao carregar CSV', e);
       clearTimeout(fallbackTimer);
     } finally {
       if (loadingEl) loadingEl.classList.add('hidden');
     }
+}
+
+// =============================================================================
+// 6. LÓGICA DA FÁBRICA (NOVA ESTRUTURA)
+// =============================================================================
+
+// MAPAS
+const MAP_FAMILIA_UPS = {
+  ACCELO: ['UPA','UPF','UPG','UPH'],
+  ATEGO:  ['UPB','UPC','UPD','UPE','UPF','UPG','UPH','UPI'],
+  ACTROS: ['UPH','UPI','UPJ'],
+  AXOR:   ['UPG','UPH','UPI'],
+  AROCS:  ['UPE','UPF','UPG','UPH']
+};
+
+const FAB_ACTION_COLS = {
+  "Estoque": "I",
+  "Postos de Combustiveis": "K",
+  "Frigorificado": "M",
+  "C.E.ABAST": "O",
+  "Mais Alimentos": "Q"
+};
+
+const FAB_PRECO_URLS = {
+  "25/25": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=320257334&single=true&output=csv",
+  "25/26": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=1188555781&single=true&output=csv",
+  "26/26": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=1774947889&single=true&output=csv"
+};
+
+// HELPERS DE PARSING FÁBRICA
+function parseKey(k){
+  const m = k.match(/^([A-Z]+)\s+(.+?)(UP[A-Z]|SEM UP|S\/P)(\d{2}\/\d{2})$/i);
+  if(!m) return null;
+  return {
+    familia: m[1].toUpperCase(),
+    modelo: m[2].trim(),
+    up: m[3],
+    ano: m[4]
+  };
+}
+
+function parseFabPrecoCSV(csv) {
+  const lines = csv.split(/\r?\n/).filter(l => l.trim());
+  if (!lines.length) return {};
+  const splitSmart = line => line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, '').trim());
+  const header = splitSmart(lines.shift());
+  const idxChave = header.findIndex(h => h.toUpperCase().includes("CHAVE"));
+  const idxTabela = header.findIndex(h => h.toUpperCase().includes("TABELA"));
+  const map = {};
+  lines.forEach(l => {
+    const cols = splitSmart(l);
+    const chave = (cols[idxChave] || '').trim().toUpperCase();
+    if (chave) {
+      const valorTabela = idxTabela > -1 ? parseNumeroBR(cols[idxTabela]) : 0;
+      map[chave] = { tabela: valorTabela, cols: cols };
+    }
+  });
+  return map;
+}
+
+function parseNumeroBR(str) {
+    if (!str) return 0;
+    return parseFloat(str.replace(/R\$\s*/i, '').replace(/\./g, '').replace(/,/g, '.')) || 0;
+}
+
+// FUNÇÕES DE CONTROLE DE SELECTS
+function getAnos(){
+  const s = new Set();
+  Object.keys(variantesFab).forEach(k=>{ const p = parseKey(k); if(p) s.add(p.ano); });
+  return Array.from(s).sort();
+}
+function getFamilias(ano){
+  const s = new Set();
+  Object.keys(variantesFab).forEach(k=>{ const p = parseKey(k); if(p && (!ano || p.ano===ano)) s.add(p.familia); });
+  return Array.from(s).sort();
+}
+function getModelos(ano,familia,up){
+  const s = new Set();
+  Object.keys(variantesFab).forEach(k=>{
+    const p = parseKey(k);
+    if(!p) return;
+    if(p.ano !== ano) return;
+    if(p.familia !== familia) return;
+    if(p.up !== up) return;
+    s.add(p.modelo);
+  });
+  return Array.from(s).sort();
+}
+
+function limparSelect(sel, placeholder='Selecione'){
+  if(!sel) return;
+  sel.innerHTML='';
+  sel.add(new Option(placeholder,''));
+}
+function familiaSelecionada(){
+  const r = document.querySelector('#familiaFab input[name="familiaFab"]:checked');
+  return r ? r.value.trim().toUpperCase() : null;
+}
+function formatFamilia(f){
+  if(!f) return '';
+  return f.charAt(0) + f.slice(1).toLowerCase();
+}
+
+function preencherAnos(){
+  limparSelect(anoFabEl);
+  getAnos().forEach(a=> anoFabEl.add(new Option(a,a)));
+  limparSelect(upFabEl);
+  limparSelect(modeloFabEl);
+  if(varianteFabEl) varianteFabEl.textContent='';
+  atualizarRadiosFamilia();
+  preencherAcoes();
+}
+
+function actualizarRadiosFamilia(){
+  const ano = anoFabEl.value;
+  const permitidas = new Set(getFamilias(ano));
+  const radios = document.querySelectorAll('#familiaFab input[name="familiaFab"]');
+  let precisaLimpar = false;
+  radios.forEach(r=>{
+    const fam = r.value.trim().toUpperCase();
+    const habilita = !ano || permitidas.has(fam);
+    r.disabled = !habilita;
+    r.parentElement.style.opacity = habilita? '1' : '.35';
+    if(!habilita && r.checked) precisaLimpar = true;
+  });
+  if(precisaLimpar) radios.forEach(r=> r.checked = false);
+}
+
+function preencherFamilias(){ 
+  atualizarRadiosFamilia();
+  limparSelect(upFabEl);
+  limparSelect(modeloFabEl);
+  if(varianteFabEl) varianteFabEl.textContent='';
+  preencherAcoes();
+}
+
+function preencherUps(){
+  limparSelect(upFabEl);
+  const ano = anoFabEl.value;
+  const familia = familiaSelecionada();
+  if(!ano || !familia) return;
+  const candidatos = MAP_FAMILIA_UPS[familia] || [];
+  const existentes = candidatos.filter(up=>{
+    return Object.keys(variantesFab).some(k=>{
+      const p = parseKey(k);
+      return p && p.ano===ano && p.familia===familia && p.up===up;
+    });
+  });
+  (existentes.length? existentes : candidatos).forEach(u=> upFabEl.add(new Option(u,u)));
+  limparSelect(modeloFabEl);
+  if(varianteFabEl) varianteFabEl.textContent='';
+  preencherAcoes();
+}
+
+function preencherModelos(){
+  limparSelect(modeloFabEl);
+  const ano = anoFabEl.value;
+  const familia = familiaSelecionada();
+  const up = upFabEl.value;
+  if(!ano || !familia || !up) return;
+  const familiaLabel = formatFamilia(familia);
+  getModelos(ano,familia,up).forEach(m=>{
+    const opt = new Option(`${familiaLabel} ${m}`, m);
+    modeloFabEl.add(opt);
+  });
+  if(varianteFabEl) varianteFabEl.textContent='';
+  preencherAcoes();
+}
+
+function chaveVariante(){
+  const ano = anoFabEl.value;
+  const familia = familiaSelecionada();
+  const up = upFabEl.value;
+  const modelo = modeloFabEl.value;
+  if(!ano || !familia || !up || !modelo) return null;
+  return `${familia} ${modelo}${up}${ano}`;
+}
+
+// === LÓGICA DE PREÇOS FÁBRICA ===
+function colLetterToIdx(letter){
+  letter = (letter||'').toUpperCase().trim();
+  let n=0;
+  for (const ch of letter){
+    if(ch<'A'||ch>'Z') return -1;
+    n = n*26 + (ch.charCodeAt(0)-64);
+  }
+  return n-1;
+}
+
+async function garantirPrecosAno(ano) {
+  if (!ano || fabPrecosPorAno[ano]) return;
+  const url = FAB_PRECO_URLS[ano];
+  if (!url) return;
+  try {
+    const res = await fetch(url, { cache: 'no-store' });
+    const csv = await res.text();
+    fabPrecosPorAno[ano] = parseFabPrecoCSV(csv);
+  } catch (e) {
+    console.error("Erro CSV Fábrica", e);
+    fabPrecosPorAno[ano] = {};
+  }
+}
+
+function valorVendaAcao(item, acao) {
+  if (!item || !item.cols) return 0;
+  const letraColuna = FAB_ACTION_COLS[acao] || "I";
+  const idx = colLetterToIdx(letraColuna);
+  if (idx < 0 || idx >= item.cols.length) return 0;
+  return parseNumeroBR(item.cols[idx]);
+}
+
+function getAcoesForCurrentVariant(){
+    const cod = (varianteFabEl?.textContent || '').trim().toUpperCase();
+    const ano = (anoFabEl?.value || '').trim().toUpperCase();
+    if(!cod || !ano) return ACOES_PADRAO;
+    const key = (cod + ano).toUpperCase();
+    return ACOES_MAP[key] || ACOES_PADRAO;
+}
+
+function preencherAcoes(){
+    if(!acaoFabEl) return;
+    const lista = getAcoesForCurrentVariant();
+    acaoFabEl.innerHTML = '';
+    lista.forEach(a=>{
+      const opt = document.createElement('option');
+      opt.value = a;
+      opt.textContent = a;
+      acaoFabEl.appendChild(opt);
+  });
+  aplicarCoresAcao();
+}
+
+function aplicarCoresAcao(){
+    const val = acaoFabEl.value;
+    const map = {
+        "Estoque": {bg:"#8dc2ff", fg:"#001c3b"},
+        "C.E.ABAST": {bg:"#ffc35b", fg:"#301e01"},
+        "Frigorificado": {bg:"#e1bee7", fg:"#25002c"},
+        "Postos de Combustiveis":{bg:"#a2f3a5", fg:"#002401"},
+        "Mais Alimentos": {bg:"#fff48f", fg:"#383200"}
+    };
+    const cfg = map[val] || {bg:"",fg:""};
+    acaoFabEl.style.backgroundColor = cfg.bg;
+    acaoFabEl.style.color = cfg.fg;
+    acaoFabEl.style.fontWeight = cfg.bg? "900":"";
+}
+
+// === FUNÇÃO PRINCIPAL DE PREÇO ===
+async function atualizarPrecoFab() {
+  const ano = anoFabEl?.value;
+  const acao = acaoFabEl?.value || "Estoque";
+  
+  const tabelaSpan = document.getElementById('faValorTabela');
+  const vendaSpan = document.getElementById('faValorVenda');
+  const descPercSpan = document.getElementById('faDescontoPerc');
+  const fmt = (v) => (v || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+  if (!ano || !tabelaSpan) return;
+
+  await garantirPrecosAno(ano);
+  const chave = chaveVariante();
+  
+  if (!chave) {
+    tabelaSpan.textContent = "R$ 0,00";
+    vendaSpan.textContent = "R$ 0,00";
+    if (descPercSpan) descPercSpan.textContent = "0,00%";
+    return;
   }
 
+  const dadosAno = fabPrecosPorAno[ano] || {};
+  const item = dadosAno[chave.toUpperCase()];
+
+  if (!item) {
+    tabelaSpan.textContent = "Não encontrado";
+    vendaSpan.textContent = "R$ 0,00";
+    if (descPercSpan) descPercSpan.textContent = "0,00%";
+    return;
+  }
+
+  const valorTabela = item.tabela;
+  const valorVenda = valorVendaAcao(item, acao);
+  
+  tabelaSpan.textContent = fmt(valorTabela);
+  vendaSpan.textContent = fmt(valorVenda);
+
+  let perc = 0;
+  if (valorTabela > 0) {
+    const diferenca = valorTabela - valorVenda;
+    perc = (diferenca / valorTabela) * 100;
+  }
+
+  if (descPercSpan) {
+    descPercSpan.textContent = perc.toFixed(2).replace('.', ',') + "%";
+    descPercSpan.style.color = perc >= 0 ? "#28a745" : "#d9534f";
+  }
+}
+
+// === FUNÇÃO CRÍTICA: ATUALIZA VARIANTE E PREÇO ===
+function atualizarVarianteFab(){
+    const chave = chaveVariante();
+    if(!varianteFabEl) return;
+    if(!chave){
+        varianteFabEl.textContent = '';
+        preencherAcoes();
+        atualizarPrecoFab();
+        return;
+    }
+    const codigo = variantesFab[chave] || '';
+    varianteFabEl.textContent = codigo;
+    preencherAcoes();
+    atualizarPrecoFab();
+}
+
+// =============================================================================
+// 7. FOTOS E MODAL
+// =============================================================================
+
+function converterUrlFoto(url) {
+    if (!url) return '';
+    url = url.trim();
+    if (url.includes('lh3.googleusercontent.com') || url.includes('drive.google.com/uc?export=view')) return url;
+    const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+    if (match) return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+    return url;
+}
+
+async function fetchFotoByFz(fzRaw) {
+  const fz = (fzRaw || '').replace(/\D/g, '').padStart(6, '0');
+  if (vendedores[fz] && vendedores[fz].fotoUrl) return converterUrlFoto(vendedores[fz].fotoUrl);
+  if (!dadosCarregados) {
+    await new Promise(r => setTimeout(r, 1000)); 
+    if (vendedores[fz] && vendedores[fz].fotoUrl) return converterUrlFoto(vendedores[fz].fotoUrl);
+  }
+  return '';
+}
+
+function abrirFoto(fotoUrl, titulo = '') {
+    if (!fotoUrl) { alert('Foto não disponível.'); return; }
+    const modal = document.createElement('div');
+    modal.className = 'modal-foto';
+    modal.tabIndex = -1;
+    modal.innerHTML = `
+      <div class="modal-conteudo" role="dialog" aria-modal="true" aria-label="Foto do veículo">
+        <button class="modal-close" aria-label="Fechar">×</button>
+        <div class="photo-frame" title="${titulo || 'Foto'}">
+          <img class="photo-img" src="${fotoUrl}" alt="${titulo || 'Foto do veículo'}"
+              onerror="this.src='https://via.placeholder.com/800x600?text=Foto+não+disponível'">
+        </div>
+        <div class="photo-caption">${titulo || ''}</div>
+        <div class="photo-actions">
+          <button class="btn btn-open" title="Abrir em nova aba">Abrir</button>
+          <button class="btn btn-download" title="Baixar foto">Baixar</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    setTimeout(()=> modal.focus(), 50);
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+    modal.querySelector('.modal-close').addEventListener('click', ()=> modal.remove());
+    modal.querySelector('.btn-open').addEventListener('click', ()=> window.open(fotoUrl, '_blank', 'noopener'));
+    modal.querySelector('.btn-download').addEventListener('click', ()=>{
+      const a = document.createElement('a');
+      a.href = fotoUrl;
+      a.download = (titulo || 'foto').replace(/\s+/g,'_') + '.jpg';
+      try { document.body.appendChild(a); a.click(); a.remove(); } catch (err) { window.open(fotoUrl, '_blank', 'noopener'); }
+    });
+    function onKey(e){ if (e.key === 'Escape') { modal.remove(); document.removeEventListener('keydown', onKey); } }
+    document.addEventListener('keydown', onKey);
+}
+
+// =============================================================================
+// 8. EVENT LISTENERS E INIT
+// =============================================================================
+
+// Listeners Fábrica
+if(anoFabEl) anoFabEl.addEventListener('change', ()=>{ preencherFamilias(); atualizarVarianteFab(); });
+if(familiaFabEl) familiaFabEl.addEventListener('change', e=>{ if(e.target && e.target.name === 'familiaFab'){ preencherUps(); atualizarVarianteFab(); } });
+if(upFabEl) upFabEl.addEventListener('change', ()=>{ preencherModelos(); atualizarVarianteFab(); });
+if(modeloFabEl) modeloFabEl.addEventListener('change', atualizarVarianteFab);
+if(acaoFabEl) acaoFabEl.addEventListener('change', ()=>{ aplicarCoresAcao(); atualizarPrecoFab(); });
+
+// Listeners Próprio
+if(fzEl) fzEl.addEventListener('input', () => aplicarFZ(fzEl.value));
+if(btnVerInfoEl) btnVerInfoEl.addEventListener('click', () => { if (infoVeiculoEl) infoVeiculoEl.classList.toggle('hidden'); });
+
+// Listener Tipo Preço
+if(tipoPreco) {
     tipoPreco.addEventListener('change', () => {
         const tipo = tipoPreco.value;
-
-        // 1. Muda a cor do Select (Visual)
         tipoPreco.className = 'form-select ' + tipo;
-
-        // 2. Lógica de Mostrar/Esconder o Box Roxo
         if (tipo === 'especial') {
-            especialWrapper.classList.remove('hidden'); // REMOVE "hidden" para aparecer
-
-        // --- ADICIONE ESTAS DUAS LINHAS ABAIXO ---
+            especialWrapper.classList.remove('hidden'); 
             precoEspecial.disabled = false; 
             precoEspecial.readOnly = false;
-        // ----------------------------------------
-            
-        // (Opcional) Sugere o preço mínimo se tiver dados carregados
-        if (typeof vendedorAtual !== 'undefined' && vendedorAtual) {
-            const min = vendedorAtual.precoOportunidade;
-            document.getElementById('minEspecialValor').innerText = 
-            'Mínimo: R$ ' + min.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+            if (vendedorAtual) {
+                const min = vendedorAtual.precoOportunidade;
+                document.getElementById('minEspecialValor').innerText = 'Mínimo: R$ ' + min.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+            }
+            precoEspecial.focus(); 
+        } else {
+            especialWrapper.classList.add('hidden');
+            precoEspecial.value = ''; 
         }
-            
-            precoEspecial.focus(); // Já deixa o cursor piscando lá dentro
-        } 
-        else {
-            especialWrapper.classList.add('hidden'); // ADICIONA "hidden" para esconder
-            precoEspecial.value = ''; // Limpa o campo
-        }
-
-        // 3. Atualiza os cálculos da tela
-        if (typeof atualizarValores === 'function') {
-            atualizarValores();
-        }
+        atualizarValores();
     });
+}
 
-    precoEspecial?.addEventListener('blur', () => {
+// Listener Preço Especial Input
+if(precoEspecialInput) {
+    precoEspecialInput.addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value === "") { e.target.value = ""; return; }
+        value = (parseInt(value) / 100).toFixed(2);
+        let partes = value.split(".");
+        partes[0] = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        e.target.value = partes[0] + "," + partes[1];
+        atualizarValores();
+    });
+    
+    precoEspecialInput.addEventListener('blur', () => {
         if (!vendedorAtual || tipoPreco.value !== 'especial') return;
-
         const min = vendedorAtual.precoOportunidade;
-        let v = limparMoeda(precoEspecial.value);
-
+        let v = limparMoeda(precoEspecialInput.value);
         if (isNaN(v) || v < min) {
             alert("O valor não pode ser inferior ao preço de Oportunidade.");
             v = min;
-            precoEspecial.value = v.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+            precoEspecialInput.value = v.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
         }
-
-        atualizarValores(); // Apenas chama a atualização
+        atualizarValores(); 
     });
-  // ================== POPULAR SELECTS DINÂMICOS (FÁBRICA) ==================
-  // NOVO FLUXO: 1) Ano -> 2) Família -> 3) UP -> Variante/Ações
+}
 
-  // Remove qualquer listener anterior (garanta que o bloco antigo foi apagado)
-  if (typeof preencherFamilias !== 'undefined') {
-    // apenas evita conflitos se algo restar
-  }
-
-  const familiaFabEl = els("familiaFab");
-
-  // Mapeamento fixo de UPs por família base
-  const MAP_FAMILIA_UPS = {
-    ACCELO: ['UPA','UPF','UPG','UPH'],
-    ATEGO:  ['UPB','UPC','UPD','UPE','UPF','UPG','UPH','UPI'],
-    ACTROS: ['UPH','UPI','UPJ'],
-    AXOR:   ['UPG','UPH','UPI'],
-    AROCS:  ['UPE','UPF','UPG','UPH']
-  };
-
-  function parseKey(k){
-    const m = k.match(/^([A-Z]+)\s+(.+?)(UP[A-Z]|SEM UP|S\/P)(\d{2}\/\d{2})$/i);
-    if(!m) return null;
-    return {
-      familia: m[1].toUpperCase(),
-      modelo: m[2].trim(),
-      up: m[3],
-      ano: m[4]
-    };
-  }
-
-  function getAnos(){
-    const s = new Set();
-    Object.keys(variantesFab).forEach(k=>{
-      const p = parseKey(k); if(p) s.add(p.ano);
+// Botões Protegidos
+if (btnMostrarProtegido) {
+    btnMostrarProtegido.addEventListener('click', () => {
+      passwordGroup.classList.toggle('hidden');
+      senhaError.textContent = "";
+      if (!passwordGroup.classList.contains('hidden')) senhaInput.focus();
     });
-    return Array.from(s).sort();
-  }
-
-  function getFamilias(ano){
-    const s = new Set();
-    Object.keys(variantesFab).forEach(k=>{
-      const p = parseKey(k);
-      if(p && (!ano || p.ano===ano)) s.add(p.familia);
-    });
-    return Array.from(s).sort();
-  }
-
-  function getModelos(ano,familia,up){
-    const s = new Set();
-    Object.keys(variantesFab).forEach(k=>{
-      const p = parseKey(k);
-      if(!p) return;
-      if(p.ano !== ano) return;
-      if(p.familia !== familia) return;
-      if(p.up !== up) return;
-      s.add(p.modelo);
-    });
-    return Array.from(s).sort();
-  }
-
-  function limparSelect(sel, placeholder='Selecione'){
-    if(!sel) return;
-    sel.innerHTML='';
-    sel.add(new Option(placeholder,''));
-  }
-
-  function familiaSelecionada(){
-    const r = document.querySelector('#familiaFab input[name="familiaFab"]:checked');
-    return r ? r.value.trim().toUpperCase() : null;
-  }
-
-  function preencherAnos(){
-    limparSelect(anoFabEl);
-    getAnos().forEach(a=> anoFabEl.add(new Option(a,a)));
-    limparSelect(upFabEl);
-    limparSelect(modeloFabEl);
-    if(varianteFabEl) varianteFabEl.textContent='';
-    atualizarRadiosFamilia();
-    preencherAcoes?.();
-  }
-
-  function atualizarRadiosFamilia(){
-    const ano = anoFabEl.value;
-    const permitidas = new Set(getFamilias(ano));
-    const radios = document.querySelectorAll('#familiaFab input[name="familiaFab"]');
-    let precisaLimpar = false;
-    radios.forEach(r=>{
-      const fam = r.value.trim().toUpperCase();
-      const habilita = !ano || permitidas.has(fam);
-      r.disabled = !habilita;
-      r.parentElement.style.opacity = habilita? '1' : '.35';
-      if(!habilita && r.checked) precisaLimpar = true;
-    });
-    if(precisaLimpar){
-      radios.forEach(r=> r.checked = false);
-    }
-  }
-
-  function preencherFamilias(){ 
-    atualizarRadiosFamilia();
-    limparSelect(upFabEl);
-    limparSelect(modeloFabEl);
-    if(varianteFabEl) varianteFabEl.textContent='';
-    preencherAcoes?.();
-  }
-
-  function preencherUps(){
-    limparSelect(upFabEl);
-    const ano = anoFabEl.value;
-    const familia = familiaSelecionada();
-    if(!ano || !familia) return;
-    const candidatos = MAP_FAMILIA_UPS[familia] || [];
-    const existentes = candidatos.filter(up=>{
-      return Object.keys(variantesFab).some(k=>{
-        const p = parseKey(k);
-        return p && p.ano===ano && p.familia===familia && p.up===up;
-      });
-    });
-    (existentes.length? existentes : candidatos).forEach(u=> upFabEl.add(new Option(u,u)));
-    limparSelect(modeloFabEl);
-    if(varianteFabEl) varianteFabEl.textContent='';
-    preencherAcoes?.();
-  }
-
-  function formatFamilia(f){
-    if(!f) return '';
-    return f.charAt(0) + f.slice(1).toLowerCase();
-  }
-
-  function preencherModelos(){
-    limparSelect(modeloFabEl);
-    const ano = anoFabEl.value;
-    const familia = familiaSelecionada();
-    const up = upFabEl.value;
-    if(!ano || !familia || !up) return;
-    const familiaLabel = formatFamilia(familia);
-    getModelos(ano,familia,up).forEach(m=>{
-      const opt = new Option(`${familiaLabel} ${m}`, m);
-      modeloFabEl.add(opt);
-    });
-    if(varianteFabEl) varianteFabEl.textContent='';
-    preencherAcoes?.();
-  }
-
-  // Chave variante (mantém só UMA definição)
-  function chaveVariante(){
-    const ano = anoFabEl.value;
-    const familia = familiaSelecionada();
-    const up = upFabEl.value;
-    const modelo = modeloFabEl.value;
-    if(!ano || !familia || !up || !modelo) return null;
-    return `${familia} ${modelo}${up}${ano}`;
-  }
-
-  // === FUNÇÃO CRÍTICA QUE ESTAVA FALTANDO ===
-  function atualizarVarianteFab(){
-      const chave = chaveVariante();
-      if(!varianteFabEl) return;
-
-      if(!chave){
-          varianteFabEl.textContent = '';
-          preencherAcoes?.();
-          atualizarPrecoFab?.(); // Zera o preço se faltar dados
-          return;
-      }
-
-      // Busca o código da variante no objeto gigante (ex: '1035T')
-      const codigo = variantesFab[chave] || '';
-      varianteFabEl.textContent = codigo;
-
-      // Atualiza as ações (cores) e o PREÇO
-      preencherAcoes?.();
-      atualizarPrecoFab?.(); 
-  }
-
-  // ================== EVENTOS DOS SELECTS ==================
-  anoFabEl?.addEventListener('change', ()=>{
-    preencherFamilias();
-    atualizarVarianteFab();
-  });
-  familiaFabEl?.addEventListener('change', e=>{
-    if(e.target && e.target.name === 'familiaFab'){
-      preencherUps();
-      atualizarVarianteFab();
-    }
-  });
-  upFabEl?.addEventListener('change', ()=>{
-    preencherModelos();
-    atualizarVarianteFab();
-  });
-  modeloFabEl?.addEventListener('change', atualizarVarianteFab);
-
-
-  // ================== COPIAR VARIANTE ==================
-  els("btnCopiarVariante")?.addEventListener("click", ()=>{
-    const v = (varianteFabEl?.textContent||'').trim();
-    if(!v) return;
-    navigator.clipboard.writeText(v);
-    const icon  = els("iconCopiarVariante");
-    const check = els("iconCheckVariante");
-    if(icon && check){
-      icon.style.display='none';
-      check.style.display='inline';
-      setTimeout(()=>{icon.style.display='inline';check.style.display='none';},900);
-    }
-  });
-
-  // ================== INIT ==================
-  function init(){
-    // Garantir que o conteúdo principal esteja visível
-    els('mainContent')?.classList.remove('hidden');
-
-    showCalcProprio();
-    applyQueryParams();
-    carregarDados();
-    preencherAnos();
-    // Pré-selecionar primeiro ano (opcional):
-    if(anoFabEl && anoFabEl.options.length>1){
-      anoFabEl.selectedIndex = 1;
-      anoFabEl.dispatchEvent(new Event('change'));
-    }
-    
-    // Adicionar event listeners para os botões das abas
-    btnProprio.onclick = () => {
-      calcProprio.classList.remove('hidden');
-      calcFabrica.classList.add('hidden');
-      btnProprio.classList.add('btn-primary');
-      btnProprio.classList.remove('btn-secondary');
-      btnFabrica.classList.add('btn-secondary');
-      btnFabrica.classList.remove('btn-primary');
-    };
-
-    btnFabrica.onclick = () => {
-      calcFabrica.classList.remove('hidden');
-      calcProprio.classList.add('hidden');
-      btnFabrica.classList.add('btn-primary');
-      btnFabrica.classList.remove('btn-secondary');
-      btnProprio.classList.add('btn-secondary');
-      btnProprio.classList.remove('btn-primary');
-    };
-
-    // Ajuste header
-    const adjustBodyPadding = () => {
-      const hdr = document.querySelector('.main-header');
-      if (hdr) {
-        const h = hdr.offsetHeight || 56;
-        document.body.style.paddingTop = h + 'px';
-        const headerSpace = document.querySelector('.header-space');
-        if (headerSpace) headerSpace.style.height = h + 'px';
-      }
-    };
-    adjustBodyPadding();
-    window.addEventListener('resize', () => {
-      clearTimeout(window._adjustHeaderTimer);
-      window._adjustHeaderTimer = setTimeout(adjustBodyPadding, 120);
-    });
-  }
-
-  // Inicializadores
-  if (typeof init === 'function' && document.readyState === 'complete') {
-    init();
-  } else {
-    window.addEventListener('load', init);
-  }
-
-
-  // =============================================================================
-  //               LÓGICA COMPLETA - CALCULADORA DE FÁBRICA
-  // =============================================================================
-
-  // 1. Helpers
-  function colLetterToIdx(letter){
-    letter = (letter||'').toUpperCase().trim();
-    let n=0;
-    for (const ch of letter){
-      if(ch<'A'||ch>'Z') return -1;
-      n = n*26 + (ch.charCodeAt(0)-64);
-    }
-    return n-1;
-  }
-
-  function variantCodigoFab(){
-    return (varianteFabEl?.textContent||'').trim();
-  }
-
-  function anoSelecionadoFab(){
-    return anoFabEl?.value || "";
-  }
-
-  function chavePrecoFab(){
-    const cod = variantCodigoFab();
-    const ano = anoSelecionadoFab();
-    if(!cod || !ano) return null;
-    return cod + ano; // ex: 2284T25/25
-  }
-
-  function getAcoesForCurrentVariant(){
-      const cod = (varianteFabEl?.textContent || '').trim().toUpperCase();
-      const ano = (anoFabEl?.value || '').trim().toUpperCase();
-      if(!cod || !ano) return ACOES_PADRAO;
-      const key = (cod + ano).toUpperCase(); // ex: 2284T25/25
-      return ACOES_MAP[key] || ACOES_PADRAO;
-  }
-
-  function preencherAcoes(){
-      if(!acaoFabEl) return;
-      const lista = getAcoesForCurrentVariant();
-      acaoFabEl.innerHTML = '';
-      lista.forEach(a=>{
-        const opt = document.createElement('option');
-        opt.value = a;
-        opt.textContent = a;
-        acaoFabEl.appendChild(opt);
-    });
-    // dispara para aplicar cores (mas não loop infinito de preço)
-    aplicarCoresAcao();
-  }
-
-  function aplicarCoresAcao(){
-      const val = acaoFabEl.value;
-      const map = {
-          "Estoque":               {bg:"#8dc2ff", fg:"#001c3b"},
-          "C.E.ABAST":             {bg:"#ffc35b", fg:"#301e01"},
-          "Frigorificado":         {bg:"#e1bee7", fg:"#25002c"},
-          "Postos de Combustiveis":{bg:"#a2f3a5", fg:"#002401"},
-          "Mais Alimentos":        {bg:"#fff48f", fg:"#383200"}
-      };
-      const cfg = map[val] || {bg:"",fg:""};
-      acaoFabEl.style.backgroundColor = cfg.bg;
-      acaoFabEl.style.color = cfg.fg;
-      acaoFabEl.style.fontWeight = cfg.bg? "900":"";
-  }
-
-  // 2. Configurações de CSV e Mapas
-  const FAB_ACTION_COLS = {
-    "Estoque": "I",
-    "Postos de Combustiveis": "K",
-    "Frigorificado": "M",
-    "C.E.ABAST": "O",
-    "Mais Alimentos": "Q"
-  };
-
-  const FAB_PRECO_URLS = {
-    "25/25": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=320257334&single=true&output=csv",
-    "25/26": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=1188555781&single=true&output=csv",
-    "26/26": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=1774947889&single=true&output=csv"
-  };
-
-  const fabPrecosPorAno = {};
-
-  // 3. Parsing e Fetch
-  function parseFabPrecoCSV(csv) {
-    const lines = csv.split(/\r?\n/).filter(l => l.trim());
-    if (!lines.length) return {};
-
-    const splitSmart = line => line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, '').trim());
-    const header = splitSmart(lines.shift());
-    const idxChave = header.findIndex(h => h.toUpperCase().includes("CHAVE"));
-    const idxTabela = header.findIndex(h => h.toUpperCase().includes("TABELA"));
-
-    const map = {};
-    if (idxChave === -1) console.error("Coluna CHAVE não encontrada no CSV Fábrica");
-
-    lines.forEach(l => {
-      const cols = splitSmart(l);
-      const chave = (cols[idxChave] || '').trim().toUpperCase();
-      if (chave) {
-        const valorTabela = idxTabela > -1 ? parseNumeroBR(cols[idxTabela]) : 0;
-        map[chave] = {
-          tabela: valorTabela,
-          cols: cols 
-        };
+}
+if (btnVerificarSenha) {
+    btnVerificarSenha.addEventListener('click', () => {
+      if (senhaInput.value.trim() === 'Vendas123') {
+        [rowComissaoProtected, rowDsrProtected, rowTotalProtected].forEach(r => r.classList.remove('hidden'));
+        passwordGroup.classList.add('hidden');
+        senhaInput.value = '';
+        senhaError.textContent = "";
+      } else {
+        senhaError.textContent = "Senha incorreta.";
       }
     });
-    return map;
+}
+if (senhaInput) senhaInput.addEventListener('keyup', e => { if (e.key === 'Enter') btnVerificarSenha.click(); });
+
+// Copiar Variante
+els("btnCopiarVariante")?.addEventListener("click", ()=>{
+  const v = (varianteFabEl?.textContent||'').trim();
+  if(!v) return;
+  navigator.clipboard.writeText(v);
+  const icon  = els("iconCopiarVariante");
+  const check = els("iconCheckVariante");
+  if(icon && check){
+    icon.style.display='none'; check.style.display='inline';
+    setTimeout(()=>{icon.style.display='inline';check.style.display='none';},900);
   }
+});
 
-  async function garantirPrecosAno(ano) {
-    if (!ano || fabPrecosPorAno[ano]) return; 
-    const url = FAB_PRECO_URLS[ano];
-    if (!url) return;
-
-    try {
-      const res = await fetch(url, { cache: 'no-store' });
-      const csv = await res.text();
-      fabPrecosPorAno[ano] = parseFabPrecoCSV(csv);
-    } catch (e) {
-      console.error("Erro ao carregar CSV Fábrica:", e);
-      fabPrecosPorAno[ano] = {};
-    }
-  }
-
-  function valorVendaAcao(item, acao) {
-    if (!item || !item.cols) return 0;
-    const letraColuna = FAB_ACTION_COLS[acao] || "I";
-    const idx = colLetterToIdx(letraColuna);
-    if (idx < 0 || idx >= item.cols.length) return 0;
-    return parseNumeroBR(item.cols[idx]);
-  }
-
-  // 4. FUNÇÃO PRINCIPAL: Atualiza a Interface
-  async function atualizarPrecoFab() {
-    const ano = anoFabEl?.value;
-    const acao = acaoFabEl?.value || "Estoque";
-    
-    const tabelaSpan = document.getElementById('faValorTabela');
-    const vendaSpan = document.getElementById('faValorVenda');
-    const descPercSpan = document.getElementById('faDescontoPerc');
-
-    const fmt = (v) => (v || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-
-    if (!ano || !tabelaSpan) return;
-
-    await garantirPrecosAno(ano);
-    
-    // Usa a chaveVariante existente
-    const chave = (typeof chaveVariante === 'function') ? chaveVariante() : null;
-    
-    if (!chave) {
-      tabelaSpan.textContent = "R$ 0,00";
-      vendaSpan.textContent = "R$ 0,00";
-      if (descPercSpan) descPercSpan.textContent = "0,00%";
-      return;
-    }
-
-    const dadosAno = fabPrecosPorAno[ano] || {};
-    const item = dadosAno[chave.toUpperCase()];
-
-    if (!item) {
-      tabelaSpan.textContent = "Não encontrado";
-      vendaSpan.textContent = "R$ 0,00";
-      if (descPercSpan) descPercSpan.textContent = "0,00%";
-      return;
-    }
-
-    const valorTabela = item.tabela;
-    const valorVenda = valorVendaAcao(item, acao);
-    
-    tabelaSpan.textContent = fmt(valorTabela);
-    vendaSpan.textContent = fmt(valorVenda);
-
-    let perc = 0;
-    if (valorTabela > 0) {
-      const diferenca = valorTabela - valorVenda;
-      perc = (diferenca / valorTabela) * 100;
-    }
-
-    if (descPercSpan) {
-      descPercSpan.textContent = perc.toFixed(2).replace('.', ',') + "%";
-      descPercSpan.style.color = perc >= 0 ? "#28a745" : "#d9534f";
-    }
-  }
-
-  // 5. Listener de mudança da Ação (Campanha)
-  if (acaoFabEl) {
-    acaoFabEl.addEventListener('change', () => {
-      aplicarCoresAcao();
-      atualizarPrecoFab();
+// Botão Ver Foto
+const btnVerFoto = els('btnVerFoto');
+if (btnVerFoto && fzEl) {
+    btnVerFoto.addEventListener('click', async () => {
+        const fz = fzEl.value || '';
+        if (!fz.trim()) { alert('Informe o FZ antes de ver a foto.'); return; }
+        btnVerFoto.disabled = true;
+        btnVerFoto.textContent = 'Carregando...';
+        try {
+            const fotoUrl = await fetchFotoByFz(fz);
+            if (!fotoUrl) throw new Error('Foto não encontrada.');
+            const nomeModelo = modeloEl ? modeloEl.textContent.trim() : '';
+            abrirFoto(fotoUrl, nomeModelo);
+        } catch (error) {
+            alert('Não foi possível carregar a foto deste veículo.');
+        } finally {
+            btnVerFoto.disabled = false;
+            btnVerFoto.textContent = '📷 Foto'; 
+        }
     });
+}
+
+// Controle de Abas
+if(btnProprio) btnProprio.onclick = () => {
+    calcProprio.classList.remove('hidden');
+    calcFabrica.classList.add('hidden');
+    btnProprio.classList.add('btn-primary');
+    btnProprio.classList.remove('btn-secondary');
+    btnFabrica.classList.add('btn-secondary');
+    btnFabrica.classList.remove('btn-primary');
+};
+
+if(btnFabrica) btnFabrica.onclick = () => {
+    calcFabrica.classList.remove('hidden');
+    calcProprio.classList.add('hidden');
+    btnFabrica.classList.add('btn-primary');
+    btnFabrica.classList.remove('btn-secondary');
+    btnProprio.classList.add('btn-secondary');
+    btnProprio.classList.remove('btn-primary');
+};
+
+// =============================================================================
+// 9. FUNÇÃO SHOW CALC & INIT
+// =============================================================================
+
+function showCalcProprio(){
+    els('calcEstoqueProprio')?.classList.remove('hidden');
+    els('calcEstoqueFabrica')?.classList.add('hidden');
+}
+function showCalcFabrica(){
+    els('calcEstoqueProprio')?.classList.add('hidden');
+    els('calcEstoqueFabrica')?.classList.remove('hidden');
+}
+
+function applyQueryParams(){
+    const params = new URLSearchParams(location.search);
+    const calc = (params.get('calc')||'').toLowerCase();
+    const fz   = (params.get('fz')||'').replace(/\D/g,'').slice(0,6);
+
+    if (calc === 'fabrica') showCalcFabrica(); else showCalcProprio();
+
+    if (fz){
+      if (dadosCarregados) aplicarFZ(fz);
+      else pendingFZ = fz;
+    }
+}
+
+function init(){
+  els('mainContent')?.classList.remove('hidden');
+  showCalcProprio();
+  applyQueryParams();
+  carregarDados();
+  preencherAnos();
+  if(anoFabEl && anoFabEl.options.length>1){
+    anoFabEl.selectedIndex = 1;
+    anoFabEl.dispatchEvent(new Event('change'));
   }
 
-  // Inicialização de segurança
-  document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(atualizarPrecoFab, 1000);
+  // Ajuste Header Padding
+  const adjustBodyPadding = () => {
+    const hdr = document.querySelector('.main-header');
+    if (hdr) {
+      const h = hdr.offsetHeight || 56;
+      document.body.style.paddingTop = h + 'px';
+      const headerSpace = document.querySelector('.header-space');
+      if (headerSpace) headerSpace.style.height = h + 'px';
+    }
+  };
+  adjustBodyPadding();
+  window.addEventListener('resize', () => {
+    clearTimeout(window._adjustHeaderTimer);
+    window._adjustHeaderTimer = setTimeout(adjustBodyPadding, 120);
   });
+  
+  // Menu Mobile
+  const toggle = document.querySelector('.nav-toggle');
+  const nav = document.querySelector('.nav-menu');
+  if(toggle && nav){
+      toggle.addEventListener('click', () => { nav.classList.toggle('open'); });
+      nav.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => { nav.classList.remove('open'); }); });
+      document.addEventListener('click', (e) => { if (!nav.contains(e.target) && !toggle.contains(e.target)) { nav.classList.remove('open'); } });
+  }
+}
+
+// Inicialização
+if (document.readyState === 'complete') init();
+else window.addEventListener('load', init);
