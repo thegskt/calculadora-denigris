@@ -967,374 +967,277 @@ function aplicarFZ(fzRaw){
 
         atualizarValores(); // Apenas chama a atualização
     });
-// ================== POPULAR SELECTS DINÂMICOS (FÁBRICA) ==================
-// NOVO FLUXO: 1) Ano -> 2) Família -> 3) UP -> Variante/Ações
+  // ================== POPULAR SELECTS DINÂMICOS (FÁBRICA) ==================
+  // NOVO FLUXO: 1) Ano -> 2) Família -> 3) UP -> Variante/Ações
 
-// Remove qualquer listener anterior (garanta que o bloco antigo foi apagado)
-if (typeof preencherFamilias !== 'undefined') {
-  // apenas evita conflitos se algo restar
-}
-
-const familiaFabEl = els("familiaFab");
-
-// Mapeamento fixo de UPs por família base
-const MAP_FAMILIA_UPS = {
-  ACCELO: ['UPA','UPF','UPG','UPH'],
-  ATEGO:  ['UPB','UPC','UPD','UPE','UPF','UPG','UPH','UPI'],
-  ACTROS: ['UPH','UPI','UPJ'],
-  AXOR:   ['UPG','UPH','UPI'],
-  AROCS:  ['UPE','UPF','UPG','UPH']
-};
-
-// (REMOVA quaisquer definições duplicadas de chaveVariante / atualizarVarianteFab mais abaixo)
-
-function parseKey(k){
-  const m = k.match(/^([A-Z]+)\s+(.+?)(UP[A-Z]|SEM UP|S\/P)(\d{2}\/\d{2})$/i);
-  if(!m) return null;
-  return {
-    familia: m[1].toUpperCase(),    // ACCELO
-    modelo: m[2].trim(),            // 1017/39
-    up: m[3],
-    ano: m[4]
-  };
-}
-
-function getAnos(){
-  const s = new Set();
-  Object.keys(variantesFab).forEach(k=>{
-    const p = parseKey(k); if(p) s.add(p.ano);
-  });
-  return Array.from(s).sort();
-}
-
-function getFamilias(ano){
-  const s = new Set();
-  Object.keys(variantesFab).forEach(k=>{
-    const p = parseKey(k);
-    if(p && (!ano || p.ano===ano)) s.add(p.familia);
-  });
-  return Array.from(s).sort();
-}
-
-function getModelos(ano,familia,up){
-  const s = new Set();
-  Object.keys(variantesFab).forEach(k=>{
-    const p = parseKey(k);
-    if(!p) return;
-    if(p.ano !== ano) return;
-    if(p.familia !== familia) return;
-    if(p.up !== up) return;
-    s.add(p.modelo);
-  });
-  return Array.from(s).sort();
-}
-
-function limparSelect(sel, placeholder='Selecione'){
-  if(!sel) return;
-  sel.innerHTML='';
-  sel.add(new Option(placeholder,''));
-}
-
-function familiaSelecionada(){
-  const r = document.querySelector('#familiaFab input[name="familiaFab"]:checked');
-  return r ? r.value.trim().toUpperCase() : null;
-}
-
-function preencherAnos(){
-  limparSelect(anoFabEl);
-  getAnos().forEach(a=> anoFabEl.add(new Option(a,a)));
-  // Apenas limpa UP/Modelo
-  limparSelect(upFabEl);
-  limparSelect(modeloFabEl);
-  varianteFabEl && (varianteFabEl.textContent='');
-  // Desabilita / habilita radios depois de limpar ano (nenhum ano selecionado ainda)
-  atualizarRadiosFamilia();
-  preencherAcoes?.();
-}
-
-function atualizarRadiosFamilia(){
-  const ano = anoFabEl.value;
-  const permitidas = new Set(getFamilias(ano));
-  const radios = document.querySelectorAll('#familiaFab input[name="familiaFab"]');
-  let precisaLimpar = false;
-  radios.forEach(r=>{
-    const fam = r.value.trim().toUpperCase();
-    const habilita = !ano || permitidas.has(fam);
-    r.disabled = !habilita;
-    r.parentElement.style.opacity = habilita? '1' : '.35';
-    if(!habilita && r.checked) precisaLimpar = true;
-  });
-  if(precisaLimpar){
-    radios.forEach(r=> r.checked = false);
+  // Remove qualquer listener anterior (garanta que o bloco antigo foi apagado)
+  if (typeof preencherFamilias !== 'undefined') {
+    // apenas evita conflitos se algo restar
   }
-}
 
-function preencherFamilias(){ 
-  // Agora só habilita/desabilita radios conforme ano
-  atualizarRadiosFamilia();
-  // Limpa dependentes
-  limparSelect(upFabEl);
-  limparSelect(modeloFabEl);
-  varianteFabEl && (varianteFabEl.textContent='');
-  preencherAcoes?.();
-}
+  const familiaFabEl = els("familiaFab");
 
-function preencherUps(){
-  limparSelect(upFabEl);
-  const ano = anoFabEl.value;
-  const familia = familiaSelecionada();
-  if(!ano || !familia) return;
-  const candidatos = MAP_FAMILIA_UPS[familia] || [];
-  const existentes = candidatos.filter(up=>{
-    return Object.keys(variantesFab).some(k=>{
+  // Mapeamento fixo de UPs por família base
+  const MAP_FAMILIA_UPS = {
+    ACCELO: ['UPA','UPF','UPG','UPH'],
+    ATEGO:  ['UPB','UPC','UPD','UPE','UPF','UPG','UPH','UPI'],
+    ACTROS: ['UPH','UPI','UPJ'],
+    AXOR:   ['UPG','UPH','UPI'],
+    AROCS:  ['UPE','UPF','UPG','UPH']
+  };
+
+  function parseKey(k){
+    const m = k.match(/^([A-Z]+)\s+(.+?)(UP[A-Z]|SEM UP|S\/P)(\d{2}\/\d{2})$/i);
+    if(!m) return null;
+    return {
+      familia: m[1].toUpperCase(),
+      modelo: m[2].trim(),
+      up: m[3],
+      ano: m[4]
+    };
+  }
+
+  function getAnos(){
+    const s = new Set();
+    Object.keys(variantesFab).forEach(k=>{
+      const p = parseKey(k); if(p) s.add(p.ano);
+    });
+    return Array.from(s).sort();
+  }
+
+  function getFamilias(ano){
+    const s = new Set();
+    Object.keys(variantesFab).forEach(k=>{
       const p = parseKey(k);
-      return p && p.ano===ano && p.familia===familia && p.up===up;
+      if(p && (!ano || p.ano===ano)) s.add(p.familia);
     });
-  });
-  (existentes.length? existentes : candidatos).forEach(u=> upFabEl.add(new Option(u,u)));
-  limparSelect(modeloFabEl);
-  varianteFabEl && (varianteFabEl.textContent='');
-  preencherAcoes?.();
-}
-
-function formatFamilia(f){
-  if(!f) return '';
-  return f.charAt(0) + f.slice(1).toLowerCase();
-}
-
-function preencherModelos(){
-  limparSelect(modeloFabEl);
-  const ano = anoFabEl.value;
-  const familia = familiaSelecionada();
-  const up = upFabEl.value;
-  if(!ano || !familia || !up) return;
-  const familiaLabel = formatFamilia(familia);
-  getModelos(ano,familia,up).forEach(m=>{
-    // Mostrar "Atego 1419/48" mas manter value só como modelo
-    const opt = new Option(`${familiaLabel} ${m}`, m);
-    modeloFabEl.add(opt);
-  });
-  varianteFabEl && (varianteFabEl.textContent='');
-  preencherAcoes?.();
-}
-// chaveVariante (mantém só UMA definição)
-function chaveVariante(){
-  const ano = anoFabEl.value;
-  const familia = familiaSelecionada();
-  const up = upFabEl.value;
-  const modelo = modeloFabEl.value;
-  if(!ano || !familia || !up || !modelo) return null;
-  return `${familia} ${modelo}${up}${ano}`;
-}
-
-
-// ================== COPIAR VARIANTE ==================
-els("btnCopiarVariante")?.addEventListener("click", ()=>{
-  const v = (varianteFabEl?.textContent||'').trim();
-  if(!v) return;
-  navigator.clipboard.writeText(v);
-  const icon  = els("iconCopiarVariante");
-  const check = els("iconCheckVariante");
-  if(icon && check){
-    icon.style.display='none';
-    check.style.display='inline';
-    setTimeout(()=>{icon.style.display='inline';check.style.display='none';},900);
+    return Array.from(s).sort();
   }
-});
 
-// ================== COLORIR AÇÃO ==================
-acaoFabEl?.addEventListener('change',()=>{
-  const val = acaoFabEl.value;
-  const map = {
-    "Estoque":               {bg:"#8dc2ff", fg:"#001c3b"},
-    "C.E.ABAST":             {bg:"#ffc35b", fg:"#301e01"},
-    "Frigorificado":         {bg:"#e1bee7", fg:"#25002c"},
-    "Postos de Combustiveis":{bg:"#a2f3a5", fg:"#002401"},
-    "Mais Alimentos":        {bg:"#fff48f", fg:"#383200"}
-  };
-  const cfg = map[val] || {bg:"",fg:""};
-  acaoFabEl.style.backgroundColor = cfg.bg;
-  acaoFabEl.style.color = cfg.fg;
-  acaoFabEl.style.fontWeight = cfg.bg? "900":"";
-});
+  function getModelos(ano,familia,up){
+    const s = new Set();
+    Object.keys(variantesFab).forEach(k=>{
+      const p = parseKey(k);
+      if(!p) return;
+      if(p.ano !== ano) return;
+      if(p.familia !== familia) return;
+      if(p.up !== up) return;
+      s.add(p.modelo);
+    });
+    return Array.from(s).sort();
+  }
 
-  // ================== CONTROLE DESCONTO (BOTÕES) ==================
-  (function initDesconto(){
-    if(!descontoEl) return;
-    const upBtn = els('btnDescontoUp');
-    const dnBtn = els('btnDescontoDown');
-    const MIN=0, MAX=3, STEP=0.5;
+  function limparSelect(sel, placeholder='Selecione'){
+    if(!sel) return;
+    sel.innerHTML='';
+    sel.add(new Option(placeholder,''));
+  }
 
-    function clamp(v){ if(isNaN(v)) v=0; return Math.min(MAX, Math.max(MIN,v)); }
-    function fmt(v){ return Number.isInteger(v)? v.toString(): v.toFixed(2).replace(/0$/,'').replace(/0$/,''); }
-    function setVal(v){ v=clamp(v); descontoEl.value=fmt(v); atualizarValores(); }
-    function alter(d){
-      let v=parseFloat((descontoEl.value||'').replace(',','.'));
-      if(isNaN(v)) v=0;
-      v = Math.round((v+d)*100)/100;
-      setVal(v);
-    }
-    function addHold(btn,delta){
-      if(!btn) return;
-      let t1,t2,hold=false, touchStarted=false;
-      // Desktop: click rápido, hold = mouse
-      btn.addEventListener('mousedown',e=>{
-        e.preventDefault();
-        hold = false;
-        t1=setTimeout(()=>{
-          hold = true;
-          alter(delta);
-          t2=setInterval(()=>alter(delta),140);
-        },450);
-      },{passive:false});
-      btn.addEventListener('mouseup',()=>{
-        clearTimeout(t1); clearInterval(t2);
-      });
-      btn.addEventListener('mouseleave',()=>{
-        clearTimeout(t1); clearInterval(t2);
-      });
-      btn.addEventListener('click',e=>{
-        if (!hold && !touchStarted) alter(delta);
-      });
+  function familiaSelecionada(){
+    const r = document.querySelector('#familiaFab input[name="familiaFab"]:checked');
+    return r ? r.value.trim().toUpperCase() : null;
+  }
 
-      // Mobile: touchstart já incrementa, se segurar faz hold
-      btn.addEventListener('touchstart',e=>{
-        e.preventDefault();
-        hold = false;
-        touchStarted = true;
-        alter(delta); // tap já incrementa
-        t1=setTimeout(()=>{
-          hold = true;
-          t2=setInterval(()=>alter(delta),140);
-        },450);
-      },{passive:false});
-      btn.addEventListener('touchend',()=>{
-        clearTimeout(t1); clearInterval(t2);
-        setTimeout(()=>{touchStarted=false;},50); // libera para próximo tap
-      });
-      btn.addEventListener('touchcancel',()=>{
-        clearTimeout(t1); clearInterval(t2);
-        setTimeout(()=>{touchStarted=false;},50);
-      });
-    }
-    addHold(upBtn,+STEP);
-    addHold(dnBtn,-STEP);
-    descontoEl.addEventListener('change',()=> setVal(parseFloat((descontoEl.value||'').replace(',','.'))||0));
-    descontoEl.addEventListener('blur',  ()=> setVal(parseFloat((descontoEl.value||'').replace(',','.'))||0));
-  })();
+  function preencherAnos(){
+    limparSelect(anoFabEl);
+    getAnos().forEach(a=> anoFabEl.add(new Option(a,a)));
+    limparSelect(upFabEl);
+    limparSelect(modeloFabEl);
+    if(varianteFabEl) varianteFabEl.textContent='';
+    atualizarRadiosFamilia();
+    preencherAcoes?.();
+  }
 
-  // ================== QUERY PARAMS ==================
-  function applyQueryParams(){
-    const params = new URLSearchParams(location.search);
-    const calc = (params.get('calc')||'').toLowerCase();
-    const fz   = (params.get('fz')||'').replace(/\D/g,'').slice(0,6);
-
-    if (calc === 'fabrica') showCalcFabrica(); else showCalcProprio();
-
-    if (fz){
-      if (dadosCarregados) aplicarFZ(fz);
-      else pendingFZ = fz;
+  function atualizarRadiosFamilia(){
+    const ano = anoFabEl.value;
+    const permitidas = new Set(getFamilias(ano));
+    const radios = document.querySelectorAll('#familiaFab input[name="familiaFab"]');
+    let precisaLimpar = false;
+    radios.forEach(r=>{
+      const fam = r.value.trim().toUpperCase();
+      const habilita = !ano || permitidas.has(fam);
+      r.disabled = !habilita;
+      r.parentElement.style.opacity = habilita? '1' : '.35';
+      if(!habilita && r.checked) precisaLimpar = true;
+    });
+    if(precisaLimpar){
+      radios.forEach(r=> r.checked = false);
     }
   }
 
-    precoEspecialInput.addEventListener('input', function (e) {
-        // 1. Remove tudo que não é número
-        let value = e.target.value.replace(/\D/g, '');
-
-        // 2. Se o campo estiver vazio, não faz nada (evita "0,00" fixo se o usuário apagar tudo)
-        if (value === "") {
-            e.target.value = "";
-            return;
-        }
-
-        // 3. Converte para decimal (centavos)
-        value = (parseInt(value) / 100).toFixed(2);
-
-        // 4. Formata para o padrão brasileiro (Ponto no milhar e Vírgula no decimal)
-        let partes = value.split(".");
-        partes[0] = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        
-        e.target.value = partes[0] + "," + partes[1];
-
-        // 5. Atualiza os cálculos automaticamente
-        if (typeof atualizarValores === 'function') {
-            atualizarValores();
-        }
-    });
-
-// ================== INIT ==================
-  function init(){
-  // Garantir que o conteúdo principal esteja visível
-  els('mainContent')?.classList.remove('hidden');
-
-  showCalcProprio();
-  applyQueryParams();
-  carregarDados();
-  preencherAnos();
-  // Pré-selecionar primeiro ano (opcional):
-  if(anoFabEl && anoFabEl.options.length>1){
-    anoFabEl.selectedIndex = 1;
-    anoFabEl.dispatchEvent(new Event('change'));
+  function preencherFamilias(){ 
+    atualizarRadiosFamilia();
+    limparSelect(upFabEl);
+    limparSelect(modeloFabEl);
+    if(varianteFabEl) varianteFabEl.textContent='';
+    preencherAcoes?.();
   }
-  atualizarVarianteFab();
-  preencherAcoes();
-  
 
-  // Adicionar event listeners para os botões
-  btnProprio.onclick = () => {
-    calcProprio.classList.remove('hidden');
-    calcFabrica.classList.add('hidden');
-    btnProprio.classList.add('btn-primary');
-    btnProprio.classList.remove('btn-secondary');
-    btnFabrica.classList.add('btn-secondary');
-    btnFabrica.classList.remove('btn-primary');
-  };
-
-  btnFabrica.onclick = () => {
-    calcFabrica.classList.remove('hidden');
-    calcProprio.classList.add('hidden');
-    btnFabrica.classList.add('btn-primary');
-    btnFabrica.classList.remove('btn-secondary');
-    btnProprio.classList.add('btn-secondary');
-    btnProprio.classList.remove('btn-primary');
-  };
-
-
-
-  // Ajuste dinâmico do padding-top do body para evitar que o header fixe sobreponha o conteúdo
-  const adjustBodyPadding = () => {
-    const hdr = document.querySelector('.main-header');
-    if (hdr) {
-      const h = hdr.offsetHeight || 56;
-      document.body.style.paddingTop = h + 'px';
-      const headerSpace = document.querySelector('.header-space');
-      if (headerSpace) headerSpace.style.height = h + 'px';
-    }
-  };
-  adjustBodyPadding();
-  window.addEventListener('resize', () => {
-    // debounce
-    clearTimeout(window._adjustHeaderTimer);
-    window._adjustHeaderTimer = setTimeout(adjustBodyPadding, 120);
-  });
-
-    // Fecha ao clicar em um link do menu
-    nav.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        nav.classList.remove('open');
+  function preencherUps(){
+    limparSelect(upFabEl);
+    const ano = anoFabEl.value;
+    const familia = familiaSelecionada();
+    if(!ano || !familia) return;
+    const candidatos = MAP_FAMILIA_UPS[familia] || [];
+    const existentes = candidatos.filter(up=>{
+      return Object.keys(variantesFab).some(k=>{
+        const p = parseKey(k);
+        return p && p.ano===ano && p.familia===familia && p.up===up;
       });
     });
+    (existentes.length? existentes : candidatos).forEach(u=> upFabEl.add(new Option(u,u)));
+    limparSelect(modeloFabEl);
+    if(varianteFabEl) varianteFabEl.textContent='';
+    preencherAcoes?.();
+  }
 
-    // Fecha ao clicar fora do menu (mobile)
-    document.addEventListener('click', (e) => {
-      if (!nav.contains(e.target) && !toggle.contains(e.target)) {
-        nav.classList.remove('open');
+  function formatFamilia(f){
+    if(!f) return '';
+    return f.charAt(0) + f.slice(1).toLowerCase();
+  }
+
+  function preencherModelos(){
+    limparSelect(modeloFabEl);
+    const ano = anoFabEl.value;
+    const familia = familiaSelecionada();
+    const up = upFabEl.value;
+    if(!ano || !familia || !up) return;
+    const familiaLabel = formatFamilia(familia);
+    getModelos(ano,familia,up).forEach(m=>{
+      const opt = new Option(`${familiaLabel} ${m}`, m);
+      modeloFabEl.add(opt);
+    });
+    if(varianteFabEl) varianteFabEl.textContent='';
+    preencherAcoes?.();
+  }
+
+  // Chave variante (mantém só UMA definição)
+  function chaveVariante(){
+    const ano = anoFabEl.value;
+    const familia = familiaSelecionada();
+    const up = upFabEl.value;
+    const modelo = modeloFabEl.value;
+    if(!ano || !familia || !up || !modelo) return null;
+    return `${familia} ${modelo}${up}${ano}`;
+  }
+
+  // === FUNÇÃO CRÍTICA QUE ESTAVA FALTANDO ===
+  function atualizarVarianteFab(){
+      const chave = chaveVariante();
+      if(!varianteFabEl) return;
+
+      if(!chave){
+          varianteFabEl.textContent = '';
+          preencherAcoes?.();
+          atualizarPrecoFab?.(); // Zera o preço se faltar dados
+          return;
       }
+
+      // Busca o código da variante no objeto gigante (ex: '1035T')
+      const codigo = variantesFab[chave] || '';
+      varianteFabEl.textContent = codigo;
+
+      // Atualiza as ações (cores) e o PREÇO
+      preencherAcoes?.();
+      atualizarPrecoFab?.(); 
+  }
+
+  // ================== EVENTOS DOS SELECTS ==================
+  anoFabEl?.addEventListener('change', ()=>{
+    preencherFamilias();
+    atualizarVarianteFab();
+  });
+  familiaFabEl?.addEventListener('change', e=>{
+    if(e.target && e.target.name === 'familiaFab'){
+      preencherUps();
+      atualizarVarianteFab();
+    }
+  });
+  upFabEl?.addEventListener('change', ()=>{
+    preencherModelos();
+    atualizarVarianteFab();
+  });
+  modeloFabEl?.addEventListener('change', atualizarVarianteFab);
+
+
+  // ================== COPIAR VARIANTE ==================
+  els("btnCopiarVariante")?.addEventListener("click", ()=>{
+    const v = (varianteFabEl?.textContent||'').trim();
+    if(!v) return;
+    navigator.clipboard.writeText(v);
+    const icon  = els("iconCopiarVariante");
+    const check = els("iconCheckVariante");
+    if(icon && check){
+      icon.style.display='none';
+      check.style.display='inline';
+      setTimeout(()=>{icon.style.display='inline';check.style.display='none';},900);
+    }
+  });
+
+  // ================== INIT ==================
+  function init(){
+    // Garantir que o conteúdo principal esteja visível
+    els('mainContent')?.classList.remove('hidden');
+
+    showCalcProprio();
+    applyQueryParams();
+    carregarDados();
+    preencherAnos();
+    // Pré-selecionar primeiro ano (opcional):
+    if(anoFabEl && anoFabEl.options.length>1){
+      anoFabEl.selectedIndex = 1;
+      anoFabEl.dispatchEvent(new Event('change'));
+    }
+    
+    // Adicionar event listeners para os botões das abas
+    btnProprio.onclick = () => {
+      calcProprio.classList.remove('hidden');
+      calcFabrica.classList.add('hidden');
+      btnProprio.classList.add('btn-primary');
+      btnProprio.classList.remove('btn-secondary');
+      btnFabrica.classList.add('btn-secondary');
+      btnFabrica.classList.remove('btn-primary');
+    };
+
+    btnFabrica.onclick = () => {
+      calcFabrica.classList.remove('hidden');
+      calcProprio.classList.add('hidden');
+      btnFabrica.classList.add('btn-primary');
+      btnFabrica.classList.remove('btn-secondary');
+      btnProprio.classList.add('btn-secondary');
+      btnProprio.classList.remove('btn-primary');
+    };
+
+    // Ajuste header
+    const adjustBodyPadding = () => {
+      const hdr = document.querySelector('.main-header');
+      if (hdr) {
+        const h = hdr.offsetHeight || 56;
+        document.body.style.paddingTop = h + 'px';
+        const headerSpace = document.querySelector('.header-space');
+        if (headerSpace) headerSpace.style.height = h + 'px';
+      }
+    };
+    adjustBodyPadding();
+    window.addEventListener('resize', () => {
+      clearTimeout(window._adjustHeaderTimer);
+      window._adjustHeaderTimer = setTimeout(adjustBodyPadding, 120);
     });
   }
-  
+
+  // Inicializadores
+  if (typeof init === 'function' && document.readyState === 'complete') {
+    init();
+  } else {
+    window.addEventListener('load', init);
+  }
 
 
+  // =============================================================================
+  //               LÓGICA COMPLETA - CALCULADORA DE FÁBRICA
+  // =============================================================================
+
+  // 1. Helpers
   function colLetterToIdx(letter){
     letter = (letter||'').toUpperCase().trim();
     let n=0;
@@ -1348,29 +1251,11 @@ acaoFabEl?.addEventListener('change',()=>{
   function variantCodigoFab(){
     return (varianteFabEl?.textContent||'').trim();
   }
-  function getAcoesForCurrentVariant(){
-    const cod = (varianteFabEl?.textContent || '').trim().toUpperCase();
-    const ano = (anoFabEl?.value || '').trim().toUpperCase();
-    if(!cod || !ano) return ACOES_PADRAO;
-    const key = (cod + ano).toUpperCase(); // ex: 2284T25/25
-    return ACOES_MAP[key] || ACOES_PADRAO;
-  }
-  function preencherAcoes(){
-    if(!acaoFabEl) return;
-    const lista = getAcoesForCurrentVariant();
-    acaoFabEl.innerHTML = '';
-    lista.forEach(a=>{
-      const opt = document.createElement('option');
-      opt.value = a;
-      opt.textContent = a;
-      acaoFabEl.appendChild(opt);
-  });
-  // dispara para aplicar cores
-  acaoFabEl.dispatchEvent(new Event('change'));
-  }
+
   function anoSelecionadoFab(){
     return anoFabEl?.value || "";
   }
+
   function chavePrecoFab(){
     const cod = variantCodigoFab();
     const ano = anoSelecionadoFab();
@@ -1378,192 +1263,44 @@ acaoFabEl?.addEventListener('change',()=>{
     return cod + ano; // ex: 2284T25/25
   }
 
-  function parseNumeroBR(str){
-    if(!str) return NaN;
-    // Remove R$, espaços, pontos milhar e troca vírgula por ponto
-    return parseFloat(str.replace(/R\$\s*/i,'').replace(/\./g,'').replace(/,/g,'.'));
+  function getAcoesForCurrentVariant(){
+      const cod = (varianteFabEl?.textContent || '').trim().toUpperCase();
+      const ano = (anoFabEl?.value || '').trim().toUpperCase();
+      if(!cod || !ano) return ACOES_PADRAO;
+      const key = (cod + ano).toUpperCase(); // ex: 2284T25/25
+      return ACOES_MAP[key] || ACOES_PADRAO;
   }
 
-  // Converte links comuns para formatos diretos (Drive / Google Fotos)
-  function converterUrlFoto(url) {
-    if (!url) return '';
-    url = url.trim();
-    if (!url) return '';
-    if (url.includes('lh3.googleusercontent.com')) return url;
-    if (url.includes('drive.google.com/uc?export=view')) return url;
-    const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
-    if (match) return `https://drive.google.com/uc?export=view&id=${match[1]}`;
-    // fallback: retorna original
-    return url;
-  }
-
-  // Busca foto no CSV pelo FZ (espera FZ com até 6 dígitos)
-async function fetchFotoByFz(fzRaw) {
-  const fz = (fzRaw || '').replace(/\D/g, '').padStart(6, '0');
-  
-  // 1. Tenta pegar direto da memória (muito mais rápido)
-  if (vendedores[fz] && vendedores[fz].fotoUrl) {
-    return converterUrlFoto(vendedores[fz].fotoUrl);
-  }
-
-  // 2. Se a memória estiver vazia (usuário chegou muito rápido), aguarda o carregamento
-  if (!dadosCarregados) {
-    console.log('Aguardando carregamento de dados...');
-    // Pequena espera se os dados ainda não chegaram
-    await new Promise(r => setTimeout(r, 1000)); 
-    if (vendedores[fz] && vendedores[fz].fotoUrl) {
-      return converterUrlFoto(vendedores[fz].fotoUrl);
-    }
-  }
-
-  // 3. Se não achou na memória, retorna vazio (não faz fetch duplicado)
-  return '';
-}
-
-  // Modal simples para exibir a foto
-  function abrirFoto(fotoUrl, titulo = '') {
-    if (!fotoUrl) { alert('Foto não disponível.'); return; }
-
-    const modal = document.createElement('div');
-    modal.className = 'modal-foto';
-    modal.tabIndex = -1;
-    modal.innerHTML = `
-      <div class="modal-conteudo" role="dialog" aria-modal="true" aria-label="Foto do veículo">
-        <button class="modal-close" aria-label="Fechar">×</button>
-        <div class="photo-frame" title="${titulo || 'Foto'}">
-          <img class="photo-img" src="${fotoUrl}" alt="${titulo || 'Foto do veículo'}"
-              onerror="this.src='https://via.placeholder.com/800x600?text=Foto+não+disponível'">
-        </div>
-        <div class="photo-caption">${titulo || ''}</div>
-        <div class="photo-actions">
-          <button class="btn btn-open" title="Abrir em nova aba">Abrir</button>
-          <button class="btn btn-download" title="Baixar foto">Baixar</button>
-        </div>
-      </div>
-    `;
-
-    document.body.appendChild(modal);
-
-    // focar para acessibilidade
-    setTimeout(()=> modal.focus(), 50);
-
-    // fechar clicando fora
-    modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
-
-    // botão fechar
-    modal.querySelector('.modal-close').addEventListener('click', ()=> modal.remove());
-
-    // abrir em nova aba
-    modal.querySelector('.btn-open').addEventListener('click', ()=>{
-      window.open(fotoUrl, '_blank', 'noopener');
+  function preencherAcoes(){
+      if(!acaoFabEl) return;
+      const lista = getAcoesForCurrentVariant();
+      acaoFabEl.innerHTML = '';
+      lista.forEach(a=>{
+        const opt = document.createElement('option');
+        opt.value = a;
+        opt.textContent = a;
+        acaoFabEl.appendChild(opt);
     });
-
-    // baixar
-    modal.querySelector('.btn-download').addEventListener('click', ()=>{
-      // tentativa de download via link
-      const a = document.createElement('a');
-      a.href = fotoUrl;
-      a.download = (titulo || 'foto').replace(/\s+/g,'_') + '.jpg';
-      // algumas URLs (Google) bloqueiam download, então abrir em nova aba como fallback
-      try {
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-      } catch (err) {
-        window.open(fotoUrl, '_blank', 'noopener');
-      }
-    });
-
-    // ESC para fechar
-    function onKey(e){
-      if (e.key === 'Escape') { modal.remove(); document.removeEventListener('keydown', onKey); }
-    }
-    document.addEventListener('keydown', onKey);
-
-    // cleanup ao remover do DOM
-    const obs = new MutationObserver(()=> {
-      if (!document.body.contains(modal)) {
-        document.removeEventListener('keydown', onKey);
-        obs.disconnect();
-      }
-    });
-    obs.observe(document.body, { childList:true });
-  }
-  // Listener do botão novo
-  document.addEventListener('DOMContentLoaded', () => {
-    const btnVerFoto = document.getElementById('btnVerFoto');
-    const fzInput = document.getElementById('fz');
-    const modeloEl = document.getElementById('modelo');
-    const tipoPrecoSelect = document.getElementById('tipoPreco');
-
-  function atualizarCorTipoPreco() {
-    tipoPrecoSelect.classList.remove(
-      'vendedor',
-      'gerente',
-      'oportunidade',
-      'especial'
-    );
-
-    tipoPrecoSelect.classList.add(tipoPrecoSelect.value);
+    // dispara para aplicar cores (mas não loop infinito de preço)
+    aplicarCoresAcao();
   }
 
-  // Inicializa ao carregar
-  atualizarCorTipoPreco();
+  function aplicarCoresAcao(){
+      const val = acaoFabEl.value;
+      const map = {
+          "Estoque":               {bg:"#8dc2ff", fg:"#001c3b"},
+          "C.E.ABAST":             {bg:"#ffc35b", fg:"#301e01"},
+          "Frigorificado":         {bg:"#e1bee7", fg:"#25002c"},
+          "Postos de Combustiveis":{bg:"#a2f3a5", fg:"#002401"},
+          "Mais Alimentos":        {bg:"#fff48f", fg:"#383200"}
+      };
+      const cfg = map[val] || {bg:"",fg:""};
+      acaoFabEl.style.backgroundColor = cfg.bg;
+      acaoFabEl.style.color = cfg.fg;
+      acaoFabEl.style.fontWeight = cfg.bg? "900":"";
+  }
 
-  // Atualiza ao mudar
-  tipoPrecoSelect.addEventListener('change', atualizarCorTipoPreco);
-
-  if (btnVerFoto && fzInput) {
-        btnVerFoto.addEventListener('click', async () => {
-          const fz = fzInput.value || '';
-          
-          // Validação básica
-          if (!fz.trim()) { 
-            alert('Informe o FZ antes de ver a foto.'); 
-            return; 
-          }
-
-          // Estado de Carregamento
-          const textoOriginal = btnVerFoto.textContent;
-          btnVerFoto.disabled = true;
-          btnVerFoto.textContent = 'Carregando...';
-
-          try {
-            // Busca a foto (usando a versão otimizada abaixo)
-            const fotoUrl = await fetchFotoByFz(fz);
-            
-            if (!fotoUrl) {
-              throw new Error('Foto não encontrada ou sem link cadastrado.');
-            }
-
-            // Abre o Modal
-            const nomeModelo = modeloEl ? modeloEl.textContent.trim() : '';
-            abrirFoto(fotoUrl, nomeModelo);
-
-          } catch (error) {
-            console.warn('Aviso:', error.message);
-            alert('Não foi possível carregar a foto deste veículo.');
-          } finally {
-            // Restaura o botão sempre
-            btnVerFoto.disabled = false;
-            btnVerFoto.textContent = '📷 Foto'; 
-          }
-        });
-      }
-    }); // Fim do DOMContentLoaded
-
-    // Init principal (se não foi chamado automaticamente)
-    if (typeof init === 'function' && document.readyState === 'complete') {
-      init();
-    } else if (typeof init === 'function') {
-      window.addEventListener('load', init);
-    }
-
-    // =============================================================================
-  //               LÓGICA COMPLETA - CALCULADORA DE FÁBRICA (CORRIGIDA)
-  // =============================================================================
-
-  // 1. Configurações e Mapas
+  // 2. Configurações de CSV e Mapas
   const FAB_ACTION_COLS = {
     "Estoque": "I",
     "Postos de Combustiveis": "K",
@@ -1580,110 +1317,72 @@ async function fetchFotoByFz(fzRaw) {
 
   const fabPrecosPorAno = {};
 
-  // 2. Funções Auxiliares de Parsing
-  function parseNumeroBR(str) {
-    if (!str) return 0;
-    // Remove R$, espaços e converte 1.000,00 para 1000.00
-    return parseFloat(str.replace(/R\$\s*/i, '').replace(/\./g, '').replace(/,/g, '.')) || 0;
-  }
-
-  function colLetterToIdx(letter) {
-    letter = (letter || '').toUpperCase().trim();
-    let n = 0;
-    for (const ch of letter) {
-      if (ch < 'A' || ch > 'Z') return -1;
-      n = n * 26 + (ch.charCodeAt(0) - 64);
-    }
-    return n - 1;
-  }
-
+  // 3. Parsing e Fetch
   function parseFabPrecoCSV(csv) {
     const lines = csv.split(/\r?\n/).filter(l => l.trim());
     if (!lines.length) return {};
 
-    // Função smart split para lidar com vírgulas dentro de aspas no CSV
     const splitSmart = line => line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, '').trim());
-    
     const header = splitSmart(lines.shift());
     const idxChave = header.findIndex(h => h.toUpperCase().includes("CHAVE"));
     const idxTabela = header.findIndex(h => h.toUpperCase().includes("TABELA"));
 
     const map = {};
-    
     if (idxChave === -1) console.error("Coluna CHAVE não encontrada no CSV Fábrica");
 
     lines.forEach(l => {
       const cols = splitSmart(l);
       const chave = (cols[idxChave] || '').trim().toUpperCase();
-      
       if (chave) {
-        // Pega o valor da coluna TABELA (se existir índice dinâmico, senão tenta fixo ou zera)
         const valorTabela = idxTabela > -1 ? parseNumeroBR(cols[idxTabela]) : 0;
-        
         map[chave] = {
           tabela: valorTabela,
-          cols: cols // Guarda a linha inteira para buscar as outras colunas (I, K, M...)
+          cols: cols 
         };
       }
     });
     return map;
   }
 
-  // 3. Busca e Caching dos CSVs
   async function garantirPrecosAno(ano) {
-    if (!ano || fabPrecosPorAno[ano]) return; // Já carregou? Retorna.
-    
+    if (!ano || fabPrecosPorAno[ano]) return; 
     const url = FAB_PRECO_URLS[ano];
-    if (!url) {
-      console.warn("URL não definida para o ano:", ano);
-      return;
-    }
+    if (!url) return;
 
     try {
-      const res = await fetch(url, { cache: 'no-store' }); // Evita cache velho
+      const res = await fetch(url, { cache: 'no-store' });
       const csv = await res.text();
       fabPrecosPorAno[ano] = parseFabPrecoCSV(csv);
-      console.log(`Preços Fábrica ${ano} carregados.`);
     } catch (e) {
       console.error("Erro ao carregar CSV Fábrica:", e);
       fabPrecosPorAno[ano] = {};
     }
   }
 
-  // 4. Determina o Valor de Venda baseado na Ação
   function valorVendaAcao(item, acao) {
     if (!item || !item.cols) return 0;
-    
-    const letraColuna = FAB_ACTION_COLS[acao] || "I"; // Padrão "Estoque" (Col I) se não achar
+    const letraColuna = FAB_ACTION_COLS[acao] || "I";
     const idx = colLetterToIdx(letraColuna);
-    
     if (idx < 0 || idx >= item.cols.length) return 0;
-    
     return parseNumeroBR(item.cols[idx]);
   }
 
-  // 5. FUNÇÃO PRINCIPAL: Atualiza a Interface
+  // 4. FUNÇÃO PRINCIPAL: Atualiza a Interface
   async function atualizarPrecoFab() {
-    // Pega elementos da DOM
     const ano = anoFabEl?.value;
     const acao = acaoFabEl?.value || "Estoque";
     
-    // Elementos de texto onde vamos escrever os valores
     const tabelaSpan = document.getElementById('faValorTabela');
     const vendaSpan = document.getElementById('faValorVenda');
     const descPercSpan = document.getElementById('faDescontoPerc');
 
-    // Formatação segura (caso a função global 'formatar' não exista, usamos fallback)
     const fmt = (v) => (v || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-    // Reset visual rápido enquanto carrega ou se faltar dados
     if (!ano || !tabelaSpan) return;
 
-    // Garante dados carregados
     await garantirPrecosAno(ano);
     
-    // Monta a chave de busca: EX: "ACCELO 1017/39UPA25/25" (ou como estiver gerando no seu código)
-    // IMPORTANTE: Sua função 'chaveVariante()' deve retornar exatamente o que está na coluna A do Excel
+    // Usa a chaveVariante existente
     const chave = (typeof chaveVariante === 'function') ? chaveVariante() : null;
     
     if (!chave) {
@@ -1693,26 +1392,22 @@ async function fetchFotoByFz(fzRaw) {
       return;
     }
 
-    // Busca o item no objeto carregado
     const dadosAno = fabPrecosPorAno[ano] || {};
     const item = dadosAno[chave.toUpperCase()];
 
     if (!item) {
-      console.warn("Veículo não encontrado na tabela de preços:", chave);
       tabelaSpan.textContent = "Não encontrado";
       vendaSpan.textContent = "R$ 0,00";
+      if (descPercSpan) descPercSpan.textContent = "0,00%";
       return;
     }
 
-    // --- CÁLCULOS FINAIS ---
     const valorTabela = item.tabela;
     const valorVenda = valorVendaAcao(item, acao);
     
-    // Atualiza HTML
     tabelaSpan.textContent = fmt(valorTabela);
     vendaSpan.textContent = fmt(valorVenda);
 
-    // Cálculo de Porcentagem de Desconto
     let perc = 0;
     if (valorTabela > 0) {
       const diferenca = valorTabela - valorVenda;
@@ -1721,38 +1416,19 @@ async function fetchFotoByFz(fzRaw) {
 
     if (descPercSpan) {
       descPercSpan.textContent = perc.toFixed(2).replace('.', ',') + "%";
-      // Corzinha condicional: Verde para desconto, Vermelho para ágio (negativo)
       descPercSpan.style.color = perc >= 0 ? "#28a745" : "#d9534f";
     }
   }
 
-  // 6. Listeners e Cores dos Botões (Ação)
+  // 5. Listener de mudança da Ação (Campanha)
   if (acaoFabEl) {
     acaoFabEl.addEventListener('change', () => {
-      // Lógica visual (cores do select)
-      const val = acaoFabEl.value;
-      const mapCores = {
-        "Estoque":                { bg: "#8dc2ff", fg: "#001c3b" },
-        "C.E.ABAST":              { bg: "#ffc35b", fg: "#301e01" },
-        "Frigorificado":          { bg: "#e1bee7", fg: "#25002c" },
-        "Postos de Combustiveis": { bg: "#a2f3a5", fg: "#002401" },
-        "Mais Alimentos":         { bg: "#fff48f", fg: "#383200" }
-      };
-      
-      const cfg = mapCores[val] || { bg: "", fg: "" };
-      acaoFabEl.style.backgroundColor = cfg.bg;
-      acaoFabEl.style.color = cfg.fg;
-      if(cfg.bg) acaoFabEl.style.fontWeight = "bold";
-
-      // Chama o recálculo de preço
+      aplicarCoresAcao();
       atualizarPrecoFab();
     });
-    }
+  }
 
-    // Hook no listener de variante (se existir no seu código anterior) para chamar o preço
-    // DICA: Coloque 'atualizarPrecoFab()' dentro da sua função 'atualizarVarianteFab' existente.
-
-    // Inicialização automática após carregar página
-    document.addEventListener("DOMContentLoaded", () => {
-      setTimeout(atualizarPrecoFab, 1000); // Delayzinho pra garantir que tudo carregou
-    });
+  // Inicialização de segurança
+  document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(atualizarPrecoFab, 1000);
+  });
