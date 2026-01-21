@@ -78,10 +78,25 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
+
+  height: 42px;              /* controla o tamanho do botão */
+  padding: 0 14px;           /* largura interna */
+  
   background: #ffffff;
   border: 1px solid #e2e8f0;
+  border-radius: 6px;
+
   color: #1e293b;
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.btn.google img {
+  width: 18px;               /* tamanho do logo */
+  height: 18px;
 }
 
 .primary {
