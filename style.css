@@ -484,41 +484,42 @@
   }
   .action-buttons-mini {
     display: flex;
-    gap: 6px;
+    gap: 8px;
   }
 
   .btn-icon {
-    width: 34px;
-    height: 34px;
-    padding: 0;
+    width: 36px;
+    height: 36px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
+    background: #f8fafc;               /* fundo levemente destacado */
+    border: 1px solid #c7d2fe;         /* borda azul sutil */
+    border-radius: 8px;
 
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: all 0.2s ease;
   }
 
+
   .btn-icon svg {
-    width: 16px;
-    height: 16px;
-    fill: #475569;
+    width: 17px;
+    height: 17px;
+    fill: #1d4ed8;                     /* azul corporativo */
   }
 
   .btn-icon:hover {
-    background: #f8fafc;
-    border-color: #cbd5e1;
+    background: #eef2ff;
+    border-color: #6366f1;
+    transform: translateY(-1px);
   }
 
   .btn-icon:hover svg {
-    fill: #0f172a;
+    fill: #1e40af;
   }
-
+  
   /* Info Veículo */
   .vehicle-details {
     background: #f8fafc;
