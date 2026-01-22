@@ -1430,7 +1430,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const precoFinal = document.getElementById('valorVenda').innerText;
 
       // Texto da Mensagem
-      const texto = `*SOLICITAÇÃO DE RESERVA* 🚗%0A%0A` +
+      const texto = `*SOLICITAÇÃO DE RESERVA* 🚛%0A%0A` +
                     `*Vendedor:* ${nome}%0A` +
                     `*Pedido:* ${pedido}%0A` +
                     `-------------------%0A` +
@@ -1438,7 +1438,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     `*FZ:* ${fz}%0A` +
                     `*Valor Fechado:* ${precoFinal}%0A` +
                     `-------------------%0A` +
-                    `Aguardo a confirmação.`;
+                    `Segue abaixo o pedido de venda.`;
 
       // Número do Gerente
       const numero = "5511976983600"; 
