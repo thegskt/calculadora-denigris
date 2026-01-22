@@ -1413,7 +1413,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === modal) modal.classList.add('hidden');
   });
 
-  // 3. Enviar WhatsApp
+ // 3. Enviar WhatsApp
   if(btnEnviar) {
     btnEnviar.addEventListener('click', () => {
       const nome = inpNome.value.trim();
@@ -1429,27 +1429,33 @@ document.addEventListener('DOMContentLoaded', () => {
       const modelo = vendedorAtual.modelo;
       const precoFinal = document.getElementById('valorVenda').innerText;
 
-      // Texto da Mensagem
-      const texto = `*SOLICITAÇÃO DE RESERVA* 🚚%0A%0A` +
-                    `*Vendedor:* ${nome}%0A` +
-                    `*Pedido:* ${pedido}%0A` +
-                    `-------------------%0A` +
-                    `*Veículo:* ${modelo}%0A` +
-                    `*FZ:* ${fz}%0A` +
-                    `*Valor Fechado:* ${precoFinal}%0A` +
-                    `-------------------%0A` +
-                    `Segue abaixo o pedido de venda.`;
+      // Montamos o texto "normal", usando \n para pular linha e o emoji direto
+      const mensagemTexto = 
+`*SOLICITAÇÃO DE RESERVA* 🚛
+
+*Vendedor:* ${nome}
+*Pedido:* ${pedido}
+-------------------
+*Veículo:* ${modelo}
+*FZ:* ${fz}
+*Valor Fechado:* ${precoFinal}
+-------------------
+Segue abaixo o pedido de venda.`;
+
+      // A função encodeURIComponent converte emojis, espaços e quebras de linha para URL
+      const textoCodificado = encodeURIComponent(mensagemTexto);
 
       // Número do Gerente
       const numero = "5511976983600"; 
 
       // Abre o WhatsApp
-      window.open(`https://wa.me/${numero}?text=${texto}`, '_blank');
+      window.open(`https://wa.me/${numero}?text=${textoCodificado}`, '_blank');
 
       // Fecha a janela do site
       modal.classList.add('hidden');
     });
   }
+
 });
 
 // Inicialização
