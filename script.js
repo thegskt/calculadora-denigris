@@ -1430,7 +1430,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const precoFinal = document.getElementById('valorVenda').innerText;
 
       // Texto da Mensagem
-      const texto = `*SOLICITAÇÃO DE RESERVA* 🚛%0A%0A` +
+      const texto = `*SOLICITAÇÃO DE RESERVA* 🚚%0A%0A` +
                     `*Vendedor:* ${nome}%0A` +
                     `*Pedido:* ${pedido}%0A` +
                     `-------------------%0A` +
