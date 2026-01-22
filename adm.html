@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Área Administrativa | De Nigris</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Estilos específicos para a Admin */
+    .admin-container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+    .auth-box {
+        background: white;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        text-align: center;
+        max-width: 400px;
+        margin: 100px auto;
+    }
+    .admin-content {
+        display: none; /* Começa oculto */
+    }
+    iframe {
+        width: 100%;
+        height: 1200px; /* Altura do formulário */
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .back-link {
+        display: inline-block;
+        margin-bottom: 20px;
+        color: #001c3b;
+        text-decoration: none;
+        font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loginScreen" class="auth-box">
+    <img src="Imagens/Mercedes-Logo.png" alt="Logo" style="height: 50px; margin-bottom: 20px;">
+    <h2>Área Restrita</h2>
+    <p style="color: #666; margin-bottom: 20px;">Digite a senha de administrador para gerenciar o estoque.</p>
+    
+    <div class="form-group">
+        <input type="password" id="adminPass" class="form-input" placeholder="Senha" style="text-align: center;">
+    </div>
+    <button id="btnEntrarAdmin" class="btn-premium btn-primary full-width">Acessar Sistema</button>
+    <div id="loginError" class="error-msg" style="margin-top: 10px;"></div>
+    
+    <br><br>
+    <a href="home.html" style="color: #999; font-size: 0.9rem;">Voltar para Home</a>
+  </div>
+
+  <div id="adminContent" class="admin-content">
+    <header class="main-header" style="position: relative; margin-bottom: 20px;">
+        <div class="header-container">
+            <div class="logo-area">
+                <span style="font-weight: bold; font-size: 1.2rem; color: white;">Gestão de Estoque</span>
+            </div>
+            <button id="btnLogout" class="btn-premium btn-whatsapp" style="padding: 5px 15px; font-size: 0.8rem;">Sair</button>
+        </div>
+    </header>
+
+    <div class="container-width">
+        <a href="home.html" class="back-link">← Voltar ao Site</a>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2>Cadastrar Novo Veículo</h2>
+                <span class="status-badge">Entrada</span>
+            </div>
+            <div class="card-body">
+                <p style="margin-bottom: 20px; color: #666;">Preencha o formulário abaixo para adicionar um veículo à planilha oficial.</p>
+                
+                <iframe src="https://docs.google.com/forms/d/e/SEU_ID_DO_FORMULARIO/viewform?embedded=true">Loading…</iframe>
+                
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <script>
+    const loginScreen = document.getElementById('loginScreen');
+    const adminContent = document.getElementById('adminContent');
+    const btnEntrar = document.getElementById('btnEntrarAdmin');
+    const inputPass = document.getElementById('adminPass');
+    const errorMsg = document.getElementById('loginError');
+    const btnLogout = document.getElementById('btnLogout');
+
+    // SENHA DO ADMIN (Pode ser a mesma 'Vendas123' ou outra)
+    const SENHA_ADMIN = "Admin123"; 
+
+    function checkLogin() {
+        if (inputPass.value === SENHA_ADMIN) {
+            loginScreen.style.display = 'none';
+            adminContent.style.display = 'block';
+            document.body.style.backgroundColor = "#f4f6f9"; // Cor de fundo do painel
+        } else {
+            errorMsg.innerText = "Senha incorreta.";
+            inputPass.value = "";
+            inputPass.focus();
+        }
+    }
+
+    btnEntrar.addEventListener('click', checkLogin);
+    inputPass.addEventListener('keyup', (e) => { if(e.key === 'Enter') checkLogin() });
+    
+    btnLogout.addEventListener('click', () => {
+        location.reload(); // Recarrega para bloquear de novo
+    });
+  </script>
+
+</body>
+</html>
