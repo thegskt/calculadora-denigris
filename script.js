@@ -1240,23 +1240,44 @@ if(precoEspecialInput) {
 // Botões Protegidos
 if (btnMostrarProtegido) {
     btnMostrarProtegido.addEventListener('click', () => {
-      passwordGroup.classList.toggle('hidden');
-      senhaError.textContent = "";
-      if (!passwordGroup.classList.contains('hidden')) senhaInput.focus();
+        // 1. Verifica se a informação já está na tela (se a classe 'hidden' NÃO existe)
+        const estaoVisiveis = !rowComissaoProtected.classList.contains('hidden');
+
+        if (estaoVisiveis) {
+            // SE JÁ ESTÁ VENDO: Oculta tudo novamente (como se fechasse o detalhamento)
+            [rowComissaoProtected, rowDsrProtected, rowTotalProtected].forEach(r => r.classList.add('hidden'));
+            
+            // Opcional: Se quiser que o campo de senha suma também caso esteja aberto
+            passwordGroup.classList.add('hidden'); 
+            
+            // Limpa mensagens de erro antigas
+            senhaError.textContent = "";
+        } else {
+            // SE NÃO ESTÁ VENDO: Abre o campo para digitar a senha
+            passwordGroup.classList.toggle('hidden');
+            senhaError.textContent = "";
+            
+            if (!passwordGroup.classList.contains('hidden')) {
+                senhaInput.focus();
+            }
+        }
     });
 }
+
+// Mantém o restante da lógica de verificação de senha igual
 if (btnVerificarSenha) {
     btnVerificarSenha.addEventListener('click', () => {
-      if (senhaInput.value.trim() === 'Vendas123') {
-        [rowComissaoProtected, rowDsrProtected, rowTotalProtected].forEach(r => r.classList.remove('hidden'));
-        passwordGroup.classList.add('hidden');
-        senhaInput.value = '';
-        senhaError.textContent = "";
-      } else {
-        senhaError.textContent = "Senha incorreta.";
-      }
+        if (senhaInput.value.trim() === 'Vendas123') {
+            [rowComissaoProtected, rowDsrProtected, rowTotalProtected].forEach(r => r.classList.remove('hidden'));
+            passwordGroup.classList.add('hidden'); // Esconde o campo de senha após acertar
+            senhaInput.value = '';
+            senhaError.textContent = "";
+        } else {
+            senhaError.textContent = "Senha incorreta.";
+        }
     });
 }
+
 if (senhaInput) senhaInput.addEventListener('keyup', e => { if (e.key === 'Enter') btnVerificarSenha.click(); });
 
 // Copiar Variante
