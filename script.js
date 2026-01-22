@@ -1413,7 +1413,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === modal) modal.classList.add('hidden');
   });
 
- // 3. Enviar WhatsApp
+// 3. Enviar WhatsApp
   if(btnEnviar) {
     btnEnviar.addEventListener('click', () => {
       const nome = inpNome.value.trim();
@@ -1429,9 +1429,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const modelo = vendedorAtual.modelo;
       const precoFinal = document.getElementById('valorVenda').innerText;
 
-      // Montamos o texto "normal", usando \n para pular linha e o emoji direto
+      // TEXTO COM O CÓDIGO DO EMOJI (\uD83D\uDE9B = 🚛)
+      // Isso evita o erro de caractere estranho ""
       const mensagemTexto = 
-`*SOLICITAÇÃO DE RESERVA* 🚛
+`*SOLICITAÇÃO DE RESERVA* \uD83D\uDE9B
 
 *Vendedor:* ${nome}
 *Pedido:* ${pedido}
@@ -1440,9 +1441,9 @@ document.addEventListener('DOMContentLoaded', () => {
 *FZ:* ${fz}
 *Valor Fechado:* ${precoFinal}
 -------------------
-Segue abaixo o pedido de venda.`;
+Aguardo a confirmação.`;
 
-      // A função encodeURIComponent converte emojis, espaços e quebras de linha para URL
+      // Codifica o texto para URL (acentos e espaços)
       const textoCodificado = encodeURIComponent(mensagemTexto);
 
       // Número do Gerente
