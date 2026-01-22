@@ -1377,7 +1377,6 @@ function init(){
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Elementos
   const modal = document.getElementById('modalReserva');
   const btnOpen = document.getElementById('btnOpenReserva');
   const btnClose = document.getElementById('btnCloseReserva');
@@ -1386,16 +1385,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // Inputs
   const inpNome = document.getElementById('reservaNome');
   const inpPedido = document.getElementById('reservaPedido');
-  const inpArquivo = document.getElementById('reservaArquivo');
 
   // 1. Abrir Modal
   if(btnOpen) {
     btnOpen.addEventListener('click', (e) => {
       e.preventDefault();
       
-      // Validação: Só abre se tiver carro selecionado (vendedorAtual global)
+      // Validação: Só abre se tiver carro selecionado
       if (!vendedorAtual) {
-        alert("Por favor, digite um FZ válido primeiro.");
+        alert("Por favor, digite um FZ/Chassi válido primeiro.");
         return;
       }
 
@@ -1411,8 +1409,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 2. Fechar Modal
   if(btnClose) btnClose.addEventListener('click', () => modal.classList.add('hidden'));
-  
-  // Fechar clicando fora
   window.addEventListener('click', (e) => {
     if (e.target === modal) modal.classList.add('hidden');
   });
@@ -1422,15 +1418,10 @@ document.addEventListener('DOMContentLoaded', () => {
     btnEnviar.addEventListener('click', () => {
       const nome = inpNome.value.trim();
       const pedido = inpPedido.value.trim();
-      const temArquivo = inpArquivo.files.length > 0;
 
       if (!nome || !pedido) {
-        alert("Preencha Nome e Pedido.");
+        alert("Por favor, preencha seu Nome e o Número do Pedido.");
         return;
-      }
-
-      if (!temArquivo) {
-        if(!confirm("Você não selecionou o arquivo do pedido. Continuar sem anexo?")) return;
       }
 
       // Dados do Carro
@@ -1438,7 +1429,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const modelo = vendedorAtual.modelo;
       const precoFinal = document.getElementById('valorVenda').innerText;
 
-      // Monta o texto bonitinho (Usei %0A para pular linha)
+      // Texto da Mensagem
       const texto = `*SOLICITAÇÃO DE RESERVA* 🚗%0A%0A` +
                     `*Vendedor:* ${nome}%0A` +
                     `*Pedido:* ${pedido}%0A` +
@@ -1447,17 +1438,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     `*FZ:* ${fz}%0A` +
                     `*Valor Fechado:* ${precoFinal}%0A` +
                     `-------------------%0A` +
-                    `📄 *O arquivo do pedido segue em anexo.*`;
+                    `Aguardo a confirmação.`;
 
-      // Seu número
+      // Número do Gerente
       const numero = "5511976983600"; 
 
       // Abre o WhatsApp
       window.open(`https://wa.me/${numero}?text=${texto}`, '_blank');
 
-      // Fecha e avisa
+      // Fecha a janela do site
       modal.classList.add('hidden');
-      setTimeout(() => alert("WhatsApp aberto! Arraste o arquivo PDF para a conversa agora."), 1000);
     });
   }
 });
