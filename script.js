@@ -1267,7 +1267,7 @@ if (btnMostrarProtegido) {
 // Mantém o restante da lógica de verificação de senha igual
 if (btnVerificarSenha) {
     btnVerificarSenha.addEventListener('click', () => {
-        if (senhaInput.value.trim() === 'Vendas123') {
+        if (senhaInput.value.trim() === 'Vendas456') {
             [rowComissaoProtected, rowDsrProtected, rowTotalProtected].forEach(r => r.classList.remove('hidden'));
             passwordGroup.classList.add('hidden'); // Esconde o campo de senha após acertar
             senhaInput.value = '';
@@ -1462,7 +1462,7 @@ document.addEventListener('DOMContentLoaded', () => {
 *FZ:* ${fz}
 *Valor Fechado:* ${precoFinal}
 -------------------
-Aguardo a confirmação.`;
+Segue abaixo o Pedido de Venda.`;
 
       // Codifica o texto para URL (acentos e espaços)
       const textoCodificado = encodeURIComponent(mensagemTexto);
