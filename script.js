@@ -1387,25 +1387,6 @@ function init(){
     window._adjustHeaderTimer = setTimeout(adjustBodyPadding, 120);
   });
   
-  // Menu Mobile
-  const toggle = document.querySelector('.nav-toggle');
-  const nav = document.querySelector('.nav-menu');
-  if(toggle && nav){
-      toggle.addEventListener('click', () => { 
-        nav.classList.toggle('open');
-        toggle.classList.toggle('active');
-      });
-      nav.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => { 
-        nav.classList.remove('open'); 
-        toggle.classList.remove('active');
-      }); });
-      document.addEventListener('click', (e) => { 
-        if (!nav.contains(e.target) && !toggle.contains(e.target)) { 
-          nav.classList.remove('open'); 
-          toggle.classList.remove('active');
-        } 
-      });
-  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1485,8 +1466,8 @@ Segue abaixo o Pedido de Venda.`;
       const numerosConcessionarias = {
         "Limão": "5511976983600",
         "SBC": "5511940554579",
-        "Sorocaba": "5515991185591",
-        "Itu": "5515991185591",
+        "Sorocaba": "5515992487105",
+        "Itu": "5515992487105",
         "SJC": "5512997186270"
       };
 
@@ -1506,3 +1487,25 @@ Segue abaixo o Pedido de Venda.`;
 // Inicialização
 if (document.readyState === 'complete') init();
 else window.addEventListener('load', init);
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Menu Mobile
+  const toggle = document.querySelector('.nav-toggle');
+  const nav = document.querySelector('.nav-menu');
+  if(toggle && nav){
+      toggle.addEventListener('click', () => { 
+        nav.classList.toggle('open');
+        toggle.classList.toggle('active');
+      });
+      nav.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => { 
+        nav.classList.remove('open'); 
+        toggle.classList.remove('active');
+      }); });
+      document.addEventListener('click', (e) => { 
+        if (!nav.contains(e.target) && !toggle.contains(e.target)) { 
+          nav.classList.remove('open'); 
+          toggle.classList.remove('active');
+        } 
+      });
+  }
+});
