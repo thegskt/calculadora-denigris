@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v=>v.replace(/^"|"$/g,''));
       return {
         fz:c[0], modelo:c[1], up:c[2], anoMod:c[4],
-        valorTabela:parseFloat(c[6].replace('.','').replace(',','.'))||0,
+        valorTabela:parseFloat(c[8].replace('.','').replace(',','.'))||0,
         cor:c[9], variante:c[10], patio:c[11],
         fotoUrl:c[22]
       };
