@@ -1406,6 +1406,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Inputs
   const inpNome = document.getElementById('reservaNome');
   const inpPedido = document.getElementById('reservaPedido');
+  const inpLoja = document.getElementById('reservaLoja');
 
   // 1. Abrir Modal
   if(btnOpen) {
@@ -1439,9 +1440,10 @@ document.addEventListener('DOMContentLoaded', () => {
     btnEnviar.addEventListener('click', () => {
       const nome = inpNome.value.trim();
       const pedido = inpPedido.value.trim();
+      const loja = inpLoja.value;
 
-      if (!nome || !pedido) {
-        alert("Por favor, preencha seu Nome e o Número do Pedido.");
+      if (!nome || !pedido || !loja) {
+        alert("Por favor, preencha seu Nome, a Concessionária e o Número do Pedido.");
         return;
       }
 
@@ -1456,6 +1458,7 @@ document.addEventListener('DOMContentLoaded', () => {
 `*SOLICITAÇÃO DE RESERVA* \uD83D\uDE9B
 
 *Vendedor:* ${nome}
+*Loja:* ${loja}
 *Pedido:* ${pedido}
 -------------------
 *Veículo:* ${modelo}
