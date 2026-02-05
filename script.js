@@ -1470,8 +1470,17 @@ Segue abaixo o Pedido de Venda.`;
       // Codifica o texto para URL (acentos e espaços)
       const textoCodificado = encodeURIComponent(mensagemTexto);
 
+      // Mapa de números por concessionária
+      const numerosConcessionarias = {
+        "Limão": "5511976983600",
+        "SBC": "5511940554579",
+        "Sorocaba": "5515991185591",
+        "Itu": "5515991185591",
+        "SJC": "5512997186270"
+      };
+
       // Número do Gerente
-      const numero = "5511976983600"; 
+      const numero = numerosConcessionarias[loja] || "5511976983600"; 
 
       // Abre o WhatsApp
       window.open(`https://wa.me/${numero}?text=${textoCodificado}`, '_blank');
