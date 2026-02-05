@@ -1391,9 +1391,20 @@ function init(){
   const toggle = document.querySelector('.nav-toggle');
   const nav = document.querySelector('.nav-menu');
   if(toggle && nav){
-      toggle.addEventListener('click', () => { nav.classList.toggle('open'); });
-      nav.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => { nav.classList.remove('open'); }); });
-      document.addEventListener('click', (e) => { if (!nav.contains(e.target) && !toggle.contains(e.target)) { nav.classList.remove('open'); } });
+      toggle.addEventListener('click', () => { 
+        nav.classList.toggle('open');
+        toggle.classList.toggle('active');
+      });
+      nav.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => { 
+        nav.classList.remove('open'); 
+        toggle.classList.remove('active');
+      }); });
+      document.addEventListener('click', (e) => { 
+        if (!nav.contains(e.target) && !toggle.contains(e.target)) { 
+          nav.classList.remove('open'); 
+          toggle.classList.remove('active');
+        } 
+      });
   }
 }
 
