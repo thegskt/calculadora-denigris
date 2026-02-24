@@ -195,7 +195,7 @@ h1{font-size:20px;margin:0}
     color:#4b5d78;
     font-size:.78rem;
   }
-  .row > div[data-label="Valor Tabela"]::before{content:"Valor: ";}
+  .row > div[data-label="Preço Oportunidade"]::before{content:"Valor: ";}
 
   /* Meta controlada apenas via classe */
 .meta { display: none !important; }
@@ -532,4 +532,18 @@ h1{font-size:20px;margin:0}
 @keyframes fadeInDown {
   from { opacity: 0; transform: translateY(-5px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Centraliza o botão de ação no rodapé do card */
+.action-full {
+  display: flex;
+  justify-content: center; /* Joga o botão para o centro */
+  align-items: center;
+  width: 100%;
+  padding-top: 4px; /* Dá um leve respiro entre o preço e o botão */
+}
+
+/* Se quiser que o botão fique um pouquinho mais largo e elegante no centro, pode adicionar isso: */
+.action-full .btn-primary {
+  min-width: 160px; /* Garante que o botão não fique "espremido" */
 }
