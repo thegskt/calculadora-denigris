@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
             headerActions.appendChild(btnFoto);
 
             // 2. NOVO: Botão do WhatsApp (Só aparece se tiver foto)
-            const textoZap = `*OPORTUNIDADE* \uD83D\uDE9B\n\n*Modelo:* ${r.modelo}\n*Ano:* ${r.anoMod} | *Cor:* ${r.cor || '-'}\n\n*Veja a foto do veículo:* ${r.fotoUrl}`;
+            const textoZap = `*Oportunidade na De Nigris*\n\n*Modelo:* ${r.modelo}\n*Ano:* ${r.anoMod} | *Cor:* ${r.cor || '-'}\n\n*Veja a foto do veículo:* ${r.fotoUrl}`;
             
             const btnZap = document.createElement('a');
             btnZap.className = 'btn-icon-whatsapp';
