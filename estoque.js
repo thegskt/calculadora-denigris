@@ -1,9 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    /* =========================
-     CONFIG
-     ========================= */
-
+  /* =========================
+   CONFIG
+   ========================= */
   const sheetCsvUrl =
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw"
     + "/pub?gid=2122951741&single=true&output=csv";
@@ -18,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const FAM_ORDER = ['Accelo','Atego','Actros','Axor','Arocs','Outros'];
 
   /* =========================
-    HELPERS
+   HELPERS
   ========================= */
   function fmtBRL(v){
     if (isNaN(v)) return "R$ 0,00";
@@ -59,11 +58,31 @@ document.addEventListener('DOMContentLoaded', () => {
       .sort((a,b)=>(parseInt(a.name.match(/\d+/))||0)-(parseInt(b.name.match(/\d+/))||0));
   }
 
+  // NOVA FUNÇÃO: Ajuda a criar as colunas já com o data-label para o CSS do mobile funcionar!
+  function criarColuna(texto, label, className = '') {
+    const div = document.createElement('div');
+    if (texto instanceof HTMLElement) {
+      div.appendChild(texto);
+    } else {
+      div.textContent = texto;
+    }
+    if (label) div.dataset.label = label;
+    if (className) div.className = className;
+    return div;
+  }
+
   /* =========================
-    RENDER
+   RENDER
   ========================= */
   function render(list){
     groupsEl.innerHTML = '';
+    
+    // Se a busca não encontrou nada
+    if (list.length === 0) {
+      groupsEl.innerHTML = '<div style="text-align:center; padding: 2rem; color: #64738a;">Nenhum veículo encontrado.</div>';
+      return;
+    }
+
     const groups = groupByFamily(list);
 
     groups.forEach(g=>{
@@ -81,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
         <span class="chev">▾</span>
       `;
 
-
       const c = document.createElement('div');
       c.className = 'acc-c';
 
@@ -93,51 +111,51 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="right">Valor Tabela</div><div>Ação</div>
       `;
 
-    c.appendChild(cols);
+      c.appendChild(cols);
 
-    const rows = document.createElement('div');
-    rows.className = 'rows';
+      const rows = document.createElement('div');
+      rows.className = 'rows';
 
-    const subGroups = groupBySubModel(g.items);
-    for (const sub of subGroups){
-      const subAcc = document.createElement('div');
-      subAcc.className = 'sub-acc';
+      const subGroups = groupBySubModel(g.items);
+      for (const sub of subGroups){
+        const subAcc = document.createElement('div');
+        subAcc.className = 'sub-acc';
 
-    const subH = document.createElement('div');
-    subH.className = 'sub-acc-h';
-    subH.tabIndex = 0;
+        const subH = document.createElement('div');
+        subH.className = 'sub-acc-h';
+        subH.tabIndex = 0;
 
-    subH.innerHTML = `
-      <span>${sub.name} (${sub.items.length})</span>
-      <span class="chev">▾</span>
-    `;
+        subH.innerHTML = `
+          <span>${sub.name} (${sub.items.length})</span>
+          <span class="chev">▾</span>
+        `;
 
-      const subC = document.createElement('div');
-      subC.className = 'sub-acc-c';
+        const subC = document.createElement('div');
+        subC.className = 'sub-acc-c';
 
-      const subRows = document.createElement('div');
-      subRows.className = 'rows';
+        const subRows = document.createElement('div');
+        subRows.className = 'rows';
 
-      for (const r of sub.items){
-        const row = document.createElement('div');
-        row.className = 'row';
+        for (const r of sub.items){
+          const row = document.createElement('div');
+          row.className = 'row';
 
-        // Modelo (com botão "i" para detalhes)
+          // Modelo (com botão "i" para detalhes)
+          const cMod = document.createElement('div');
+          cMod.className = 'modelo';
+          const modTxt = document.createElement('span');
+          modTxt.textContent = r.modelo;
 
-      const cMod = document.createElement('div');
-      cMod.className = 'modelo';
-      const modTxt = document.createElement('span');
-      modTxt.textContent = r.modelo;
+          const infoBtn = document.createElement('button');
+          infoBtn.className = 'chip-btn';
+          infoBtn.textContent = 'i';
+          infoBtn.onclick = e => {
+            e.preventDefault();
+            row.classList.toggle('show-meta');
+          };
+          cMod.append(modTxt, infoBtn);
 
-      const infoBtn = document.createElement('button');
-      infoBtn.className = 'chip-btn';
-      infoBtn.textContent = 'i';
-      infoBtn.onclick = e => {
-        e.preventDefault();
-        row.classList.toggle('show-meta');
-      };
- cMod.append(modTxt, infoBtn);
-
+          // Meta dados (FZ, Pátio, Foto)
           const cMeta = document.createElement('div');
           cMeta.className = 'meta';
           cMeta.style.gridColumn = '1 / -1';
@@ -153,14 +171,21 @@ document.addEventListener('DOMContentLoaded', () => {
             cMeta.appendChild(btnFoto);
           }
 
+          // Botão Calcular
+          const btnCalcular = document.createElement('a');
+          btnCalcular.className = 'btn btn-primary';
+          btnCalcular.href = `index.html?calc=proprio&fz=${r.fz}`;
+          btnCalcular.textContent = 'Calcular';
+
+          // Montando a linha usando a função helper para injetar os data-labels
           row.append(
             cMod,
-            Object.assign(document.createElement('div'),{textContent:r.cor||'-'}),
-            Object.assign(document.createElement('div'),{textContent:r.up,className:'up'}),
-            Object.assign(document.createElement('div'),{textContent:r.variante||'-'}),
-            Object.assign(document.createElement('div'),{textContent:r.anoMod}),
-            Object.assign(document.createElement('div'),{textContent:fmtBRL(r.valorTabela),className:'right'}),
-            Object.assign(document.createElement('div'),{innerHTML:`<a class="btn btn-primary" href="index.html?calc=proprio&fz=${r.fz}">Calcular</a>`}),
+            criarColuna(r.cor || '-', 'Cor'),
+            criarColuna(r.up, 'UP', 'up'),
+            criarColuna(r.variante || '-', 'Variante'),
+            criarColuna(r.anoMod, 'Ano'),
+            criarColuna(fmtBRL(r.valorTabela), 'Valor Tabela', 'right'),
+            criarColuna(btnCalcular, 'Ação'),
             cMeta
           );
 
@@ -181,41 +206,55 @@ document.addEventListener('DOMContentLoaded', () => {
       h.onclick = ()=>acc.classList.toggle('open');
     });
   }
- /* =========================
+
+  /* =========================
      FILTRO + LOAD
   ========================= */
   busca.addEventListener('input', () => {
-    const q = busca.value.toLowerCase();
+    const q = busca.value.toLowerCase().trim();
     render(!q ? itens : itens.filter(r =>
       r.modelo.toLowerCase().includes(q) ||
       r.up.toLowerCase().includes(q) ||
-      r.anoMod.toLowerCase().includes(q)
+      r.anoMod.toLowerCase().includes(q) ||
+      (r.fz && r.fz.toLowerCase().includes(q)) // Agora busca por FZ também!
     ));
   });
 
   async function carregar(){
-    const res = await fetch(sheetCsvUrl,{cache:'no-store'});
-    const txt = await res.text();
-    const rows = txt.trim().split('\n');
-    rows.shift();
+    // Mostra o loading antes de buscar os dados
+    groupsEl.innerHTML = `
+      <div style="display: flex; flex-direction: column; align-items: center; padding: 3rem 1rem;">
+        <div class="loading-spinner"></div>
+        <p style="margin-top: 1rem; color: #64738a; font-weight: 600;">Sincronizando estoque...</p>
+      </div>
+    `;
 
-    itens = rows.map(l=>{
-      const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v=>v.replace(/^"|"$/g,''));
-      return {
-        fz:c[0], modelo:c[1], up:c[2], anoMod:c[4],
-        valorTabela:parseFloat(c[8].replace('.','').replace(',','.'))||0,
-        cor:c[9], variante:c[10], patio:c[11],
-        fotoUrl:c[22]
-      };
-    });
+    try {
+      const res = await fetch(sheetCsvUrl,{cache:'no-store'});
+      const txt = await res.text();
+      const rows = txt.trim().split('\n');
+      rows.shift();
 
-    render(itens);
+      itens = rows.map(l=>{
+        const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v=>v.replace(/^"|"$/g,''));
+        return {
+          fz:c[0], modelo:c[1], up:c[2], anoMod:c[4],
+          valorTabela:parseFloat(c[8].replace('.','').replace(',','.'))||0,
+          cor:c[9], variante:c[10], patio:c[11],
+          fotoUrl:c[22]
+        };
+      });
+
+      render(itens);
+    } catch (error) {
+      groupsEl.innerHTML = '<div style="text-align:center; padding: 2rem; color: #ef4444;">Erro ao carregar o estoque. Verifique sua conexão.</div>';
+    }
   }
 
   function abrirFoto(url,modelo){
     const m=document.createElement('div');
-    m.className='modal-foto';
-    m.innerHTML=`<div class="modal-conteudo"><button>&times;</button><h3>${modelo}</h3><img src="${url}"></div>`;
+    m.className='modal-foto'; // Já usando a classe que você estilizou
+    m.innerHTML=`<div class="modal-conteudo"><button class="modal-fechar">&times;</button><h3>${modelo}</h3><img src="${url}"></div>`;
     m.onclick=e=>e.target===m&&m.remove();
     m.querySelector('button').onclick=()=>m.remove();
     document.body.appendChild(m);
