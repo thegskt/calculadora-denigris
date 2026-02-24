@@ -394,15 +394,11 @@ h1{font-size:20px;margin:0}
 }
 
 .btn-icon-foto {
+  color: #2563eb; /* Azul para destacar a câmera */
   background: #eff6ff;
-  border: 1px solid #bfdbfe;
-  color: #1d4ed8;
-  border-radius: 8px;
-  padding: 6px 12px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s;
+  border-color: #bfdbfe;
 }
+
 .btn-icon-foto:active { background: #dbeafe; transform: scale(0.95); }
 
 /* Etiquetas de Pátio e FZ */
@@ -456,10 +452,12 @@ h1{font-size:20px;margin:0}
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #f0fdf4; /* Fundo levemente verde/sucesso */
-  padding: 12px 14px;
+  background: linear-gradient(to right, #f0fdf4, #ffffff); /* Fundo sutil */
+  padding: 14px 16px;
   border-radius: 8px;
-  border: 1px dashed #bbf7d0;
+  border: 1px solid #dcfce7; /* Borda sólida e elegante */
+  margin-bottom: 6px; /* Respiro antes do botão calcular */
+  box-shadow: inset 4px 0 0 #16a34a; /* Detalhe verde na lateral esquerda */
 }
 
 .price-label {
@@ -476,15 +474,29 @@ h1{font-size:20px;margin:0}
   letter-spacing: -0.5px;
 }
 
+.btn-icon-foto, .chip-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0; /* Remove o padding antigo para centralizar o SVG */
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #1e293b;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
 /* Botão Ocupando tudo */
 .btn-block {
-  width: 100%;
-  text-align: center;
-  padding: 14px;
-  font-size: 15px;
-  border-radius: 8px;
-  display: block;
-  text-decoration: none;
+  box-shadow: 0 4px 6px -1px rgba(35, 64, 142, 0.2);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.btn-block:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 2px rgba(35, 64, 142, 0.2);
 }
 
 /* Ajuste no PC para os cards ficarem lado a lado se a tela for grande */
