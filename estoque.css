@@ -498,3 +498,26 @@ h1{font-size:20px;margin:0}
     min-width: 280px;
   }
 }
+
+/* =====================================
+   COMPORTAMENTO DO BOTÃO "i" (META)
+   ===================================== */
+.vehicle-card .meta {
+  display: none; /* Escondido por padrão */
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed #e2e8f0;
+  margin-bottom: -4px; /* Ajuste fino de espaçamento */
+}
+
+/* Quando o JS injeta a classe show-meta, a div aparece */
+.vehicle-card.show-meta .meta {
+  display: flex;
+  animation: fadeInDown 0.2s ease-out;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

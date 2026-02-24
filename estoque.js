@@ -77,6 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
   /* =========================
    RENDER (Versão Card Premium)
   ========================= */
+  /* =========================
+   RENDER (Versão Card com Botão "i")
+  ========================= */
   function render(list){
     groupsEl.innerHTML = '';
     
@@ -105,8 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const c = document.createElement('div');
       c.className = 'acc-c';
 
-      // Removemos o cabeçalho de colunas (.cols) pois agora usaremos Cards!
-
       const rows = document.createElement('div');
       rows.className = 'rows';
 
@@ -127,13 +128,13 @@ document.addEventListener('DOMContentLoaded', () => {
         subC.className = 'sub-acc-c';
 
         const subRows = document.createElement('div');
-        subRows.className = 'card-grid'; // Novo container para os cards
+        subRows.className = 'card-grid';
 
         for (const r of sub.items){
           const card = document.createElement('div');
-          card.className = 'vehicle-card'; // Nova classe principal
+          card.className = 'vehicle-card';
 
-          // 1. Header do Card (Modelo + Ícone de Foto)
+          // 1. Header do Card (Modelo + Botões da Direita)
           const cardHeader = document.createElement('div');
           cardHeader.className = 'card-header-flex';
           
@@ -142,24 +143,42 @@ document.addEventListener('DOMContentLoaded', () => {
           titleDiv.textContent = r.modelo;
           cardHeader.appendChild(titleDiv);
 
+          // Container para os botões (Foto e Informação)
+          const headerActions = document.createElement('div');
+          headerActions.style.display = 'flex';
+          headerActions.style.gap = '8px';
+
           if (r.fotoUrl) {
             const btnFoto = document.createElement('button');
             btnFoto.className = 'btn-icon-foto';
-            btnFoto.innerHTML = '📷'; // Ícone limpo
+            btnFoto.innerHTML = '📷';
             btnFoto.onclick = (e) => {
-                e.stopPropagation(); // Evita clicar sem querer no card
+                e.stopPropagation();
                 abrirFoto(r.fotoUrl, r.modelo);
             };
-            cardHeader.appendChild(btnFoto);
+            headerActions.appendChild(btnFoto);
           }
 
-          // 2. Tags Rápidas (Pátio e FZ sempre visíveis)
-          const tagsDiv = document.createElement('div');
-          tagsDiv.className = 'tags-container';
-          if (r.fz) tagsDiv.innerHTML += `<span class="tag tag-fz">FZ: ${r.fz}</span>`;
-          if (r.patio) tagsDiv.innerHTML += `<span class="tag tag-patio">${r.patio}</span>`;
+          // Criando o botão "i"
+          const infoBtn = document.createElement('button');
+          infoBtn.className = 'chip-btn';
+          infoBtn.textContent = 'i';
+          infoBtn.onclick = (e) => {
+            e.preventDefault();
+            e.stopPropagation(); // Evita fechar a sanfona sem querer
+            card.classList.toggle('show-meta'); // Abre/Fecha a área de detalhes
+          };
+          headerActions.appendChild(infoBtn);
+          
+          cardHeader.appendChild(headerActions);
 
-          // 3. Grid de Detalhes (2x2 para economizar altura)
+          // 2. Área Oculta (Meta) que só aparece ao clicar no "i"
+          const cMeta = document.createElement('div');
+          cMeta.className = 'meta tags-container';
+          if (r.fz) cMeta.innerHTML += `<span class="tag tag-fz">FZ: ${r.fz}</span>`;
+          if (r.patio) cMeta.innerHTML += `<span class="tag tag-patio">Pátio: ${r.patio}</span>`;
+
+          // 3. Grid de Detalhes 2x2
           const detailsGrid = document.createElement('div');
           detailsGrid.className = 'details-grid';
           detailsGrid.append(
@@ -183,8 +202,8 @@ document.addEventListener('DOMContentLoaded', () => {
           btnCalcular.textContent = 'Calcular';
           actionDiv.appendChild(btnCalcular);
 
-          // Empacota tudo dentro do Card
-          card.append(cardHeader, tagsDiv, detailsGrid, priceDiv, actionDiv);
+          // Empacota tudo dentro do Card. Note que o cMeta entra logo abaixo do Header.
+          card.append(cardHeader, cMeta, detailsGrid, priceDiv, actionDiv);
           subRows.appendChild(card);
         }
 
