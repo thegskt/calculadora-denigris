@@ -159,9 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
             headerActions.appendChild(btnFoto);
 
             // 2. NOVO: Botão do WhatsApp (Só aparece se tiver foto)
-            // Cria uma mensagem automática elegante com os dados do caminhão
-            // Texto sem o valor, focado apenas no veículo para o vendedor negociar livremente!
-            const textoZap = `*Oportunidade na De Nigris* 🚛\n\n*Modelo:* ${r.modelo}\n*Ano:* ${r.anoMod} | *Cor:* ${r.cor || '-'}\n\n*Veja a foto do veículo:* ${r.fotoUrl}`;
+            const textoZap = `*OPORTUNIDADE* \uD83D\uDE9B\n\n*Modelo:* ${r.modelo}\n*Ano:* ${r.anoMod} | *Cor:* ${r.cor || '-'}\n\n*Veja a foto do veículo:* ${r.fotoUrl}`;
             
             const btnZap = document.createElement('a');
             btnZap.className = 'btn-icon-whatsapp';
