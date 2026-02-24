@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
           // 4. Preço em Destaque Absoluto
           const priceDiv = document.createElement('div');
           priceDiv.className = 'price-highlight';
-          priceDiv.innerHTML = `<span class="price-label">Valor Tabela</span><span class="price-value">${fmtBRL(r.valorTabela)}</span>`;
+          priceDiv.innerHTML = `<span class="price-label">Preço Oportunidade</span><span class="price-value">${fmtBRL(r.valorTabela)}</span>`;
 
           // 5. Botão Full Width
           const actionDiv = document.createElement('div');

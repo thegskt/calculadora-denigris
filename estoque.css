@@ -139,7 +139,7 @@ h1{font-size:20px;margin:0}
       minmax(90px,.7fr)
       minmax(74px,.55fr);
   }
-  .row > div[data-label="Valor Tabela"]{font-size:.92rem;}
+  .row > div[data-label="Preço Oportunidade"]{font-size:.92rem;}
   .row .btn{padding:6px 8px;font-size:.72rem;}
 }
 
