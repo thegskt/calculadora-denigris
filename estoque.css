@@ -198,8 +198,8 @@ h1{font-size:20px;margin:0}
   .row > div[data-label="Valor Tabela"]::before{content:"Valor: ";}
 
   /* Meta controlada apenas via classe */
-  .meta{display:none !important;}
-  .row.show-meta > .meta{display:flex !important; flex-direction: column; gap: 6px;}
+.meta { display: none !important; }
+.row.show-meta > .meta { display: flex !important; }
 
   /* Botão menor */
   .row > div:nth-child(7) .btn,
@@ -503,17 +503,17 @@ h1{font-size:20px;margin:0}
    COMPORTAMENTO DO BOTÃO "i" (META)
    ===================================== */
 .vehicle-card .meta {
-  display: none; /* Escondido por padrão */
+  display: none; 
   gap: 8px;
   flex-wrap: wrap;
   padding-bottom: 8px;
   border-bottom: 1px dashed #e2e8f0;
-  margin-bottom: -4px; /* Ajuste fino de espaçamento */
+  margin-bottom: -4px; 
 }
 
-/* Quando o JS injeta a classe show-meta, a div aparece */
+/* O !important aqui vence a regra antiga do celular e força a div a aparecer */
 .vehicle-card.show-meta .meta {
-  display: flex;
+  display: flex !important; 
   animation: fadeInDown 0.2s ease-out;
 }
 
