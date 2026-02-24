@@ -74,10 +74,12 @@ document.addEventListener('DOMContentLoaded', () => {
   /* =========================
    RENDER
   ========================= */
+  /* =========================
+   RENDER (Versão Card Premium)
+  ========================= */
   function render(list){
     groupsEl.innerHTML = '';
     
-    // Se a busca não encontrou nada
     if (list.length === 0) {
       groupsEl.innerHTML = '<div style="text-align:center; padding: 2rem; color: #64738a;">Nenhum veículo encontrado.</div>';
       return;
@@ -103,15 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const c = document.createElement('div');
       c.className = 'acc-c';
 
-      const cols = document.createElement('div');
-      cols.className = 'cols';
-      cols.innerHTML = `
-        <div>Modelo</div><div>Cor</div><div>UP</div>
-        <div>Var.</div><div>Ano</div>
-        <div class="right">Valor Tabela</div><div>Ação</div>
-      `;
-
-      c.appendChild(cols);
+      // Removemos o cabeçalho de colunas (.cols) pois agora usaremos Cards!
 
       const rows = document.createElement('div');
       rows.className = 'rows';
@@ -124,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const subH = document.createElement('div');
         subH.className = 'sub-acc-h';
         subH.tabIndex = 0;
-
         subH.innerHTML = `
           <span>${sub.name} (${sub.items.length})</span>
           <span class="chev">▾</span>
@@ -134,62 +127,65 @@ document.addEventListener('DOMContentLoaded', () => {
         subC.className = 'sub-acc-c';
 
         const subRows = document.createElement('div');
-        subRows.className = 'rows';
+        subRows.className = 'card-grid'; // Novo container para os cards
 
         for (const r of sub.items){
-          const row = document.createElement('div');
-          row.className = 'row';
+          const card = document.createElement('div');
+          card.className = 'vehicle-card'; // Nova classe principal
 
-          // Modelo (com botão "i" para detalhes)
-          const cMod = document.createElement('div');
-          cMod.className = 'modelo';
-          const modTxt = document.createElement('span');
-          modTxt.textContent = r.modelo;
+          // 1. Header do Card (Modelo + Ícone de Foto)
+          const cardHeader = document.createElement('div');
+          cardHeader.className = 'card-header-flex';
+          
+          const titleDiv = document.createElement('div');
+          titleDiv.className = 'modelo-title';
+          titleDiv.textContent = r.modelo;
+          cardHeader.appendChild(titleDiv);
 
-          const infoBtn = document.createElement('button');
-          infoBtn.className = 'chip-btn';
-          infoBtn.textContent = 'i';
-          infoBtn.onclick = e => {
-            e.preventDefault();
-            row.classList.toggle('show-meta');
-          };
-          cMod.append(modTxt, infoBtn);
-
-          // Meta dados (FZ, Pátio, Foto)
-          const cMeta = document.createElement('div');
-          cMeta.className = 'meta';
-          cMeta.style.gridColumn = '1 / -1';
-
-          if (r.patio) cMeta.innerHTML += `<span class="chip"><b>Pátio</b> ${r.patio}</span>`;
-          if (r.fz) cMeta.innerHTML += `<span class="chip"><b>FZ</b> ${r.fz}</span>`;
-
-          if (r.fotoUrl){
+          if (r.fotoUrl) {
             const btnFoto = document.createElement('button');
-            btnFoto.className = 'chip chip-foto';
-            btnFoto.textContent = '📷 Foto';
-            btnFoto.onclick = () => abrirFoto(r.fotoUrl, r.modelo);
-            cMeta.appendChild(btnFoto);
+            btnFoto.className = 'btn-icon-foto';
+            btnFoto.innerHTML = '📷'; // Ícone limpo
+            btnFoto.onclick = (e) => {
+                e.stopPropagation(); // Evita clicar sem querer no card
+                abrirFoto(r.fotoUrl, r.modelo);
+            };
+            cardHeader.appendChild(btnFoto);
           }
 
-          // Botão Calcular
-          const btnCalcular = document.createElement('a');
-          btnCalcular.className = 'btn btn-primary';
-          btnCalcular.href = `index.html?calc=proprio&fz=${r.fz}`;
-          btnCalcular.textContent = 'Calcular';
+          // 2. Tags Rápidas (Pátio e FZ sempre visíveis)
+          const tagsDiv = document.createElement('div');
+          tagsDiv.className = 'tags-container';
+          if (r.fz) tagsDiv.innerHTML += `<span class="tag tag-fz">FZ: ${r.fz}</span>`;
+          if (r.patio) tagsDiv.innerHTML += `<span class="tag tag-patio">${r.patio}</span>`;
 
-          // Montando a linha usando a função helper para injetar os data-labels
-          row.append(
-            cMod,
+          // 3. Grid de Detalhes (2x2 para economizar altura)
+          const detailsGrid = document.createElement('div');
+          detailsGrid.className = 'details-grid';
+          detailsGrid.append(
             criarColuna(r.cor || '-', 'Cor'),
-            criarColuna(r.up, 'UP', 'up'),
-            criarColuna(r.variante || '-', 'Variante'),
             criarColuna(r.anoMod, 'Ano'),
-            criarColuna(fmtBRL(r.valorTabela), 'Valor Tabela', 'right'),
-            criarColuna(btnCalcular, 'Ação'),
-            cMeta
+            criarColuna(r.up, 'UP', 'up'),
+            criarColuna(r.variante || '-', 'Var')
           );
 
-          subRows.appendChild(row);
+          // 4. Preço em Destaque Absoluto
+          const priceDiv = document.createElement('div');
+          priceDiv.className = 'price-highlight';
+          priceDiv.innerHTML = `<span class="price-label">Valor Tabela</span><span class="price-value">${fmtBRL(r.valorTabela)}</span>`;
+
+          // 5. Botão Full Width
+          const actionDiv = document.createElement('div');
+          actionDiv.className = 'action-full';
+          const btnCalcular = document.createElement('a');
+          btnCalcular.className = 'btn btn-primary btn-block';
+          btnCalcular.href = `index.html?calc=proprio&fz=${r.fz}`;
+          btnCalcular.textContent = 'Calcular';
+          actionDiv.appendChild(btnCalcular);
+
+          // Empacota tudo dentro do Card
+          card.append(cardHeader, tagsDiv, detailsGrid, priceDiv, actionDiv);
+          subRows.appendChild(card);
         }
 
         subC.appendChild(subRows);

@@ -356,3 +356,145 @@ h1{font-size:20px;margin:0}
   }
 }
 
+/* =====================================
+   NOVO VISUAL: CARDS DE VEÍCULOS
+   ===================================== */
+.card-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  background-color: #f4f6f8;
+}
+
+.vehicle-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Header do Card (Modelo e Ícone de Câmera) */
+.card-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 8px;
+}
+
+.modelo-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.btn-icon-foto {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1d4ed8;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-icon-foto:active { background: #dbeafe; transform: scale(0.95); }
+
+/* Etiquetas de Pátio e FZ */
+.tags-container {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+.tag-fz { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+.tag-patio { background: #fefce8; color: #a16207; border: 1px solid #fef08a; }
+
+/* Grid de Detalhes 2x2 */
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #f1f5f9;
+}
+
+.details-grid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.details-grid > div[data-label]::before {
+  content: attr(data-label);
+  font-size: 10px;
+  color: #64738a;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Área de Preço Destacada */
+.price-highlight {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f0fdf4; /* Fundo levemente verde/sucesso */
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px dashed #bbf7d0;
+}
+
+.price-label {
+  font-size: 11px;
+  color: #166534;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.price-value {
+  font-size: 19px;
+  font-weight: 800;
+  color: #15803d; 
+  letter-spacing: -0.5px;
+}
+
+/* Botão Ocupando tudo */
+.btn-block {
+  width: 100%;
+  text-align: center;
+  padding: 14px;
+  font-size: 15px;
+  border-radius: 8px;
+  display: block;
+  text-decoration: none;
+}
+
+/* Ajuste no PC para os cards ficarem lado a lado se a tela for grande */
+@media (min-width: 768px) {
+  .card-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .vehicle-card {
+    flex: 1 1 calc(33.333% - 24px);
+    min-width: 280px;
+  }
+}
