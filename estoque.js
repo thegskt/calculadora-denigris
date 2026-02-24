@@ -151,13 +151,29 @@ document.addEventListener('DOMContentLoaded', () => {
           if (r.fotoUrl) {
             const btnFoto = document.createElement('button');
             btnFoto.className = 'btn-icon-foto';
-            // Trocamos o emoji por um SVG de câmera profissional
             btnFoto.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>`;
             btnFoto.onclick = (e) => {
                 e.stopPropagation();
                 abrirFoto(r.fotoUrl, r.modelo);
             };
             headerActions.appendChild(btnFoto);
+
+            // 2. NOVO: Botão do WhatsApp (Só aparece se tiver foto)
+            // Cria uma mensagem automática elegante com os dados do caminhão
+            // Texto sem o valor, focado apenas no veículo para o vendedor negociar livremente!
+            const textoZap = `*Oportunidade na De Nigris* 🚛\n\n*Modelo:* ${r.modelo}\n*Ano:* ${r.anoMod} | *Cor:* ${r.cor || '-'}\n\n*Veja a foto do veículo:* ${r.fotoUrl}`;
+            
+            const btnZap = document.createElement('a');
+            btnZap.className = 'btn-icon-whatsapp';
+            // encodeURIComponent garante que espaços e quebras de linha funcionem no link
+            btnZap.href = `https://wa.me/?text=${encodeURIComponent(textoZap)}`;
+            btnZap.target = '_blank'; // Abre em nova aba/app
+            btnZap.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>`;
+            
+            // Impede que o clique no link feche o card sem querer
+            btnZap.onclick = (e) => e.stopPropagation();
+            
+            headerActions.appendChild(btnZap);
           }
 
           // Criando o botão "i"

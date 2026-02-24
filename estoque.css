@@ -547,3 +547,25 @@ h1{font-size:20px;margin:0}
 .action-full .btn-primary {
   min-width: 160px; /* Garante que o botão não fique "espremido" */
 }
+
+/* Botão do WhatsApp no Header do Card */
+.btn-icon-whatsapp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: #f0fdf4; /* Fundo verde clarinho */
+  border: 1px solid #bbf7d0; /* Borda verde suave */
+  color: #16a34a; /* Verde forte do WhatsApp */
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+  transition: all 0.2s;
+  text-decoration: none; /* Tira o sublinhado do link */
+}
+
+.btn-icon-whatsapp:active {
+  transform: scale(0.95);
+  background: #dcfce7;
+}
