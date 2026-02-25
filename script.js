@@ -1446,7 +1446,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const credAprovado = document.getElementById('reservaCredito').checked ? "SIM" : "Não";
       const temEntrada = document.getElementById('reservaEntrada').checked ? "SIM" : "Não";
       const temTroca = document.getElementById('reservaTroca').checked ? "SIM" : "Não";
-      const eParceria = document.getElementById('reservaParceria').checked ? "SIM" : "Não";
+      
+      // NOVA LÓGICA DO PARCEIRO
+      const marcouParceria = document.getElementById('reservaParceria').checked;
+      const nomeParceiro = document.getElementById('nomeParceiro').value.trim();
+      let textoParceria = "Não";
+      if (marcouParceria) {
+        textoParceria = nomeParceiro ? `SIM (Com: ${nomeParceiro})` : "SIM";
+      }
 
       if (!nome || !pedido || !loja) {
         alert("Por favor, preencha seu Nome, a Concessionária e o Número do Pedido no topo da tela.");
@@ -1483,7 +1490,7 @@ document.addEventListener('DOMContentLoaded', () => {
 *Instituição:* ${banco}
 *Pagar entrada?* ${temEntrada}
 *Usado na troca?* ${temTroca}
-*Venda Parceria?* ${eParceria}
+*Venda Parceria?* ${textoParceria}
 *Previsão de Faturamento:* ${dataFatFormatada}
 
 *--- VEÍCULO ---*
