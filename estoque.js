@@ -190,8 +190,17 @@ document.addEventListener('DOMContentLoaded', () => {
           // 2. Área Oculta (Meta) que só aparece ao clicar no "i"
           const cMeta = document.createElement('div');
           cMeta.className = 'meta tags-container';
+          
           if (r.fz) cMeta.innerHTML += `<span class="tag tag-fz">FZ: ${r.fz}</span>`;
           if (r.patio) cMeta.innerHTML += `<span class="tag tag-patio">Pátio: ${r.patio}</span>`;
+
+          // === NOVO: OBSERVAÇÃO DENTRO DO "i" ===
+          // Se tiver um '*' na UP ou texto na coluna Obs (D), ele cria o aviso aqui dentro
+          if ((r.up && r.up.includes('*')) || (r.obs && r.obs.trim() !== '')) {
+            const textoObs = r.obs ? r.obs.trim() : 'Veículo com observação na UP (consulte).';
+            cMeta.innerHTML += `<div class="obs-inline"><strong>OBS:</strong> ${textoObs}</div>`;
+          }
+          // ======================================
 
           // 3. Grid de Detalhes 2x2
           const detailsGrid = document.createElement('div');
