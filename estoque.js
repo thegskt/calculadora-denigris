@@ -212,16 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
             criarColuna(r.variante || '-', 'Var')
           );
 
-          // === NOVO: CAIXA DE OBSERVAÇÃO ===
-          // Verifica se a UP tem um '*' ou se a coluna obs tem algum texto
-          let obsDiv = null;
-          if ((r.up && r.up.includes('*')) || (r.obs && r.obs.trim() !== '')) {
-            obsDiv = document.createElement('div');
-            obsDiv.className = 'obs-alert';
-            obsDiv.innerHTML = `<strong>Obs:</strong> ${r.obs || 'Veículo com observação (consulte).'}`;
-          }
-          // ==================================
-
           // 4. Preço em Destaque Absoluto
           const priceDiv = document.createElement('div');
           priceDiv.className = 'price-highlight';
@@ -237,9 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
           actionDiv.appendChild(btnCalcular);
 
           // Empacota tudo dentro do Card (Adicionando a obsDiv se ela existir)
-          card.append(cardHeader, cMeta, detailsGrid);
-          if (obsDiv) card.append(obsDiv); // Coloca o alerta logo abaixo do grid e acima do preço!
-          card.append(priceDiv, actionDiv);
+          card.append(cardHeader, cMeta, detailsGrid, priceDiv, actionDiv);
           
           subRows.appendChild(card);
         }
