@@ -569,3 +569,28 @@ h1{font-size:20px;margin:0}
   transform: scale(0.95);
   background: #dcfce7;
 }
+
+/* =====================================
+   ALERTA DE OBSERVAÇÃO (ASTERISCO NA UP)
+   ===================================== */
+.obs-alert {
+  background-color: #fffbeb; /* Fundo amarelo clarinho */
+  border-left: 4px solid #f59e0b; /* Faixa lateral âmbar/laranja */
+  padding: 10px 12px;
+  border-radius: 4px 8px 8px 4px;
+  font-size: 13px;
+  color: #92400e; /* Texto escuro para dar leitura */
+  margin-top: -4px; /* Aproxima um pouco do grid de cima */
+  margin-bottom: 6px; /* Dá espaço para a caixa de preço */
+  line-height: 1.4;
+  animation: fadeIn 0.3s ease;
+}
+
+.obs-alert strong {
+  color: #b45309;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 2px;
+}

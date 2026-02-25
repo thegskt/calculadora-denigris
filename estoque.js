@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
             headerActions.appendChild(btnFoto);
 
             // 2. NOVO: Botão do WhatsApp (Só aparece se tiver foto)
-            const textoZap = `*Oportunidade na De Nigris*\n\n*Modelo:* ${r.modelo}\n*Ano:* ${r.anoMod} | *Cor:* ${r.cor || '-'}\n\n*Veja a foto do veículo:* ${r.fotoUrl}`;
+            const textoZap = `*OPORTUNIDADE*\n\n*Modelo:* ${r.modelo}\n*Ano:* ${r.anoMod} | *Cor:* ${r.cor || '-'}\n\n*Veja a foto do veículo:* ${r.fotoUrl}`;
             
             const btnZap = document.createElement('a');
             btnZap.className = 'btn-icon-whatsapp';
@@ -203,10 +203,20 @@ document.addEventListener('DOMContentLoaded', () => {
             criarColuna(r.variante || '-', 'Var')
           );
 
+          // === NOVO: CAIXA DE OBSERVAÇÃO ===
+          // Verifica se a UP tem um '*' ou se a coluna obs tem algum texto
+          let obsDiv = null;
+          if ((r.up && r.up.includes('*')) || (r.obs && r.obs.trim() !== '')) {
+            obsDiv = document.createElement('div');
+            obsDiv.className = 'obs-alert';
+            obsDiv.innerHTML = `<strong>Atenção:</strong> ${r.obs || 'Veículo com observação (consulte).'}`;
+          }
+          // ==================================
+
           // 4. Preço em Destaque Absoluto
           const priceDiv = document.createElement('div');
           priceDiv.className = 'price-highlight';
-          priceDiv.innerHTML = `<span class="price-label">Preço Oportunidade</span><span class="price-value">${fmtBRL(r.valorTabela)}</span>`;
+          priceDiv.innerHTML = `<span class="price-label">Valor Tabela</span><span class="price-value">${fmtBRL(r.valorTabela)}</span>`;
 
           // 5. Botão Full Width
           const actionDiv = document.createElement('div');
@@ -217,8 +227,11 @@ document.addEventListener('DOMContentLoaded', () => {
           btnCalcular.textContent = 'Calcular';
           actionDiv.appendChild(btnCalcular);
 
-          // Empacota tudo dentro do Card. Note que o cMeta entra logo abaixo do Header.
-          card.append(cardHeader, cMeta, detailsGrid, priceDiv, actionDiv);
+          // Empacota tudo dentro do Card (Adicionando a obsDiv se ela existir)
+          card.append(cardHeader, cMeta, detailsGrid);
+          if (obsDiv) card.append(obsDiv); // Coloca o alerta logo abaixo do grid e acima do preço!
+          card.append(priceDiv, actionDiv);
+          
           subRows.appendChild(card);
         }
 
@@ -268,7 +281,9 @@ document.addEventListener('DOMContentLoaded', () => {
       itens = rows.map(l=>{
         const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v=>v.replace(/^"|"$/g,''));
         return {
-          fz:c[0], modelo:c[1], up:c[2], anoMod:c[4],
+          fz:c[0], modelo:c[1], up:c[2], 
+          obs: c[3], // <-- ADICIONAMOS A COLUNA D AQUI
+          anoMod:c[4],
           valorTabela:parseFloat(c[8].replace('.','').replace(',','.'))||0,
           cor:c[9], variante:c[10], patio:c[11],
           fotoUrl:c[22]
