@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if ((r.up && r.up.includes('*')) || (r.obs && r.obs.trim() !== '')) {
             obsDiv = document.createElement('div');
             obsDiv.className = 'obs-alert';
-            obsDiv.innerHTML = `<strong>Atenção:</strong> ${r.obs || 'Veículo com observação (consulte).'}`;
+            obsDiv.innerHTML = `<strong>Obs:</strong> ${r.obs || 'Veículo com observação (consulte).'}`;
           }
           // ==================================
 
