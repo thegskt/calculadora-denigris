@@ -1427,16 +1427,37 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === modal) modal.classList.add('hidden');
   });
 
-// 3. Enviar WhatsApp
+// 3. Enviar WhatsApp (Avançado com Qualificação de Lead)
   if(btnEnviar) {
     btnEnviar.addEventListener('click', () => {
+      // Dados Básicos
       const nome = inpNome.value.trim();
       const pedido = inpPedido.value.trim();
       const loja = inpLoja.value;
 
+      // Dados Novos
+      const cliente = document.getElementById('reservaCliente').value.trim() || "Não informado";
+      const termometro = document.getElementById('reservaTermometro').value;
+      const dataFatRaw = document.getElementById('reservaDataFaturamento').value;
+      const formaPgto = document.getElementById('reservaFormaPagamento').value;
+      const banco = document.getElementById('reservaInstituicao').value;
+
+      // Checkboxes (Retornam Sim ou Não)
+      const credAprovado = document.getElementById('reservaCredito').checked ? "SIM" : "Não";
+      const temEntrada = document.getElementById('reservaEntrada').checked ? "SIM" : "Não";
+      const temTroca = document.getElementById('reservaTroca').checked ? "SIM" : "Não";
+      const eParceria = document.getElementById('reservaParceria').checked ? "SIM" : "Não";
+
       if (!nome || !pedido || !loja) {
-        alert("Por favor, preencha seu Nome, a Concessionária e o Número do Pedido.");
+        alert("Por favor, preencha seu Nome, a Concessionária e o Número do Pedido no topo da tela.");
         return;
+      }
+
+      // Formatar Data (De YYYY-MM-DD para DD/MM/YYYY)
+      let dataFatFormatada = "Não informada";
+      if (dataFatRaw) {
+        const [y, m, d] = dataFatRaw.split('-');
+        dataFatFormatada = `${d}/${m}/${y}`;
       }
 
       // Dados do Carro
@@ -1444,22 +1465,34 @@ document.addEventListener('DOMContentLoaded', () => {
       const modelo = vendedorAtual.modelo;
       const precoFinal = document.getElementById('valorVenda').innerText;
 
-      // TEXTO COM O CÓDIGO DO EMOJI (\uD83D\uDE9B = 🚛)
-      // Isso evita o erro de caractere estranho ""
+      // Monta a mensagem executiva super estruturada
       const mensagemTexto = 
-`*SOLICITAÇÃO DE RESERVA* \uD83D\uDE9B
+`*SOLICITAÇÃO DE RESERVA*
 
 *Vendedor:* ${nome}
 *Loja:* ${loja}
 *Pedido:* ${pedido}
--------------------
-*Veículo:* ${modelo}
+
+*--- DADOS DO CLIENTE ---*
+*Cliente:* ${cliente}
+*Termômetro:* ${termometro}
+*Crédito Aprovado:* ${credAprovado}
+
+*--- NEGOCIAÇÃO ---*
+*Forma de Pagto:* ${formaPgto}
+*Instituição:* ${banco}
+*Pagar entrada?* ${temEntrada}
+*Usado na troca?* ${temTroca}
+*Venda Parceria?* ${eParceria}
+*Previsão de Faturamento:* ${dataFatFormatada}
+
+*--- VEÍCULO ---*
+*Modelo:* ${modelo}
 *FZ:* ${fz}
 *Valor Fechado:* ${precoFinal}
--------------------
+
 Segue abaixo o Pedido de Venda.`;
 
-      // Codifica o texto para URL (acentos e espaços)
       const textoCodificado = encodeURIComponent(mensagemTexto);
 
       // Mapa de números por concessionária
@@ -1471,7 +1504,6 @@ Segue abaixo o Pedido de Venda.`;
         "SJC": "5512997186270"
       };
 
-      // Número do Gerente
       const numero = numerosConcessionarias[loja] || "5511976983600"; 
 
       // Abre o WhatsApp
