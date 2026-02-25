@@ -1427,6 +1427,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === modal) modal.classList.add('hidden');
   });
 
+  const checkParceria = document.getElementById('reservaParceria');
+  const boxParceiro = document.getElementById('boxNomeParceiro');
+  const inpParceiro = document.getElementById('nomeParceiro');
+
+  if (checkParceria && boxParceiro) {
+    checkParceria.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        boxParceiro.style.display = 'block';
+        inpParceiro.focus(); // Já joga o teclado pra lá!
+      } else {
+        boxParceiro.style.display = 'none';
+        inpParceiro.value = ''; // Limpa se o cara desmarcar
+      }
+    });
+  }
+
 // 3. Enviar WhatsApp (Avançado com Qualificação de Lead)
   if(btnEnviar) {
     btnEnviar.addEventListener('click', () => {
