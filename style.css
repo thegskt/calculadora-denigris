@@ -1880,19 +1880,6 @@
   visibility: visible !important;
 }
 
-.logo-link {
-  display: flex;
-  align-items: center;
-}
-
-.logo-link:hover {
-  opacity: 0.85;
-}
-
-.logo-link {
-  display: flex;
-  align-items: center;
-}
 
 .logo-link:hover {
   opacity: 0.85;
@@ -2250,10 +2237,37 @@
   background: linear-gradient(135deg, #16a34a, #15803d) !important;
   color: white !important;
   border: none !important;
+  box-shadow: 0 4px 10px rgba(22, 163, 74, 0.2) !important;
+}
+
+.btn-whatsapp svg {
+  stroke: white !important; /* Garante que o ícone do Zap fique branco */
+}
+
+.btn-whatsapp:hover {
+  background: linear-gradient(135deg, #15803d, #166534) !important;
 }
 
 .btn-order {
   background: linear-gradient(135deg, #0f172a, #1e293b) !important;
   color: white !important;
   border: none !important;
+}
+
+/* =====================================
+   SCROLLBAR PREMIUM (Padrão App Nativo)
+   ===================================== */
+::-webkit-scrollbar {
+  width: 6px; /* Bem fininha */
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1; 
+  border-radius: 10px; /* Bordas arredondadas */
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8; 
 }
