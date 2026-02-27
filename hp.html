@@ -127,35 +127,36 @@
       position: relative; /* Crucial para ancorar os textos flutuantes */
     }
 
-    /* === A MÁGICA: TEXTOS FLUTUANTES (Não quebram o Grid) === */
+    /* === A MÁGICA: TEXTOS FLUTUANTES (Agora com margem extra pra cima) === */
     .cat-bracket {
       position: absolute;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #D87F3B;
-      font-size: clamp(0.4rem, 1.1vw, 0.65rem);
+      font-size: clamp(0.4rem, 1vw, 0.55rem);
       font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       z-index: 10;
-      pointer-events: none; /* Deixa o clique passar reto caso o dedo encoste na linha */
-      transform: translateY(-50%); /* Centraliza exato no meio da fresta */
+      pointer-events: none; 
+      /* O Segredo da Margem: puxa o texto 100% pra cima do eixo dele */
+      transform: translateY(-100%); 
     }
 
     .cat-bracket::before, .cat-bracket::after {
       content: "";
       flex-grow: 1;
-      height: 4px;
+      height: 3px;
       border-top: 1px solid #D87F3B;
     }
-    .cat-bracket::before { border-left: 1px solid #D87F3B; margin-right: 5px; margin-left: 10%; } 
-    .cat-bracket::after { border-right: 1px solid #D87F3B; margin-left: 5px; margin-right: 10%; }
+    .cat-bracket::before { border-left: 1px solid #D87F3B; margin-right: 6px; margin-left: 8%; } 
+    .cat-bracket::after { border-right: 1px solid #D87F3B; margin-left: 6px; margin-right: 8%; }
 
-    /* Posicionamento Matemático Absoluto (Imune a bugs de tela) */
-    #lbl-bond { top: 24.6%; left: 0%; width: 18.5%; } 
-    #lbl-depreciation { top: 24.6%; left: 20.3%; width: 28.7%; }
-    #lbl-clear { top: 50%; left: 30.5%; width: 28.7%; }
+    /* Posicionamento Matemático Absoluto (Subimos um pouco a % do top) */
+    #lbl-bond { top: 23%; left: 0%; width: 19%; } 
+    #lbl-depreciation { top: 23%; left: 20%; width: 29.5%; }
+    #lbl-clear { top: 48%; left: 30.5%; width: 29%; }
 
     /* === DESIGN DAS TECLAS === */
     .key-cell {
