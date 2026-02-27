@@ -1,12 +1,13 @@
 {
-  "name": "Calculadora De Nigris",
-  "short_name": "HP-12C",
-  "description": "Simulador Financeiro HP-12C De Nigris",
-  "start_url": "./hp.html", 
+  "name": "App De Nigris",
+  "short_name": "De Nigris",
+  "description": "Sistema de Vendas",
+  "start_url": "./home.html",
+  "scope": "./",
   "display": "standalone",
-  "orientation": "landscape",
-  "background_color": "#1a1a1a",
-  "theme_color": "#1a1a1a",
+  "orientation": "any",
+  "background_color": "#f0f2f5",
+  "theme_color": "#002c5f",
   "icons": [
     {
       "src": "Imagens/icon.png",
