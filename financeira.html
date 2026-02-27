@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simulador Financeiro - De Nigris</title>
+  <link rel="icon" type="image/png" href="Imagens/icon.png"/>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo-area">
+        <a href="home.html" class="logo-link">
+          <img src="Imagens/Mercedes-Logo.png" alt="Mercedes-Benz Logo" class="brand-logo">
+          <span class="divider-vertical"></span>
+          <img src="Imagens/Logo_De Nigris Branco.png" alt="De Nigris Logo" class="dealer-logo">
+        </a>
+      </div>
+
+      <button class="nav-toggle" aria-label="Menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <nav class="nav-menu">
+        <a href="home.html" class="nav-item">Home</a>
+        <a href="index.html" class="nav-item">Calculadora</a>
+        <a href="estoque.html" class="nav-item">Estoque</a>
+        <a href="financeira.html" class="nav-item active">Financiamento</a>
+      </nav>
+    </div>
+  </header>
+  
+  <div class="header-space"></div>
+
+  <main class="main-wrapper">
+    <div class="container-width">
+      <div class="card">
+        <div class="card-header factory">
+          <h2>Simulador de Financiamento</h2>
+          <span class="status-badge gray">Modo HP-12C</span>
+        </div>
+        
+        <div class="card-body">
+          <div class="form-section">
+            
+            <div class="form-group">
+              <label>Valor do Caminhão (R$)</label>
+              <div class="input-money-group">
+                <span class="currency-symbol">R$</span>
+                <input type="text" id="hpValor" placeholder="0,00" inputmode="decimal">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Valor da Entrada (R$)</label>
+              <div class="input-money-group">
+                <span class="currency-symbol">R$</span>
+                <input type="text" id="hpEntrada" placeholder="0,00" inputmode="decimal">
+              </div>
+            </div>
+
+            <div class="form-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div class="form-group">
+                <label>Taxa Mensal (%)</label>
+                <div class="input-money-group" style="border-color: #d1d5db;">
+                  <input type="text" id="hpTaxa" placeholder="Ex: 1,45" inputmode="decimal" style="text-align: left; padding-left: 0;">
+                  <span class="currency-symbol" style="margin-right: 0; margin-left: 8px;">%</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Prazo (Meses)</label>
+                <input type="number" id="hpPrazo" class="form-input" placeholder="Ex: 60" style="height: 48px;">
+              </div>
+            </div>
+
+            <button id="btnCalcularHP" class="btn-premium btn-primary full-width" style="margin-top: 10px;">
+              Calcular Parcela
+            </button>
+
+            <div id="hpResultadoArea" class="hidden">
+              <div class="result-row highlight" style="margin-top: 20px !important;">
+                <span class="result-label">Valor da Parcela Mensal</span>
+                <span id="hpParcela" class="result-value final">R$ 0,00</span>
+              </div>
+              
+              <div class="results-container" style="background: #f8fafc; border: 1px solid #e2e8f0; margin-top: 10px;">
+                <div class="result-row">
+                  <span class="result-label">Valor Financiado (Sem entrada)</span>
+                  <span id="hpFinanciado" class="result-value">R$ 0,00</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="hp.js"></script>
+
+  <script>
+    document.querySelector('.nav-toggle').addEventListener('click', function() {
+      document.querySelector('.nav-menu').classList.toggle('open');
+      this.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>
