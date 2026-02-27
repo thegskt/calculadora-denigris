@@ -45,9 +45,8 @@
     /* A Carcaça da HP-12C - Textura Fosca */
     .hp-body {
       background: #242424; 
-      width: 100vw;
-      height: 96vh;
-      height: 96dvh; 
+      width: 94vw;   /* <-- Reduzido de 100vw para 94vw (Cria margem lateral) */
+      height: 94dvh; /* <-- Reduzido de 96dvh para 94dvh (Cria margem topo/baixo) */
       max-width: 850px;
       max-height: 480px;
       padding: 1.5% 2%;
@@ -88,9 +87,10 @@
       background-color: #A2A992;
       color: #0d0d0d;
       font-family: 'Share Tech Mono', monospace;
-      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-size: clamp(1.8rem, 10vh, 3.2rem); /* <-- Número menor e mais proporcional */
+      line-height: 1; /* <-- Força o número a ficar no meio exato do vidro */
       text-align: right;
-      padding: 0px 12px;
+      padding: 0px 15px; /* Dá um espacinho do lado direito */
       height: 100%;
       width: 100%;
       display: flex;
