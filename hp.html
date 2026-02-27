@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>HP-12C De Nigris</title>
   <link rel="icon" type="image/png" href="Imagens/icon.png"/>
   <style>
@@ -16,7 +20,9 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      /* O truque do dvh (Dynamic Viewport Height) */
+      height: 100vh; 
+      height: 100dvh; 
       overflow: hidden;
       font-family: Arial, Helvetica, sans-serif;
     }
@@ -33,7 +39,8 @@
     .hp-body {
       background: #242424; 
       width: 100vw;
-      height: 100vh;
+      height: 96vh;
+      height: 96dvh; 
       max-width: 850px;
       max-height: 480px;
       padding: 1.5% 2%;
@@ -264,6 +271,19 @@
     </div>
 
   </div>
+
+  <script>
+    document.querySelector('.hp-body').addEventListener('touchstart', function() {
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        let docElm = document.documentElement;
+        if (docElm.requestFullscreen) {
+          docElm.requestFullscreen();
+        } else if (docElm.webkitRequestFullscreen) { // Safari/iPhone
+          docElm.webkitRequestFullscreen();
+        }
+      }
+    }, { once: true });
+  </script>
 
   <script src="motor-hp.js"></script>
 </body>
