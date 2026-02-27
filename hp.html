@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HP-12C De Nigris</title>
+  <link rel="icon" type="image/png" href="Imagens/icon.png"/>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+
+    body {
+      background-color: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Mensagem para virar a tela */
+    #rotate-msg {
+      display: none;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 1.2rem;
+    }
+
+    /* A Carcaça da Calculadora */
+    .hp-body {
+      background: linear-gradient(180deg, #2a2a2a, #1a1a1a);
+      width: 100vw;
+      height: 100vh;
+      padding: 2% 4%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-radius: 8px;
+    }
+
+    /* O Visor e a Borda Dourada */
+    .hp-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 2%;
+    }
+
+    .hp-logo {
+      color: #d4af37; /* Dourado */
+      font-weight: bold;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      font-style: italic;
+    }
+
+    .hp-display-bezel {
+      background-color: #d4af37; /* Dourado da borda */
+      padding: 4px;
+      border-radius: 4px;
+      width: 60%;
+    }
+
+    .hp-display {
+      background-color: #9da679; /* Cor verde/cinza do LCD antigo */
+      color: #000;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 3.5rem;
+      text-align: right;
+      padding: 0px 10px;
+      border-radius: 2px;
+      box-shadow: inset 2px 2px 5px rgba(0,0,0,0.3);
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+
+    /* O Teclado Grid 10x4 */
+    .hp-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: 2% 1.5%;
+      height: 70%;
+    }
+
+    .key {
+      background: linear-gradient(180deg, #444, #222);
+      border: 1px solid #111;
+      border-radius: 4px;
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #0a0a0a, inset 0 1px 1px rgba(255,255,255,0.2);
+      transition: all 0.05s;
+    }
+
+    .key:active {
+      transform: translateY(4px);
+      box-shadow: 0 0 0 #0a0a0a;
+    }
+
+    .key .sub { font-size: 0.6rem; color: #aaa; margin-bottom: 2px; }
+    
+    /* Cores Especiais das Teclas */
+    .key.blue { background: linear-gradient(180deg, #0082c8, #005a8c); }
+    .key.orange { background: linear-gradient(180deg, #f37021, #b34e12); }
+    .key.enter { grid-column: span 1; }
+
+    /* Força Modo Paisagem */
+    @media screen and (orientation: portrait) {
+      .hp-body { display: none; }
+      #rotate-msg { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="rotate-msg">
+    <h2>📱 Gire o celular</h2>
+    <p>Para usar a calculadora HP-12C, coloque seu aparelho na horizontal.</p>
+  </div>
+
+  <div class="hp-body">
+    <div class="hp-top">
+      <div class="hp-logo">De Nigris 12C</div>
+      <div class="hp-display-bezel">
+        <div class="hp-display" id="display">0,00</div>
+      </div>
+    </div>
+
+    <div class="hp-grid">
+      <div class="key func" data-val="n">n</div>
+      <div class="key func" data-val="i">i</div>
+      <div class="key func" data-val="PV">PV</div>
+      <div class="key func" data-val="PMT">PMT</div>
+      <div class="key func" data-val="FV">FV</div>
+      <div class="key func" data-val="CHS">CHS</div>
+      <div class="key num" data-val="7">7</div>
+      <div class="key num" data-val="8">8</div>
+      <div class="key num" data-val="9">9</div>
+      <div class="key op" data-val="/">÷</div>
+
+      <div class="key func" data-val="yx">y<sup>x</sup></div>
+      <div class="key func" data-val="1x">1/x</div>
+      <div class="key func" data-val="%T">%T</div>
+      <div class="key func" data-val="D%">∆%</div>
+      <div class="key func" data-val="%">%</div>
+      <div class="key func" data-val="EEX">EEX</div>
+      <div class="key num" data-val="4">4</div>
+      <div class="key num" data-val="5">5</div>
+      <div class="key num" data-val="6">6</div>
+      <div class="key op" data-val="*">×</div>
+
+      <div class="key func" data-val="RS">R/S</div>
+      <div class="key func" data-val="SST">SST</div>
+      <div class="key func" data-val="Rdown">R↓</div>
+      <div class="key func" data-val="xy">x≷y</div>
+      <div class="key func" data-val="CLx">CLx</div>
+      <div class="key enter" data-val="ENTER">ENTER</div>
+      <div class="key num" data-val="1">1</div>
+      <div class="key num" data-val="2">2</div>
+      <div class="key num" data-val="3">3</div>
+      <div class="key op" data-val="-">-</div>
+
+      <div class="key func" data-val="ON" onclick="window.location.href='home.html'">ON</div>
+      <div class="key orange" data-val="f">f</div>
+      <div class="key blue" data-val="g">g</div>
+      <div class="key func" data-val="STO">STO</div>
+      <div class="key func" data-val="RCL">RCL</div>
+      <div class="key num" data-val="0">0</div>
+      <div class="key num" data-val=".">.</div>
+      <div class="key func" data-val="SUM">Σ+</div>
+      <div class="key op" data-val="+">+</div>
+    </div>
+  </div>
+
+  <script src="motor-hp.js"></script>
+</body>
+</html>
