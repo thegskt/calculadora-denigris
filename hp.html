@@ -6,12 +6,13 @@
   <title>HP-12C De Nigris</title>
   <link rel="icon" type="image/png" href="Imagens/icon.png"/>
   <style>
+    /* Fonte digital para o visor */
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
     * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
 
     body {
-      background-color: #111;
+      background-color: #2b2b2b; /* Fundo imitando a mesa/borda externa */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -20,7 +21,6 @@
       font-family: Arial, sans-serif;
     }
 
-    /* Mensagem para virar a tela */
     #rotate-msg {
       display: none;
       color: white;
@@ -29,95 +29,153 @@
       font-size: 1.2rem;
     }
 
-    /* A Carcaça da Calculadora */
+    /* A Carcaça da HP-12C */
     .hp-body {
-      background: linear-gradient(180deg, #2a2a2a, #1a1a1a);
+      background: #1c1a1b; /* Cor grafite escuro da HP */
       width: 100vw;
       height: 100vh;
-      padding: 2% 4%;
+      max-width: 900px;
+      max-height: 500px;
+      padding: 2% 3%;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      border-radius: 8px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 2px 4px rgba(255,255,255,0.1);
+      border: 1px solid #333;
     }
 
-    /* O Visor e a Borda Dourada */
-    .hp-top {
+    /* Painel Metálico Superior */
+    .hp-top-panel {
+      background: linear-gradient(to right, #cfc1a5, #e0d5ba, #cfc1a5);
+      border-radius: 6px;
+      padding: 2% 4%;
       display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
+      justify-content: flex-end;
+      align-items: center;
       margin-bottom: 2%;
+      height: 25%;
+      box-shadow: inset 0 -2px 5px rgba(0,0,0,0.3), 0 4px 6px rgba(0,0,0,0.5);
+      position: relative;
     }
 
-    .hp-logo {
-      color: #d4af37; /* Dourado */
-      font-weight: bold;
-      font-size: 1.5rem;
-      letter-spacing: 2px;
-      font-style: italic;
-    }
-
-    .hp-display-bezel {
-      background-color: #d4af37; /* Dourado da borda */
-      padding: 4px;
-      border-radius: 4px;
-      width: 60%;
-    }
-
+    /* O Visor */
     .hp-display {
-      background-color: #9da679; /* Cor verde/cinza do LCD antigo */
-      color: #000;
+      background-color: #a3ab88; /* Verde clássico LCD */
+      color: #111;
       font-family: 'Share Tech Mono', monospace;
-      font-size: 3.5rem;
+      font-size: clamp(2rem, 8vw, 4rem);
       text-align: right;
-      padding: 0px 10px;
-      border-radius: 2px;
-      box-shadow: inset 2px 2px 5px rgba(0,0,0,0.3);
-      height: 60px;
+      padding: 0px 15px;
+      border-radius: 4px;
+      box-shadow: inset 2px 2px 8px rgba(0,0,0,0.4), inset -1px -1px 2px rgba(255,255,255,0.2);
+      width: 75%;
+      height: 75%;
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      overflow: hidden;
+      letter-spacing: 2px;
     }
 
-    /* O Teclado Grid 10x4 */
+    /* Separador Horizontal Dourado */
+    .hp-divider {
+      height: 3px;
+      background: #444;
+      border-top: 1px solid #777;
+      margin-bottom: 2%;
+    }
+
+    /* Teclado - Grid 10x4 */
     .hp-grid {
       display: grid;
       grid-template-columns: repeat(10, 1fr);
       grid-template-rows: repeat(4, 1fr);
-      gap: 2% 1.5%;
+      gap: 1.5% 2%;
       height: 70%;
     }
 
+    /* Célula que segura a Função (Laranja) + Botão */
+    .key-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      position: relative;
+    }
+
+    /* Texto Laranja (em cima do botão) */
+    .label-orange {
+      color: #d17830;
+      font-size: clamp(0.5rem, 1.2vw, 0.65rem);
+      font-weight: 700;
+      margin-bottom: 3px;
+      text-transform: uppercase;
+      letter-spacing: -0.2px;
+      white-space: nowrap;
+    }
+
+    /* O Botão Físico */
     .key {
-      background: linear-gradient(180deg, #444, #222);
+      background: linear-gradient(180deg, #3d3d3d, #222);
       border: 1px solid #111;
-      border-radius: 4px;
-      color: white;
-      font-weight: bold;
-      font-size: 1.2rem;
+      border-radius: 5px;
+      color: #fff;
+      width: 100%;
+      height: 75%;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      box-shadow: 0 4px 0 #0a0a0a, inset 0 1px 1px rgba(255,255,255,0.2);
-      transition: all 0.05s;
+      box-shadow: 0 4px 0 #111, inset 0 1px 1px rgba(255,255,255,0.15);
+      position: relative;
+      font-size: clamp(0.8rem, 2vw, 1.2rem);
+      font-weight: bold;
+      transition: transform 0.05s, box-shadow 0.05s;
     }
 
     .key:active {
       transform: translateY(4px);
-      box-shadow: 0 0 0 #0a0a0a;
+      box-shadow: 0 0 0 #111;
     }
 
-    .key .sub { font-size: 0.6rem; color: #aaa; margin-bottom: 2px; }
-    
-    /* Cores Especiais das Teclas */
-    .key.blue { background: linear-gradient(180deg, #0082c8, #005a8c); }
-    .key.orange { background: linear-gradient(180deg, #f37021, #b34e12); }
-    .key.enter { grid-column: span 1; }
+    /* Texto Azul (embaixo do texto principal no botão) */
+    .label-blue {
+      color: #3f9bca;
+      font-size: clamp(0.45rem, 1vw, 0.6rem);
+      font-weight: 700;
+      margin-top: 2px;
+    }
 
-    /* Força Modo Paisagem */
+    /* Botões Especiais */
+    .key.btn-f {
+      background: linear-gradient(180deg, #d17830, #a85d21);
+      color: #000;
+    }
+    .key.btn-g {
+      background: linear-gradient(180deg, #3f9bca, #2b749a);
+      color: #000;
+    }
+    .key.btn-on {
+      font-size: 0.9rem;
+    }
+
+    /* O Gigante Botão ENTER */
+    .key-cell.enter-cell {
+      grid-column: 6;
+      grid-row: 3 / span 2;
+    }
+    .key.btn-enter {
+      height: 87%; /* Ajuste para ocupar as duas linhas perfeitamente */
+      justify-content: space-between;
+      padding: 10% 0;
+    }
+    .btn-enter .main-text {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      letter-spacing: 2px;
+    }
+
+    /* Força Modo Paisagem no Celular */
     @media screen and (orientation: portrait) {
       .hp-body { display: none; }
       #rotate-msg { display: block; }
@@ -128,61 +186,70 @@
 
   <div id="rotate-msg">
     <h2>📱 Gire o celular</h2>
-    <p>Para usar a calculadora HP-12C, coloque seu aparelho na horizontal.</p>
+    <p>Coloque seu aparelho na horizontal para usar a calculadora.</p>
   </div>
 
   <div class="hp-body">
-    <div class="hp-top">
-      <div class="hp-logo">De Nigris 12C</div>
-      <div class="hp-display-bezel">
-        <div class="hp-display" id="display">0,00</div>
-      </div>
+    
+    <div class="hp-top-panel">
+      <div class="hp-display" id="display">0,00</div>
     </div>
+
+    <div class="hp-divider"></div>
 
     <div class="hp-grid">
-      <div class="key func" data-val="n">n</div>
-      <div class="key func" data-val="i">i</div>
-      <div class="key func" data-val="PV">PV</div>
-      <div class="key func" data-val="PMT">PMT</div>
-      <div class="key func" data-val="FV">FV</div>
-      <div class="key func" data-val="CHS">CHS</div>
-      <div class="key num" data-val="7">7</div>
-      <div class="key num" data-val="8">8</div>
-      <div class="key num" data-val="9">9</div>
-      <div class="key op" data-val="/">÷</div>
+      <div class="key-cell"><div class="label-orange">AMORT</div><button class="key" data-val="n">n<span class="label-blue">12x</span></button></div>
+      <div class="key-cell"><div class="label-orange">INT</div><button class="key" data-val="i">i<span class="label-blue">12÷</span></button></div>
+      <div class="key-cell"><div class="label-orange">NPV</div><button class="key" data-val="PV">PV<span class="label-blue">CFo</span></button></div>
+      <div class="key-cell"><div class="label-orange">RND</div><button class="key" data-val="PMT">PMT<span class="label-blue">CFj</span></button></div>
+      <div class="key-cell"><div class="label-orange">IRR</div><button class="key" data-val="FV">FV<span class="label-blue">Nj</span></button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key" data-val="CHS">CHS<span class="label-blue">DATE</span></button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val="7">7<span class="label-blue">BEG</span></button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val="8">8<span class="label-blue">END</span></button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val="9">9<span class="label-blue">MEM</span></button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key op" data-val="/">÷</button></div>
 
-      <div class="key func" data-val="yx">y<sup>x</sup></div>
-      <div class="key func" data-val="1x">1/x</div>
-      <div class="key func" data-val="%T">%T</div>
-      <div class="key func" data-val="D%">∆%</div>
-      <div class="key func" data-val="%">%</div>
-      <div class="key func" data-val="EEX">EEX</div>
-      <div class="key num" data-val="4">4</div>
-      <div class="key num" data-val="5">5</div>
-      <div class="key num" data-val="6">6</div>
-      <div class="key op" data-val="*">×</div>
+      <div class="key-cell"><div class="label-orange">PRICE</div><button class="key" data-val="yx">y<sup>x</sup><span class="label-blue">√x</span></button></div>
+      <div class="key-cell"><div class="label-orange">YTM</div><button class="key" data-val="1x">1/x<span class="label-blue">e<sup>x</sup></span></button></div>
+      <div class="key-cell"><div class="label-orange">SL</div><button class="key" data-val="%T">%T<span class="label-blue">LN</span></button></div>
+      <div class="key-cell"><div class="label-orange">SOYD</div><button class="key" data-val="D%">Δ%<span class="label-blue">FRAC</span></button></div>
+      <div class="key-cell"><div class="label-orange">DB</div><button class="key" data-val="%">%<span class="label-blue">INTG</span></button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key" data-val="EEX">EEX<span class="label-blue">ΔDYS</span></button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val="4">4<span class="label-blue">D.MY</span></button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val="5">5<span class="label-blue">M.DY</span></button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val="6">6<span class="label-blue">x̅w</span></button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key op" data-val="*">×</button></div>
 
-      <div class="key func" data-val="RS">R/S</div>
-      <div class="key func" data-val="SST">SST</div>
-      <div class="key func" data-val="Rdown">R↓</div>
-      <div class="key func" data-val="xy">x≷y</div>
-      <div class="key func" data-val="CLx">CLx</div>
-      <div class="key enter" data-val="ENTER">ENTER</div>
-      <div class="key num" data-val="1">1</div>
-      <div class="key num" data-val="2">2</div>
-      <div class="key num" data-val="3">3</div>
-      <div class="key op" data-val="-">-</div>
+      <div class="key-cell"><div class="label-orange">P/R</div><button class="key" data-val="RS">R/S<span class="label-blue">PSE</span></button></div>
+      <div class="key-cell"><div class="label-orange">Σ</div><button class="key" data-val="SST">SST<span class="label-blue">BST</span></button></div>
+      <div class="key-cell"><div class="label-orange">PRGM</div><button class="key" data-val="Rdown">R↓<span class="label-blue">GTO</span></button></div>
+      <div class="key-cell"><div class="label-orange">FIN</div><button class="key" data-val="xy">x≷y<span class="label-blue">x≤y</span></button></div>
+      <div class="key-cell"><div class="label-orange">REG</div><button class="key" data-val="CLx">CLx<span class="label-blue">x=0</span></button></div>
+      
+      <div class="key-cell enter-cell">
+        <div class="label-orange">PREFIX</div>
+        <button class="key btn-enter" data-val="ENTER">
+          <span class="main-text">ENTER</span>
+          <span class="label-blue">LSTx</span>
+        </button>
+      </div>
 
-      <div class="key func" data-val="ON" onclick="window.location.href='home.html'">ON</div>
-      <div class="key orange" data-val="f">f</div>
-      <div class="key blue" data-val="g">g</div>
-      <div class="key func" data-val="STO">STO</div>
-      <div class="key func" data-val="RCL">RCL</div>
-      <div class="key num" data-val="0">0</div>
-      <div class="key num" data-val=".">.</div>
-      <div class="key func" data-val="SUM">Σ+</div>
-      <div class="key op" data-val="+">+</div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val="1">1<span class="label-blue">x̂,r</span></button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val="2">2<span class="label-blue">ŷ,r</span></button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val="3">3<span class="label-blue">n!</span></button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key op" data-val="-">-</button></div>
+
+      <div class="key-cell"><div class="label-orange"></div><button class="key btn-on" onclick="window.location.href='home.html'">ON</button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key btn-f">f</button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key btn-g">g</button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key" data-val="STO">STO</button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key" data-val="RCL">RCL</button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val="0">0<span class="label-blue">x̄</span></button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val=".">.<span class="label-blue">s</span></button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key" data-val="SUM">Σ+<span class="label-blue">Σ-</span></button></div>
+      <div class="key-cell"><div class="label-orange"></div><button class="key op" data-val="+">+</button></div>
     </div>
+
   </div>
 
   <script src="motor-hp.js"></script>
