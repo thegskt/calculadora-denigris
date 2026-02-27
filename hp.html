@@ -51,12 +51,12 @@
       border: 1px solid #000;
     }
 
-    /* === PAINEL DO TOPO (Visor Esquerda | Logos Direita - Limpo) === */
+    /* === PAINEL DO TOPO === */
     .hp-top-panel {
-      background: #d4cbb3; /* Bege clássico */
+      background: #d4cbb3; 
       border-radius: 6px;
       padding: 1.5% 2%;
-      margin-bottom: 2%;
+      margin-bottom: 2.5%;
       height: 28%; 
       box-shadow: 0 4px 8px rgba(0,0,0,0.6), inset 0 2px 3px rgba(255,255,255,0.5);
       display: flex;
@@ -65,7 +65,7 @@
       gap: 2%;
     }
 
-    /* O Visor Gigante */
+    /* Visor Gigante */
     .hp-display-bezel {
       background: #1e1e1e;
       padding: 6px;
@@ -93,7 +93,7 @@
       box-shadow: inset 4px 4px 10px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.2);
     }
 
-    /* Área das Logos à Direita */
+    /* Logos à Direita */
     .hp-brand-area {
       display: flex;
       flex-direction: column;
@@ -122,35 +122,41 @@
       display: grid;
       grid-template-columns: repeat(10, 1fr);
       grid-template-rows: repeat(4, 1fr);
-      gap: 3.8% 1.8%; /* Respiro vertical perfeito */
+      gap: 4% 1.8%; /* Respiro da fresta */
       height: 68%; 
+      position: relative; /* FUNDAMENTAL para os fantasmas mapearem a grade */
     }
 
-    /* === A MÁGICA FINAL: CHAVES ANCORADAS DIRETAMENTE NO BOTÃO === */
-    .ghost-bracket {
+    /* === A ENGENHARIA DEFINITIVA: CAMADA SOBREPOSTA (OVERLAY) === */
+    /* Ao colocar absolute em um item do grid, ele NÃO empurra os botões! */
+    .ghost-span {
       position: absolute;
-      bottom: -10%; /* Empurra exatamente para o centro da fresta preta */
+      bottom: -16px; /* Empurra exato pro meio do vão preto de baixo */
+      left: 0; right: 0;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      align-items: flex-end; /* Alinha o texto e a linha pelo pé */
+      z-index: 10;
+      pointer-events: none; /* Imune a toques */
+    }
+
+    .ghost-span-text {
       color: #D87F3B;
       font-size: clamp(0.35rem, 0.9vw, 0.55rem);
       font-weight: bold;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      z-index: 10;
-      pointer-events: none; /* Deixa o clique passar reto caso bata no dedo */
+      padding: 0 4px;
+      line-height: 0.85; /* Puxa o texto pra colar na linha */
     }
 
-    .ghost-bracket::before, .ghost-bracket::after {
-      content: "";
+    .ghost-line {
       flex-grow: 1;
-      height: 4px; /* O "dente" da chave */
-      border-bottom: 1px solid #D87F3B; /* A linha laranja que liga tudo */
+      height: 5px; /* Altura do dente da chave */
+      border-bottom: 1px solid #D87F3B;
     }
-    .ghost-bracket::before { border-left: 1px solid #D87F3B; margin-right: 5px; } 
-    .ghost-bracket::after { border-right: 1px solid #D87F3B; margin-left: 5px; }
 
+    /* Margens que recolhem as pontas da chave para o centro do botão */
+    .line-left { border-left: 1px solid #D87F3B; margin-left: 15%; }
+    .line-right { border-right: 1px solid #D87F3B; margin-right: 15%; }
 
     /* === DESIGN DAS TECLAS === */
     .key-cell {
@@ -158,7 +164,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-end;
-      position: relative; /* OBRIGA os fantasmas a nascerem dentro dessa célula */
+      position: relative;
     }
 
     .label-orange {
@@ -251,17 +257,27 @@
 
     <div class="hp-grid">
 
-      <div class="key-cell">
-        <div class="label-orange">AMORT</div>
-        <div class="key" data-val="n"><span class="main-text">n</span><span class="label-blue">12x</span></div>
-        <div class="ghost-bracket" style="left: 50%; width: 121.5%;">BOND</div>
+      <div class="ghost-span" style="grid-column: 1 / 3; grid-row: 1;">
+        <div class="ghost-line line-left"></div>
+        <div class="ghost-span-text">BOND</div>
+        <div class="ghost-line line-right"></div>
       </div>
+
+      <div class="ghost-span" style="grid-column: 3 / 6; grid-row: 1;">
+        <div class="ghost-line line-left"></div>
+        <div class="ghost-span-text">DEPRECIATION</div>
+        <div class="ghost-line line-right"></div>
+      </div>
+
+      <div class="ghost-span" style="grid-column: 3 / 7; grid-row: 2;">
+        <div class="ghost-line line-left"></div>
+        <div class="ghost-span-text">CLEAR</div>
+        <div class="ghost-line line-right"></div>
+      </div>
+
+      <div class="key-cell"><div class="label-orange">AMORT</div><div class="key" data-val="n"><span class="main-text">n</span><span class="label-blue">12x</span></div></div>
       <div class="key-cell"><div class="label-orange">INT</div><div class="key" data-val="i"><span class="main-text">i</span><span class="label-blue">12÷</span></div></div>
-      <div class="key-cell">
-        <div class="label-orange">NPV</div>
-        <div class="key" data-val="PV"><span class="main-text">PV</span><span class="label-blue">CFo</span></div>
-        <div class="ghost-bracket" style="left: 50%; width: 243%;">DEPRECIATION</div>
-      </div>
+      <div class="key-cell"><div class="label-orange">NPV</div><div class="key" data-val="PV"><span class="main-text">PV</span><span class="label-blue">CFo</span></div></div>
       <div class="key-cell"><div class="label-orange">RND</div><div class="key" data-val="PMT"><span class="main-text">PMT</span><span class="label-blue">CFj</span></div></div>
       <div class="key-cell"><div class="label-orange">IRR</div><div class="key" data-val="FV"><span class="main-text">FV</span><span class="label-blue">Nj</span></div></div>
       <div class="key-cell"><div class="label-orange"></div><div class="key" data-val="CHS"><span class="main-text">CHS</span><span class="label-blue">DATE</span></div></div>
@@ -272,11 +288,7 @@
 
       <div class="key-cell"><div class="label-orange">PRICE</div><div class="key" data-val="yx"><span class="main-text">y<sup>x</sup></span><span class="label-blue">√x</span></div></div>
       <div class="key-cell"><div class="label-orange">YTM</div><div class="key" data-val="1x"><span class="main-text">1/x</span><span class="label-blue">e<sup>x</sup></span></div></div>
-      <div class="key-cell">
-        <div class="label-orange">SL</div>
-        <div class="key" data-val="%T"><span class="main-text">%T</span><span class="label-blue">LN</span></div>
-        <div class="ghost-bracket" style="left: 50%; width: 364.5%;">CLEAR</div>
-      </div>
+      <div class="key-cell"><div class="label-orange">SL</div><div class="key" data-val="%T"><span class="main-text">%T</span><span class="label-blue">LN</span></div></div>
       <div class="key-cell"><div class="label-orange">SOYD</div><div class="key" data-val="D%"><span class="main-text">Δ%</span><span class="label-blue">FRAC</span></div></div>
       <div class="key-cell"><div class="label-orange">DB</div><div class="key" data-val="%"><span class="main-text">%</span><span class="label-blue">INTG</span></div></div>
       <div class="key-cell"><div class="label-orange"></div><div class="key" data-val="EEX"><span class="main-text">EEX</span><span class="label-blue">ΔDYS</span></div></div>
