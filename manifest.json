@@ -2,7 +2,7 @@
   "name": "Calculadora De Nigris",
   "short_name": "HP-12C",
   "description": "Simulador Financeiro HP-12C De Nigris",
-  "start_url": "hp.html",
+  "start_url": "./hp.html", 
   "display": "standalone",
   "orientation": "landscape",
   "background_color": "#1a1a1a",
