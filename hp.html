@@ -14,7 +14,6 @@
   <link rel="manifest" href="manifest.json">
 
   <style>
-    /* Fonte digital do visor */
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
     * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
@@ -37,7 +36,6 @@
       font-size: 1.2rem;
     }
 
-    /* Carcaça Preta Fosca Premium */
     .hp-body {
       background: #1c1c1c; 
       width: 96vw;
@@ -53,7 +51,7 @@
       position: relative; 
     }
 
-    /* === LOGOS OFICIAIS MERCEDES E DE NIGRIS (Restaurado) === */
+    /* LOGOS */
     .hp-brand-header {
       display: flex;
       justify-content: center;
@@ -82,7 +80,7 @@
       background-color: rgba(255, 255, 255, 0.3);
     }
 
-    /* === BOTÃO INFO E MODAL === */
+    /* BOTÃO INFO E MODAL */
     .info-btn {
       position: absolute;
       right: 10px;
@@ -139,7 +137,7 @@
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
 
-    /* === PAINEL BEGE E VISOR === */
+    /* PAINEL BEGE E VISOR */
     .hp-top-panel {
       background: #d4cbb3; 
       border-radius: 6px;
@@ -172,53 +170,60 @@
       border: 1px solid #1a1a1a;
     }
 
-    /* === TECLADO === */
+    /* TECLADO */
     .hp-grid {
       display: grid;
       grid-template-columns: repeat(10, 1fr);
       grid-template-rows: repeat(4, 1fr);
       gap: 1.2% 1.8%;
       height: 58%; 
-      position: relative;
+      position: relative; /* Isso é crucial para os textos flutuantes ancorarem aqui */
     }
 
-    /* === CATEGORIAS DE TEXTO ANCORADAS NA GRADE (BLINDADO) === */
-    .cat-label {
+    /* === A MÁGICA DOS TEXTOS FLUTUANTES (BOND, CLEAR, DEPRECIATION) === */
+    .float-label {
       position: absolute;
-      bottom: 2px; /* Mantém o texto sempre empurrado para cima, longe dos botões */
-      left: 0; right: 0;
       color: #D87F3B;
-      font-size: clamp(0.45rem, 1.1vw, 0.6rem);
+      font-size: clamp(0.4rem, 1.1vw, 0.55rem);
       font-weight: bold;
-      text-align: center;
-      pointer-events: none;
-    }
-    
-    .cat-bracket {
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 92%;
-      margin: 0 auto;
+      pointer-events: none; /* Para o clique passar direto para as teclas */
+      z-index: 10;
+      transform: translateY(-50%); /* Centraliza perfeitamente no vão */
     }
 
-    /* Linhas e Cantos estilo HP */
-    .cat-bracket::before, .cat-bracket::after {
+    .float-label::before, .float-label::after {
       content: "";
       flex-grow: 1;
       height: 4px;
       border-top: 1px solid #D87F3B;
     }
-    .cat-bracket::before {
-      border-left: 1px solid #D87F3B;
-      margin-right: 6px;
+
+    .float-label::before { border-left: 1px solid #D87F3B; margin-right: 5px; }
+    .float-label::after { border-right: 1px solid #D87F3B; margin-left: 5px; }
+
+    /* Posicionamento milimétrico flutuando sobre as colunas */
+    #lbl-bond {
+      top: 24.5%; /* Fresta entre a 1ª e a 2ª linha */
+      left: 0.5%;
+      width: 19%; /* Largura das duas primeiras teclas */
     }
-    .cat-bracket::after {
-      border-right: 1px solid #D87F3B;
-      margin-left: 6px;
+    #lbl-depreciation {
+      top: 24.5%;
+      left: 20.5%;
+      width: 29%; /* Largura de três teclas */
+    }
+    #lbl-clear {
+      top: 49.5%; /* Fresta entre a 2ª e a 3ª linha */
+      left: 10.5%;
+      width: 39%; /* Largura de quatro teclas */
     }
 
-    /* Classes das Teclas */
+    /* DESIGN DAS TECLAS */
     .key-cell {
       display: flex;
       flex-direction: column;
@@ -338,15 +343,9 @@
 
     <div class="hp-grid">
       
-      <div style="grid-column: 1 / 3; grid-row: 2; height: 0; position: relative; z-index: 10;">
-        <div class="cat-label"><div class="cat-bracket">BOND</div></div>
-      </div>
-      <div style="grid-column: 3 / 6; grid-row: 2; height: 0; position: relative; z-index: 10;">
-        <div class="cat-label"><div class="cat-bracket">DEPRECIATION</div></div>
-      </div>
-      <div style="grid-column: 2 / 6; grid-row: 3; height: 0; position: relative; z-index: 10;">
-        <div class="cat-label"><div class="cat-bracket">CLEAR</div></div>
-      </div>
+      <div class="float-label" id="lbl-bond">BOND</div>
+      <div class="float-label" id="lbl-depreciation">DEPRECIATION</div>
+      <div class="float-label" id="lbl-clear">CLEAR</div>
 
       <div class="key-cell"><div class="label-orange">AMORT</div><div class="key" data-val="n"><span class="main-text">n</span><span class="label-blue">12x</span></div></div>
       <div class="key-cell"><div class="label-orange">INT</div><div class="key" data-val="i"><span class="main-text">i</span><span class="label-blue">12÷</span></div></div>
@@ -403,6 +402,7 @@
   </div>
 
   <script>
+    // Controle do Modal
     document.getElementById('info-btn').addEventListener('click', () => {
       document.getElementById('info-modal').style.display = 'flex';
     });
@@ -415,6 +415,7 @@
       }
     });
 
+    // PWA Tela Cheia no Safari/Chrome Mobile
     document.querySelector('.hp-body').addEventListener('touchstart', function() {
       if (!document.fullscreenElement && !document.webkitFullscreenElement) {
         let docElm = document.documentElement;
