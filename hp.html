@@ -6,19 +6,19 @@
   <title>HP-12C De Nigris</title>
   <link rel="icon" type="image/png" href="Imagens/icon.png"/>
   <style>
-    /* Fonte digital para o visor */
+    /* Fonte digital idêntica ao visor de cristal líquido */
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
     * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
 
     body {
-      background-color: #2b2b2b; /* Fundo imitando a mesa/borda externa */
+      background-color: #1a1a1a;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       overflow: hidden;
-      font-family: Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
     #rotate-msg {
@@ -29,59 +29,69 @@
       font-size: 1.2rem;
     }
 
-    /* A Carcaça da HP-12C */
+    /* A Carcaça da HP-12C - Textura Fosca */
     .hp-body {
-      background: #1c1a1b; /* Cor grafite escuro da HP */
+      background: #242424; 
       width: 100vw;
       height: 100vh;
-      max-width: 900px;
-      max-height: 500px;
-      padding: 2% 3%;
+      max-width: 850px;
+      max-height: 480px;
+      padding: 1.5% 2%;
       display: flex;
       flex-direction: column;
       border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 2px 4px rgba(255,255,255,0.1);
-      border: 1px solid #333;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.9), inset 0 2px 4px rgba(255,255,255,0.05);
+      border: 1px solid #111;
     }
 
-    /* Painel Metálico Superior */
+    /* Painel Metálico Bege/Dourado */
     .hp-top-panel {
-      background: linear-gradient(to right, #cfc1a5, #e0d5ba, #cfc1a5);
-      border-radius: 6px;
+      background: #C3B99E; 
+      border-radius: 4px;
       padding: 2% 4%;
       display: flex;
       justify-content: flex-end;
       align-items: center;
       margin-bottom: 2%;
       height: 25%;
-      box-shadow: inset 0 -2px 5px rgba(0,0,0,0.3), 0 4px 6px rgba(0,0,0,0.5);
+      box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), inset 0 -2px 6px rgba(0,0,0,0.3);
       position: relative;
+      border-bottom: 2px solid #5a513e;
     }
 
-    /* O Visor */
-    .hp-display {
-      background-color: #a3ab88; /* Verde clássico LCD */
-      color: #111;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: clamp(2rem, 8vw, 4rem);
-      text-align: right;
-      padding: 0px 15px;
+    /* A borda preta em volta do visor verde */
+    .hp-display-bezel {
+      background: #1e1e1e;
+      padding: 6px;
       border-radius: 4px;
-      box-shadow: inset 2px 2px 8px rgba(0,0,0,0.4), inset -1px -1px 2px rgba(255,255,255,0.2);
-      width: 75%;
-      height: 75%;
+      height: 80%;
+      width: 65%;
+      box-shadow: 0 1px 2px rgba(255,255,255,0.3), inset 0 2px 5px rgba(0,0,0,0.8);
+    }
+
+    /* O Visor Verde-Oliva LCD */
+    .hp-display {
+      background-color: #A2A992;
+      color: #0d0d0d;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      text-align: right;
+      padding: 0px 12px;
+      height: 100%;
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: flex-end;
       letter-spacing: 2px;
+      box-shadow: inset 3px 3px 6px rgba(0,0,0,0.3), inset -1px -1px 3px rgba(255,255,255,0.3);
     }
 
-    /* Separador Horizontal Dourado */
+    /* Linha divisória preta abaixo do painel */
     .hp-divider {
-      height: 3px;
-      background: #444;
-      border-top: 1px solid #777;
-      margin-bottom: 2%;
+      height: 2px;
+      background: #000;
+      margin-bottom: 1.5%;
+      border-bottom: 1px solid #333;
     }
 
     /* Teclado - Grid 10x4 */
@@ -89,11 +99,10 @@
       display: grid;
       grid-template-columns: repeat(10, 1fr);
       grid-template-rows: repeat(4, 1fr);
-      gap: 1.5% 2%;
+      gap: 1.2% 1.8%;
       height: 70%;
     }
 
-    /* Célula que segura a Função (Laranja) + Botão */
     .key-cell {
       display: flex;
       flex-direction: column;
@@ -102,80 +111,82 @@
       position: relative;
     }
 
-    /* Texto Laranja (em cima do botão) */
+    /* Texto Laranja Acima do Botão */
     .label-orange {
-      color: #d17830;
-      font-size: clamp(0.5rem, 1.2vw, 0.65rem);
-      font-weight: 700;
+      color: #D87F3B;
+      font-size: clamp(0.45rem, 1.1vw, 0.6rem);
+      font-weight: bold;
       margin-bottom: 3px;
       text-transform: uppercase;
-      letter-spacing: -0.2px;
+      letter-spacing: 0px;
       white-space: nowrap;
     }
 
-    /* O Botão Físico */
+    /* O Botão 3D Realista */
     .key {
-      background: linear-gradient(180deg, #3d3d3d, #222);
-      border: 1px solid #111;
-      border-radius: 5px;
-      color: #fff;
+      background: linear-gradient(180deg, #4d4d4d 0%, #2b2b2b 100%);
+      border: 1px solid #000;
+      border-radius: 4px 4px 6px 6px;
+      color: #f1f1f1;
       width: 100%;
       height: 75%;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
       cursor: pointer;
-      box-shadow: 0 4px 0 #111, inset 0 1px 1px rgba(255,255,255,0.15);
+      padding: 4px 2px 2px 2px;
+      /* A mágica do 3D: Brilho no topo, sombra preta na base, sombra projetada */
+      box-shadow: inset 0 2px 1px rgba(255,255,255,0.15), 0 3px 0px #0a0a0a, 0 4px 4px rgba(0,0,0,0.5);
       position: relative;
-      font-size: clamp(0.8rem, 2vw, 1.2rem);
-      font-weight: bold;
-      transition: transform 0.05s, box-shadow 0.05s;
+      transition: all 0.05s ease;
     }
 
     .key:active {
-      transform: translateY(4px);
-      box-shadow: 0 0 0 #111;
+      transform: translateY(3px);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.6), 0 0px 0px #0a0a0a, 0 1px 1px rgba(0,0,0,0.5);
+      background: linear-gradient(180deg, #3d3d3d 0%, #222 100%);
     }
 
-    /* Texto Azul (embaixo do texto principal no botão) */
+    /* Textos dentro do botão */
+    .main-text {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      font-size: clamp(0.8rem, 2vw, 1.1rem);
+      font-weight: 600;
+    }
+
     .label-blue {
-      color: #3f9bca;
-      font-size: clamp(0.45rem, 1vw, 0.6rem);
+      color: #4EB1D9;
+      font-size: clamp(0.4rem, 1vw, 0.55rem);
       font-weight: 700;
-      margin-top: 2px;
+      align-self: center;
     }
 
-    /* Botões Especiais */
-    .key.btn-f {
-      background: linear-gradient(180deg, #d17830, #a85d21);
-      color: #000;
-    }
-    .key.btn-g {
-      background: linear-gradient(180deg, #3f9bca, #2b749a);
-      color: #000;
-    }
-    .key.btn-on {
-      font-size: 0.9rem;
-    }
+    /* Cores Especiais */
+    .key.btn-f { background: linear-gradient(180deg, #D87F3B, #b86022); color: #000; }
+    .key.btn-g { background: linear-gradient(180deg, #4EB1D9, #2b84a6); color: #000; }
+    .key.btn-on { font-size: 0.8rem; }
 
-    /* O Gigante Botão ENTER */
+    /* Botão ENTER Gigante */
     .key-cell.enter-cell {
       grid-column: 6;
       grid-row: 3 / span 2;
     }
     .key.btn-enter {
-      height: 87%; /* Ajuste para ocupar as duas linhas perfeitamente */
-      justify-content: space-between;
-      padding: 10% 0;
+      height: 87%;
+      padding-top: 15px;
     }
     .btn-enter .main-text {
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
-      letter-spacing: 2px;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+      font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+      letter-spacing: 1px;
     }
 
-    /* Força Modo Paisagem no Celular */
+    /* Força Modo Paisagem */
     @media screen and (orientation: portrait) {
       .hp-body { display: none; }
       #rotate-msg { display: block; }
@@ -186,68 +197,70 @@
 
   <div id="rotate-msg">
     <h2>📱 Gire o celular</h2>
-    <p>Coloque seu aparelho na horizontal para usar a calculadora.</p>
+    <p>Para usar a calculadora financeira,<br>coloque seu aparelho na horizontal.</p>
   </div>
 
   <div class="hp-body">
     
     <div class="hp-top-panel">
-      <div class="hp-display" id="display">0,00</div>
+      <div class="hp-display-bezel">
+        <div class="hp-display" id="display">0,00</div>
+      </div>
     </div>
 
     <div class="hp-divider"></div>
 
     <div class="hp-grid">
-      <div class="key-cell"><div class="label-orange">AMORT</div><button class="key" data-val="n">n<span class="label-blue">12x</span></button></div>
-      <div class="key-cell"><div class="label-orange">INT</div><button class="key" data-val="i">i<span class="label-blue">12÷</span></button></div>
-      <div class="key-cell"><div class="label-orange">NPV</div><button class="key" data-val="PV">PV<span class="label-blue">CFo</span></button></div>
-      <div class="key-cell"><div class="label-orange">RND</div><button class="key" data-val="PMT">PMT<span class="label-blue">CFj</span></button></div>
-      <div class="key-cell"><div class="label-orange">IRR</div><button class="key" data-val="FV">FV<span class="label-blue">Nj</span></button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key" data-val="CHS">CHS<span class="label-blue">DATE</span></button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val="7">7<span class="label-blue">BEG</span></button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val="8">8<span class="label-blue">END</span></button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val="9">9<span class="label-blue">MEM</span></button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key op" data-val="/">÷</button></div>
+      <div class="key-cell"><div class="label-orange">AMORT</div><div class="key" data-val="n"><span class="main-text">n</span><span class="label-blue">12x</span></div></div>
+      <div class="key-cell"><div class="label-orange">INT</div><div class="key" data-val="i"><span class="main-text">i</span><span class="label-blue">12÷</span></div></div>
+      <div class="key-cell"><div class="label-orange">NPV</div><div class="key" data-val="PV"><span class="main-text">PV</span><span class="label-blue">CFo</span></div></div>
+      <div class="key-cell"><div class="label-orange">RND</div><div class="key" data-val="PMT"><span class="main-text">PMT</span><span class="label-blue">CFj</span></div></div>
+      <div class="key-cell"><div class="label-orange">IRR</div><div class="key" data-val="FV"><span class="main-text">FV</span><span class="label-blue">Nj</span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key" data-val="CHS"><span class="main-text">CHS</span><span class="label-blue">DATE</span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key num" data-val="7"><span class="main-text">7</span><span class="label-blue">BEG</span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key num" data-val="8"><span class="main-text">8</span><span class="label-blue">END</span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key num" data-val="9"><span class="main-text">9</span><span class="label-blue">MEM</span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key op" data-val="/"><span class="main-text">÷</span><span class="label-blue"></span></div></div>
 
-      <div class="key-cell"><div class="label-orange">PRICE</div><button class="key" data-val="yx">y<sup>x</sup><span class="label-blue">√x</span></button></div>
-      <div class="key-cell"><div class="label-orange">YTM</div><button class="key" data-val="1x">1/x<span class="label-blue">e<sup>x</sup></span></button></div>
-      <div class="key-cell"><div class="label-orange">SL</div><button class="key" data-val="%T">%T<span class="label-blue">LN</span></button></div>
-      <div class="key-cell"><div class="label-orange">SOYD</div><button class="key" data-val="D%">Δ%<span class="label-blue">FRAC</span></button></div>
-      <div class="key-cell"><div class="label-orange">DB</div><button class="key" data-val="%">%<span class="label-blue">INTG</span></button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key" data-val="EEX">EEX<span class="label-blue">ΔDYS</span></button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val="4">4<span class="label-blue">D.MY</span></button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val="5">5<span class="label-blue">M.DY</span></button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val="6">6<span class="label-blue">x̅w</span></button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key op" data-val="*">×</button></div>
+      <div class="key-cell"><div class="label-orange">PRICE</div><div class="key" data-val="yx"><span class="main-text">y<sup>x</sup></span><span class="label-blue">√x</span></div></div>
+      <div class="key-cell"><div class="label-orange">YTM</div><div class="key" data-val="1x"><span class="main-text">1/x</span><span class="label-blue">e<sup>x</sup></span></div></div>
+      <div class="key-cell"><div class="label-orange">SL</div><div class="key" data-val="%T"><span class="main-text">%T</span><span class="label-blue">LN</span></div></div>
+      <div class="key-cell"><div class="label-orange">SOYD</div><div class="key" data-val="D%"><span class="main-text">Δ%</span><span class="label-blue">FRAC</span></div></div>
+      <div class="key-cell"><div class="label-orange">DB</div><div class="key" data-val="%"><span class="main-text">%</span><span class="label-blue">INTG</span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key" data-val="EEX"><span class="main-text">EEX</span><span class="label-blue">ΔDYS</span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key num" data-val="4"><span class="main-text">4</span><span class="label-blue">D.MY</span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key num" data-val="5"><span class="main-text">5</span><span class="label-blue">M.DY</span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key num" data-val="6"><span class="main-text">6</span><span class="label-blue">x̅w</span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key op" data-val="*"><span class="main-text">×</span><span class="label-blue"></span></div></div>
 
-      <div class="key-cell"><div class="label-orange">P/R</div><button class="key" data-val="RS">R/S<span class="label-blue">PSE</span></button></div>
-      <div class="key-cell"><div class="label-orange">Σ</div><button class="key" data-val="SST">SST<span class="label-blue">BST</span></button></div>
-      <div class="key-cell"><div class="label-orange">PRGM</div><button class="key" data-val="Rdown">R↓<span class="label-blue">GTO</span></button></div>
-      <div class="key-cell"><div class="label-orange">FIN</div><button class="key" data-val="xy">x≷y<span class="label-blue">x≤y</span></button></div>
-      <div class="key-cell"><div class="label-orange">REG</div><button class="key" data-val="CLx">CLx<span class="label-blue">x=0</span></button></div>
+      <div class="key-cell"><div class="label-orange">P/R</div><div class="key" data-val="RS"><span class="main-text">R/S</span><span class="label-blue">PSE</span></div></div>
+      <div class="key-cell"><div class="label-orange">Σ</div><div class="key" data-val="SST"><span class="main-text">SST</span><span class="label-blue">BST</span></div></div>
+      <div class="key-cell"><div class="label-orange">PRGM</div><div class="key" data-val="Rdown"><span class="main-text">R↓</span><span class="label-blue">GTO</span></div></div>
+      <div class="key-cell"><div class="label-orange">FIN</div><div class="key" data-val="xy"><span class="main-text">x≷y</span><span class="label-blue">x≤y</span></div></div>
+      <div class="key-cell"><div class="label-orange">REG</div><div class="key" data-val="CLx"><span class="main-text">CLx</span><span class="label-blue">x=0</span></div></div>
       
       <div class="key-cell enter-cell">
         <div class="label-orange">PREFIX</div>
-        <button class="key btn-enter" data-val="ENTER">
-          <span class="main-text">ENTER</span>
-          <span class="label-blue">LSTx</span>
-        </button>
+        <div class="key btn-enter" data-val="ENTER">
+          <span class="main-text"><span>E</span><span>N</span><span>T</span><span>E</span><span>R</span></span>
+          <span class="label-blue" style="margin-bottom: 4px;">LSTx</span>
+        </div>
       </div>
 
-      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val="1">1<span class="label-blue">x̂,r</span></button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val="2">2<span class="label-blue">ŷ,r</span></button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val="3">3<span class="label-blue">n!</span></button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key op" data-val="-">-</button></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key num" data-val="1"><span class="main-text">1</span><span class="label-blue">x̂,r</span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key num" data-val="2"><span class="main-text">2</span><span class="label-blue">ŷ,r</span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key num" data-val="3"><span class="main-text">3</span><span class="label-blue">n!</span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key op" data-val="-"><span class="main-text">-</span><span class="label-blue"></span></div></div>
 
-      <div class="key-cell"><div class="label-orange"></div><button class="key btn-on" onclick="window.location.href='home.html'">ON</button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key btn-f">f</button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key btn-g">g</button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key" data-val="STO">STO</button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key" data-val="RCL">RCL</button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val="0">0<span class="label-blue">x̄</span></button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key num" data-val=".">.<span class="label-blue">s</span></button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key" data-val="SUM">Σ+<span class="label-blue">Σ-</span></button></div>
-      <div class="key-cell"><div class="label-orange"></div><button class="key op" data-val="+">+</button></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key btn-on" onclick="window.location.href='home.html'"><span class="main-text">ON</span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key btn-f"><span class="main-text">f</span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key btn-g"><span class="main-text">g</span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key" data-val="STO"><span class="main-text">STO</span><span class="label-blue"></span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key" data-val="RCL"><span class="main-text">RCL</span><span class="label-blue"></span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key num" data-val="0"><span class="main-text">0</span><span class="label-blue">x̄</span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key num" data-val="."><span class="main-text">.</span><span class="label-blue">s</span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key" data-val="SUM"><span class="main-text">Σ+</span><span class="label-blue">Σ-</span></div></div>
+      <div class="key-cell"><div class="label-orange"></div><div class="key op" data-val="+"><span class="main-text">+</span><span class="label-blue"></span></div></div>
     </div>
 
   </div>
