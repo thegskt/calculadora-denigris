@@ -51,9 +51,9 @@
       border: 1px solid #000;
     }
 
-    /* === PAINEL DO TOPO (Visor Esquerda | Logos Direita - LIMPO) === */
+    /* === PAINEL DO TOPO (Limpo e Elegante) === */
     .hp-top-panel {
-      background: #d4cbb3; /* Bege clássico */
+      background: #d4cbb3; 
       border-radius: 6px;
       padding: 1.5% 2%;
       margin-bottom: 2%;
@@ -122,17 +122,15 @@
       display: grid;
       grid-template-columns: repeat(10, 1fr);
       grid-template-rows: repeat(4, 1fr);
-      gap: 1.5% 1.8%; 
+      /* Aumentei o espaço vertical (row-gap) para 4.5% para caber as chaves com folga */
+      gap: 4.5% 1.8%; 
       height: 68%; 
-      position: relative; /* O segredo para amarrar os fantasmas */
     }
 
-    /* === A MÁGICA FINAL: TEXTOS FLUTUANTES ANCORADOS NAS CÉLULAS === */
+    /* === A MÁGICA DE ENGENHARIA: CHAVES ANCORADAS COM ZERO BUGS === */
     .ghost-label {
-      position: absolute;
-      bottom: 0; /* Cola na borda inferior da fileira de botões */
-      left: 0;
-      right: 0;
+      height: 0; /* Altura zero para não empurrar a grade */
+      align-self: end; /* Gruda no fundo da fileira exata */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -143,18 +141,26 @@
       letter-spacing: 0.5px;
       z-index: 10;
       pointer-events: none; 
-      /* Empurra a linha para a fresta vazia com precisão milimétrica */
+      /* Empurra 12 pixels abaixo do botão, caindo perfeito na fresta ampliada */
       transform: translateY(12px); 
     }
 
     .ghost-label::before, .ghost-label::after {
       content: "";
       flex-grow: 1;
-      height: 4px;
-      border-top: 1px solid #D87F3B;
+      height: 4px; /* Altura das "perninhas" da chave */
+      border-bottom: 1px solid #D87F3B; /* Linha horizontal passando por baixo */
     }
-    .ghost-label::before { border-left: 1px solid #D87F3B; margin-right: 5px; margin-left: 10%; } 
-    .ghost-label::after { border-right: 1px solid #D87F3B; margin-left: 5px; margin-right: 10%; }
+    .ghost-label::before { 
+      border-left: 1px solid #D87F3B; /* Perninha da esquerda */
+      margin-right: 5px; 
+      margin-left: 15%; 
+    } 
+    .ghost-label::after { 
+      border-right: 1px solid #D87F3B; /* Perninha da direita */
+      margin-left: 5px; 
+      margin-right: 15%; 
+    }
 
 
     /* === DESIGN DAS TECLAS === */
@@ -182,7 +188,7 @@
       border-radius: 4px 4px 6px 6px;
       color: #f1f1f1;
       width: 100%;
-      height: 70%; 
+      height: 72%; /* Botão com tamanho ótimo */
       display: flex;
       flex-direction: column;
       justify-content: space-between;
