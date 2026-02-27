@@ -53,7 +53,7 @@
       position: relative; 
     }
 
-    /* === LOGOS OFICIAIS MERCEDES E DE NIGRIS === */
+    /* === LOGOS OFICIAIS MERCEDES E DE NIGRIS (Restaurado) === */
     .hp-brand-header {
       display: flex;
       justify-content: center;
@@ -61,7 +61,7 @@
       margin-bottom: 1.5%;
       position: relative;
       width: 100%;
-      height: 30px;
+      height: 28px;
     }
     
     .logos-center {
@@ -72,7 +72,7 @@
     }
 
     .logos-center img {
-      max-height: 22px;
+      max-height: 24px;
       object-fit: contain;
     }
 
@@ -82,7 +82,7 @@
       background-color: rgba(255, 255, 255, 0.3);
     }
 
-    /* === BOTÃO INFO E MODAL (MOVIDOS PARA O HEAD) === */
+    /* === BOTÃO INFO E MODAL === */
     .info-btn {
       position: absolute;
       right: 10px;
@@ -108,7 +108,7 @@
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(4px); /* Efeito blur premium */
+      backdrop-filter: blur(4px); 
       justify-content: center;
       align-items: center;
       z-index: 1000;
@@ -172,19 +172,6 @@
       border: 1px solid #1a1a1a;
     }
 
-    /* === DESCRITIVOS DE CATEGORIA === */
-    .category-text {
-      position: absolute;
-      font-size: 0.7rem;
-      color: #fb923c;
-      font-weight: bold;
-      text-transform: uppercase;
-      pointer-events: none;
-    }
-    #bond-text { left: 5.5%; bottom: 65%; }
-    #depreciation-text { left: 24%; bottom: 65%; }
-    #clear-text { left: 47%; bottom: 65%; }
-
     /* === TECLADO === */
     .hp-grid {
       display: grid;
@@ -195,6 +182,43 @@
       position: relative;
     }
 
+    /* === CATEGORIAS DE TEXTO ANCORADAS NA GRADE (BLINDADO) === */
+    .cat-label {
+      position: absolute;
+      bottom: 2px; /* Mantém o texto sempre empurrado para cima, longe dos botões */
+      left: 0; right: 0;
+      color: #D87F3B;
+      font-size: clamp(0.45rem, 1.1vw, 0.6rem);
+      font-weight: bold;
+      text-align: center;
+      pointer-events: none;
+    }
+    
+    .cat-bracket {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 92%;
+      margin: 0 auto;
+    }
+
+    /* Linhas e Cantos estilo HP */
+    .cat-bracket::before, .cat-bracket::after {
+      content: "";
+      flex-grow: 1;
+      height: 4px;
+      border-top: 1px solid #D87F3B;
+    }
+    .cat-bracket::before {
+      border-left: 1px solid #D87F3B;
+      margin-right: 6px;
+    }
+    .cat-bracket::after {
+      border-right: 1px solid #D87F3B;
+      margin-left: 6px;
+    }
+
+    /* Classes das Teclas */
     .key-cell {
       display: flex;
       flex-direction: column;
@@ -313,9 +337,16 @@
     </div>
 
     <div class="hp-grid">
-      <span class="category-text" id="bond-text">BOND</span>
-      <span class="category-text" id="depreciation-text">DEPRECIATION</span>
-      <span class="category-text" id="clear-text">CLEAR</span>
+      
+      <div style="grid-column: 1 / 3; grid-row: 2; height: 0; position: relative; z-index: 10;">
+        <div class="cat-label"><div class="cat-bracket">BOND</div></div>
+      </div>
+      <div style="grid-column: 3 / 6; grid-row: 2; height: 0; position: relative; z-index: 10;">
+        <div class="cat-label"><div class="cat-bracket">DEPRECIATION</div></div>
+      </div>
+      <div style="grid-column: 2 / 6; grid-row: 3; height: 0; position: relative; z-index: 10;">
+        <div class="cat-label"><div class="cat-bracket">CLEAR</div></div>
+      </div>
 
       <div class="key-cell"><div class="label-orange">AMORT</div><div class="key" data-val="n"><span class="main-text">n</span><span class="label-blue">12x</span></div></div>
       <div class="key-cell"><div class="label-orange">INT</div><div class="key" data-val="i"><span class="main-text">i</span><span class="label-blue">12÷</span></div></div>
@@ -372,7 +403,6 @@
   </div>
 
   <script>
-    // Controle do Modal
     document.getElementById('info-btn').addEventListener('click', () => {
       document.getElementById('info-modal').style.display = 'flex';
     });
@@ -385,7 +415,6 @@
       }
     });
 
-    // PWA Tela Cheia no Safari/Chrome Mobile
     document.querySelector('.hp-body').addEventListener('touchstart', function() {
       if (!document.fullscreenElement && !document.webkitFullscreenElement) {
         let docElm = document.documentElement;

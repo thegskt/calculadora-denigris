@@ -81,15 +81,15 @@ const keyHandlers = {
   operator(key) {
     handleInput();
     const op = key.dataset.val;
+    const x = popStack();
     const y = popStack();
-    const x = stack[0]; // Não remove X, apenas usa
     let result = 0;
-    
+
     if (op === '+') result = y + x;
     if (op === '-') result = y - x;
     if (op === '*') result = y * x;
-    if (op === '/') result = x !== 0 ? y / x : 'Error'; // Erro de divisão por zero
-    
+    if (op === '/') result = x !== 0 ? y / x : 'Error';
+
     stack[0] = result;
     updateDisplay(result);
   },
@@ -99,8 +99,13 @@ const keyHandlers = {
     const func = key.dataset.val;
     switch(func) {
       case 'ENTER':
-        handleInput();
-        pushStack(stack[0]); // Duplica o valor de X
+        if (inputMode) {
+          pushStack(parseFloat(inputBuffer));
+          inputBuffer = '0';
+          inputMode = false;
+        } else {
+          pushStack(stack[0]);
+        }
         break;
       case 'CHS': // Change Sign
         stack[0] *= -1;
