@@ -3,33 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  
-  <title>HP-12C De Nigris</title>
-  
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" type="image/png" href="Imagens/icon.png"/>
-  
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="HP-12C">
-  <link rel="apple-touch-icon" href="Imagens/icon.png">
   <meta name="theme-color" content="#1a1a1a">
+  
+  <title>HP-12C De Nigris</title>
+  <link rel="icon" type="image/png" href="Imagens/icon.png"/>
+  <link rel="manifest" href="manifest.json">
 
   <style>
-    /* Fonte digital idêntica ao visor de cristal líquido */
+    /* Fonte digital do visor */
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
     * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
 
     body {
-      background-color: #1a1a1a;
+      background-color: #111;
       display: flex;
       justify-content: center;
       align-items: center;
-      /* O truque do dvh (Dynamic Viewport Height) */
-      height: 100vh; 
-      height: 100dvh; 
+      height: 100dvh; /* Dynamic viewport para não cortar nada */
       overflow: hidden;
       font-family: Arial, Helvetica, sans-serif;
     }
@@ -42,70 +37,74 @@
       font-size: 1.2rem;
     }
 
-    /* A Carcaça da HP-12C - Textura Fosca */
+    /* Carcaça Preta Fosca Premium */
     .hp-body {
-      background: #242424; 
-      width: 94vw;   /* <-- Reduzido de 100vw para 94vw (Cria margem lateral) */
-      height: 94dvh; /* <-- Reduzido de 96dvh para 94dvh (Cria margem topo/baixo) */
-      max-width: 850px;
-      max-height: 480px;
+      background: #1c1c1c; 
+      width: 96vw;
+      height: 94dvh;
+      max-width: 950px;
+      max-height: 520px;
       padding: 1.5% 2%;
       display: flex;
       flex-direction: column;
       border-radius: 12px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.9), inset 0 2px 4px rgba(255,255,255,0.05);
-      border: 1px solid #111;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.9), inset 0 2px 4px rgba(255,255,255,0.08);
+      border: 1px solid #000;
     }
 
-    /* Painel Metálico Bege/Dourado */
-    .hp-top-panel {
-      background: #C3B99E; 
-      border-radius: 4px;
-      padding: 2% 4%;
+    /* === NOVO: LOGO TOPO MERCEDES / DE NIGRIS === */
+    .hp-brand-header {
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       align-items: center;
-      margin-bottom: 2%;
-      height: 25%;
-      box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), inset 0 -2px 6px rgba(0,0,0,0.3);
-      position: relative;
-      border-bottom: 2px solid #5a513e;
+      gap: 10px;
+      color: #9ca3af; /* Prata fosco */
+      margin-bottom: 1.5%;
     }
 
-    /* A borda preta em volta do visor verde */
-    .hp-display-bezel {
-      background: #1e1e1e;
-      padding: 6px;
-      border-radius: 4px;
-      height: 80%;
-      width: 65%;
-      box-shadow: 0 1px 2px rgba(255,255,255,0.3), inset 0 2px 5px rgba(0,0,0,0.8);
+    .hp-brand-header svg {
+      height: 22px;
+      width: 22px;
+      fill: currentColor;
     }
 
-    /* O Visor Verde-Oliva LCD */
+    .hp-brand-header span {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 1.4rem;
+      letter-spacing: 1px;
+    }
+
+    /* === NOVO: PAINEL BEGE E VISOR GIGANTE === */
+    .hp-top-panel {
+      background: #d4cbb3; /* Bege clássico */
+      border-radius: 6px;
+      padding: 1.5% 1.5%;
+      margin-bottom: 2.5%;
+      height: 28%; /* Mais alto */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.6), inset 0 2px 3px rgba(255,255,255,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     .hp-display {
-      background-color: #A2A992;
-      color: #0d0d0d;
+      background-color: #a3ab88; /* Verde do LCD */
+      color: #111;
       font-family: 'Share Tech Mono', monospace;
-      font-size: clamp(1.8rem, 10vh, 3.2rem); /* <-- Número menor e mais proporcional */
-      line-height: 1; /* <-- Força o número a ficar no meio exato do vidro */
+      font-size: clamp(2.5rem, 12vh, 4.5rem); /* Fonte gigante e proporcional */
+      line-height: 1;
       text-align: right;
-      padding: 0px 15px; /* Dá um espacinho do lado direito */
-      height: 100%;
-      width: 100%;
+      padding: 0px 20px;
+      height: 90%;
+      width: 98%; /* Ocupa quase todo o painel bege */
+      border-radius: 4px;
       display: flex;
       align-items: center;
       justify-content: flex-end;
       letter-spacing: 2px;
-      box-shadow: inset 3px 3px 6px rgba(0,0,0,0.3), inset -1px -1px 3px rgba(255,255,255,0.3);
-    }
-
-    /* Linha divisória preta abaixo do painel */
-    .hp-divider {
-      height: 2px;
-      background: #000;
-      margin-bottom: 1.5%;
-      border-bottom: 1px solid #333;
+      /* Sombra interna forte para parecer fundo */
+      box-shadow: inset 4px 4px 10px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.2);
+      border: 1px solid #1a1a1a;
     }
 
     /* Teclado - Grid 10x4 */
@@ -114,7 +113,7 @@
       grid-template-columns: repeat(10, 1fr);
       grid-template-rows: repeat(4, 1fr);
       gap: 1.2% 1.8%;
-      height: 70%;
+      height: 60%; /* Ajustado para dar espaço ao visor */
     }
 
     .key-cell {
@@ -125,20 +124,18 @@
       position: relative;
     }
 
-    /* Texto Laranja Acima do Botão */
     .label-orange {
       color: #D87F3B;
-      font-size: clamp(0.45rem, 1.1vw, 0.6rem);
+      font-size: clamp(0.45rem, 1.1vw, 0.65rem);
       font-weight: bold;
       margin-bottom: 3px;
       text-transform: uppercase;
-      letter-spacing: 0px;
+      letter-spacing: -0.2px;
       white-space: nowrap;
     }
 
-    /* O Botão 3D Realista */
     .key {
-      background: linear-gradient(180deg, #4d4d4d 0%, #2b2b2b 100%);
+      background: linear-gradient(180deg, #444 0%, #222 100%);
       border: 1px solid #000;
       border-radius: 4px 4px 6px 6px;
       color: #f1f1f1;
@@ -150,24 +147,22 @@
       align-items: center;
       cursor: pointer;
       padding: 4px 2px 2px 2px;
-      /* A mágica do 3D: Brilho no topo, sombra preta na base, sombra projetada */
       box-shadow: inset 0 2px 1px rgba(255,255,255,0.15), 0 3px 0px #0a0a0a, 0 4px 4px rgba(0,0,0,0.5);
       position: relative;
-      transition: all 0.05s ease;
+      transition: transform 0.05s ease, box-shadow 0.05s ease;
     }
 
     .key:active {
       transform: translateY(3px);
       box-shadow: inset 0 1px 2px rgba(0,0,0,0.6), 0 0px 0px #0a0a0a, 0 1px 1px rgba(0,0,0,0.5);
-      background: linear-gradient(180deg, #3d3d3d 0%, #222 100%);
+      background: linear-gradient(180deg, #383838 0%, #1a1a1a 100%);
     }
 
-    /* Textos dentro do botão */
     .main-text {
       flex-grow: 1;
       display: flex;
       align-items: center;
-      font-size: clamp(0.8rem, 2vw, 1.1rem);
+      font-size: clamp(0.85rem, 2.2vw, 1.1rem);
       font-weight: 600;
     }
 
@@ -178,7 +173,6 @@
       align-self: center;
     }
 
-    /* Cores Especiais */
     .key.btn-f { background: linear-gradient(180deg, #D87F3B, #b86022); color: #000; }
     .key.btn-g { background: linear-gradient(180deg, #4EB1D9, #2b84a6); color: #000; }
     .key.btn-on { font-size: 0.8rem; }
@@ -200,7 +194,7 @@
       letter-spacing: 1px;
     }
 
-    /* Força Modo Paisagem */
+    /* Força Mensagem no Modo Retrato */
     @media screen and (orientation: portrait) {
       .hp-body { display: none; }
       #rotate-msg { display: block; }
@@ -216,13 +210,16 @@
 
   <div class="hp-body">
     
-    <div class="hp-top-panel">
-      <div class="hp-display-bezel">
-        <div class="hp-display" id="display">0,00</div>
-      </div>
+    <div class="hp-brand-header">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 1.5c4.69 0 8.5 3.81 8.5 8.5 0 1.54-.42 2.99-1.14 4.22l-6.86-11.88A8.45 8.45 0 0 1 12 3.5zm-.5 1.05L5.05 15.69A8.47 8.47 0 0 1 3.5 12c0-4.69 3.81-8.5 8.5-8.5v1.05zM12.5 13l6.5 11.26A8.48 8.48 0 0 1 12 20.5c-2.4 0-4.57-1.01-6.1-2.63L12.5 13z"/>
+      </svg>
+      <span>De Nigris</span>
     </div>
 
-    <div class="hp-divider"></div>
+    <div class="hp-top-panel">
+      <div class="hp-display" id="display">0,00</div>
+    </div>
 
     <div class="hp-grid">
       <div class="key-cell"><div class="label-orange">AMORT</div><div class="key" data-val="n"><span class="main-text">n</span><span class="label-blue">12x</span></div></div>
@@ -283,11 +280,8 @@
     document.querySelector('.hp-body').addEventListener('touchstart', function() {
       if (!document.fullscreenElement && !document.webkitFullscreenElement) {
         let docElm = document.documentElement;
-        if (docElm.requestFullscreen) {
-          docElm.requestFullscreen();
-        } else if (docElm.webkitRequestFullscreen) { // Safari/iPhone
-          docElm.webkitRequestFullscreen();
-        }
+        if (docElm.requestFullscreen) docElm.requestFullscreen();
+        else if (docElm.webkitRequestFullscreen) docElm.webkitRequestFullscreen();
       }
     }, { once: true });
   </script>
