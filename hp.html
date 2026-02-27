@@ -93,7 +93,7 @@
       box-shadow: inset 4px 4px 10px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.2);
     }
 
-    /* Área das Logos à Direita */
+    /* Área das Logos à Direita (Limpa) */
     .hp-brand-area {
       display: flex;
       flex-direction: column;
@@ -117,62 +117,6 @@
       letter-spacing: 1px;
     }
 
-    /* BOTÃO INFO E MODAL */
-    .info-btn {
-      width: 24px;
-      height: 24px;
-      background-color: #4EB1D9;
-      color: #000;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-weight: bold;
-      cursor: pointer;
-      font-family: serif;
-      font-size: 1rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.4);
-      transition: transform 0.2s;
-      margin-top: 4px;
-    }
-    .info-btn:active { transform: scale(0.9); }
-
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(4px); 
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-    .modal-content {
-      background: #d4cbb3;
-      color: #1c1c1c;
-      padding: 25px;
-      border-radius: 8px;
-      max-width: 90vw;
-      width: 500px;
-      font-family: Arial, sans-serif;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-    }
-    .modal-content h3 { text-align: center; margin-bottom: 15px; color: #000; }
-    .modal-content ul { list-style-position: inside; margin-bottom: 15px; font-size: 0.95rem; line-height: 1.4; }
-    .modal-content li { margin-bottom: 10px; }
-    .modal-content button {
-      display: block;
-      margin: 10px auto 0;
-      padding: 10px 24px;
-      background-color: #D87F3B;
-      border: 1px solid #a85d21;
-      border-radius: 6px;
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    }
-
     /* === TECLADO GRID === */
     .hp-grid {
       display: grid;
@@ -183,14 +127,14 @@
       position: relative; /* Crucial para o funcionamento dos fantasmas */
     }
 
-    /* === A MÁGICA: TEXTOS FLUTUANTES (Agora no espaço vazio perfeito) === */
+    /* === A MÁGICA: TEXTOS FLUTUANTES (Ajustados ainda mais pra cima) === */
     .cat-bracket {
       position: absolute;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #D87F3B;
-      font-size: clamp(0.4rem, 0.9vw, 0.55rem); /* Fonte um pouquinho menor pra ficar elegante */
+      font-size: clamp(0.35rem, 0.9vw, 0.5rem); /* Fonte um pouquinho menor pra evitar qualquer toque */
       font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -208,10 +152,10 @@
     .cat-bracket::before { border-left: 1px solid #D87F3B; margin-right: 5px; margin-left: 5%; } 
     .cat-bracket::after { border-right: 1px solid #D87F3B; margin-left: 5px; margin-right: 5%; }
 
-    /* Subimos as linhas para não bater na fonte de baixo! */
-    #lbl-bond { top: 22%; left: 0.5%; width: 18.5%; } 
-    #lbl-depreciation { top: 22%; left: 20.5%; width: 28.5%; }
-    #lbl-clear { top: 47%; left: 30.5%; width: 28.5%; }
+    /* Eixo Y subido de 22% para 21% para dar mais folga das letras de baixo */
+    #lbl-bond { top: 21%; left: 0.5%; width: 18.5%; } 
+    #lbl-depreciation { top: 21%; left: 20.5%; width: 28.5%; }
+    #lbl-clear { top: 46%; left: 30.5%; width: 28.5%; }
 
     /* === DESIGN DAS TECLAS === */
     .key-cell {
@@ -226,7 +170,7 @@
       color: #D87F3B;
       font-size: clamp(0.45rem, 1.1vw, 0.65rem);
       font-weight: bold;
-      margin-bottom: 4px; /* Mais espaço pra empurrar a linha fantasma pra cima */
+      margin-bottom: 4px; 
       text-transform: uppercase;
       letter-spacing: -0.2px;
       white-space: nowrap;
@@ -238,7 +182,7 @@
       border-radius: 4px 4px 6px 6px;
       color: #f1f1f1;
       width: 100%;
-      height: 70%; /* O SEGREDO AQUI: Botão levemente menor = fresta preta maior! */
+      height: 70%; /* Botão menor pra dar fresta */
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -276,7 +220,7 @@
     .key.btn-on { font-size: 0.8rem; }
 
     .key-cell.enter-cell { grid-column: 6; grid-row: 3 / span 2; }
-    .key.btn-enter { height: 86%; padding-top: 15px; } /* Ajustado pro Enter acompanhar a nova altura */
+    .key.btn-enter { height: 86%; padding-top: 15px; } 
     .btn-enter .main-text {
       display: flex;
       flex-direction: column;
@@ -307,25 +251,6 @@
       <div class="hp-brand-area">
         <img src="Imagens/Mercedes-Logo.png" alt="Mercedes">
         <span>De Nigris</span>
-        <div class="info-btn" id="info-btn">i</div>
-      </div>
-    </div>
-
-    <div id="info-modal" class="modal-overlay">
-      <div class="modal-content">
-        <h3>🚀 Melhorias na Calculadora HP-12C 🚀</h3>
-        <p>Olá! Analisei seu código e fiz algumas melhorias importantes:</p>
-        <ul>
-          <li><strong>Motor RPN Aprimorado:</strong> O núcleo da calculadora foi totalmente reescrito para ser mais robusto, eficiente e fiel à lógica RPN da HP-12C.</li>
-          <li><strong>Funções Financeiras Ativadas:</strong> Agora você pode calcular de verdade!
-            <ul>
-              <li>Para <strong>ARMAZENAR</strong> um valor: Digite o número, pressione ENTER e depois a tecla correspondente (ex: <code>12</code> -> <code>n</code>).</li>
-              <li>Para <strong>CALCULAR</strong> um valor: Pressione a tecla correspondente que deseja descobrir sem digitar nada antes (ex: <code>PMT</code>).</li>
-            </ul>
-          </li>
-          <li><strong>Cálculos Disponíveis:</strong> As funções para <code>n</code>, <code>PV</code>, <code>PMT</code> e <code>FV</code> estão implementadas. A função para calcular a taxa (<code>i</code>) está em desenvolvimento.</li>
-        </ul>
-        <button id="close-modal-btn">Entendi</button>
       </div>
     </div>
 
@@ -390,19 +315,6 @@
   </div>
 
   <script>
-    // Controle do Modal
-    document.getElementById('info-btn').addEventListener('click', () => {
-      document.getElementById('info-modal').style.display = 'flex';
-    });
-    document.getElementById('close-modal-btn').addEventListener('click', () => {
-      document.getElementById('info-modal').style.display = 'none';
-    });
-    document.getElementById('info-modal').addEventListener('click', (e) => {
-      if (e.target.id === 'info-modal') {
-        document.getElementById('info-modal').style.display = 'none';
-      }
-    });
-
     // PWA Tela Cheia no Safari/Chrome Mobile
     document.querySelector('.hp-body').addEventListener('touchstart', function() {
       if (!document.fullscreenElement && !document.webkitFullscreenElement) {
