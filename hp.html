@@ -130,27 +130,28 @@
     /* === A ENGENHARIA DEFINITIVA: CAMADA SOBREPOSTA (OVERLAY) === */
     /* Ao colocar absolute em um item do grid, ele NÃO empurra os botões! */
     .ghost-span {
+      position: absolute;
+      bottom: -16px; /* Empurra exato pro meio do vão preto de baixo */
+      left: 0; right: 0;
       display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      margin-bottom: -6px; /* ajuste fino */
-      pointer-events: none;
+      align-items: flex-end; /* Alinha o texto e a linha pelo pé */
+      z-index: 10;
+      pointer-events: none; /* Imune a toques */
     }
 
     .ghost-span-text {
       color: #D87F3B;
-      font-size: clamp(0.45rem, 1vw, 0.65rem);
+      font-size: clamp(0.35rem, 0.9vw, 0.55rem);
       font-weight: bold;
       text-transform: uppercase;
       padding: 0 4px;
       line-height: 0.85; /* Puxa o texto pra colar na linha */
-      letter-spacing: 0.5px;
     }
 
     .ghost-line {
       flex-grow: 1;
-      height: 8px; /* Altura do dente da chave */
-      border-bottom: 2px solid #D87F3B;
+      height: 5px; /* Altura do dente da chave */
+      border-bottom: 1px solid #D87F3B;
     }
 
     /* Margens que recolhem as pontas da chave para o centro do botão */
