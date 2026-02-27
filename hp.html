@@ -51,9 +51,9 @@
       border: 1px solid #000;
     }
 
-    /* === PAINEL BEGE TOPO === */
+    /* === PAINEL DO TOPO (Visor Esquerda | Logos Direita) === */
     .hp-top-panel {
-      background: #d4cbb3; 
+      background: #d4cbb3; /* Bege clássico */
       border-radius: 6px;
       padding: 1.5% 2%;
       margin-bottom: 2%;
@@ -65,13 +65,13 @@
       gap: 2%;
     }
 
-    /* Visor */
+    /* O Visor Gigante */
     .hp-display-bezel {
       background: #1e1e1e;
       padding: 6px;
       border-radius: 4px;
       height: 90%;
-      flex-grow: 1; 
+      flex-grow: 1; /* Estica o visor o máximo possível */
       box-shadow: 0 1px 2px rgba(255,255,255,0.3), inset 0 2px 5px rgba(0,0,0,0.8);
     }
 
@@ -79,7 +79,7 @@
       background-color: #a3ab88; 
       color: #111;
       font-family: 'Share Tech Mono', monospace;
-      font-size: clamp(2.5rem, 12vh, 4.5rem); 
+      font-size: clamp(2.5rem, 11vh, 4rem); 
       line-height: 1;
       text-align: right;
       padding: 0px 20px;
@@ -93,7 +93,7 @@
       box-shadow: inset 4px 4px 10px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.2);
     }
 
-    /* Marcas à Direita (Sem botão Info) */
+    /* Área das Logos à Direita */
     .hp-brand-area {
       display: flex;
       flex-direction: column;
@@ -105,47 +105,42 @@
     }
 
     .hp-brand-area img {
-      max-height: 26px;
+      max-height: 28px;
       object-fit: contain;
       filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.2));
     }
 
     .hp-brand-area span {
       font-family: "Times New Roman", Times, serif;
-      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-size: clamp(1rem, 2vw, 1.4rem);
       font-weight: bold;
       letter-spacing: 1px;
     }
 
-    /* TECLADO GRID */
+    /* === TECLADO GRID === */
     .hp-grid {
       display: grid;
       grid-template-columns: repeat(10, 1fr);
       grid-template-rows: repeat(4, 1fr);
       gap: 1.5% 1.8%; 
       height: 68%; 
+      position: relative; /* Crucial para ancorar os textos flutuantes */
     }
 
-    /* LINHAS LARANJAS ANCORADAS NO GRID */
-    .cat-wrapper {
-      position: relative;
-      pointer-events: none;
-      z-index: 10;
-    }
-
+    /* === A MÁGICA: TEXTOS FLUTUANTES (Não quebram o Grid) === */
     .cat-bracket {
       position: absolute;
-      top: -18px; 
-      left: 0;
-      width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #D87F3B;
-      font-size: clamp(0.45rem, 1.1vw, 0.65rem);
+      font-size: clamp(0.4rem, 1.1vw, 0.65rem);
       font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      z-index: 10;
+      pointer-events: none; /* Deixa o clique passar reto caso o dedo encoste na linha */
+      transform: translateY(-50%); /* Centraliza exato no meio da fresta */
     }
 
     .cat-bracket::before, .cat-bracket::after {
@@ -157,7 +152,12 @@
     .cat-bracket::before { border-left: 1px solid #D87F3B; margin-right: 5px; margin-left: 10%; } 
     .cat-bracket::after { border-right: 1px solid #D87F3B; margin-left: 5px; margin-right: 10%; }
 
-    /* BOTÕES GERAIS */
+    /* Posicionamento Matemático Absoluto (Imune a bugs de tela) */
+    #lbl-bond { top: 24.6%; left: 0%; width: 18.5%; } 
+    #lbl-depreciation { top: 24.6%; left: 20.3%; width: 28.7%; }
+    #lbl-clear { top: 50%; left: 30.5%; width: 28.7%; }
+
+    /* === DESIGN DAS TECLAS === */
     .key-cell {
       display: flex;
       flex-direction: column;
@@ -256,15 +256,9 @@
 
     <div class="hp-grid">
       
-      <div class="cat-wrapper" style="grid-column: 1 / 3; grid-row: 2;">
-        <div class="cat-bracket">BOND</div>
-      </div>
-      <div class="cat-wrapper" style="grid-column: 3 / 6; grid-row: 2;">
-        <div class="cat-bracket">DEPRECIATION</div>
-      </div>
-      <div class="cat-wrapper" style="grid-column: 4 / 7; grid-row: 3;">
-        <div class="cat-bracket">CLEAR</div>
-      </div>
+      <div class="cat-bracket" id="lbl-bond">BOND</div>
+      <div class="cat-bracket" id="lbl-depreciation">DEPRECIATION</div>
+      <div class="cat-bracket" id="lbl-clear">CLEAR</div>
 
       <div class="key-cell"><div class="label-orange">AMORT</div><div class="key" data-val="n"><span class="main-text">n</span><span class="label-blue">12x</span></div></div>
       <div class="key-cell"><div class="label-orange">INT</div><div class="key" data-val="i"><span class="main-text">i</span><span class="label-blue">12÷</span></div></div>
