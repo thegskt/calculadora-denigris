@@ -1,231 +1,120 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HP-12C 1981 Replica</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-body{
-  background:#0c0c0c;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-  font-family:Arial, Helvetica, sans-serif;
-}
-
-/* ===================== CORPO ===================== */
-
-.hp{
-  width:930px;
-  height:510px;
-  background:#1b1b1b;
-  border-radius:14px;
-  padding:24px 26px;
-  box-shadow:
-    0 25px 60px rgba(0,0,0,.8),
-    inset 0 2px 4px rgba(255,255,255,.05);
-  display:flex;
-  flex-direction:column;
-}
-
-/* ===================== DISPLAY ===================== */
-
-.top{
-  background:#cfc6ad;
-  height:110px;
-  border-radius:8px;
-  padding:18px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:22px;
-  box-shadow: inset 0 2px 4px rgba(255,255,255,.5);
-}
-
-.display-bezel{
-  background:#1b1b1b;
-  padding:6px;
-  border-radius:4px;
-  flex:1;
-  height:100%;
-}
-
-.display{
-  background:#9ea787;
-  height:100%;
-  border-radius:2px;
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  padding-right:22px;
-  font-family:'Share Tech Mono', monospace;
-  font-size:58px;
-  letter-spacing:3px;
-  color:#111;
-  box-shadow: inset 4px 4px 10px rgba(0,0,0,.6);
-}
-
-.logo{
-  width:140px;
-  text-align:center;
-  font-family:"Times New Roman", serif;
-  font-weight:bold;
-  font-size:20px;
-}
-
-/* ===================== GRID ===================== */
-
-.keys{
-  display:grid;
-  grid-template-columns:repeat(10,1fr);
-  grid-template-rows:repeat(4,1fr);
-  gap:14px 10px;
-  flex:1;
-}
-
-/* ===================== TECLA ===================== */
-
-.key-wrap{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:flex-end;
-}
-
-.orange{
-  color:#e38b3f;
-  font-size:11px;
-  font-weight:bold;
-  margin-bottom:4px;
-}
-
-.key{
-  width:100%;
-  height:72px;
-  background:linear-gradient(#3e3e3e,#1e1e1e);
-  border:1px solid #000;
-  border-radius:4px 4px 7px 7px;
-  color:#f1f1f1;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  align-items:center;
-  padding:8px 4px 6px;
-  box-shadow:
-    inset 0 2px 1px rgba(255,255,255,.2),
-    0 4px 0 #0b0b0b,
-    0 6px 6px rgba(0,0,0,.6);
-  transition:.06s;
-}
-
-.key:active{
-  transform:translateY(4px);
-  box-shadow:
-    inset 0 1px 3px rgba(0,0,0,.7),
-    0 1px 0 #000;
-}
-
-.main{
-  font-size:18px;
-  font-weight:600;
-}
-
-.blue{
-  color:#4EB1D9;
-  font-size:11px;
-  font-weight:bold;
-}
-
-/* ENTER GRANDE */
-
-.enter-wrap{
-  grid-column:6;
-  grid-row:3 / span 2;
-}
-
-.enter{
-  height:100%;
-}
-
-.enter .main{
-  display:flex;
-  flex-direction:column;
-  line-height:1.1;
-  font-size:14px;
-  letter-spacing:1px;
-}
-</style>
+    <meta charset="UTF-8">
+    <title>Simulador HP 12C Simples</title>
+    <style>
+        body { background-color: #333; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .calculator {
+            background-color: #222; border: 5px solid #a67c00; padding: 20px;
+            border-radius: 10px; box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+            width: 320px; font-family: 'Courier New', Courier, monospace;
+        }
+        .display {
+            background-color: #9da38a; color: #000; text-align: right;
+            padding: 10px; font-size: 24px; font-weight: bold;
+            margin-bottom: 20px; border-radius: 3px; height: 30px;
+            overflow: hidden;
+        }
+        .keys { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+        button {
+            padding: 15px 5px; font-size: 14px; font-weight: bold;
+            border-radius: 5px; cursor: pointer; border: none;
+        }
+        /* Teclas Douradas/Superiores */
+        .f-key { background-color: #c5a059; color: #000; }
+        /* Teclas Numéricas/Principais */
+        .key { background-color: #444; color: #fff; }
+        .key:hover { background-color: #666; }
+        .op { background-color: #555; color: #fff; }
+    </style>
 </head>
-
 <body>
 
-<div class="hp">
+<div class="calculator">
+    <div class="display" id="display">0,00</div>
+    <div class="keys">
+        <button class="f-key">n</button>
+        <button class="f-key">i</button>
+        <button class="f-key">PV</button>
+        <button class="f-key">PMT</button>
+        <button class="f-key">FV</button>
+        
+        <button class="key" onclick="input('7')">7</button>
+        <button class="key" onclick="input('8')">8</button>
+        <button class="key" onclick="input('9')">9</button>
+        <button class="op" onclick="setOp('/')">/</button>
+        <button class="op" onclick="clearAll()">CLX</button>
 
-  <div class="top">
-    <div class="display-bezel">
-      <div class="display">0</div>
+        <button class="key" onclick="input('4')">4</button>
+        <button class="key" onclick="input('5')">5</button>
+        <button class="key" onclick="input('6')">6</button>
+        <button class="op" onclick="setOp('*')">x</button>
+        <button class="op" onclick="calculate()">ENTER</button>
+
+        <button class="key" onclick="input('1')">1</button>
+        <button class="key" onclick="input('2')">2</button>
+        <button class="key" onclick="input('3')">3</button>
+        <button class="op" onclick="setOp('-')">-</button>
+        <button class="op" onclick="calculate()">R↓</button>
+
+        <button class="key" onclick="input('0')">0</button>
+        <button class="key" onclick="input('.')">.</button>
+        <button class="key" onclick="changeSign()">CHS</button>
+        <button class="op" onclick="setOp('+')">+</button>
+        <button class="op" onclick="calculate()">=</button>
     </div>
-    <div class="logo">HP-12C</div>
-  </div>
-
-  <div class="keys">
-
-    <!-- LINHA 1 REAL -->
-    <div class="key-wrap">
-      <div class="orange">AMORT</div>
-      <div class="key">
-        <div class="main">n</div>
-        <div class="blue">12x</div>
-      </div>
-    </div>
-
-    <div class="key-wrap">
-      <div class="orange">INT</div>
-      <div class="key">
-        <div class="main">i</div>
-        <div class="blue">12÷</div>
-      </div>
-    </div>
-
-    <div class="key-wrap">
-      <div class="orange">NPV</div>
-      <div class="key">
-        <div class="main">PV</div>
-        <div class="blue">CFo</div>
-      </div>
-    </div>
-
-    <div class="key-wrap">
-      <div class="orange">RND</div>
-      <div class="key">
-        <div class="main">PMT</div>
-        <div class="blue">CFj</div>
-      </div>
-    </div>
-
-    <div class="key-wrap">
-      <div class="orange">IRR</div>
-      <div class="key">
-        <div class="main">FV</div>
-        <div class="blue">Nj</div>
-      </div>
-    </div>
-
-    <!-- Continue replicando o padrão das demais teclas -->
-
-  </div>
-
 </div>
+
+<script>
+    let display = document.getElementById('display');
+    let currentInput = '0';
+    let stack = [];
+    let operation = null;
+
+    function updateDisplay(value) {
+        display.innerText = parseFloat(value).toFixed(2).replace('.', ',');
+    }
+
+    function input(digit) {
+        if (currentInput === '0' && digit !== '.') currentInput = digit;
+        else currentInput += digit;
+        display.innerText = currentInput;
+    }
+
+    function clearAll() {
+        currentInput = '0';
+        stack = [];
+        operation = null;
+        updateDisplay('0');
+    }
+
+    function setOp(op) {
+        stack.push(parseFloat(currentInput));
+        currentInput = '0';
+        operation = op;
+    }
+
+    function calculate() {
+        let b = parseFloat(currentInput);
+        let a = stack.pop();
+        let result = 0;
+        switch (operation) {
+            case '+': result = a + b; break;
+            case '-': result = a - b; break;
+            case '*': result = a * b; break;
+            case '/': result = a / b; break;
+        }
+        currentInput = result.toString();
+        updateDisplay(result);
+        operation = null;
+    }
+
+    function changeSign() {
+        currentInput = (parseFloat(currentInput) * -1).toString();
+        display.innerText = currentInput;
+    }
+</script>
 
 </body>
 </html>
