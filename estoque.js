@@ -285,7 +285,26 @@ document.addEventListener('DOMContentLoaded', () => {
           btnCalcular.href = `index.html?calc=proprio&fz=${r.fz}`;
           btnCalcular.title = 'Calcular Venda';
           // Ícone de Calculadora (SVG)
-          btnCalcular.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16.01" y2="14"></line><line x1="12" y1="14" x2="12.01" y2="14"></line><line x1="8" y1="14" x2="8.01" y2="14"></line><line x1="16" y1="10" x2="16.01" y2="10"></line><line x1="12" y1="10" x2="12.01" y2="10"></line><line x1="8" y1="10" x2="8.01" y2="10"></line><line x1="16" y1="18" x2="16.01" y2="18"></line><line x1="12" y1="18" x2="12.01" y2="18"></line><line x1="8" y1="18" x2="8.01" y2="18"></line></svg>`;
+          // === NOVA CALCULADORA PREMIUM SVG ===
+          btnCalcular.innerHTML = `
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+              style="width: 24px; height: 24px; opacity: 0.85;"
+            >
+            <g>
+              <path d="M410.2,32.7H101.8c-28.7,0-52,23.3-52,52v342.6c0,28.7,23.3,52,52,52h308.3c28.7,0,52-23.3,52-52V84.7   C462.2,56,438.9,32.7,410.2,32.7z M436.2,427.3c0,14.3-11.7,26-26,26H101.8c-14.3,0-26-11.7-26-26V84.7c0-14.3,11.7-26,26-26   h308.3c14.3,0,26,11.7,26,26V427.3z" fill="currentColor"/>
+              <rect height="76.1" width="280.9" x="115.5" y="103.8" fill="currentColor" rx="8" ry="8" style="opacity:0.2;"/>
+              <path d="M370.4,196.9H141.6c-7.2,0-13,5.8-13,13v48.1c0,7.2,5.8,13,13,13h228.7c7.2,0,13-5.8,13-13v-48.1   C383.4,202.7,377.6,196.9,370.4,196.9z M357.4,245H154.6v-22.1h202.7V245z" fill="currentColor"/>
+              <g>
+                <circle cx="157.6" cy="324.7" r="19.5" fill="currentColor"/>
+                <circle cx="256" cy="324.7" r="19.5" fill="currentColor"/>
+                <circle cx="354.4" cy="324.7" r="19.5" fill="currentColor"/>
+                <circle cx="157.6" cy="402.7" r="19.5" fill="currentColor"/>
+                <circle cx="256" cy="402.7" r="19.5" fill="currentColor"/>
+                <circle cx="354.4" cy="402.7" r="19.5" fill="currentColor"/>
+              </g>
+            </g>
+            </svg>
+          `;
 
           actionDiv.append(btnReserva, btnCalcular);
 
