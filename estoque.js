@@ -330,7 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
           obs: c[3], 
           anoMod:c[4],
           // Lendo o Preço da Coluna correta c[13] (ou c[8] caso você tenha trocado de volta)
-          precoVenda: parseFloat((c[13] || '').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          precoVenda: parseFloat((c[8] || '').replace(/\./g,'').replace(/,/g,'.')) || 0,
           cor:c[9], variante:c[10], patio:c[11],
           fotoUrl:c[22]
         };
