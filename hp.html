@@ -2,118 +2,125 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Simulador HP 12C Simples</title>
+    <title>Calculadora HP 12C Simulação</title>
     <style>
         body { background-color: #333; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        .calculator {
-            background-color: #222; border: 5px solid #a67c00; padding: 20px;
-            border-radius: 10px; box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
-            width: 320px; font-family: 'Courier New', Courier, monospace;
+        .hp-calculator {
+            background-color: #222;
+            width: 350px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 15px #000;
+            border-top: 5px solid #444;
         }
         .display {
-            background-color: #9da38a; color: #000; text-align: right;
-            padding: 10px; font-size: 24px; font-weight: bold;
-            margin-bottom: 20px; border-radius: 3px; height: 30px;
+            background-color: #a0b0a0;
+            color: #000;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 2em;
+            text-align: right;
+            padding: 10px;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            height: 40px;
             overflow: hidden;
         }
-        .keys { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
-        button {
-            padding: 15px 5px; font-size: 14px; font-weight: bold;
-            border-radius: 5px; cursor: pointer; border: none;
+        .keyboard {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
         }
-        /* Teclas Douradas/Superiores */
-        .f-key { background-color: #c5a059; color: #000; }
-        /* Teclas Numéricas/Principais */
-        .key { background-color: #444; color: #fff; }
-        .key:hover { background-color: #666; }
-        .op { background-color: #555; color: #fff; }
+        button {
+            padding: 15px 5px;
+            font-family: sans-serif;
+            font-weight: bold;
+            font-size: 12px;
+            border-radius: 4px;
+            border: 1px solid #000;
+            cursor: pointer;
+            color: white;
+        }
+        /* Cores das teclas */
+        .btn-num { background-color: #555; }
+        .btn-func { background-color: #d1b464; color: #000; } /* Teclas f/g */
+        .btn-op { background-color: #777; }
+        .btn-white { background-color: #eee; color: #000; }
+        
+        /* Função para alinhar as teclas igual à HP */
+        .btn-wide { grid-column: span 2; }
     </style>
 </head>
 <body>
 
-<div class="calculator">
+<div class="hp-calculator">
     <div class="display" id="display">0,00</div>
-    <div class="keys">
-        <button class="f-key">n</button>
-        <button class="f-key">i</button>
-        <button class="f-key">PV</button>
-        <button class="f-key">PMT</button>
-        <button class="f-key">FV</button>
+    <div class="keyboard">
+        <!-- Linha 1 -->
+        <button class="btn-func">n</button>
+        <button class="btn-func">i</button>
+        <button class="btn-func">PV</button>
+        <button class="btn-func">PMT</button>
+        <button class="btn-func">FV</button>
         
-        <button class="key" onclick="input('7')">7</button>
-        <button class="key" onclick="input('8')">8</button>
-        <button class="key" onclick="input('9')">9</button>
-        <button class="op" onclick="setOp('/')">/</button>
-        <button class="op" onclick="clearAll()">CLX</button>
+        <!-- Linha 2 -->
+        <button class="btn-op">CHS</button>
+        <button class="btn-op">7</button>
+        <button class="btn-op">8</button>
+        <button class="btn-op">9</button>
+        <button class="btn-op">/</button>
 
-        <button class="key" onclick="input('4')">4</button>
-        <button class="key" onclick="input('5')">5</button>
-        <button class="key" onclick="input('6')">6</button>
-        <button class="op" onclick="setOp('*')">x</button>
-        <button class="op" onclick="calculate()">ENTER</button>
+        <!-- Linha 3 -->
+        <button class="btn-op">EEX</button>
+        <button class="btn-op">4</button>
+        <button class="btn-op">5</button>
+        <button class="btn-op">6</button>
+        <button class="btn-op">x</button>
 
-        <button class="key" onclick="input('1')">1</button>
-        <button class="key" onclick="input('2')">2</button>
-        <button class="key" onclick="input('3')">3</button>
-        <button class="op" onclick="setOp('-')">-</button>
-        <button class="op" onclick="calculate()">R↓</button>
+        <!-- Linha 4 -->
+        <button class="btn-op">CLx</button>
+        <button class="btn-op">1</button>
+        <button class="btn-op">2</button>
+        <button class="btn-op">3</button>
+        <button class="btn-op">-</button>
 
-        <button class="key" onclick="input('0')">0</button>
-        <button class="key" onclick="input('.')">.</button>
-        <button class="key" onclick="changeSign()">CHS</button>
-        <button class="op" onclick="setOp('+')">+</button>
-        <button class="op" onclick="calculate()">=</button>
+        <!-- Linha 5 -->
+        <button class="btn-op">ENTER</button>
+        <button class="btn-op">0</button>
+        <button class="btn-op">.</button>
+        <button class="btn-op">R↓</button>
+        <button class="btn-op">+</button>
     </div>
 </div>
 
 <script>
+    // Lógica básica RPN
     let display = document.getElementById('display');
-    let currentInput = '0';
     let stack = [];
-    let operation = null;
+    let currentInput = "";
 
-    function updateDisplay(value) {
-        display.innerText = parseFloat(value).toFixed(2).replace('.', ',');
-    }
-
-    function input(digit) {
-        if (currentInput === '0' && digit !== '.') currentInput = digit;
-        else currentInput += digit;
-        display.innerText = currentInput;
-    }
-
-    function clearAll() {
-        currentInput = '0';
-        stack = [];
-        operation = null;
-        updateDisplay('0');
-    }
-
-    function setOp(op) {
-        stack.push(parseFloat(currentInput));
-        currentInput = '0';
-        operation = op;
-    }
-
-    function calculate() {
-        let b = parseFloat(currentInput);
-        let a = stack.pop();
-        let result = 0;
-        switch (operation) {
-            case '+': result = a + b; break;
-            case '-': result = a - b; break;
-            case '*': result = a * b; break;
-            case '/': result = a / b; break;
-        }
-        currentInput = result.toString();
-        updateDisplay(result);
-        operation = null;
-    }
-
-    function changeSign() {
-        currentInput = (parseFloat(currentInput) * -1).toString();
-        display.innerText = currentInput;
-    }
+    document.querySelectorAll('.btn-op, .btn-num, .btn-func').forEach(button => {
+        button.addEventListener('click', () => {
+            let val = button.innerText;
+            
+            if (/\d/.test(val) || val === '.') {
+                currentInput += val;
+                display.innerText = currentInput;
+            } else if (val === 'ENTER') {
+                stack.push(parseFloat(currentInput));
+                currentInput = "";
+            } else if (val === '+') {
+                let a = stack.pop();
+                let b = parseFloat(currentInput);
+                currentInput = (a + b).toString();
+                display.innerText = currentInput;
+            } else if (val === 'CLx') {
+                currentInput = "";
+                display.innerText = "0,00";
+            }
+            // Adicionar lógica de outras teclas (CHS, finanças) aqui...
+        });
+    });
 </script>
 
 </body>
