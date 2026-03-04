@@ -320,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
           obs: c[3], 
           anoMod:c[4],
           // Pegando a coluna M (índice 12)
-          precoVenda: parseFloat(c[12].replace('.','').replace(',','.')) || 0,
+          precoVenda: parseFloat(c[14].replace('.','').replace(',','.')) || 0,
           cor:c[9], variante:c[10], patio:c[11],
           fotoUrl:c[22]
         };
