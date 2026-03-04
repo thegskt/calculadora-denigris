@@ -632,7 +632,7 @@ h1{font-size:20px;margin:0}
   font-size: 1rem;
 }
 
-/* Linha dos Botões de Desconto */
+/* Linha da Caixa de Seleção (Dropdown) */
 .sp-discount-row {
   display: flex;
   flex-direction: column;
@@ -647,39 +647,28 @@ h1{font-size:20px;margin:0}
   font-weight: 600;
 }
 
-.sp-pills {
-  display: flex;
-  gap: 6px;
-  justify-content: space-between;
-}
-
-/* Estilo das "Pílulas" (Botões) */
-.sp-pill {
-  flex: 1;
-  background-color: #e2e8f0;
-  border: none;
+/* Estilo do Dropdown (Select) */
+.sp-discount-select {
+  width: 100%;
+  padding: 10px 12px;
   border-radius: 6px;
-  padding: 8px 0;
-  font-size: 0.8rem;
-  font-weight: bold;
-  color: #475569;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #334155;
   cursor: pointer;
-  transition: all 0.2s ease;
+  outline: none;
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
 }
 
-.sp-pill:active {
-  transform: scale(0.95);
+.sp-discount-select:focus {
+  border-color: #002c5f;
+  box-shadow: 0 0 0 2px rgba(0, 44, 95, 0.1);
 }
 
-/* O botão que está selecionado */
-.sp-pill.active {
-  background-color: #002c5f; /* Azul da De Nigris */
-  color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 44, 95, 0.4);
-}
-
-/* Linha do Preço Final com Desconto (Fica Oculta até clicar) */
+/* Linha do Preço Final com Desconto (Fica Oculta até selecionar algo) */
 .sp-final-row {
   display: none; /* Só aparece quando tem desconto */
   justify-content: space-between;

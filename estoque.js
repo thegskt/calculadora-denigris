@@ -16,18 +16,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const FAM_ORDER = ['Accelo','Atego','Actros','Axor','Arocs','Outros'];
 
   /* =========================
-   MOTOR DE DESCONTO (BOTÕES FIXOS)
+   MOTOR DE DESCONTO (CAIXA DE SELEÇÃO)
   ========================= */
-  window.aplicarDescontoPill = function(btn, discountPct) {
-    const container = btn.closest('.sales-price-box');
+  window.aplicarDescontoSelect = function(selectElem) {
+    const container = selectElem.closest('.sales-price-box');
     const basePriceElem = container.querySelector('.base-price');
     const finalPriceElem = container.querySelector('.final-price');
     const finalRow = container.querySelector('.sp-final-row');
     
-    // Atualiza a cor do botão clicado
-    const allPills = container.querySelectorAll('.sp-pill');
-    allPills.forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
+    // Pega a % da caixa de seleção escolhida
+    const discountPct = parseFloat(selectElem.value);
     
     // Pega o valor original exato em background
     let numericPrice = parseFloat(basePriceElem.getAttribute('data-original'));
@@ -56,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function fmtBRL(v){
     if (isNaN(v)) return "R$ 0,00";
     
-    // A MÁGICA: Arredonda SEMPRE para a centena superior (ex: 338.492 vira 338.500)
+    // Arredonda o valor SEMPRE para a centena superior (ex: 338.492 vira 338.500)
     const valorArredondado = Math.ceil(v / 100) * 100;
     
     // Devolve o formato com os ,00 no final
@@ -234,24 +232,24 @@ document.addEventListener('DOMContentLoaded', () => {
             criarColuna(r.variante || '-', 'Var')
           );
 
-          // === CAIXA DE PREÇO COM BOTÕES DE DESCONTO ===
+          // === NOVA CAIXA DE PREÇO COM DROPDOWN (SELECT) ===
           const priceDiv = document.createElement('div');
           priceDiv.className = 'sales-price-box';
           priceDiv.innerHTML = `
             <div class="sp-original-row">
-              <span class="sp-label">Preço Venda</span>
+              <span class="sp-label">Preço Tabela</span>
               <span class="sp-value base-price" data-original="${r.precoVenda}">${fmtBRL(r.precoVenda)}</span>
             </div>
             
             <div class="sp-discount-row">
-              <span class="sp-discount-title">Desconto:</span>
-              <div class="sp-pills">
-                <button type="button" class="sp-pill active" onclick="aplicarDescontoPill(this, 0)">0%</button>
-                <button type="button" class="sp-pill" onclick="aplicarDescontoPill(this, 0.5)">0,5%</button>
-                <button type="button" class="sp-pill" onclick="aplicarDescontoPill(this, 1)">1%</button>
-                <button type="button" class="sp-pill" onclick="aplicarDescontoPill(this, 1.5)">1,5%</button>
-                <button type="button" class="sp-pill" onclick="aplicarDescontoPill(this, 2)">2%</button>
-              </div>
+              <span class="sp-discount-title">Condição Comercial:</span>
+              <select class="sp-discount-select" onchange="aplicarDescontoSelect(this)">
+                <option value="0">Tabela Padrão</option>
+                <option value="0.5">Condição Especial (0,5%)</option>
+                <option value="1">Condição Especial (1,0%)</option>
+                <option value="1.5">Condição Especial (1,5%)</option>
+                <option value="2">Condição Máxima (2,0%)</option>
+              </select>
             </div>
 
             <div class="sp-final-row">
