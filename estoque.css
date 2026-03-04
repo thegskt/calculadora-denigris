@@ -648,41 +648,90 @@ h1{font-size:20px;margin:0}
 }
 
 /* Estilo do Dropdown (Select) */
+/* Padrão: 0% OPORTUNIDADE (Verde) */
 .sp-discount-select {
   width: 100%;
   padding: 10px 12px;
   border-radius: 6px;
-  border: 1px solid #cbd5e1; /* Borda cinza bem sutil e moderna */
-  background-color: #ffffff; /* Fundo branco e limpo */
+  border: 1px solid #86efac; /* Borda verdinha sutil */
+  background-color: #ffffff;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #002c5f; /* O texto recebe o azul da marca */
+  color: #16a34a; /* Texto Verde Sucesso */
   cursor: pointer;
   outline: none;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Sombra levíssima para dar profundidade */
-  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
   
-  /* Setinha customizada agora na cor Azul Escuro para combinar */
+  /* Setinha customizada Verde */
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23002c5f%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2316a34a%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
   background-repeat: no-repeat;
   background-position: right 12px top 50%;
   background-size: 12px auto;
 }
 
-/* Efeito luxuoso ao clicar (Uma bordinha azul suave brilha em volta) */
 .sp-discount-select:focus {
-  border-color: #002c5f; 
-  box-shadow: 0 0 0 3px rgba(0, 44, 95, 0.15);
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
 }
 
-/* Deixando as opções que "caem" bem fáceis de ler */
+/* Cor neutra nas opções abertas para não doer a vista */
 .sp-discount-select option {
-  background-color: #ffffff;
-  color: #002c5f;
-  font-weight: 600;
+  color: #334155; 
+}
+
+/* === TEMA 0.5% (Amarelo Claro) === */
+.theme-05 .sp-discount-select {
+  border-color: #fde047;
+  color: #ca8a04;
+  /* Setinha Amarela */
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ca8a04%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+}
+.theme-05 .sp-discount-select:focus { 
+  border-color: #ca8a04; 
+  box-shadow: 0 0 0 3px rgba(202, 138, 4, 0.15); 
+}
+
+
+/* === TEMA 1.0% (Amarelo Ouro / Âmbar) === */
+.theme-10 .sp-discount-select {
+  border-color: #fcd34d;
+  color: #d97706;
+  /* Setinha Âmbar */
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23d97706%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+}
+.theme-10 .sp-discount-select:focus { 
+  border-color: #d97706; 
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15); 
+}
+
+
+/* === TEMA 1.5% (Laranja Alerta) === */
+.theme-15 .sp-discount-select {
+  border-color: #fdba74;
+  color: #ea580c;
+  /* Setinha Laranja */
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ea580c%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+}
+.theme-15 .sp-discount-select:focus { 
+  border-color: #ea580c; 
+  box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.15); 
+}
+
+
+/* === TEMA 2.0% (Vermelho Perigo) === */
+.theme-20 .sp-discount-select {
+  border-color: #fca5a5;
+  color: #dc2626;
+  /* Setinha Vermelha */
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23dc2626%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+}
+.theme-20 .sp-discount-select:focus { 
+  border-color: #dc2626; 
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15); 
 }
 
 /* Linha do Preço Final com Desconto (Fica Oculta até selecionar algo) */
