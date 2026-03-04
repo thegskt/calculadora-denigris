@@ -831,48 +831,55 @@ h1{font-size:20px;margin:0}
    ========================================= */
 .action-flex-row {
   display: flex;
-  gap: 10px; /* Espaço entre os botões */
-  margin-top: 15px;
+  gap: 12px; /* Respiro ligeiramente maior entre eles */
+  margin-top: 18px;
 }
 
 /* Botão de Reserva (Estica e chama atenção) */
 .btn-reserva {
   flex: 1; 
-  background-color: #16a34a; /* Verde sucesso */
+  background-color: #002c5f; /* Azul De Nigris */
   color: #ffffff;
-  font-size: 1rem;
-  font-weight: 800;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase; /* Letra de forma dá tom de documento oficial */
+  letter-spacing: 0.5px;
   text-align: center;
   padding: 12px;
-  border-radius: 6px;
+  border-radius: 8px; /* Borda mais arredondada e moderna */
+  border: 1px solid #002c5f;
   text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 4px rgba(22, 163, 74, 0.2);
+  box-shadow: 0 4px 6px rgba(0, 44, 95, 0.15); /* Sombra elegante */
   transition: all 0.2s ease;
 }
 
 .btn-reserva:active {
-  background-color: #15803d;
-  transform: scale(0.98);
+  background-color: #001a38; /* Escurece no clique */
+  border-color: #001a38;
+  transform: translateY(2px); /* Efeito de afundar o botão real */
+  box-shadow: 0 1px 2px rgba(0, 44, 95, 0.2);
 }
-
 /* Botão da Calculadora (Quadrado com ícone) */
 .btn-calc-icon {
-  background-color: #002c5f; /* Azul De Nigris */
-  color: #ffffff;
-  width: 50px; /* Quadrado perfeito */
+  background-color: #ffffff; /* Fundo limpo */
+  color: #002c5f; /* Ícone no azul da marca */
+  width: 54px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1; /* Borda cinza clara sutil */
   text-decoration: none;
-  box-shadow: 0 2px 4px rgba(0, 44, 95, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   transition: all 0.2s ease;
 }
 
 .btn-calc-icon:active {
-  background-color: #001f44;
-  transform: scale(0.95);
+  background-color: #f8fafc; /* Fica ligeiramente cinza ao clicar */
+  border-color: #94a3b8;
+  transform: translateY(2px); /* Afunda junto com o outro */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
