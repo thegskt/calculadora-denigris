@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     allPills.forEach(p => p.classList.remove('active'));
     btn.classList.add('active');
     
-    // Pega o valor original exato (com os centavos salvos em background)
+    // Pega o valor original exato
     let numericPrice = parseFloat(basePriceElem.getAttribute('data-original'));
     if (isNaN(numericPrice)) return;
 
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Se tiver desconto, calcula a matemática
       const discountedPrice = numericPrice - (numericPrice * (discountPct / 100));
       
-      // Usa a nossa função atualizada que já arredonda e tira os centavos!
+      // Usa a nossa função arredondada
       finalPriceElem.textContent = fmtBRL(discountedPrice); 
       
       basePriceElem.classList.add('strikethrough');
@@ -50,15 +50,14 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   /* =========================
-   HELPERS (A MÁGICA DO ARREDONDAMENTO AQUI)
+   HELPERS
   ========================= */
   function fmtBRL(v){
     if (isNaN(v)) return "R$ 0";
     
-    // Arredonda o valor matematicamente para o inteiro mais próximo (Some com os centavos quebrados)
+    // Arredonda o valor para o inteiro mais próximo (some com os centavos)
     const valorArredondado = Math.round(v);
     
-    // Formata em Reais, mas com a regra de ESCONDER os centavos (,00) para visual mais limpo
     return valorArredondado.toLocaleString("pt-BR", {
       style: "currency", 
       currency: "BRL",
@@ -319,8 +318,8 @@ document.addEventListener('DOMContentLoaded', () => {
           fz:c[0], modelo:c[1], up:c[2], 
           obs: c[3], 
           anoMod:c[4],
-          // Pegando a coluna M (índice 12)
-          precoVenda: parseFloat(c[14].replace('.','').replace(',','.')) || 0,
+          // AGORA PUXANDO DA COLUNA N (ÍNDICE 13)
+          precoVenda: parseFloat(c[13].replace('.','').replace(',','.')) || 0,
           cor:c[9], variante:c[10], patio:c[11],
           fotoUrl:c[22]
         };
