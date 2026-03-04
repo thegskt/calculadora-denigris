@@ -287,8 +287,8 @@ document.addEventListener('DOMContentLoaded', () => {
           // Ícone de Calculadora (SVG)
           // === NOVA CALCULADORA PREMIUM SVG ===
           btnCalcular.innerHTML = `
-            <svg viewBox="0 0 24 24" fill="currentColor" style="width: 26px; height: 26px; color: #0f172a;">
-              <path fill-rule="evenodd" d="M2.25 6A3.75 3.75 0 016 2.25h12A3.75 3.75 0 0121.75 6v12A3.75 3.75 0 0118 21.75H6A3.75 3.75 0 012.25 18V6zM7.5 6a.75.75 0 00-.75.75v3c0 .414.336.75.75.75h9a.75.75 0 00.75-.75v-3a.75.75 0 00-.75-.75h-9zM6 13.5a.75.75 0 01.75-.75h1.5a.75.75 0 01.75.75v1.5a.75.75 0 01-.75.75h-1.5a.75.75 0 01-.75-.75v-1.5zm6-.75a.75.75 0 00-.75.75v1.5c0 .414.336.75.75.75h1.5a.75.75 0 00.75-.75v-1.5a.75.75 0 00-.75-.75H12zm-5.25 4.5a.75.75 0 01.75-.75h1.5a.75.75 0 01.75.75v1.5a.75.75 0 01-.75.75h-1.5a.75.75 0 01-.75-.75v-1.5zm6-.75a.75.75 0 00-.75.75v1.5c0 .414.336.75.75.75h1.5a.75.75 0 00.75-.75v-1.5a.75.75 0 00-.75-.75H12z" clip-rule="evenodd" />
+            <svg viewBox="0 0 24 24" fill="#002c5f" style="width: 26px; height: 26px;">
+              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1.01 4.99H6.01V5.01h11.98v2.98zM8.5 12.5H7v-1.5h1.5v1.5zm0 3H7V14h1.5v1.5zm0 3H7V17h1.5v1.5zm3-6H10v-1.5h1.5v1.5zm0 3H10V14h1.5v1.5zm0 3H10V17h1.5v1.5zm3-6h-1.5v-1.5h1.5v1.5zm0 3h-1.5V14h1.5v1.5zm0 3h-1.5V17h1.5v1.5zm3-6H16v-1.5h1.5v1.5zm0 3H16V14h1.5v1.5zm0 3H16V17h1.5v1.5z"/>
             </svg>
           `;
 
