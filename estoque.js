@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const FAM_ORDER = ['Accelo','Atego','Actros','Axor','Arocs','Outros'];
 
   /* =========================
-   MOTOR DE DESCONTO (CAIXA DE SELEÇÃO)
+   MOTOR DE DESCONTO E CORES
   ========================= */
   window.aplicarDescontoSelect = function(selectElem) {
     const container = selectElem.closest('.sales-price-box');
@@ -24,7 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const finalPriceElem = container.querySelector('.final-price');
     const finalRow = container.querySelector('.sp-final-row');
     
-    // Pega a % da caixa de seleção escolhida
+    // Limpa todas as cores antigas antes de aplicar a nova
+    container.classList.remove('theme-05', 'theme-10', 'theme-15', 'theme-20');
+    
     const discountPct = parseFloat(selectElem.value);
     
     // Pega o valor original exato em background
@@ -32,32 +34,41 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isNaN(numericPrice)) return;
 
     if (discountPct === 0) {
-      // Se for 0%, volta ao normal e esconde a barra azul
+      // Se for 0% (OPORTUNIDADE), volta pro Verde Padrão e esconde a barra
       basePriceElem.classList.remove('strikethrough');
       finalRow.classList.remove('show');
     } else {
       // Calcula o desconto real
       const discountedPrice = numericPrice - (numericPrice * (discountPct / 100));
       
-      // Usa a nossa função que já arredonda pra cima nas centenas!
+      // Usa a nossa função arredondando pra centena de cima
       finalPriceElem.textContent = fmtBRL(discountedPrice); 
       
-      // Risca o valor de cima e mostra o novo
       basePriceElem.classList.add('strikethrough');
       finalRow.classList.add('show');
+
+      // A MÁGICA DAS CORES: Aplica a classe certa dependendo do %
+      if (discountPct === 0.5) {
+        container.classList.add('theme-05');
+      } else if (discountPct === 1) {
+        container.classList.add('theme-10');
+      } else if (discountPct === 1.5) {
+        container.classList.add('theme-15');
+      } else if (discountPct === 2) {
+        container.classList.add('theme-20');
+      }
     }
   };
 
   /* =========================
-   HELPERS (MATEMÁTICA DE ARREDONDAMENTO AQUI)
+   HELPERS (MATEMÁTICA)
   ========================= */
   function fmtBRL(v){
     if (isNaN(v)) return "R$ 0,00";
     
-    // Arredonda o valor SEMPRE para a centena superior (ex: 338.492 vira 338.500)
+    // Arredonda SEMPRE para a centena superior (ex: 338.492 vira 338.500)
     const valorArredondado = Math.ceil(v / 100) * 100;
     
-    // Devolve o formato com os ,00 no final
     return valorArredondado.toLocaleString("pt-BR", {
       style: "currency", 
       currency: "BRL",
@@ -113,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* =========================
-   RENDER
+   RENDER (DESENHO DOS CARDS)
   ========================= */
   function render(list){
     groupsEl.innerHTML = '';
@@ -232,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
             criarColuna(r.variante || '-', 'Var')
           );
 
-          // === NOVA CAIXA DE PREÇO COM DROPDOWN (SELECT) ===
+          // === CAIXA DE PREÇO COM TEXTOS IGUAIS AOS SEUS PRINTS ===
           const priceDiv = document.createElement('div');
           priceDiv.className = 'sales-price-box';
           priceDiv.innerHTML = `
@@ -318,8 +329,8 @@ document.addEventListener('DOMContentLoaded', () => {
           fz:c[0], modelo:c[1], up:c[2], 
           obs: c[3], 
           anoMod:c[4],
-          // AQUI: Confirmado para a Coluna I (Índice 8)
-          precoVenda: parseFloat(c[8].replace('.','').replace(',','.')) || 0,
+          // Lendo o Preço da Coluna correta c[13] (ou c[8] caso você tenha trocado de volta)
+          precoVenda: parseFloat((c[13] || '').replace(/\./g,'').replace(/,/g,'.')) || 0,
           cor:c[9], variante:c[10], patio:c[11],
           fotoUrl:c[22]
         };

@@ -716,3 +716,34 @@ h1{font-size:20px;margin:0}
   from { opacity: 0; transform: translateY(-5px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* =========================================
+   SISTEMA DE CORES DE DESCONTO (SUTIL)
+   ========================================= */
+.sales-price-box {
+  transition: all 0.4s ease; /* Faz a cor mudar suavemente */
+}
+
+.sp-label, .sp-value {
+  transition: color 0.4s ease;
+}
+
+/* TEMA 0.5% (Amarelo Claro) */
+.sales-price-box.theme-05 { background-color: #fefce8; border-color: #fef08a; border-left-color: #eab308; }
+.theme-05 .sp-label { color: #854d0e; }
+.theme-05 .sp-value { color: #ca8a04; }
+
+/* TEMA 1.0% (Amarelo Ouro / Âmbar) */
+.sales-price-box.theme-10 { background-color: #fffbeb; border-color: #fde68a; border-left-color: #f59e0b; }
+.theme-10 .sp-label { color: #92400e; }
+.theme-10 .sp-value { color: #d97706; }
+
+/* TEMA 1.5% (Laranja) */
+.sales-price-box.theme-15 { background-color: #fff7ed; border-color: #fed7aa; border-left-color: #f97316; }
+.theme-15 .sp-label { color: #9a3412; }
+.theme-15 .sp-value { color: #ea580c; }
+
+/* TEMA 2.0% (Vermelho) */
+.sales-price-box.theme-20 { background-color: #fef2f2; border-color: #fecaca; border-left-color: #ef4444; }
+.theme-20 .sp-label { color: #991b1b; }
+.theme-20 .sp-value { color: #dc2626; }
