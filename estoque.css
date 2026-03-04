@@ -825,3 +825,54 @@ h1{font-size:20px;margin:0}
 .theme-20 .sp-final-row {
   background-color: #dc2626; 
 }
+
+/* =========================================
+   BOTÕES DE AÇÃO: RESERVA E CALCULADORA
+   ========================================= */
+.action-flex-row {
+  display: flex;
+  gap: 10px; /* Espaço entre os botões */
+  margin-top: 15px;
+}
+
+/* Botão de Reserva (Estica e chama atenção) */
+.btn-reserva {
+  flex: 1; 
+  background-color: #16a34a; /* Verde sucesso */
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 800;
+  text-align: center;
+  padding: 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(22, 163, 74, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-reserva:active {
+  background-color: #15803d;
+  transform: scale(0.98);
+}
+
+/* Botão da Calculadora (Quadrado com ícone) */
+.btn-calc-icon {
+  background-color: #002c5f; /* Azul De Nigris */
+  color: #ffffff;
+  width: 50px; /* Quadrado perfeito */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  text-decoration: none;
+  box-shadow: 0 2px 4px rgba(0, 44, 95, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-calc-icon:active {
+  background-color: #001f44;
+  transform: scale(0.95);
+}

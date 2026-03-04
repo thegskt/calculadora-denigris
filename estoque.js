@@ -268,14 +268,26 @@ document.addEventListener('DOMContentLoaded', () => {
               <span class="sp-final-value final-price">${fmtBRL(r.precoVenda)}</span>
             </div>
           `;
-
+        // === BOTÕES DE AÇÃO (RESERVA + CALCULADORA) ===
           const actionDiv = document.createElement('div');
-          actionDiv.className = 'action-full';
+          actionDiv.className = 'action-flex-row'; 
+          
+          // Botão Solicitar Reserva (Lado Esquerdo, Esticado)
+          const btnReserva = document.createElement('a');
+          btnReserva.className = 'btn-reserva';
+          btnReserva.href = 'https://forms.gle/B3iinCvTSmDj7Jat6';
+          btnReserva.target = '_blank'; // Abre o formulário em nova aba
+          btnReserva.textContent = 'Solicitar Reserva';
+          
+          // Botão Calculadora (Lado Direito, Quadrado com Ícone)
           const btnCalcular = document.createElement('a');
-          btnCalcular.className = 'btn btn-primary btn-block';
+          btnCalcular.className = 'btn-calc-icon';
           btnCalcular.href = `index.html?calc=proprio&fz=${r.fz}`;
-          btnCalcular.textContent = 'Calcular Venda';
-          actionDiv.appendChild(btnCalcular);
+          btnCalcular.title = 'Calcular Venda';
+          // Ícone de Calculadora (SVG)
+          btnCalcular.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16.01" y2="14"></line><line x1="12" y1="14" x2="12.01" y2="14"></line><line x1="8" y1="14" x2="8.01" y2="14"></line><line x1="16" y1="10" x2="16.01" y2="10"></line><line x1="12" y1="10" x2="12.01" y2="10"></line><line x1="8" y1="10" x2="8.01" y2="10"></line><line x1="16" y1="18" x2="16.01" y2="18"></line><line x1="12" y1="18" x2="12.01" y2="18"></line><line x1="8" y1="18" x2="8.01" y2="18"></line></svg>`;
+
+          actionDiv.append(btnReserva, btnCalcular);
 
           card.append(cardHeader, cMeta, detailsGrid, priceDiv, actionDiv);
           subRows.appendChild(card);
