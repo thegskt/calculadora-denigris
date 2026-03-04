@@ -10,43 +10,42 @@ document.addEventListener('DOMContentLoaded', () => {
   const busca = document.getElementById('busca');
   const groupsEl = document.getElementById('groups');
 
-  // proteção para outras páginas
   if (!busca || !groupsEl) return;
 
   let itens = [];
   const FAM_ORDER = ['Accelo','Atego','Actros','Axor','Arocs','Outros'];
 
   /* =========================
-   MOTOR DE DESCONTO (NOVO)
+   MOTOR DE DESCONTO (BOTÕES FIXOS)
   ========================= */
-  // O "window" na frente garante que o botão do HTML consiga achar essa função
-  window.aplicarDesconto = function(slider) {
-    const container = slider.closest('.price-highlight');
+  window.aplicarDescontoPill = function(btn, discountPct) {
+    const container = btn.closest('.sales-price-box');
     const basePriceElem = container.querySelector('.base-price');
     const finalPriceElem = container.querySelector('.final-price');
-    const displayElem = container.querySelector('.discount-display');
+    const finalRow = container.querySelector('.sp-final-row');
     
-    const discountPct = parseFloat(slider.value);
-    displayElem.textContent = discountPct.toFixed(1).replace('.', ',') + '%';
+    // Atualiza a cor do botão clicado
+    const allPills = container.querySelectorAll('.sp-pill');
+    allPills.forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
     
-    // Pega o valor original salvo e calcula
+    // Pega o valor original salvo
     let numericPrice = parseFloat(basePriceElem.getAttribute('data-original'));
-    
     if (isNaN(numericPrice)) return;
     
-    const discountedPrice = numericPrice - (numericPrice * (discountPct / 100));
-    
-    finalPriceElem.textContent = fmtBRL(discountedPrice);
-    
-    // Estilo riscado se houver desconto
-    if (discountPct > 0) {
-      basePriceElem.style.textDecoration = "line-through";
-      basePriceElem.style.opacity = "0.5";
-      finalPriceElem.style.color = "#4EB1D9"; // Azul De Nigris
+    // Formatador para Real
+    const fmt = (v) => v.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
+
+    if (discountPct === 0) {
+      // Se for 0%, volta ao normal
+      basePriceElem.classList.remove('strikethrough');
+      finalRow.classList.remove('show');
     } else {
-      basePriceElem.style.textDecoration = "none";
-      basePriceElem.style.opacity = "1";
-      finalPriceElem.style.color = "inherit";
+      // Se tiver desconto, risca o original e mostra o final em Azul
+      const discountedPrice = numericPrice - (numericPrice * (discountPct / 100));
+      finalPriceElem.textContent = fmt(discountedPrice);
+      basePriceElem.classList.add('strikethrough');
+      finalRow.classList.add('show');
     }
   };
 
@@ -184,13 +183,11 @@ document.addEventListener('DOMContentLoaded', () => {
             headerActions.appendChild(btnFoto);
 
             const textoZap = `*OPORTUNIDADE*\n\n*Modelo:* ${r.modelo}\n*Ano:* ${r.anoMod} | *Cor:* ${r.cor || '-'}\n\n*Veja a foto do veículo:* ${r.fotoUrl}`;
-            
             const btnZap = document.createElement('a');
             btnZap.className = 'btn-icon-whatsapp';
             btnZap.href = `https://wa.me/?text=${encodeURIComponent(textoZap)}`;
             btnZap.target = '_blank';
             btnZap.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>`;
-            
             btnZap.onclick = (e) => e.stopPropagation();
             
             headerActions.appendChild(btnZap);
@@ -205,12 +202,10 @@ document.addEventListener('DOMContentLoaded', () => {
             card.classList.toggle('show-meta'); 
           };
           headerActions.appendChild(infoBtn);
-          
           cardHeader.appendChild(headerActions);
 
           const cMeta = document.createElement('div');
           cMeta.className = 'meta tags-container';
-          
           if (r.fz) cMeta.innerHTML += `<span class="tag tag-fz">FZ: ${r.fz}</span>`;
           if (r.patio) cMeta.innerHTML += `<span class="tag tag-patio">Pátio: ${r.patio}</span>`;
 
@@ -228,27 +223,29 @@ document.addEventListener('DOMContentLoaded', () => {
             criarColuna(r.variante || '-', 'Var')
           );
 
-          // === 4. NOVO PREÇO EM DESTAQUE COM SIMULADOR DE DESCONTO ===
+          // === NOVO: CAIXA DE PREÇO COM BOTÕES DE DESCONTO ===
           const priceDiv = document.createElement('div');
-          priceDiv.className = 'price-highlight';
-          // Aqui usamos o r.precoVenda (que agora vem da coluna M)
+          priceDiv.className = 'sales-price-box';
           priceDiv.innerHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: baseline;">
-              <span class="price-label">Preço Venda</span>
-              <span class="price-value base-price" data-original="${r.precoVenda}">${fmtBRL(r.precoVenda)}</span>
+            <div class="sp-original-row">
+              <span class="sp-label">Preço Venda</span>
+              <span class="sp-value base-price" data-original="${r.precoVenda}">${fmtBRL(r.precoVenda)}</span>
             </div>
             
-            <div class="discount-box">
-              <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #aaa; margin-bottom: 5px;">
-                <span>Negociar Desconto</span>
-                <span class="discount-display" style="color:#D87F3B; font-weight:bold;">0.0%</span>
+            <div class="sp-discount-row">
+              <span class="sp-discount-title">Desconto:</span>
+              <div class="sp-pills">
+                <button type="button" class="sp-pill active" onclick="aplicarDescontoPill(this, 0)">0%</button>
+                <button type="button" class="sp-pill" onclick="aplicarDescontoPill(this, 0.5)">0,5%</button>
+                <button type="button" class="sp-pill" onclick="aplicarDescontoPill(this, 1)">1%</button>
+                <button type="button" class="sp-pill" onclick="aplicarDescontoPill(this, 1.5)">1,5%</button>
+                <button type="button" class="sp-pill" onclick="aplicarDescontoPill(this, 2)">2%</button>
               </div>
-              <input type="range" class="discount-slider" min="0" max="2" step="0.1" value="0" oninput="aplicarDesconto(this)">
             </div>
 
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;">
-              <span style="font-size: 0.85rem; color:#aaa;">Valor Final</span>
-              <span class="final-price" style="font-size: 1.4rem; font-weight: 800;">${fmtBRL(r.precoVenda)}</span>
+            <div class="sp-final-row">
+              <span class="sp-final-label">Valor Negociado</span>
+              <span class="sp-final-value final-price">${fmtBRL(r.precoVenda)}</span>
             </div>
           `;
 
@@ -261,7 +258,6 @@ document.addEventListener('DOMContentLoaded', () => {
           actionDiv.appendChild(btnCalcular);
 
           card.append(cardHeader, cMeta, detailsGrid, priceDiv, actionDiv);
-          
           subRows.appendChild(card);
         }
 
@@ -305,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch(sheetCsvUrl,{cache:'no-store'});
       const txt = await res.text();
       const rows = txt.trim().split('\n');
-      rows.shift(); // Tira o cabeçalho do CSV
+      rows.shift();
 
       itens = rows.map(l=>{
         const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v=>v.replace(/^"|"$/g,''));
@@ -313,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
           fz:c[0], modelo:c[1], up:c[2], 
           obs: c[3], 
           anoMod:c[4],
-          // AQUI ESTÁ A MÁGICA: Pegamos o Preço de Venda (Coluna M, índice 12)
+          // Pegando a coluna M (índice 12)
           precoVenda: parseFloat(c[12].replace('.','').replace(',','.')) || 0,
           cor:c[9], variante:c[10], patio:c[11],
           fotoUrl:c[22]

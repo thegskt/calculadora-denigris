@@ -590,26 +590,123 @@ h1{font-size:20px;margin:0}
   margin-right: 4px;
 }
 
-/* === ESTILO DA CAIXA DE DESCONTO === */
-.discount-box {
-  background: rgba(0, 0, 0, 0.2);
-  padding: 10px;
-  border-radius: 6px;
-  margin-top: 10px;
-  border-left: 3px solid #D87F3B;
+/* =========================================
+   NOVA CAIXA DE PREÇO E DESCONTO (TEMA CLARO)
+   ========================================= */
+.sales-price-box {
+  background-color: #f0fdf4; /* Verde bem clarinho estilo sucesso */
+  border: 1px solid #bbf7d0;
+  border-left: 5px solid #22c55e; /* Borda grossa verde igual da foto */
+  border-radius: 8px;
+  padding: 12px;
+  margin: 15px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.discount-slider {
-  width: 100%;
-  cursor: pointer;
-  accent-color: #D87F3B; /* Pinta a bolinha e a barra de laranja no Chrome/Safari */
-  margin-top: 5px;
+.sp-original-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* Transição suave para o número cortado */
-.base-price {
+.sp-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #166534; /* Verde escuro */
+  text-transform: uppercase;
+}
+
+.sp-value {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: #16a34a; /* Verde chamativo do preço */
   transition: all 0.3s ease;
 }
-.final-price {
-  transition: color 0.3s ease;
+
+/* Quando o preço antigo é riscado */
+.sp-value.strikethrough {
+  text-decoration: line-through;
+  opacity: 0.5;
+  font-size: 1rem;
+}
+
+/* Linha dos Botões de Desconto */
+.sp-discount-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-top: 1px dashed #cbd5e1;
+  padding-top: 10px;
+}
+
+.sp-discount-title {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.sp-pills {
+  display: flex;
+  gap: 6px;
+  justify-content: space-between;
+}
+
+/* Estilo das "Pílulas" (Botões) */
+.sp-pill {
+  flex: 1;
+  background-color: #e2e8f0;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 0;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.sp-pill:active {
+  transform: scale(0.95);
+}
+
+/* O botão que está selecionado */
+.sp-pill.active {
+  background-color: #002c5f; /* Azul da De Nigris */
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 44, 95, 0.4);
+}
+
+/* Linha do Preço Final com Desconto (Fica Oculta até clicar) */
+.sp-final-row {
+  display: none; /* Só aparece quando tem desconto */
+  justify-content: space-between;
+  align-items: center;
+  background-color: #002c5f; /* Azulão De Nigris */
+  padding: 10px 12px;
+  border-radius: 6px;
+  color: #ffffff;
+  margin-top: 4px;
+}
+
+.sp-final-row.show {
+  display: flex;
+  animation: fadeIn 0.3s ease;
+}
+
+.sp-final-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.sp-final-value {
+  font-size: 1.25rem;
+  font-weight: 900;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
 }
