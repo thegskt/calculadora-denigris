@@ -2120,7 +2120,7 @@ function applyQueryParams(){
     showCalcProprio();
     applyQueryParams();
     carregarDados();
-    
+
     // Só tenta rodar as coisas da calculadora se a caixa de Ano existir!
     if (anoFabEl) {
       preencherAnos();
