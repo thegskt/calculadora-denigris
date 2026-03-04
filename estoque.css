@@ -796,3 +796,32 @@ h1{font-size:20px;margin:0}
 .sales-price-box.theme-20 { background-color: #fef2f2; border-color: #fecaca; border-left-color: #ef4444; }
 .theme-20 .sp-label { color: #991b1b; }
 .theme-20 .sp-value { color: #dc2626; }
+
+/* =========================================
+   CORES DINÂMICAS PARA A CAIXA DO VALOR FINAL
+   ========================================= */
+
+/* Garante que a mudança de cor da caixa azul seja suave (animação) */
+.sp-final-row {
+  transition: background-color 0.4s ease;
+}
+
+/* TEMA 0.5% (Amarelo Ouro Escuro) */
+.theme-05 .sp-final-row {
+  background-color: #ca8a04; 
+}
+
+/* TEMA 1.0% (Âmbar Forte) */
+.theme-10 .sp-final-row {
+  background-color: #d97706; 
+}
+
+/* TEMA 1.5% (Laranja Escuro) */
+.theme-15 .sp-final-row {
+  background-color: #ea580c; 
+}
+
+/* TEMA 2.0% (Vermelho Alerta) */
+.theme-20 .sp-final-row {
+  background-color: #dc2626; 
+}
