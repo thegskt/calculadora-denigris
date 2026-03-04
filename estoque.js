@@ -287,22 +287,8 @@ document.addEventListener('DOMContentLoaded', () => {
           // Ícone de Calculadora (SVG)
           // === NOVA CALCULADORA PREMIUM SVG ===
           btnCalcular.innerHTML = `
-            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-              style="width: 24px; height: 24px;" 
-            >
-            <g>
-              <path d="M410.2,32.7H101.8c-28.7,0-52,23.3-52,52v342.6c0,28.7,23.3,52,52,52h308.3c28.7,0,52-23.3,52-52V84.7   C462.2,56,438.9,32.7,410.2,32.7z M436.2,427.3c0,14.3-11.7,26-26,26H101.8c-14.3,0-26-11.7-26-26V84.7c0-14.3,11.7-26,26-26   h308.3c14.3,0,26,11.7,26,26V427.3z" fill="currentColor"/>
-              <rect height="76.1" width="280.9" x="115.5" y="103.8" fill="currentColor" rx="8" ry="8" style="opacity:0.2;"/>
-              <path d="M370.4,196.9H141.6c-7.2,0-13,5.8-13,13v48.1c0,7.2,5.8,13,13,13h228.7c7.2,0,13-5.8,13-13v-48.1   C383.4,202.7,377.6,196.9,370.4,196.9z M357.4,245H154.6v-22.1h202.7V245z" fill="currentColor"/>
-              <g>
-                <circle cx="157.6" cy="324.7" r="19.5" fill="currentColor"/>
-                <circle cx="256" cy="324.7" r="19.5" fill="currentColor"/>
-                <circle cx="354.4" cy="324.7" r="19.5" fill="currentColor"/>
-                <circle cx="157.6" cy="402.7" r="19.5" fill="currentColor"/>
-                <circle cx="256" cy="402.7" r="19.5" fill="currentColor"/>
-                <circle cx="354.4" cy="402.7" r="19.5" fill="currentColor"/>
-              </g>
-            </g>
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width: 26px; height: 26px; color: #0f172a;">
+              <path fill-rule="evenodd" d="M2.25 6A3.75 3.75 0 016 2.25h12A3.75 3.75 0 0121.75 6v12A3.75 3.75 0 0118 21.75H6A3.75 3.75 0 012.25 18V6zM7.5 6a.75.75 0 00-.75.75v3c0 .414.336.75.75.75h9a.75.75 0 00.75-.75v-3a.75.75 0 00-.75-.75h-9zM6 13.5a.75.75 0 01.75-.75h1.5a.75.75 0 01.75.75v1.5a.75.75 0 01-.75.75h-1.5a.75.75 0 01-.75-.75v-1.5zm6-.75a.75.75 0 00-.75.75v1.5c0 .414.336.75.75.75h1.5a.75.75 0 00.75-.75v-1.5a.75.75 0 00-.75-.75H12zm-5.25 4.5a.75.75 0 01.75-.75h1.5a.75.75 0 01.75.75v1.5a.75.75 0 01-.75.75h-1.5a.75.75 0 01-.75-.75v-1.5zm6-.75a.75.75 0 00-.75.75v1.5c0 .414.336.75.75.75h1.5a.75.75 0 00.75-.75v-1.5a.75.75 0 00-.75-.75H12z" clip-rule="evenodd" />
             </svg>
           `;
 
