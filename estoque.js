@@ -245,10 +245,10 @@ document.addEventListener('DOMContentLoaded', () => {
               <span class="sp-discount-title">Condição Comercial:</span>
               <select class="sp-discount-select" onchange="aplicarDescontoSelect(this)">
                 <option value="0">OPORTUNIDADE</option>
-                <option value="0.5">Condição Especial (0,5%)</option>
-                <option value="1">Condição Especial (1,0%)</option>
-                <option value="1.5">Condição Especial (1,5%)</option>
-                <option value="2">Condição Especial (2,0%)</option>
+                <option value="0.5">Desconto Especial (0,5%)</option>
+                <option value="1">Desconto Especial (1,0%)</option>
+                <option value="1.5">Desconto Especial (1,5%)</option>
+                <option value="2">Desconto Especial (2,0%)</option>
               </select>
             </div>
 

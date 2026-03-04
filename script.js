@@ -1884,15 +1884,16 @@ function familiaSelecionada(){
 }
 
 function preencherAnos(){
-  limparSelect(anoFabEl);
-  getAnos().forEach(a=> anoFabEl.add(new Option(a,a)));
-  // Apenas limpa UP/Modelo
-  limparSelect(upFabEl);
-  limparSelect(modeloFabEl);
-  varianteFabEl && (varianteFabEl.textContent='');
-  // Desabilita / habilita radios depois de limpar ano (nenhum ano selecionado ainda)
-  atualizarRadiosFamilia();
-  preencherAcoes?.();
+  if (!anoFabEl) return; // <-- BALA DE PRATA: Se não tiver a caixa, ele para aqui e não dá erro!
+    limparSelect(anoFabEl);
+    getAnos().forEach(a=> anoFabEl.add(new Option(a,a)));
+    // Apenas limpa UP/Modelo
+    limparSelect(upFabEl);
+    limparSelect(modeloFabEl);
+    varianteFabEl && (varianteFabEl.textContent='');
+    // Desabilita / habilita radios depois de limpar ano (nenhum ano selecionado ainda)
+    atualizarRadiosFamilia();
+    preencherAcoes?.();
 }
 
 function atualizarRadiosFamilia(){
@@ -2114,20 +2115,24 @@ function applyQueryParams(){
   }
 }
 
-// ================== INIT ==================
-function init(){
-  showCalcProprio();
-  applyQueryParams();
-  carregarDados();
-  preencherAnos();
-  // Pré-selecionar primeiro ano (opcional):
-  if(anoFabEl && anoFabEl.options.length>1){
-    anoFabEl.selectedIndex = 1;
-    anoFabEl.dispatchEvent(new Event('change'));
+  // ================== INIT ==================
+  function init(){
+    showCalcProprio();
+    applyQueryParams();
+    carregarDados();
+    
+    // Só tenta rodar as coisas da calculadora se a caixa de Ano existir!
+    if (anoFabEl) {
+      preencherAnos();
+      // Pré-selecionar primeiro ano (opcional):
+      if(anoFabEl.options.length > 1){
+        anoFabEl.selectedIndex = 1;
+        anoFabEl.dispatchEvent(new Event('change'));
+      }
+      atualizarVarianteFab();
+      preencherAcoes();
+    }
   }
-  atualizarVarianteFab();
-  preencherAcoes();
-}
 
 const FAB_PRECO_URLS = {
   "25/25": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeqk-5eBeAxB4GesiaM7W6iEUq9lgfTsRzdy1QylG1ak7dX35Ol827EM1c7LPWb97BoBh6iUbtJMMw/pub?gid=320257334&single=true&output=csv",
