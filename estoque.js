@@ -29,40 +29,42 @@ document.addEventListener('DOMContentLoaded', () => {
     allPills.forEach(p => p.classList.remove('active'));
     btn.classList.add('active');
     
-    // Pega o valor original exato
+    // Pega o valor original exato em background
     let numericPrice = parseFloat(basePriceElem.getAttribute('data-original'));
     if (isNaN(numericPrice)) return;
 
     if (discountPct === 0) {
-      // Se for 0%, volta ao normal
+      // Se for 0%, volta ao normal e esconde a barra azul
       basePriceElem.classList.remove('strikethrough');
       finalRow.classList.remove('show');
     } else {
-      // Se tiver desconto, calcula a matemática
+      // Calcula o desconto real
       const discountedPrice = numericPrice - (numericPrice * (discountPct / 100));
       
-      // Usa a nossa função arredondada
+      // Usa a nossa função que já arredonda pra cima nas centenas!
       finalPriceElem.textContent = fmtBRL(discountedPrice); 
       
+      // Risca o valor de cima e mostra o novo
       basePriceElem.classList.add('strikethrough');
       finalRow.classList.add('show');
     }
   };
 
   /* =========================
-   HELPERS
+   HELPERS (MATEMÁTICA DE ARREDONDAMENTO AQUI)
   ========================= */
   function fmtBRL(v){
-    if (isNaN(v)) return "R$ 0";
+    if (isNaN(v)) return "R$ 0,00";
     
-    // Arredonda o valor para o inteiro mais próximo (some com os centavos)
-    const valorArredondado = Math.round(v);
+    // A MÁGICA: Arredonda SEMPRE para a centena superior (ex: 338.492 vira 338.500)
+    const valorArredondado = Math.ceil(v / 100) * 100;
     
+    // Devolve o formato com os ,00 no final
     return valorArredondado.toLocaleString("pt-BR", {
       style: "currency", 
       currency: "BRL",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
     });
   }
 
@@ -318,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
           fz:c[0], modelo:c[1], up:c[2], 
           obs: c[3], 
           anoMod:c[4],
-          // AGORA PUXANDO DA COLUNA N (ÍNDICE 13)
+          // AQUI: Confirmado para a Coluna I (Índice 8)
           precoVenda: parseFloat(c[8].replace('.','').replace(',','.')) || 0,
           cor:c[9], variante:c[10], patio:c[11],
           fotoUrl:c[22]
