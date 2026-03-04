@@ -29,32 +29,42 @@ document.addEventListener('DOMContentLoaded', () => {
     allPills.forEach(p => p.classList.remove('active'));
     btn.classList.add('active');
     
-    // Pega o valor original salvo
+    // Pega o valor original exato (com os centavos salvos em background)
     let numericPrice = parseFloat(basePriceElem.getAttribute('data-original'));
     if (isNaN(numericPrice)) return;
-    
-    // Formatador para Real
-    const fmt = (v) => v.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
 
     if (discountPct === 0) {
       // Se for 0%, volta ao normal
       basePriceElem.classList.remove('strikethrough');
       finalRow.classList.remove('show');
     } else {
-      // Se tiver desconto, risca o original e mostra o final em Azul
+      // Se tiver desconto, calcula a matemática
       const discountedPrice = numericPrice - (numericPrice * (discountPct / 100));
-      finalPriceElem.textContent = fmt(discountedPrice);
+      
+      // Usa a nossa função atualizada que já arredonda e tira os centavos!
+      finalPriceElem.textContent = fmtBRL(discountedPrice); 
+      
       basePriceElem.classList.add('strikethrough');
       finalRow.classList.add('show');
     }
   };
 
   /* =========================
-   HELPERS
+   HELPERS (A MÁGICA DO ARREDONDAMENTO AQUI)
   ========================= */
   function fmtBRL(v){
-    if (isNaN(v)) return "R$ 0,00";
-    return v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+    if (isNaN(v)) return "R$ 0";
+    
+    // Arredonda o valor matematicamente para o inteiro mais próximo (Some com os centavos quebrados)
+    const valorArredondado = Math.round(v);
+    
+    // Formata em Reais, mas com a regra de ESCONDER os centavos (,00) para visual mais limpo
+    return valorArredondado.toLocaleString("pt-BR", {
+      style: "currency", 
+      currency: "BRL",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    });
   }
 
   function normFamily(modelo=''){
@@ -223,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
             criarColuna(r.variante || '-', 'Var')
           );
 
-          // === NOVO: CAIXA DE PREÇO COM BOTÕES DE DESCONTO ===
+          // === CAIXA DE PREÇO COM BOTÕES DE DESCONTO ===
           const priceDiv = document.createElement('div');
           priceDiv.className = 'sales-price-box';
           priceDiv.innerHTML = `
