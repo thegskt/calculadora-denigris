@@ -237,18 +237,18 @@ document.addEventListener('DOMContentLoaded', () => {
           priceDiv.className = 'sales-price-box';
           priceDiv.innerHTML = `
             <div class="sp-original-row">
-              <span class="sp-label">Preço Tabela</span>
+              <span class="sp-label">Preço Venda</span>
               <span class="sp-value base-price" data-original="${r.precoVenda}">${fmtBRL(r.precoVenda)}</span>
             </div>
             
             <div class="sp-discount-row">
               <span class="sp-discount-title">Condição Comercial:</span>
               <select class="sp-discount-select" onchange="aplicarDescontoSelect(this)">
-                <option value="0">Tabela Padrão</option>
+                <option value="0">OPORTUNIDADE</option>
                 <option value="0.5">Condição Especial (0,5%)</option>
                 <option value="1">Condição Especial (1,0%)</option>
                 <option value="1.5">Condição Especial (1,5%)</option>
-                <option value="2">Condição Máxima (2,0%)</option>
+                <option value="2">Condição Especial (2,0%)</option>
               </select>
             </div>
 
