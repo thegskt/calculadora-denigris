@@ -288,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
           // === NOVA CALCULADORA PREMIUM SVG ===
           btnCalcular.innerHTML = `
             <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-              style="width: 24px; height: 24px; opacity: 0.85;"
+              style="width: 24px; height: 24px;" 
             >
             <g>
               <path d="M410.2,32.7H101.8c-28.7,0-52,23.3-52,52v342.6c0,28.7,23.3,52,52,52h308.3c28.7,0,52-23.3,52-52V84.7   C462.2,56,438.9,32.7,410.2,32.7z M436.2,427.3c0,14.3-11.7,26-26,26H101.8c-14.3,0-26-11.7-26-26V84.7c0-14.3,11.7-26,26-26   h308.3c14.3,0,26,11.7,26,26V427.3z" fill="currentColor"/>
