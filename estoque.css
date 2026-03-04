@@ -589,3 +589,27 @@ h1{font-size:20px;margin:0}
   font-weight: 800;
   margin-right: 4px;
 }
+
+/* === ESTILO DA CAIXA DE DESCONTO === */
+.discount-box {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 10px;
+  border-left: 3px solid #D87F3B;
+}
+
+.discount-slider {
+  width: 100%;
+  cursor: pointer;
+  accent-color: #D87F3B; /* Pinta a bolinha e a barra de laranja no Chrome/Safari */
+  margin-top: 5px;
+}
+
+/* Transição suave para o número cortado */
+.base-price {
+  transition: all 0.3s ease;
+}
+.final-price {
+  transition: color 0.3s ease;
+}

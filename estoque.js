@@ -17,6 +17,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const FAM_ORDER = ['Accelo','Atego','Actros','Axor','Arocs','Outros'];
 
   /* =========================
+   MOTOR DE DESCONTO (NOVO)
+  ========================= */
+  // O "window" na frente garante que o botão do HTML consiga achar essa função
+  window.aplicarDesconto = function(slider) {
+    const container = slider.closest('.price-highlight');
+    const basePriceElem = container.querySelector('.base-price');
+    const finalPriceElem = container.querySelector('.final-price');
+    const displayElem = container.querySelector('.discount-display');
+    
+    const discountPct = parseFloat(slider.value);
+    displayElem.textContent = discountPct.toFixed(1).replace('.', ',') + '%';
+    
+    // Pega o valor original salvo e calcula
+    let numericPrice = parseFloat(basePriceElem.getAttribute('data-original'));
+    
+    if (isNaN(numericPrice)) return;
+    
+    const discountedPrice = numericPrice - (numericPrice * (discountPct / 100));
+    
+    finalPriceElem.textContent = fmtBRL(discountedPrice);
+    
+    // Estilo riscado se houver desconto
+    if (discountPct > 0) {
+      basePriceElem.style.textDecoration = "line-through";
+      basePriceElem.style.opacity = "0.5";
+      finalPriceElem.style.color = "#4EB1D9"; // Azul De Nigris
+    } else {
+      basePriceElem.style.textDecoration = "none";
+      basePriceElem.style.opacity = "1";
+      finalPriceElem.style.color = "inherit";
+    }
+  };
+
+  /* =========================
    HELPERS
   ========================= */
   function fmtBRL(v){
@@ -58,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
       .sort((a,b)=>(parseInt(a.name.match(/\d+/))||0)-(parseInt(b.name.match(/\d+/))||0));
   }
 
-  // NOVA FUNÇÃO: Ajuda a criar as colunas já com o data-label para o CSS do mobile funcionar!
   function criarColuna(texto, label, className = '') {
     const div = document.createElement('div');
     if (texto instanceof HTMLElement) {
@@ -73,12 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* =========================
    RENDER
-  ========================= */
-  /* =========================
-   RENDER (Versão Card Premium)
-  ========================= */
-  /* =========================
-   RENDER (Versão Card com Botão "i")
   ========================= */
   function render(list){
     groupsEl.innerHTML = '';
@@ -134,7 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
           const card = document.createElement('div');
           card.className = 'vehicle-card';
 
-          // 1. Header do Card (Modelo + Botões da Direita)
           const cardHeader = document.createElement('div');
           cardHeader.className = 'card-header-flex';
           
@@ -143,7 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
           titleDiv.textContent = r.modelo;
           cardHeader.appendChild(titleDiv);
 
-          // Container para os botões (Foto e Informação)
           const headerActions = document.createElement('div');
           headerActions.style.display = 'flex';
           headerActions.style.gap = '8px';
@@ -158,23 +183,19 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             headerActions.appendChild(btnFoto);
 
-            // 2. NOVO: Botão do WhatsApp (Só aparece se tiver foto)
             const textoZap = `*OPORTUNIDADE*\n\n*Modelo:* ${r.modelo}\n*Ano:* ${r.anoMod} | *Cor:* ${r.cor || '-'}\n\n*Veja a foto do veículo:* ${r.fotoUrl}`;
             
             const btnZap = document.createElement('a');
             btnZap.className = 'btn-icon-whatsapp';
-            // encodeURIComponent garante que espaços e quebras de linha funcionem no link
             btnZap.href = `https://wa.me/?text=${encodeURIComponent(textoZap)}`;
-            btnZap.target = '_blank'; // Abre em nova aba/app
+            btnZap.target = '_blank';
             btnZap.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>`;
             
-            // Impede que o clique no link feche o card sem querer
             btnZap.onclick = (e) => e.stopPropagation();
             
             headerActions.appendChild(btnZap);
           }
 
-          // Criando o botão "i"
           const infoBtn = document.createElement('button');
           infoBtn.className = 'chip-btn';
           infoBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`;
@@ -187,22 +208,17 @@ document.addEventListener('DOMContentLoaded', () => {
           
           cardHeader.appendChild(headerActions);
 
-          // 2. Área Oculta (Meta) que só aparece ao clicar no "i"
           const cMeta = document.createElement('div');
           cMeta.className = 'meta tags-container';
           
           if (r.fz) cMeta.innerHTML += `<span class="tag tag-fz">FZ: ${r.fz}</span>`;
           if (r.patio) cMeta.innerHTML += `<span class="tag tag-patio">Pátio: ${r.patio}</span>`;
 
-          // === NOVO: OBSERVAÇÃO DENTRO DO "i" ===
-          // Se tiver um '*' na UP ou texto na coluna Obs (D), ele cria o aviso aqui dentro
           if ((r.up && r.up.includes('*')) || (r.obs && r.obs.trim() !== '')) {
             const textoObs = r.obs ? r.obs.trim() : 'Veículo com observação na UP (consulte).';
             cMeta.innerHTML += `<div class="obs-inline"><strong>OBS:</strong> ${textoObs}</div>`;
           }
-          // ======================================
 
-          // 3. Grid de Detalhes 2x2
           const detailsGrid = document.createElement('div');
           detailsGrid.className = 'details-grid';
           detailsGrid.append(
@@ -212,21 +228,38 @@ document.addEventListener('DOMContentLoaded', () => {
             criarColuna(r.variante || '-', 'Var')
           );
 
-          // 4. Preço em Destaque Absoluto
+          // === 4. NOVO PREÇO EM DESTAQUE COM SIMULADOR DE DESCONTO ===
           const priceDiv = document.createElement('div');
           priceDiv.className = 'price-highlight';
-          priceDiv.innerHTML = `<span class="price-label">Valor Tabela</span><span class="price-value">${fmtBRL(r.valorTabela)}</span>`;
+          // Aqui usamos o r.precoVenda (que agora vem da coluna M)
+          priceDiv.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <span class="price-label">Preço Venda</span>
+              <span class="price-value base-price" data-original="${r.precoVenda}">${fmtBRL(r.precoVenda)}</span>
+            </div>
+            
+            <div class="discount-box">
+              <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #aaa; margin-bottom: 5px;">
+                <span>Negociar Desconto</span>
+                <span class="discount-display" style="color:#D87F3B; font-weight:bold;">0.0%</span>
+              </div>
+              <input type="range" class="discount-slider" min="0" max="2" step="0.1" value="0" oninput="aplicarDesconto(this)">
+            </div>
 
-          // 5. Botão Full Width
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;">
+              <span style="font-size: 0.85rem; color:#aaa;">Valor Final</span>
+              <span class="final-price" style="font-size: 1.4rem; font-weight: 800;">${fmtBRL(r.precoVenda)}</span>
+            </div>
+          `;
+
           const actionDiv = document.createElement('div');
           actionDiv.className = 'action-full';
           const btnCalcular = document.createElement('a');
           btnCalcular.className = 'btn btn-primary btn-block';
           btnCalcular.href = `index.html?calc=proprio&fz=${r.fz}`;
-          btnCalcular.textContent = 'Calcular';
+          btnCalcular.textContent = 'Calcular Venda';
           actionDiv.appendChild(btnCalcular);
 
-          // Empacota tudo dentro do Card (Adicionando a obsDiv se ela existir)
           card.append(cardHeader, cMeta, detailsGrid, priceDiv, actionDiv);
           
           subRows.appendChild(card);
@@ -256,12 +289,11 @@ document.addEventListener('DOMContentLoaded', () => {
       r.modelo.toLowerCase().includes(q) ||
       r.up.toLowerCase().includes(q) ||
       r.anoMod.toLowerCase().includes(q) ||
-      (r.fz && r.fz.toLowerCase().includes(q)) // Agora busca por FZ também!
+      (r.fz && r.fz.toLowerCase().includes(q))
     ));
   });
 
   async function carregar(){
-    // Mostra o loading antes de buscar os dados
     groupsEl.innerHTML = `
       <div style="display: flex; flex-direction: column; align-items: center; padding: 3rem 1rem;">
         <div class="loading-spinner"></div>
@@ -273,15 +305,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch(sheetCsvUrl,{cache:'no-store'});
       const txt = await res.text();
       const rows = txt.trim().split('\n');
-      rows.shift();
+      rows.shift(); // Tira o cabeçalho do CSV
 
       itens = rows.map(l=>{
         const c = l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v=>v.replace(/^"|"$/g,''));
         return {
           fz:c[0], modelo:c[1], up:c[2], 
-          obs: c[3], // <-- ADICIONAMOS A COLUNA D AQUI
+          obs: c[3], 
           anoMod:c[4],
-          valorTabela:parseFloat(c[8].replace('.','').replace(',','.'))||0,
+          // AQUI ESTÁ A MÁGICA: Pegamos o Preço de Venda (Coluna M, índice 12)
+          precoVenda: parseFloat(c[12].replace('.','').replace(',','.')) || 0,
           cor:c[9], variante:c[10], patio:c[11],
           fotoUrl:c[22]
         };
@@ -295,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function abrirFoto(url,modelo){
     const m=document.createElement('div');
-    m.className='modal-foto'; // Já usando a classe que você estilizou
+    m.className='modal-foto'; 
     m.innerHTML=`<div class="modal-conteudo"><button class="modal-fechar">&times;</button><h3>${modelo}</h3><img src="${url}"></div>`;
     m.onclick=e=>e.target===m&&m.remove();
     m.querySelector('button').onclick=()=>m.remove();
