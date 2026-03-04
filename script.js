@@ -2300,11 +2300,12 @@ anoFabEl?.addEventListener('change', ()=> {
   atualizarPrecoFab();
 });
 
-document.addEventListener('DOMContentLoaded', () =>{
-  setTimeout(()=> atualizarPrecoFab(), 300);
-});
-
-document.addEventListener('DOMContentLoaded', init);
-
+// Botões de alternar calculadora
 els('btnEstoqueProprio')?.addEventListener('click', showCalcProprio);
 els('btnEstoqueFabrica')?.addEventListener('click', showCalcFabrica);
+
+// Dispara a inicialização da calculadora assim que a tela carregar
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+  setTimeout(()=> atualizarPrecoFab(), 300);
+});
