@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
           obs: c[3], 
           anoMod:c[4],
           // AGORA PUXANDO DA COLUNA N (ÍNDICE 13)
-          precoVenda: parseFloat(c[13].replace('.','').replace(',','.')) || 0,
+          precoVenda: parseFloat(c[8].replace('.','').replace(',','.')) || 0,
           cor:c[9], variante:c[10], patio:c[11],
           fotoUrl:c[22]
         };
