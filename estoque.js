@@ -298,19 +298,10 @@ document.addEventListener('DOMContentLoaded', () => {
           btnCalcular.href = `index.html?calc=proprio&fz=${r.fz}`;
           btnCalcular.title = 'Calcular Venda';
           
-          // === ÍCONE IDÊNTICO À REFERÊNCIA (BLOCO SÓLIDO COM TECLAS BRANCAS) ===
+          // === ÍCONE DA CALCULADORA SÓLIDA MINIMALISTA (PRETO/AZUL MARINHO) ===
           btnCalcular.innerHTML = `
-            <svg viewBox="0 0 24 24" style="width: 24px; height: 24px;">
-              <rect x="3" y="2" width="18" height="20" rx="3" fill="currentColor" />
-              <rect x="5.5" y="4" width="13" height="3.5" rx="0.5" fill="#ffffff" />
-              <rect x="5.5" y="9" width="3" height="3" rx="0.5" fill="#ffffff" />
-              <rect x="10.5" y="9" width="3" height="3" rx="0.5" fill="#ffffff" />
-              <rect x="15.5" y="9" width="3" height="3" rx="0.5" fill="#ffffff" />
-              <rect x="5.5" y="13" width="3" height="3" rx="0.5" fill="#ffffff" />
-              <rect x="10.5" y="13" width="3" height="3" rx="0.5" fill="#ffffff" />
-              <rect x="15.5" y="13" width="3" height="3" rx="0.5" fill="#ffffff" />
-              <rect x="5.5" y="17" width="3" height="3" rx="0.5" fill="#ffffff" />
-              <rect x="10.5" y="17" width="8" height="3" rx="0.5" fill="#ffffff" />
+            <svg viewBox="0 0 24 24" style="width: 24px; height: 24px; color: #002c5f;" fill="currentColor">
+              <path d="M18 2H6c-1.65 0-3 1.35-3 3v14c0 1.65 1.35 3 3 3h12c1.65 0 3-1.35 3-3V5c0-1.65-1.35-3-3-3zm-2 4v3H8V6h8zm-6.5 6.5h-2v-2h2v2zm0 3.5h-2v-2h2v2zm3.5-3.5h-2v-2h2v2zm0 3.5h-2v-2h2v2zm3.5-3.5h-2v-2h2v2zm0 3.5h-2v-2h2v2z"/>
             </svg>
           `;
 
@@ -371,7 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
           anoMod:c[4],
           // PREÇO TABELA DA COLUNA F
           precoTabela: parseFloat((c[5] || '').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          // PREÇO VENDA DA COLUNA N (Se não funcionar, voltar para c[13])
+          // PREÇO VENDA DA COLUNA N
           precoVenda: parseFloat((c[8] || '').replace(/\./g,'').replace(/,/g,'.')) || 0,
           cor:c[9], variante:c[10], patio:c[11],
           fotoUrl:c[22]
