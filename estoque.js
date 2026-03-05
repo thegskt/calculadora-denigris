@@ -298,13 +298,10 @@ document.addEventListener('DOMContentLoaded', () => {
           btnCalcular.href = `index.html?calc=proprio&fz=${r.fz}`;
           btnCalcular.title = 'Calcular Venda';
           
-          // === ÍCONE DE CALCULADORA MINIMALISTA E PROFISSIONAL ===
+          // === ÍCONE DE CALCULADORA PROFISSIONAL ===
           btnCalcular.innerHTML = `
-            <svg viewBox="0 0 24 24" style="width: 20px; height: 20px;" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="3" width="20" height="18" rx="2"/>
-              <rect x="4" y="5" width="16" height="6"/>
-              <line x1="8" y1="16" x2="16" y2="16"/>
-              <line x1="8" y1="20" x2="16" y2="20"/>
+            <svg viewBox="0 0 24 24" style="width: 20px; height: 20px;" fill="currentColor">
+              <path d="M3 2h18a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm0 2v16h18V4H3zm2 2h14a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm1 2v3h12V8H6zm1 5h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2zm-8 3h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/>
             </svg>
           `;
 
