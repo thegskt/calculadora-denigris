@@ -354,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
           // PREÇO TABELA DA COLUNA F
           precoTabela: parseFloat((c[5] || '').replace(/\./g,'').replace(/,/g,'.')) || 0,
           // PREÇO VENDA DA COLUNA N
-          precoVenda: parseFloat((c[13] || '').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          precoVenda: parseFloat((c[8] || '').replace(/\./g,'').replace(/,/g,'.')) || 0,
           cor:c[9], variante:c[10], patio:c[11],
           fotoUrl:c[22]
         };
