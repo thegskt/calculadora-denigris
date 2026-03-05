@@ -298,10 +298,19 @@ document.addEventListener('DOMContentLoaded', () => {
           btnCalcular.href = `index.html?calc=proprio&fz=${r.fz}`;
           btnCalcular.title = 'Calcular Venda';
           
-          // === ÍCONE DE CALCULADORA PROFISSIONAL ===
+          // === ÍCONE IDÊNTICO À REFERÊNCIA (BLOCO SÓLIDO COM TECLAS BRANCAS) ===
           btnCalcular.innerHTML = `
-            <svg viewBox="0 0 24 24" style="width: 20px; height: 20px;" fill="currentColor">
-              <path d="M3 2h18a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm0 2v16h18V4H3zm2 2h14a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm1 2v3h12V8H6zm1 5h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2zm-8 3h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/>
+            <svg viewBox="0 0 24 24" style="width: 24px; height: 24px;">
+              <rect x="3" y="2" width="18" height="20" rx="3" fill="currentColor" />
+              <rect x="5.5" y="4" width="13" height="3.5" rx="0.5" fill="#ffffff" />
+              <rect x="5.5" y="9" width="3" height="3" rx="0.5" fill="#ffffff" />
+              <rect x="10.5" y="9" width="3" height="3" rx="0.5" fill="#ffffff" />
+              <rect x="15.5" y="9" width="3" height="3" rx="0.5" fill="#ffffff" />
+              <rect x="5.5" y="13" width="3" height="3" rx="0.5" fill="#ffffff" />
+              <rect x="10.5" y="13" width="3" height="3" rx="0.5" fill="#ffffff" />
+              <rect x="15.5" y="13" width="3" height="3" rx="0.5" fill="#ffffff" />
+              <rect x="5.5" y="17" width="3" height="3" rx="0.5" fill="#ffffff" />
+              <rect x="10.5" y="17" width="8" height="3" rx="0.5" fill="#ffffff" />
             </svg>
           `;
 
@@ -362,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
           anoMod:c[4],
           // PREÇO TABELA DA COLUNA F
           precoTabela: parseFloat((c[5] || '').replace(/\./g,'').replace(/,/g,'.')) || 0,
-          // PREÇO VENDA DA COLUNA N
+          // PREÇO VENDA DA COLUNA N (Se não funcionar, voltar para c[13])
           precoVenda: parseFloat((c[8] || '').replace(/\./g,'').replace(/,/g,'.')) || 0,
           cor:c[9], variante:c[10], patio:c[11],
           fotoUrl:c[22]
