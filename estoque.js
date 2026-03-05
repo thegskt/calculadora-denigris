@@ -298,28 +298,13 @@ document.addEventListener('DOMContentLoaded', () => {
           btnCalcular.href = `index.html?calc=proprio&fz=${r.fz}`;
           btnCalcular.title = 'Calcular Venda';
           
-          // === NOVO ÍCONE DE CALCULADORA COLORIDO E DETALHADO ===
+          // === ÍCONE DE CALCULADORA MINIMALISTA E PROFISSIONAL ===
           btnCalcular.innerHTML = `
-            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-            \t viewBox="0 0 512 512" style="enable-background:new 0 0 512 512; width: 32px; height: 32px;" xml:space="preserve">
-            <path style="fill:#EDEDED;" d="M438.212,476.101H73.788c-18.064,0-32.706-14.643-32.706-32.706V68.605
-            \tc0-18.064,14.643-32.706,32.706-32.706h364.424c18.064,0,32.706,14.643,32.706,32.706V443.395
-            \tC470.917,461.458,456.275,476.101,438.212,476.101z"/>
-            <path style="fill:#556080;" d="M428.231,149.778H83.769c-9.032,0-16.353-7.321-16.353-16.353V88.82
-            \tc0-9.032,7.321-16.353,16.353-16.353h344.462c9.032,0,16.353,7.321,16.353,16.353v44.605
-            \tC444.583,142.457,437.262,149.778,428.231,149.778z"/>
-            <circle style="fill:#4CD964;" cx="123.635" cy="226.516" r="29.066"/>
-            <circle style="fill:#EDEDED;" cx="123.635" cy="308.835" r="29.066"/>
-            <circle style="fill:#EDEDED;" cx="123.635" cy="391.153" r="29.066"/>
-            <circle style="fill:#007AFF;" cx="218.006" cy="226.516" r="29.066"/>
-            <circle style="fill:#EDEDED;" cx="218.006" cy="308.835" r="29.066"/>
-            <circle style="fill:#EDEDED;" cx="218.006" cy="391.153" r="29.066"/>
-            <circle style="fill:#FF3B30;" cx="312.378" cy="226.516" r="29.066"/>
-            <circle style="fill:#EDEDED;" cx="312.378" cy="308.835" r="29.066"/>
-            <circle style="fill:#EDEDED;" cx="312.378" cy="391.153" r="29.066"/>
-            <circle style="fill:#FFCC00;" cx="406.749" cy="226.516" r="29.066"/>
-            <circle style="fill:#EDEDED;" cx="406.749" cy="308.835" r="29.066"/>
-            <circle style="fill:#EDEDED;" cx="406.749" cy="391.153" r="29.066"/>
+            <svg viewBox="0 0 24 24" style="width: 20px; height: 20px;" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="18" rx="2"/>
+              <rect x="4" y="5" width="16" height="6"/>
+              <line x1="8" y1="16" x2="16" y2="16"/>
+              <line x1="8" y1="20" x2="16" y2="20"/>
             </svg>
           `;
 
