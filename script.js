@@ -1790,14 +1790,14 @@ async function carregarDados(){
         modelo: cols[1],
         up: cols[2],
         anoMod: cols[3],
-        valorTabela: parseFloat((cols[4]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        valorCompra: parseFloat((cols[5]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        fundoEstrela: parseFloat((cols[6]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        retirada: parseFloat((cols[7]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        programacao: parseFloat((cols[8]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        frete: parseFloat((cols[9]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        revisao: parseFloat((cols[10]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
-        custosAdd: parseFloat((cols[11]||'0').replace(/\./g,'').replace(/,/g,'.'))||0
+        valorTabela: parseFloat((cols[5]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        valorCompra: parseFloat((cols[6]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        fundoEstrela: parseFloat((cols[11]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        retirada: parseFloat((cols[12]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        programacao: parseFloat((cols[13]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        frete: parseFloat((cols[17]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        revisao: parseFloat((cols[18]||'0').replace(/\./g,'').replace(/,/g,'.'))||0,
+        custosAdd: parseFloat((cols[19]||'0').replace(/\./g,'').replace(/,/g,'.'))||0
       };
     });
     dadosCarregados = true;
