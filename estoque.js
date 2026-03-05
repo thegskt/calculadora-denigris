@@ -297,9 +297,29 @@ document.addEventListener('DOMContentLoaded', () => {
           btnCalcular.className = 'btn-calc-icon';
           btnCalcular.href = `index.html?calc=proprio&fz=${r.fz}`;
           btnCalcular.title = 'Calcular Venda';
+          
+          // === NOVO ÍCONE DE CALCULADORA COLORIDO E DETALHADO ===
           btnCalcular.innerHTML = `
-            <svg viewBox="0 0 24 24" fill="#002c5f" style="width: 26px; height: 26px;">
-              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1.01 4.99H6.01V5.01h11.98v2.98zM8.5 12.5H7v-1.5h1.5v1.5zm0 3H7V14h1.5v1.5zm0 3H7V17h1.5v1.5zm3-6H10v-1.5h1.5v1.5zm0 3H10V14h1.5v1.5zm0 3H10V17h1.5v1.5zm3-6h-1.5v-1.5h1.5v1.5zm0 3h-1.5V14h1.5v1.5zm0 3h-1.5V17h1.5v1.5zm3-6H16v-1.5h1.5v1.5zm0 3H16V14h1.5v1.5zm0 3H16V17h1.5v1.5z"/>
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            \t viewBox="0 0 512 512" style="enable-background:new 0 0 512 512; width: 32px; height: 32px;" xml:space="preserve">
+            <path style="fill:#EDEDED;" d="M438.212,476.101H73.788c-18.064,0-32.706-14.643-32.706-32.706V68.605
+            \tc0-18.064,14.643-32.706,32.706-32.706h364.424c18.064,0,32.706,14.643,32.706,32.706V443.395
+            \tC470.917,461.458,456.275,476.101,438.212,476.101z"/>
+            <path style="fill:#556080;" d="M428.231,149.778H83.769c-9.032,0-16.353-7.321-16.353-16.353V88.82
+            \tc0-9.032,7.321-16.353,16.353-16.353h344.462c9.032,0,16.353,7.321,16.353,16.353v44.605
+            \tC444.583,142.457,437.262,149.778,428.231,149.778z"/>
+            <circle style="fill:#4CD964;" cx="123.635" cy="226.516" r="29.066"/>
+            <circle style="fill:#EDEDED;" cx="123.635" cy="308.835" r="29.066"/>
+            <circle style="fill:#EDEDED;" cx="123.635" cy="391.153" r="29.066"/>
+            <circle style="fill:#007AFF;" cx="218.006" cy="226.516" r="29.066"/>
+            <circle style="fill:#EDEDED;" cx="218.006" cy="308.835" r="29.066"/>
+            <circle style="fill:#EDEDED;" cx="218.006" cy="391.153" r="29.066"/>
+            <circle style="fill:#FF3B30;" cx="312.378" cy="226.516" r="29.066"/>
+            <circle style="fill:#EDEDED;" cx="312.378" cy="308.835" r="29.066"/>
+            <circle style="fill:#EDEDED;" cx="312.378" cy="391.153" r="29.066"/>
+            <circle style="fill:#FFCC00;" cx="406.749" cy="226.516" r="29.066"/>
+            <circle style="fill:#EDEDED;" cx="406.749" cy="308.835" r="29.066"/>
+            <circle style="fill:#EDEDED;" cx="406.749" cy="391.153" r="29.066"/>
             </svg>
           `;
 
@@ -361,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
           // PREÇO TABELA DA COLUNA F
           precoTabela: parseFloat((c[5] || '').replace(/\./g,'').replace(/,/g,'.')) || 0,
           // PREÇO VENDA DA COLUNA N
-          precoVenda: parseFloat((c[8] || '').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          precoVenda: parseFloat((c[13] || '').replace(/\./g,'').replace(/,/g,'.')) || 0,
           cor:c[9], variante:c[10], patio:c[11],
           fotoUrl:c[22]
         };
