@@ -1805,8 +1805,18 @@ async function carregarDados(){
       aplicarFZ(pendingFZ);
       pendingFZ = null;
     }
+    // Ocultar overlay de loading após dados serem carregados
+    const loadingEl = document.getElementById('loading');
+    if (loadingEl) {
+      loadingEl.style.display = 'none';
+    }
   }catch(e){
     console.error('Erro ao carregar CSV', e);
+    // Ocultar loading também em caso de erro para não ficar preso
+    const loadingEl = document.getElementById('loading');
+    if (loadingEl) {
+      loadingEl.style.display = 'none';
+    }
   }
 }
 
