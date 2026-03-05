@@ -243,10 +243,18 @@ document.addEventListener('DOMContentLoaded', () => {
             criarColuna(r.variante || '-', 'Var')
           );
 
-          // === CAIXA DE PREÇO COM TEXTOS IGUAIS AOS SEUS PRINTS ===
+          // === CAIXA DE PREÇO COM ANCORAGEM (PREÇO TABELA) ===
+          const tabelaHtml = (r.precoTabela > r.precoVenda) 
+            ? `<div class="sp-tabela-row">
+                 <span class="sp-label-tabela">Preço Tabela</span>
+                 <span class="sp-value-tabela">${fmtBRL(r.precoTabela)}</span>
+               </div>` 
+            : '';
+
           const priceDiv = document.createElement('div');
           priceDiv.className = 'sales-price-box';
           priceDiv.innerHTML = `
+            ${tabelaHtml}
             <div class="sp-original-row">
               <span class="sp-label">Preço Venda</span>
               <span class="sp-value base-price" data-original="${r.precoVenda}">${fmtBRL(r.precoVenda)}</span>
@@ -268,24 +276,21 @@ document.addEventListener('DOMContentLoaded', () => {
               <span class="sp-final-value final-price">${fmtBRL(r.precoVenda)}</span>
             </div>
           `;
-        // === BOTÕES DE AÇÃO (RESERVA + CALCULADORA) ===
+
+          // === BOTÕES DE AÇÃO (RESERVA + CALCULADORA) ===
           const actionDiv = document.createElement('div');
           actionDiv.className = 'action-flex-row'; 
           
-          // Botão Solicitar Reserva (Lado Esquerdo, Esticado)
           const btnReserva = document.createElement('a');
           btnReserva.className = 'btn-reserva';
           btnReserva.href = 'https://forms.gle/B3iinCvTSmDj7Jat6';
-          btnReserva.target = '_blank'; // Abre o formulário em nova aba
+          btnReserva.target = '_blank';
           btnReserva.textContent = 'Solicitar Reserva';
           
-          // Botão Calculadora (Lado Direito, Quadrado com Ícone)
           const btnCalcular = document.createElement('a');
           btnCalcular.className = 'btn-calc-icon';
           btnCalcular.href = `index.html?calc=proprio&fz=${r.fz}`;
           btnCalcular.title = 'Calcular Venda';
-          // Ícone de Calculadora (SVG)
-          // === NOVA CALCULADORA PREMIUM SVG ===
           btnCalcular.innerHTML = `
             <svg viewBox="0 0 24 24" fill="#002c5f" style="width: 26px; height: 26px;">
               <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1.01 4.99H6.01V5.01h11.98v2.98zM8.5 12.5H7v-1.5h1.5v1.5zm0 3H7V14h1.5v1.5zm0 3H7V17h1.5v1.5zm3-6H10v-1.5h1.5v1.5zm0 3H10V14h1.5v1.5zm0 3H10V17h1.5v1.5zm3-6h-1.5v-1.5h1.5v1.5zm0 3h-1.5V14h1.5v1.5zm0 3h-1.5V17h1.5v1.5zm3-6H16v-1.5h1.5v1.5zm0 3H16V14h1.5v1.5zm0 3H16V17h1.5v1.5z"/>
@@ -346,8 +351,10 @@ document.addEventListener('DOMContentLoaded', () => {
           fz:c[0], modelo:c[1], up:c[2], 
           obs: c[3], 
           anoMod:c[4],
-          // Lendo o Preço da Coluna correta c[13] (ou c[8] caso você tenha trocado de volta)
-          precoVenda: parseFloat((c[8] || '').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          // PREÇO TABELA DA COLUNA F
+          precoTabela: parseFloat((c[5] || '').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          // PREÇO VENDA DA COLUNA N
+          precoVenda: parseFloat((c[13] || '').replace(/\./g,'').replace(/,/g,'.')) || 0,
           cor:c[9], variante:c[10], patio:c[11],
           fotoUrl:c[22]
         };
