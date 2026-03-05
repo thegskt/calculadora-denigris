@@ -885,27 +885,142 @@ h1{font-size:20px;margin:0}
 }
 
 /* =========================================
-   ESTILO DO PREÇO TABELA FORA DA CAIXA (ANCORAGEM)
+   ESTILO DO PREÇO TABELA FORA DA CAIXA (ANCORAGEM MINIMALISTA)
    ========================================= */
 .tabela-price-anchor {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 15px;      /* Dá um respiro dos detalhes de cima */
-  margin-bottom: 5px;    /* Cola pertinho da caixa principal embaixo */
-  padding: 0 4px;        /* Alinha perfeitamente com os textos da caixa */
+  margin-top: 15px;      /* Dá um respiro da grid de cima */
+  margin-bottom: 5px;    /* Cola pertinho da caixa verde */
+  padding: 0 4px;        /* Alinha perfeitamente com o texto da caixa */
 }
 
 .tabela-label {
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   color: #94a3b8; /* Cinza claro e discreto */
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .tabela-value {
   font-size: 0.95rem;
-  font-weight: 700;
+  font-weight: 800;
   color: #94a3b8;
-  text-decoration: line-through; /* Risco cortando o valor */
+  text-decoration: line-through; /* Risco cortando o valor original */
+}
+
+/* =========================================
+   SISTEMA DE CORES DE DESCONTO (TRANSIÇÃO SUAVE)
+   ========================================= */
+.sales-price-box, .sp-final-row {
+  transition: all 0.4s ease; 
+}
+.sp-label, .sp-value, .sp-discount-select {
+  transition: color 0.4s ease, border-color 0.4s ease;
+}
+
+/* TEMA 0.5% (Amarelo Claro) */
+.sales-price-box.theme-05 { background-color: #fefce8; border-color: #fef08a; border-left-color: #eab308; }
+.theme-05 .sp-label { color: #854d0e; }
+.theme-05 .sp-value { color: #ca8a04; }
+.theme-05 .sp-final-row { background-color: #ca8a04; }
+.theme-05 .sp-discount-select {
+  border-color: #fde047; color: #ca8a04;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ca8a04%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+}
+.theme-05 .sp-discount-select:focus { border-color: #ca8a04; box-shadow: 0 0 0 3px rgba(202, 138, 4, 0.15); }
+
+/* TEMA 1.0% (Amarelo Ouro / Âmbar) */
+.sales-price-box.theme-10 { background-color: #fffbeb; border-color: #fde68a; border-left-color: #f59e0b; }
+.theme-10 .sp-label { color: #92400e; }
+.theme-10 .sp-value { color: #d97706; }
+.theme-10 .sp-final-row { background-color: #d97706; }
+.theme-10 .sp-discount-select {
+  border-color: #fcd34d; color: #d97706;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23d97706%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+}
+.theme-10 .sp-discount-select:focus { border-color: #d97706; box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15); }
+
+/* TEMA 1.5% (Laranja) */
+.sales-price-box.theme-15 { background-color: #fff7ed; border-color: #fed7aa; border-left-color: #f97316; }
+.theme-15 .sp-label { color: #9a3412; }
+.theme-15 .sp-value { color: #ea580c; }
+.theme-15 .sp-final-row { background-color: #ea580c; }
+.theme-15 .sp-discount-select {
+  border-color: #fdba74; color: #ea580c;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ea580c%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+}
+.theme-15 .sp-discount-select:focus { border-color: #ea580c; box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.15); }
+
+/* TEMA 2.0% (Vermelho) */
+.sales-price-box.theme-20 { background-color: #fef2f2; border-color: #fecaca; border-left-color: #ef4444; }
+.theme-20 .sp-label { color: #991b1b; }
+.theme-20 .sp-value { color: #dc2626; }
+.theme-20 .sp-final-row { background-color: #dc2626; }
+.theme-20 .sp-discount-select {
+  border-color: #fca5a5; color: #dc2626;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23dc2626%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+}
+.theme-20 .sp-discount-select:focus { border-color: #dc2626; box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15); }
+
+
+/* =========================================
+   BOTÕES DE AÇÃO: RESERVA E CALCULADORA (PREMIUM)
+   ========================================= */
+.action-flex-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+/* Botão Principal (Reserva) */
+.btn-reserva {
+  flex: 1; 
+  background-color: #002c5f; /* Azul De Nigris */
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #002c5f;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 44, 95, 0.15);
+  transition: all 0.2s ease;
+}
+
+.btn-reserva:active {
+  background-color: #001a38;
+  border-color: #001a38;
+  transform: translateY(2px);
+  box-shadow: 0 1px 2px rgba(0, 44, 95, 0.2);
+}
+
+/* Botão Secundário (Calculadora Ghost) */
+.btn-calc-icon {
+  background-color: #ffffff;
+  color: #002c5f;
+  width: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  text-decoration: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.btn-calc-icon:active {
+  background-color: #f8fafc;
+  border-color: #94a3b8;
+  transform: translateY(2px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
