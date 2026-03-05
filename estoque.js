@@ -243,18 +243,24 @@ document.addEventListener('DOMContentLoaded', () => {
             criarColuna(r.variante || '-', 'Var')
           );
 
-          // === CAIXA DE PREÇO COM ANCORAGEM (PREÇO TABELA) ===
-          const tabelaHtml = (r.precoTabela > r.precoVenda) 
-            ? `<div class="sp-tabela-row">
-                 <span class="sp-label-tabela">Preço Tabela</span>
-                 <span class="sp-value-tabela">${fmtBRL(r.precoTabela)}</span>
-               </div>` 
-            : '';
+          // Anexa a parte de cima primeiro
+          card.append(cardHeader, cMeta, detailsGrid);
 
+          // === ANCORAGEM: PREÇO TABELA FORA DA CAIXA ===
+          if (r.precoTabela > r.precoVenda) {
+            const tabelaDiv = document.createElement('div');
+            tabelaDiv.className = 'tabela-price-anchor';
+            tabelaDiv.innerHTML = `
+              <span class="tabela-label">Preço Tabela</span>
+              <span class="tabela-value">${fmtBRL(r.precoTabela)}</span>
+            `;
+            card.appendChild(tabelaDiv); // Coloca logo acima da caixa verde
+          }
+
+          // === CAIXA DE PREÇO (SOMENTE VENDA) ===
           const priceDiv = document.createElement('div');
           priceDiv.className = 'sales-price-box';
           priceDiv.innerHTML = `
-            ${tabelaHtml}
             <div class="sp-original-row">
               <span class="sp-label">Preço Venda</span>
               <span class="sp-value base-price" data-original="${r.precoVenda}">${fmtBRL(r.precoVenda)}</span>
@@ -299,7 +305,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
           actionDiv.append(btnReserva, btnCalcular);
 
-          card.append(cardHeader, cMeta, detailsGrid, priceDiv, actionDiv);
+          // Anexa o restante (a caixa verde de preço e os botões)
+          card.append(priceDiv, actionDiv);
           subRows.appendChild(card);
         }
 
@@ -354,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
           // PREÇO TABELA DA COLUNA F
           precoTabela: parseFloat((c[5] || '').replace(/\./g,'').replace(/,/g,'.')) || 0,
           // PREÇO VENDA DA COLUNA N
-          precoVenda: parseFloat((c[8] || '').replace(/\./g,'').replace(/,/g,'.')) || 0,
+          precoVenda: parseFloat((c[13] || '').replace(/\./g,'').replace(/,/g,'.')) || 0,
           cor:c[9], variante:c[10], patio:c[11],
           fotoUrl:c[22]
         };

@@ -885,25 +885,27 @@ h1{font-size:20px;margin:0}
 }
 
 /* =========================================
-   ESTILO DO PREÇO TABELA (ANCORAGEM)
+   ESTILO DO PREÇO TABELA FORA DA CAIXA (ANCORAGEM)
    ========================================= */
-.sp-tabela-row {
+.tabela-price-anchor {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: -2px; /* Puxa o "Preço Venda" mais para perto para dar conexão */
+  margin-top: 15px;      /* Dá um respiro dos detalhes de cima */
+  margin-bottom: 5px;    /* Cola pertinho da caixa principal embaixo */
+  padding: 0 4px;        /* Alinha perfeitamente com os textos da caixa */
 }
 
-.sp-label-tabela {
+.tabela-label {
   font-size: 0.75rem;
-  font-weight: 700;
-  color: #94a3b8; /* Cinza claro elegante */
+  font-weight: 600;
+  color: #94a3b8; /* Cinza claro e discreto */
   text-transform: uppercase;
 }
 
-.sp-value-tabela {
-  font-size: 0.9rem;
+.tabela-value {
+  font-size: 0.95rem;
   font-weight: 700;
   color: #94a3b8;
-  text-decoration: line-through; /* Cria o risco cortando o valor original */
+  text-decoration: line-through; /* Risco cortando o valor */
 }
